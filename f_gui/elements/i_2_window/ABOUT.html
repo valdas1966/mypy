@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is a Window? — f_gui.elements.i_2_window</title>
+<style>
+/* ============================================================
+   Shared ABOUT.html dark theme  —  f_gui.elements
+   Paste verbatim inside a <style> tag. Do not edit tokens.
+   ============================================================ */
+:root{
+  --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+  --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+  --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --code-bg:#0a1220; --radius:14px; --maxw:1080px;
+  /* renderer-faithful element colors */
+  --el-window:#ff8c42; --el-container:#58a6ff; --el-label:#bc8cff;
+  --el-line:#34d399; --el-connector:#fbbf24;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);
+  background:radial-gradient(1100px 560px at 72% -10%,#16223a 0%,var(--bg) 55%);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 90px}
+.hero{padding:74px 0 30px;text-align:center}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+  margin-bottom:20px;background:rgba(167,139,250,.08)}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;margin:.15em 0;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.14rem;color:var(--muted);max-width:680px;margin:14px auto 0}
+section{margin-top:62px}
+h2{font-size:1.65rem;font-weight:750;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--faint);margin:0 0 22px}
+.analogy{display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+  border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px}
+.analogy .emoji{font-size:2rem;line-height:1}
+.analogy p{margin:0;color:var(--muted)} .analogy b{color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card .ico{font-size:1.6rem}
+.card h3{margin:.5em 0 .3em;font-size:1.04rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.cmp{border-radius:var(--radius);padding:18px;border:1px solid var(--border)}
+.cmp.bad{border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.06)}
+.cmp.good{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.06)}
+.cmp h3{margin:0 0 8px;font-size:1rem}
+.cmp.bad h3{color:var(--bad)} .cmp.good h3{color:var(--good)}
+.cmp ul{margin:.2em 0 0;padding-left:18px;color:var(--muted);font-size:.92rem}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  overflow:auto;font:13.5px/1.6 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#dbe7ff}
+pre .cls{color:#7dd3fc;font-weight:600}
+pre .tag{color:var(--accent2)} pre .mut{color:var(--faint)}
+pre .kw{color:#fca5a5} pre .str{color:#86efac} pre .fn{color:#fbbf24}
+code.inl{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.85em;color:#cfe3ff}
+.module{border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px 22px;
+  background:linear-gradient(180deg,rgba(96,165,250,.07),transparent)}
+.badge{display:inline-block;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--border);color:var(--muted)}
+.badge.accent{color:var(--accent);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
+.badge.good{color:var(--good);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.badge.v2{color:var(--accent2);border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.08)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.rules li{counter-increment:r;position:relative;padding:12px 16px 12px 54px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;color:var(--muted)}
+ol.rules li::before{content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(96,165,250,.15);
+  color:var(--accent);font-weight:700;font-size:.85rem;border:1px solid rgba(96,165,250,.4)}
+ol.rules li b{color:var(--text)}
+.fact{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.fact .fi{font-size:1.5rem}
+.fact h3{margin:.4em 0 .3em;font-size:1rem}
+.fact p{margin:0;color:var(--muted);font-size:.9rem}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.flow .step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+  text-align:center;min-width:120px}
+.flow .step .t{font-weight:700} .flow .step .d{font-size:.82rem;color:var(--faint)}
+.flow .arr{color:var(--accent);font-size:1.5rem}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+table.tbl th{color:var(--faint);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td{color:var(--muted)} table.tbl td b{color:var(--text)}
+.tree{font:13.5px/1.7 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.tree .n{color:#7dd3fc;font-weight:600} .tree .c{color:var(--faint)}
+footer{margin-top:78px;border-top:1px solid var(--border);padding-top:22px;color:var(--faint);
+  font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+a{color:var(--accent)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}.flow{flex-direction:column}.flow .arr{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============================ HERO ============================ -->
+<header class="hero">
+  <span class="kicker">f_gui · elements · i_2_window</span>
+  <h1>What is a <span class="grad">Window</span>?</h1>
+  <p class="tagline">The root of the scene graph — the full-screen stage
+  every other element sits on.</p>
+  <p style="margin-top:18px">
+    <span class="badge" style="color:var(--el-window);
+      border-color:rgba(255,140,66,.55);background:rgba(255,140,66,.10)">Window · #ff8c42</span>
+    <span class="badge v2">depth 2 — deepest class</span>
+    <span class="badge accent">extends Container</span>
+  </p>
+</header>
+
+<!-- ============================ THE IDEA ============================ -->
+<section>
+  <h2>The Idea</h2>
+  <p class="sub">A Window doesn't sit somewhere on the screen — it <i>is</i> the screen.</p>
+
+  <div class="analogy">
+    <div class="emoji">🎬</div>
+    <p>Think of a <b>Window</b> as the <b>stage</b> in a theatre — or the
+    blank <b>canvas</b> on an easel. Actors and props get placed
+    <i>onto</i> it, but the stage itself doesn't need a position: it always
+    fills the entire room. That's why a Window always occupies
+    <b>(0, 0, 100, 100)</b> — the whole normalized space — and its
+    constructor takes <b>no <code class="inl">bounds</code></b>. It is the
+    one frame everything else lives inside.</p>
+  </div>
+
+  <div class="grid g3" style="margin-top:18px">
+    <div class="card">
+      <div class="ico">🌳</div>
+      <h3>Root</h3>
+      <p>The top of the tree. A Window has <b>no parent</b> — every other
+      element traces its lineage back up to it.</p>
+    </div>
+    <div class="card">
+      <div class="ico">🖼️</div>
+      <h3>Full bounds</h3>
+      <p>Implicitly <code class="inl">(0, 0, 100, 100)</code>. The
+      constructor takes no <code class="inl">bounds</code> — they're always
+      the full screen.</p>
+    </div>
+    <div class="card">
+      <div class="ico">▶️</div>
+      <h3>Render entry point</h3>
+      <p><code class="inl">to_html()</code> — the single call that turns the
+      whole tree into a standalone file.</p>
+    </div>
+  </div>
+
+  <ol class="rules" style="margin-top:18px">
+    <li>Window <b>extends Container</b>, so it can hold children — it's a
+      branch node, not a leaf.</li>
+    <li>Its bounds are <b>implicitly full</b> — you never pass
+      <code class="inl">bounds</code>; it models the whole screen / viewport.</li>
+    <li><code class="inl">to_html(path, size=None)</code> renders this Window
+      and <b>all descendants</b> to a standalone HTML file.</li>
+    <li><code class="inl">size=None</code> → a <b>full-screen</b> stage;
+      <code class="inl">size=&lt;int&gt;</code> → a fixed
+      <b>size × size</b> square stage.</li>
+    <li>It is the <b>thinnest subclass</b> in the package — just a
+      constructor plus <code class="inl">to_html</code>.</li>
+  </ol>
+</section>
+
+<!-- ============================ HOW IT CONNECTS ============================ -->
+<section>
+  <h2>How It Connects</h2>
+  <p class="sub">Window is the third rung of the element ladder — and the only one at depth 2.</p>
+
+  <div class="panel">
+    <div class="tree">
+<span class="n">Element</span>   <span class="c">i_0_element   — abstract base (HasName, HasParent)</span>
+ └── <span class="n">Container</span>   <span class="c">i_1_container — + HasChildren (holds children)</span>
+      └── <span class="n">Window</span>   <span class="c">i_2_window    — root, full bounds (0,0,100,100)</span>
+    </div>
+  </div>
+
+  <p class="sub" style="margin-top:22px">From a tree of elements to a file on disk:</p>
+  <div class="flow">
+    <div class="step"><div class="t">scene graph</div><div class="d">Window + children</div></div>
+    <div class="arr">→</div>
+    <div class="step"><div class="t">Window.to_html()</div><div class="d">the one call</div></div>
+    <div class="arr">→</div>
+    <div class="step"><div class="t">RenderHtml.to_file()</div><div class="d">stateless emitter</div></div>
+    <div class="arr">→</div>
+    <div class="step"><div class="t">standalone .html</div><div class="d">self-contained</div></div>
+  </div>
+
+  <p class="sub" style="margin-top:22px">Window is the only <b>depth-2</b>
+  class in the hierarchy — every other element (Container, Label, Line,
+  Connector) lives at depth 0 or 1.</p>
+</section>
+
+<!-- ============================ THIS MODULE'S CONTRIBUTION ============================ -->
+<section>
+  <h2>This Module's Contribution</h2>
+  <p class="sub">Two members, no surprises — fix the bounds, add a render shortcut.</p>
+
+  <div class="module">
+    <p style="margin:0 0 12px">
+      <span class="badge accent">i_2_window/main.py</span>
+      <span class="badge">class Window(Container)</span>
+    </p>
+<pre><span class="kw">def</span> <span class="fn">__init__</span>(self,
+             name: str = <span class="str">'Window'</span>,
+             background: RGB | <span class="kw">None</span> = <span class="kw">None</span>,
+             border: Border | <span class="kw">None</span> = <span class="kw">None</span>) -&gt; <span class="kw">None</span>:
+    <span class="mut"># No bounds parameter — a Window is always (0, 0, 100, 100).</span>
+    Container.<span class="fn">__init__</span>(self, name=name, background=background,
+                       border=border)
+
+<span class="kw">def</span> <span class="fn">to_html</span>(self, path: str, size: int | <span class="kw">None</span> = <span class="kw">None</span>) -&gt; <span class="kw">None</span>:
+    <span class="mut"># Render this Window (and its descendants) to a standalone HTML file.</span>
+    <span class="kw">from</span> f_gui.render.html <span class="kw">import</span> RenderHtml
+    RenderHtml.<span class="fn">to_file</span>(root=self, path=path, size=size)</pre>
+  </div>
+
+  <div class="grid g2" style="margin-top:18px">
+    <div class="cmp bad">
+      <h3>❌ import at top of file</h3>
+      <ul>
+        <li>The data model would depend on the <b>renderer</b> at module load.</li>
+        <li>Risks an <b>import cycle</b>: model → renderer → model.</li>
+      </ul>
+    </div>
+    <div class="cmp good">
+      <h3>✅ lazy import inside the method</h3>
+      <ul>
+        <li><code class="inl">from f_gui.render.html import RenderHtml</code>
+          runs only when <code class="inl">to_html</code> is called.</li>
+        <li>Breaks the cycle — the model stays renderer-free at load time.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ GALLERY ============================ -->
+<section>
+  <h2>Gallery — roots everywhere</h2>
+  <p class="sub">"The single node with no parent" is one of computing's most reused shapes.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="ico">📄</div>
+      <h3>DOM <code class="inl">document</code></h3>
+      <p>The browser's page root — every element on screen descends from it.</p>
+    </div>
+    <div class="card">
+      <div class="ico">🗂️</div>
+      <h3>Filesystem root <code class="inl">/</code></h3>
+      <p>The one directory with no parent; every path resolves back up to it.</p>
+    </div>
+    <div class="card">
+      <div class="ico">🌲</div>
+      <h3>Tree's root node</h3>
+      <p>The entry node of any tree — traversals and lookups start here.</p>
+    </div>
+    <div class="card">
+      <div class="ico">🎮</div>
+      <h3>Game engine scene / stage</h3>
+      <p>The world root that holds every actor, camera, and prop in the scene.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FUN FACTS ============================ -->
+<section>
+  <h2>Fun Facts</h2>
+  <p class="sub">Five things worth knowing about roots, viewports, and lazy imports.</p>
+
+  <div class="grid g3">
+    <div class="fact">
+      <div class="fi">🌳</div>
+      <h3>Exactly one root</h3>
+      <p>A tree has precisely one root, and it has no parent — every other
+      node traces back to it.</p>
+    </div>
+    <div class="fact">
+      <div class="fi">🖼️</div>
+      <h3>"Viewport"</h3>
+      <p>The visible region a UI is drawn into. A Window models the whole
+      one as the range 0–100.</p>
+    </div>
+    <div class="fact">
+      <div class="fi">🔁</div>
+      <h3>The lazy-import idiom</h3>
+      <p>Importing inside a method (not at the top of the file) defers the
+      dependency and breaks cycles.</p>
+    </div>
+    <div class="fact">
+      <div class="fi">▶️</div>
+      <h3>One entry point</h3>
+      <p>Window is the natural single place to start rendering — render the
+      root and the whole tree follows.</p>
+    </div>
+    <div class="fact">
+      <div class="fi">🪶</div>
+      <h3>Deepest, yet simplest</h3>
+      <p>At depth 2 it's the deepest class here, yet also the simplest — it
+      only fixes bounds and adds <code class="inl">to_html</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer>
+  <span><b>f_gui/elements/i_2_window/</b> — the root Container: full-bounds stage + one-shot HTML render.</span>
+  <span>Generated 2026-06-15</span>
+</footer>
+
+</div>
+</body>
+</html>

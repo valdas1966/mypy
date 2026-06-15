@@ -55,3 +55,14 @@ even though it now lives in the style package, not the line element.
 | `Stroke` on a `Line`        | SVG `stroke` / `stroke-width` / `stroke-dasharray` |
 | `LineStyle.*`               | CSS `border-style` keyword / SVG dash pattern   |
 | `TextStyle` on a `Label`    | CSS `font-family` / `font-size` / `font-weight` / `color` |
+
+## Visual Docs (human-facing)
+
+- `ABOUT.html` (this folder) — **interactive** overview: live Stroke,
+  Border, and TextStyle playgrounds (each emitting the real CSS/SVG the
+  renderer produces), the reuse story, the rendering map, and a section
+  arguing the package placement (peer of `elements/` + `render/`, not
+  nested under elements). Links out to each module's page below.
+- `stroke/ABOUT.html`, `border/ABOUT.html`, `text/ABOUT.html` — one
+  visual explainer per value object. Generated on demand; Claude reads
+  `CLAUDE.md`, not these.

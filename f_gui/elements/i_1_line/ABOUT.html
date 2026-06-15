@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is a Line? — f_gui.elements.i_1_line</title>
+<style>
+/* ============================================================
+   Shared ABOUT.html dark theme  —  f_gui.elements
+   Paste verbatim inside a <style> tag. Do not edit tokens.
+   ============================================================ */
+:root{
+  --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+  --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+  --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --code-bg:#0a1220; --radius:14px; --maxw:1080px;
+  /* renderer-faithful element colors */
+  --el-window:#ff8c42; --el-container:#58a6ff; --el-label:#bc8cff;
+  --el-line:#34d399; --el-connector:#fbbf24;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);
+  background:radial-gradient(1100px 560px at 72% -10%,#16223a 0%,var(--bg) 55%);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 90px}
+.hero{padding:74px 0 30px;text-align:center}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+  margin-bottom:20px;background:rgba(167,139,250,.08)}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;margin:.15em 0;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.14rem;color:var(--muted);max-width:680px;margin:14px auto 0}
+section{margin-top:62px}
+h2{font-size:1.65rem;font-weight:750;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--faint);margin:0 0 22px}
+.analogy{display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+  border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px}
+.analogy .emoji{font-size:2rem;line-height:1}
+.analogy p{margin:0;color:var(--muted)} .analogy b{color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card .ico{font-size:1.6rem}
+.card h3{margin:.5em 0 .3em;font-size:1.04rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.cmp{border-radius:var(--radius);padding:18px;border:1px solid var(--border)}
+.cmp.bad{border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.06)}
+.cmp.good{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.06)}
+.cmp h3{margin:0 0 8px;font-size:1rem}
+.cmp.bad h3{color:var(--bad)} .cmp.good h3{color:var(--good)}
+.cmp ul{margin:.2em 0 0;padding-left:18px;color:var(--muted);font-size:.92rem}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  overflow:auto;font:13.5px/1.6 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#dbe7ff}
+pre .cls{color:#7dd3fc;font-weight:600}
+pre .tag{color:var(--accent2)} pre .mut{color:var(--faint)}
+pre .kw{color:#fca5a5} pre .str{color:#86efac} pre .fn{color:#fbbf24}
+code.inl{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.85em;color:#cfe3ff}
+.module{border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px 22px;
+  background:linear-gradient(180deg,rgba(96,165,250,.07),transparent)}
+.badge{display:inline-block;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--border);color:var(--muted)}
+.badge.accent{color:var(--accent);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
+.badge.good{color:var(--good);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.badge.v2{color:var(--accent2);border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.08)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.rules li{counter-increment:r;position:relative;padding:12px 16px 12px 54px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;color:var(--muted)}
+ol.rules li::before{content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(96,165,250,.15);
+  color:var(--accent);font-weight:700;font-size:.85rem;border:1px solid rgba(96,165,250,.4)}
+ol.rules li b{color:var(--text)}
+.fact{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.fact .fi{font-size:1.5rem}
+.fact h3{margin:.4em 0 .3em;font-size:1rem}
+.fact p{margin:0;color:var(--muted);font-size:.9rem}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.flow .step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+  text-align:center;min-width:120px}
+.flow .step .t{font-weight:700} .flow .step .d{font-size:.82rem;color:var(--faint)}
+.flow .arr{color:var(--accent);font-size:1.5rem}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+table.tbl th{color:var(--faint);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td{color:var(--muted)} table.tbl td b{color:var(--text)}
+.tree{font:13.5px/1.7 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.tree .n{color:#7dd3fc;font-weight:600} .tree .c{color:var(--faint)}
+footer{margin-top:78px;border-top:1px solid var(--border);padding-top:22px;color:var(--faint);
+  font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+a{color:var(--accent)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}.flow{flex-direction:column}.flow .arr{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <span class="kicker">f_gui · elements · i_1_line</span>
+    <h1>What is a <span class="grad">Line</span>?</h1>
+    <p class="tagline">A directed segment from <code class="inl">p1</code> to
+      <code class="inl">p2</code> — the one element that renders as SVG, not a box.</p>
+    <div style="margin-top:26px">
+      <span class="badge good">leaf Element</span>
+      <span class="badge accent">two Points</span>
+      <span class="badge v2">Stroke appearance</span>
+      <span class="badge warn">optional arrowhead</span>
+    </div>
+    <!-- tiny illustrative SVG: a Line really renders as SVG -->
+    <div style="margin-top:30px">
+      <svg width="320" height="70" viewBox="0 0 320 70" role="img"
+           aria-label="A solid line, a dashed line, and an arrow drawn in green">
+        <defs>
+          <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3"
+                  orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#34d399"/></marker>
+        </defs>
+        <line x1="10" y1="18" x2="120" y2="18" stroke="#34d399" stroke-width="3"/>
+        <line x1="10" y1="35" x2="120" y2="35" stroke="#34d399" stroke-width="3"
+              stroke-dasharray="7 5"/>
+        <line x1="10" y1="52" x2="115" y2="52" stroke="#34d399" stroke-width="3"
+              marker-end="url(#ah)"/>
+        <circle cx="10" cy="35" r="3" fill="#34d399"/>
+        <text x="135" y="22" fill="#94a3b8" font-size="11" font-family="monospace">solid</text>
+        <text x="135" y="39" fill="#94a3b8" font-size="11" font-family="monospace">dashed</text>
+        <text x="135" y="56" fill="#94a3b8" font-size="11" font-family="monospace">arrow  (p1 → p2)</text>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ============ THE IDEA ============ -->
+  <section>
+    <h2>The Idea</h2>
+    <p class="sub">Every other element is a rectangle. A Line is a stroke.</p>
+
+    <div class="analogy">
+      <div class="emoji">✏️</div>
+      <p>A <b>Line</b> is a pencil stroke drawn between two pins. You pin one end
+        at <b>p1</b>, the other at <b>p2</b>, and drag the pencil straight across.
+        You simply <b>cannot draw a clean diagonal with a rectangle</b> — boxes have
+        only horizontal and vertical edges, so a slanted stroke needs a different tool.</p>
+    </div>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="cmp bad">
+        <h3>❌ Faking a diagonal with boxes</h3>
+        <p style="color:var(--muted);font-size:.92rem;margin:.2em 0 .4em">
+          Rotate and clip a thin <code class="inl">&lt;div&gt;</code> to look slanted.</p>
+        <ul>
+          <li>Fragile — rotation math drifts at every zoom level</li>
+          <li>No real dash pattern (a clipped box has no dashes)</li>
+          <li>No arrowhead — you'd glue on a second rotated box</li>
+          <li>Endpoints become approximate, not exact <code class="inl">p1</code>/<code class="inl">p2</code></li>
+        </ul>
+      </div>
+      <div class="cmp good">
+        <h3>✅ An inline <code class="inl">&lt;svg&gt;</code> overlay</h3>
+        <p style="color:var(--muted);font-size:.92rem;margin:.2em 0 .4em">
+          The only pure-HTML way to draw a true diagonal.</p>
+        <ul>
+          <li>Exact endpoints as percentages — maps 1:1 onto the parent</li>
+          <li>Real dashes via <code class="inl">stroke-dasharray</code></li>
+          <li>A real arrowhead via an SVG <code class="inl">&lt;marker&gt;</code></li>
+          <li>Crisp at any zoom — it's a vector, not pixels</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin:30px 0 12px;font-size:1.1rem">The rules that define a Line</h3>
+    <ol class="rules">
+      <li>A Line is defined by two <b>Point</b>s, <code class="inl">p1 -&gt; p2</code>,
+        in the normalized <b>0–100</b> space (relative to the parent).</li>
+      <li>Appearance is a <b>Stroke</b> = <code class="inl">(color, width, style)</code> —
+        the <b>same value object a Border edge uses</b>, so the appearance triple lives in one place.</li>
+      <li>An <b>optional arrowhead</b> sits at <code class="inl">p2</code>, the end point
+        (so direction is well-defined: <code class="inl">p1 → p2</code>).</li>
+      <li>The Element <b>bounds</b> are the bounding <b>box</b> of the two endpoints —
+        the <code class="inl">min</code>/<code class="inl">max</code> of each axis.</li>
+      <li>The inherited <b>border is ignored</b> — a Line renders as SVG, not a bordered div.</li>
+    </ol>
+  </section>
+
+  <!-- ============ HOW IT CONNECTS ============ -->
+  <section>
+    <h2>How It Connects</h2>
+    <p class="sub">A leaf element that swaps the box for a stroke.</p>
+
+    <div class="panel">
+      <div class="tree">
+<span class="n">Element</span>  <span class="c">(abstract — bounds + name + parent)</span>
+ └── <span class="n">Line</span>  <span class="c">i_1_line  (leaf; two Points + Stroke + arrow)</span>
+      </div>
+    </div>
+
+    <div class="analogy" style="margin-top:16px;border-left-color:var(--good);
+         background:linear-gradient(90deg,rgba(52,211,153,.10),transparent)">
+      <div class="emoji">🔗</div>
+      <p><b>Stroke</b> and <b>LineStyle</b> (<code class="inl">SOLID</code> /
+        <code class="inl">DASHED</code> / <code class="inl">DOTTED</code>) come from
+        <code class="inl">f_gui.style.stroke</code> — <b>shared with Border</b>. A Line
+        and a Border edge describe their appearance with the exact same triple; only the
+        geometry differs.</p>
+    </div>
+  </section>
+
+  <!-- ============ THIS MODULE'S CONTRIBUTION ============ -->
+  <section>
+    <h2>This Module's Contribution</h2>
+    <p class="sub">Geometry is Line's own; appearance is borrowed.</p>
+
+    <div class="module">
+      <span class="badge accent">main.py</span>
+      <span class="badge good" style="--el-line:#34d399;color:var(--el-line);
+            border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)">renders as SVG</span>
+      <pre style="margin-top:14px"><span class="kw">def</span> <span class="fn">__init__</span>(self,
+             p1: <span class="cls">Point</span>,
+             p2: <span class="cls">Point</span>,
+             stroke: <span class="cls">Stroke</span> | <span class="kw">None</span> = <span class="kw">None</span>,
+             arrow: <span class="cls">bool</span> = <span class="kw">False</span>,
+             name: <span class="cls">str</span> = <span class="str">'Line'</span>) -> <span class="kw">None</span>:
+    <span class="cls">Element</span>.<span class="fn">__init__</span>(self, bounds=<span class="cls">Line</span>.<span class="fn">_bbox</span>(p1=p1, p2=p2), name=name)
+    self._p1 = p1
+    self._p2 = p2
+    self._stroke = stroke <span class="kw">or</span> <span class="cls">Stroke</span>()
+    self._arrow = arrow
+
+<span class="mut">@staticmethod</span>
+<span class="kw">def</span> <span class="fn">_bbox</span>(p1: <span class="cls">Point</span>, p2: <span class="cls">Point</span>) -> <span class="cls">Bounds</span>[<span class="cls">float</span>]:
+    <span class="mut"># bounds = the bounding box of the two endpoints</span>
+    <span class="kw">return</span> <span class="cls">Bounds</span>(top=<span class="fn">min</span>(p1.y, p2.y),
+                  left=<span class="fn">min</span>(p1.x, p2.x),
+                  bottom=<span class="fn">max</span>(p1.y, p2.y),
+                  right=<span class="fn">max</span>(p1.x, p2.x))</pre>
+      <p style="margin:14px 0 0;color:var(--muted)">
+        <b style="color:var(--text)">Callout:</b> the <b>geometry</b> (<code class="inl">p1</code>,
+        <code class="inl">p2</code>, the bounding box, the arrowhead) is Line's own;
+        the <b>appearance</b> (<code class="inl">Stroke</code>) is shared with Border.
+        <code class="inl">stroke or Stroke()</code> means a missing stroke falls back to the default.</p>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section>
+    <h2>Gallery</h2>
+    <p class="sub">Why SVG is the right tool for a stroke.</p>
+    <div class="grid g3">
+      <div class="card">
+        <div class="ico">📐</div>
+        <h3>Vector, not raster</h3>
+        <p>Stored as two points, a Line re-renders crisply at any zoom — no blurry pixels.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🖼️</div>
+        <h3>Inline SVG overlay</h3>
+        <p>Each Line emits a self-contained <code class="inl">&lt;svg&gt;</code> filling its parent.</p>
+      </div>
+      <div class="card">
+        <div class="ico">➤</div>
+        <h3>Arrowheads via <code class="inl">&lt;marker&gt;</code></h3>
+        <p>When <code class="inl">arrow=True</code>, a <code class="inl">marker-end</code> draws the head at <code class="inl">p2</code>.</p>
+      </div>
+      <div class="card">
+        <div class="ico">┄</div>
+        <h3>Dashed strokes</h3>
+        <p><code class="inl">LineStyle.DASHED</code> maps to a <code class="inl">stroke-dasharray</code> pattern.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🎯</div>
+        <h3>Exact endpoints</h3>
+        <p>The <code class="inl">0–100</code> coords become SVG percentages (<code class="inl">x1="40%"</code>), mapping 1:1 onto the parent.</p>
+      </div>
+      <div class="card">
+        <div class="ico">📦</div>
+        <h3>Box for hit-testing</h3>
+        <p>Bounds are still the rectangular extent of the endpoints — useful later.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FUN FACTS ============ -->
+  <section>
+    <h2>Fun Facts</h2>
+    <p class="sub">The vector graphics behind the stroke.</p>
+    <div class="grid g3">
+      <div class="fact">
+        <div class="fi">🌐</div>
+        <h3>SVG is a W3C standard</h3>
+        <p>Scalable Vector Graphics is an XML language for 2-D vectors that scale without blur.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🔍</div>
+        <h3>Vector vs raster</h3>
+        <p>A Line stored as two points re-renders crisply at any zoom — unlike pixels, which blur when scaled.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🚫</div>
+        <h3>Boxes can't go diagonal</h3>
+        <p>HTML/CSS boxes can't draw true diagonals — SVG (or canvas) is required.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">┄</div>
+        <h3><code class="inl">stroke-dasharray</code></h3>
+        <p>This SVG attribute defines the dash pattern — the lengths of dashes and gaps along the stroke.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">➤</div>
+        <h3>Direction is built in</h3>
+        <p>A directed segment carries orientation (<code class="inl">p1→p2</code>), which is why the arrowhead has a well-defined end.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>f_gui/elements/i_1_line/ — a directed segment between two Points, rendered as SVG.</span>
+    <span>Generated 2026-06-15</span>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stroke — Visual Explainer</title>
+<style>
+/* ============================================================
+   Shared ABOUT.html dark theme  —  f_gui.elements
+   Paste verbatim inside a <style> tag. Do not edit tokens.
+   ============================================================ */
+:root{
+  --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+  --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+  --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --code-bg:#0a1220; --radius:14px; --maxw:1080px;
+  /* renderer-faithful element colors */
+  --el-window:#ff8c42; --el-container:#58a6ff; --el-label:#bc8cff;
+  --el-line:#34d399; --el-connector:#fbbf24;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);
+  background:radial-gradient(1100px 560px at 72% -10%,#16223a 0%,var(--bg) 55%);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 90px}
+.hero{padding:74px 0 30px;text-align:center}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+  margin-bottom:20px;background:rgba(167,139,250,.08)}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;margin:.15em 0;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.14rem;color:var(--muted);max-width:680px;margin:14px auto 0}
+section{margin-top:62px}
+h2{font-size:1.65rem;font-weight:750;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--faint);margin:0 0 22px}
+.analogy{display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+  border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px}
+.analogy .emoji{font-size:2rem;line-height:1}
+.analogy p{margin:0;color:var(--muted)} .analogy b{color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card .ico{font-size:1.6rem}
+.card h3{margin:.5em 0 .3em;font-size:1.04rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.cmp{border-radius:var(--radius);padding:18px;border:1px solid var(--border)}
+.cmp.bad{border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.06)}
+.cmp.good{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.06)}
+.cmp h3{margin:0 0 8px;font-size:1rem}
+.cmp.bad h3{color:var(--bad)} .cmp.good h3{color:var(--good)}
+.cmp ul{margin:.2em 0 0;padding-left:18px;color:var(--muted);font-size:.92rem}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  overflow:auto;font:13.5px/1.6 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#dbe7ff}
+pre .cls{color:#7dd3fc;font-weight:600}
+pre .tag{color:var(--accent2)} pre .mut{color:var(--faint)}
+pre .kw{color:#fca5a5} pre .str{color:#86efac} pre .fn{color:#fbbf24}
+code.inl{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.85em;color:#cfe3ff}
+.module{border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px 22px;
+  background:linear-gradient(180deg,rgba(96,165,250,.07),transparent)}
+.badge{display:inline-block;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--border);color:var(--muted)}
+.badge.accent{color:var(--accent);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
+.badge.good{color:var(--good);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.badge.v2{color:var(--accent2);border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.08)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.rules li{counter-increment:r;position:relative;padding:12px 16px 12px 54px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;color:var(--muted)}
+ol.rules li::before{content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(96,165,250,.15);
+  color:var(--accent);font-weight:700;font-size:.85rem;border:1px solid rgba(96,165,250,.4)}
+ol.rules li b{color:var(--text)}
+.fact{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.fact .fi{font-size:1.5rem}
+.fact h3{margin:.4em 0 .3em;font-size:1rem}
+.fact p{margin:0;color:var(--muted);font-size:.9rem}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.flow .step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+  text-align:center;min-width:120px}
+.flow .step .t{font-weight:700} .flow .step .d{font-size:.82rem;color:var(--faint)}
+.flow .arr{color:var(--accent);font-size:1.5rem}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+table.tbl th{color:var(--faint);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td{color:var(--muted)} table.tbl td b{color:var(--text)}
+.tree{font:13.5px/1.7 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.tree .n{color:#7dd3fc;font-weight:600} .tree .c{color:var(--faint)}
+footer{margin-top:78px;border-top:1px solid var(--border);padding-top:22px;color:var(--faint);
+  font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+a{color:var(--accent)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}.flow{flex-direction:column}.flow .arr{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============================ 1. HERO ============================ -->
+<header class="hero">
+  <span class="kicker">f_gui · style · stroke</span>
+  <h1>What is a <span class="grad">Stroke</span>?</h1>
+  <p class="tagline">The look of a line — color, width, style — with no
+  geometry, reused everywhere a stroke appears.</p>
+  <p style="margin-top:18px">
+    <span class="badge good" style="border-color:var(--el-line);color:var(--el-line);background:rgba(52,211,153,.10)">value object</span>
+    <span class="badge accent">pure appearance</span>
+    <span class="badge v2">+ LineStyle enum</span>
+  </p>
+  <!-- BONUS: solid / dashed / dotted in green -->
+  <svg width="300" height="60" viewBox="0 0 300 60" aria-label="solid, dashed, dotted strokes"
+       style="margin-top:24px;max-width:100%">
+    <line x1="20" y1="15" x2="280" y2="15" stroke="#34d399" stroke-width="3"/>
+    <line x1="20" y1="30" x2="280" y2="30" stroke="#34d399" stroke-width="3" stroke-dasharray="10 6"/>
+    <line x1="20" y1="45" x2="280" y2="45" stroke="#34d399" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/>
+  </svg>
+</header>
+
+<!-- ============================ 2. THE IDEA ============================ -->
+<section>
+  <h2>The Idea</h2>
+  <p class="sub">A pen-tip setting you configure once, then reuse.</p>
+
+  <div class="analogy">
+    <div class="emoji">🖊️</div>
+    <p>A <b>Stroke</b> is a <b>pen-tip setting</b>: choose the ink
+    <b>color</b>, the nib <b>width</b>, and the <b>dash pattern</b> once —
+    then use that same pen to draw many lines or trace many border edges.
+    The pen knows nothing about <em>where</em> you draw; it only knows
+    <em>how</em> the ink looks.</p>
+  </div>
+
+  <div class="grid g2" style="margin-top:18px">
+    <div class="cmp bad">
+      <h3>🚫 Without Stroke</h3>
+      <ul>
+        <li>The <code class="inl">(color, width, style)</code> triple is
+        repeated on <b>Line</b> and again on <b>every Border edge</b>.</li>
+        <li>Four border sides + lines = the same three fields copied many
+        times.</li>
+        <li>Values <b>drift</b>: a width tweak on one edge silently
+        diverges from the rest.</li>
+        <li>Duplication with no single source of truth.</li>
+      </ul>
+    </div>
+    <div class="cmp good">
+      <h3>✅ With Stroke</h3>
+      <ul>
+        <li>One <b>Stroke</b> value object holds the triple <b>exactly
+        once</b>.</li>
+        <li>Both <b>Line</b> and each <b>Border</b> edge reuse the same
+        Stroke type.</li>
+        <li>Change appearance in one place — every consumer agrees.</li>
+        <li>A small immutable bundle, shared by reference.</li>
+      </ul>
+    </div>
+  </div>
+
+  <ol class="rules" style="margin-top:20px">
+    <li><b>Pure appearance, no geometry.</b> A Stroke never stores
+    endpoints, sides, or positions — only how the ink looks.</li>
+    <li><b><code class="inl">color=None</code> means renderer default.</b>
+    When color is <code class="inl">None</code>, the renderer supplies the
+    fallback — the Stroke does not.</li>
+    <li><b><code class="inl">width</code> is in pixels</b> (a
+    <code class="inl">float</code>, default <code class="inl">1</code>).</li>
+    <li><b><code class="inl">style</code> is a <code class="inl">LineStyle</code></b> —
+    <code class="inl">SOLID</code> / <code class="inl">DASHED</code> /
+    <code class="inl">DOTTED</code>.</li>
+    <li><b>LineStyle values are the exact CSS keywords</b>
+    (<code class="inl">'solid'</code> / <code class="inl">'dashed'</code> /
+    <code class="inl">'dotted'</code>), so the renderer maps them with
+    <b>zero translation</b>.</li>
+    <li><b><code class="inl">RGB</code> is imported only under
+    <code class="inl">TYPE_CHECKING</code></b>, so a plain Stroke never
+    pulls in matplotlib.</li>
+  </ol>
+</section>
+
+<!-- ============================ 3. HOW IT CONNECTS ============================ -->
+<section>
+  <h2>How It Connects</h2>
+  <p class="sub">One appearance type, two very different consumers.</p>
+
+  <div class="flow">
+    <div class="step">
+      <div class="t" style="color:var(--el-line)">Stroke</div>
+      <div class="d">color · width · style</div>
+    </div>
+    <div class="arr">→</div>
+    <div class="step">
+      <div class="t">Line</div>
+      <div class="d">Stroke + endpoints + arrow</div>
+    </div>
+  </div>
+  <div class="flow" style="margin-top:12px">
+    <div class="step">
+      <div class="t" style="color:var(--el-line)">Stroke</div>
+      <div class="d">color · width · style</div>
+    </div>
+    <div class="arr">→</div>
+    <div class="step">
+      <div class="t">Border edge</div>
+      <div class="d">Border = up to four Strokes</div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <div class="tree">
+<span class="n">Stroke</span>  <span class="c"># the shared (color, width, style) appearance</span>
+ ├── consumed by <span class="n">Line</span>    <span class="c"># Line   = Stroke + endpoints + arrow</span>
+ └── consumed by <span class="n">Border</span>  <span class="c"># Border = up to four Strokes (one per edge)</span>
+
+<span class="n">LineStyle</span>  <span class="c"># shared by BOTH lines and borders —</span>
+           <span class="c"># which is why it lives in the style package,</span>
+           <span class="c"># not inside the line element.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 4. CONTRIBUTION ============================ -->
+<section>
+  <h2>This Module's Contribution</h2>
+  <p class="sub">The single reuse point for line / edge appearance — plus
+  the <code class="inl">LineStyle</code> enum that both share.</p>
+
+  <div class="module">
+    <p style="margin:0 0 12px">
+      <span class="badge accent">f_gui/style/stroke/main.py</span>
+    </p>
+    <pre><span class="kw">class</span> <span class="cls">LineStyle</span>(<span class="cls">Enum</span>):
+    <span class="mut"># Values are the exact CSS keywords (border-style / SVG dash</span>
+    <span class="mut"># family), so the renderer maps them with zero translation.</span>
+    SOLID  = <span class="str">'solid'</span>
+    DASHED = <span class="str">'dashed'</span>
+    DOTTED = <span class="str">'dotted'</span>
+
+
+<span class="kw">class</span> <span class="cls">Stroke</span>:
+    <span class="mut"># Pure appearance, no geometry.</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self,
+                 color: <span class="cls">RGB</span> | <span class="kw">None</span> = <span class="kw">None</span>,
+                 width: <span class="cls">float</span> = <span class="str">1</span>,
+                 style: <span class="cls">LineStyle</span> = LineStyle.SOLID) -> <span class="kw">None</span>:
+        self._color = color
+        self._width = width
+        self._style = style
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self) -> <span class="cls">str</span>:
+        color = self._color <span class="kw">if</span> self._color <span class="kw">is not</span> <span class="kw">None</span> <span class="kw">else</span> <span class="str">'default'</span>
+        <span class="kw">return</span> <span class="str">f'({self._width}px {self._style.value} {color})'</span></pre>
+    <p style="margin:14px 0 0;color:var(--muted);font-size:.92rem">
+      <span class="badge good" style="border-color:var(--el-line);color:var(--el-line);background:rgba(52,211,153,.10)">key idea</span>
+      Defining the triple here — once — is what lets <b>Line</b> and every
+      <b>Border</b> edge agree on appearance without copying fields.</p>
+  </div>
+</section>
+
+<!-- ============================ 5. GALLERY ============================ -->
+<section>
+  <h2>Gallery</h2>
+  <p class="sub">One Stroke, two rendering targets — handled by
+  <code class="inl">RenderHtml</code>.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="ico">📈</div>
+      <h3>On a Line → SVG</h3>
+      <p>Becomes <code class="inl">stroke</code> /
+      <code class="inl">stroke-width</code> /
+      <code class="inl">stroke-dasharray</code> on an SVG segment.</p>
+    </div>
+    <div class="card">
+      <div class="ico">🔲</div>
+      <h3>On a Border edge → CSS</h3>
+      <p>Becomes
+      <code class="inl">border-{side}: {width}px {style} {color}</code> on
+      the box.</p>
+    </div>
+  </div>
+
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card">
+      <div class="ico" style="color:var(--el-line)">━</div>
+      <h3>LineStyle.SOLID</h3>
+      <p>Unbroken line — the default style for a fresh Stroke.</p>
+    </div>
+    <div class="card">
+      <div class="ico" style="color:var(--el-line)">╌</div>
+      <h3>LineStyle.DASHED</h3>
+      <p>Dash pattern — keyword passes straight through to CSS/SVG.</p>
+    </div>
+    <div class="card">
+      <div class="ico" style="color:var(--el-line)">⋯</div>
+      <h3>LineStyle.DOTTED</h3>
+      <p>Dotted pattern — same verbatim keyword, no mapping.</p>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card">
+      <div class="ico">⚙️</div>
+      <h3>Factory.default()</h3>
+      <p><code class="inl">Stroke()</code> — 1px, solid, no color
+      (renderer default fill).</p>
+    </div>
+    <div class="card">
+      <div class="ico">✂️</div>
+      <h3>Factory.dashed()</h3>
+      <p><code class="inl">Stroke(width=2, style=DASHED)</code> — a 2px
+      dashed preset.</p>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:16px">
+    <h3 style="margin:0 0 10px;font-size:1rem">Rendering map</h3>
+    <table class="tbl">
+      <tr><th>Model</th><th>Output</th></tr>
+      <tr><td><b>Stroke</b> on a Border edge</td><td><code class="inl">border-{side}: {width}px {style} {color}</code></td></tr>
+      <tr><td><b>Stroke</b> on a Line</td><td><code class="inl">stroke</code> / <code class="inl">stroke-width</code> / <code class="inl">stroke-dasharray</code></td></tr>
+      <tr><td><b>LineStyle.*</b></td><td>CSS <code class="inl">border-style</code> keyword / SVG dash pattern</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================ 6. FUN FACTS ============================ -->
+<section>
+  <h2>Fun Facts</h2>
+  <p class="sub">Accurate corners of the stroke world.</p>
+  <div class="grid g3">
+    <div class="fact">
+      <div class="fi">🖌️</div>
+      <h3>Stroke vs. fill</h3>
+      <p>In vector graphics, the <b>stroke</b> is the outline of a shape —
+      the counterpart of the <b>fill</b>, which is its interior.</p>
+    </div>
+    <div class="fact">
+      <div class="fi">┄</div>
+      <h3>stroke-dasharray</h3>
+      <p>The SVG attribute that defines a dash pattern as a sequence of
+      on/off lengths along the line.</p>
+    </div>
+    <div class="fact">
+      <div class="fi">🔤</div>
+      <h3>No mapping needed</h3>
+      <p>CSS <code class="inl">border-style</code> keywords are literally
+      <code class="inl">solid</code>/<code class="inl">dashed</code>/<code class="inl">dotted</code>
+      — the enum stores them verbatim.</p>
+    </div>
+    <div class="fact">
+      <div class="fi">🪶</div>
+      <h3>The flyweight idea</h3>
+      <p>A value object is a small immutable bundle of data shared by
+      reference — one Stroke, many users.</p>
+    </div>
+    <div class="fact">
+      <div class="fi">📏</div>
+      <h3>Sub-pixel widths</h3>
+      <p>Width is a <code class="inl">float</code>, so sub-pixel strokes
+      (e.g. <code class="inl">0.5</code>) are expressible.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 7. FOOTER ============================ -->
+<footer>
+  <span><code class="inl">f_gui/style/stroke/</code> — shared line/edge
+  appearance (color · width · style) + the LineStyle enum.</span>
+  <span>Generated 2026-06-15</span>
+</footer>
+
+</div>
+</body>
+</html>

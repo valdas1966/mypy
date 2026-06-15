@@ -1,16 +1,11 @@
 from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 from f_core.mixins.has.name import HasName
 from f_core.mixins.has.parent import HasParent
 from f_ds.geometry.bounds import Bounds
-
-if TYPE_CHECKING:
-    from f_color.rgb import RGB
-    from f_gui.style.border import Border
-    from f_ds.geometry.point import Point
-    from f_ds.geometry.side import Side
+from f_color.rgb import RGB
+from f_gui.style.border import Border
+from f_ds.geometry.point import Point
+from f_ds.geometry.side import Side
 
 
 class Element(HasName, HasParent):

@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from f_google.services.drive._internal._upload import _Upload
     from f_google.services.drive._internal._read import _Read
     from f_google.services.drive._internal._read_response import _ReadResponse
+    from f_google.services.drive._internal._serial import _Serial
 
 ULazy.install(globals(), {
     '_Nav': 'f_google.services.drive._internal._nav:_Nav',
@@ -17,4 +18,5 @@ ULazy.install(globals(), {
     '_Upload': 'f_google.services.drive._internal._upload:_Upload',
     '_Read': 'f_google.services.drive._internal._read:_Read',
     '_ReadResponse': 'f_google.services.drive._internal._read_response:_ReadResponse',
+    '_Serial': 'f_google.services.drive._internal._serial:_Serial',
 })

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OMSPP · Goal-Geometry Phase Diagram — Experiment Plan</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#30363d;
+    --ink:#e6edf3; --mut:#9aa7b4; --dim:#6e7b8a;
+    --inc:#f0f0f0; --eager:#4c9aff; --lazy:#ff5c5c;
+    --acc:#ffb454; --acc2:#7ee787; --acc3:#d2a8ff; --bad:#ff7b72; --ok:#3fb950;
+    --warn:#e3b341;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+       line-height:1.55;font-size:15px}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px 90px}
+  a{color:var(--eager);text-decoration:none}
+  code,.mono{font-family:var(--mono);font-size:.88em}
+  code{background:#0b0f14;border:1px solid var(--line);border-radius:5px;
+       padding:1px 6px;color:#cdd9e5}
+
+  header{padding:46px 0 26px;border-bottom:1px solid var(--line);margin-bottom:30px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+          text-transform:uppercase;color:var(--acc)}
+  h1{font-size:33px;line-height:1.12;margin:12px 0 8px;font-weight:800}
+  h1 .sub{color:var(--acc3)}
+  .lead{color:var(--mut);font-size:16px;max-width:800px}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{font-family:var(--mono);font-size:11.5px;color:var(--mut);
+        background:var(--panel);border:1px solid var(--line);
+        border-radius:999px;padding:4px 11px}
+  .pill b{color:var(--ink)}
+
+  h2{font-size:21px;margin:42px 0 6px;padding-top:10px;font-weight:750}
+  h2 .n{font-family:var(--mono);color:var(--acc);font-size:15px;margin-right:10px}
+  h3{font-size:15px;margin:22px 0 6px;color:var(--acc2);
+     font-family:var(--mono);font-weight:600;letter-spacing:.02em}
+  p{margin:9px 0}
+  .muted{color:var(--mut)}
+  hr{border:0;border-top:1px solid var(--line);margin:34px 0}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+
+  .card{background:var(--panel);border:1px solid var(--line);
+        border-radius:12px;padding:16px 18px}
+  .card h4{margin:0 0 6px;font-size:14px}
+  .card.tl{border-left:3px solid var(--acc)}
+
+  .box{border-radius:10px;padding:13px 16px;margin:16px 0;border:1px solid var(--line);
+       background:var(--panel)}
+  .box .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+            text-transform:uppercase;display:block;margin-bottom:4px}
+  .box.tldr{border-left:4px solid var(--acc);background:#1a1710}
+  .box.tldr .tag{color:var(--acc)}
+  .box.verdict{border-left:4px solid var(--acc2);background:#0f1a12}
+  .box.verdict .tag{color:var(--acc2)}
+  .box.warn{border-left:4px solid var(--warn);background:#1c190f}
+  .box.warn .tag{color:var(--warn)}
+  .box.hyp{border-left:4px solid var(--acc3);background:#171320}
+  .box.hyp .tag{color:var(--acc3)}
+  .box.dec{border-left:4px solid var(--ok);background:#0f1a12}
+  .box.dec .tag{color:var(--acc2)}
+
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--ink);font-weight:650;
+     font-family:var(--mono);font-size:12px}
+  td.c,th.c{text-align:center}
+  tbody tr:nth-child(odd){background:#11161d}
+  .yes{color:var(--ok);font-weight:700}
+  .no{color:var(--bad);font-weight:700}
+  .may{color:var(--warn);font-weight:700}
+  .reuse{color:var(--eager);font-weight:700}
+  .new{color:var(--acc);font-weight:700}
+
+  ul,ol{margin:8px 0;padding-left:22px}
+  li{margin:5px 0}
+  .lead-in{color:var(--acc2);font-weight:650}
+
+  figure{margin:18px 0;text-align:center}
+  figcaption{color:var(--dim);font-size:12.5px;margin-top:8px;font-family:var(--mono)}
+  svg{max-width:100%;height:auto}
+
+  .legend{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;
+          font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:6px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:22px;height:3px;border-radius:2px;display:inline-block}
+
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
+  .toc a{font-family:var(--mono);font-size:12px;color:var(--mut);
+         border:1px solid var(--line);border-radius:7px;padding:5px 10px;background:var(--panel)}
+  .toc a:hover{border-color:var(--acc);color:var(--ink)}
+  footer{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);
+         color:var(--dim);font-size:12.5px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">f_hs · experiments · omspp · goal_distance</div>
+  <h1>Goal-Geometry Phase Diagram<br><span class="sub">spread × distance — where (and why) INC beats AGG</span></h1>
+  <p class="lead">Hold <b>k = 200</b> goals fixed and probe the INC vs AGG verdict across a
+  <b>2-D factorial</b> of goal geometry: <b>max_steps</b> (goal-region radius → how
+  <i>spread</i> the goals are) crossed with <b>min_dist</b> (start → goal-centroid distance →
+  how <i>far</i> the goal cloud sits). Measure the three headline metrics —
+  <b>expanded nodes</b>, <b>runtime</b>, <b>memory</b> — for kA*-INC vs kA*-AGG (Eager / Lazy).</p>
+  <div class="meta">
+    <span class="pill"><b>k</b> fixed = 200</span>
+    <span class="pill"><b>axis A</b> max_steps ∈ {20,40,60,80,100}</span>
+    <span class="pill"><b>axis B</b> min_dist ∈ {100,200,300,400,500}</span>
+    <span class="pill"><b>grid</b> 5×5 factorial (corner masked)</span>
+    <span class="pill"><b>status</b> PLAN — no code/runs</span>
+  </div>
+  <div class="toc">
+    <a href="#tldr">TL;DR</a>
+    <a href="#verdict">0 · Verdict on the 2-param design</a>
+    <a href="#axes">1 · Two axes, two mechanisms</a>
+    <a href="#feas">2 · Feasibility of the grid</a>
+    <a href="#design">3 · Design</a>
+    <a href="#pipeline">4 · Pipeline (s_0…s_8)</a>
+    <a href="#outputs">5 · Outputs</a>
+    <a href="#guards">6 · Guards</a>
+    <a href="#decisions">7 · Decisions</a>
+  </div>
+</header>
+
+<!-- ───────────────────────── TL;DR ───────────────────────── -->
+<section id="tldr">
+<div class="box tldr">
+  <span class="tag">Bottom line</span>
+  Crossing <b>min_dist</b> with <b>max_steps</b> is a <b>strong upgrade</b> — it turns the
+  1-D spread sweep into a true <b>phase diagram</b> and, crucially, lets us <b>attribute</b>
+  the INC win to two independent levers: <i>trunk length</i> (min_dist) and <i>goal
+  dispersion</i> (max_steps). It is exactly strategy direction #4. Adopt it — with three
+  fixes baked in: <b>(a)</b> mask the degenerate corner where the goal cloud swallows the
+  start, <b>(b)</b> sample min_dist as a <i>band</i>, not a floor, <b>(c)</b> pilot at
+  n_per_map=1 because high-min_dist cells thin out on small maps and dominate cost.
+</div>
+</section>
+
+<!-- ───────────────────────── 0 VERDICT ───────────────────────── -->
+<h2 id="verdict"><span class="n">0</span>What I think of the 2-parameter design</h2>
+
+<div class="box verdict">
+  <span class="tag">Verdict — adopt, with guardrails</span>
+  The two axes are <b>orthogonal and individually well-motivated</b>, and they amplify the
+  gap through <b>different</b> mechanisms — so the cross-join is not redundant: it measures
+  <b>interaction</b>, which is the scientifically interesting part and the kind of result top
+  venues reward. The 1-D max_steps sweep is simply <b>one row</b> of this grid.
+</div>
+
+<div class="grid2">
+  <div class="card tl">
+    <h4>✅ Why it's worth doing</h4>
+    <ul style="padding-left:18px">
+      <li><b>Two mechanisms, one figure.</b> min_dist grows the <i>shared trunk</i> (more
+      all-goals-active nodes before any goal is found); max_steps grows the <i>dispersion</i>
+      (goals stay active longer inside the region). Both raise the R factor — but
+      independently.</li>
+      <li><b>Attribution.</b> The grid separates "INC wins because goals are far" from
+      "INC wins because goals are scattered" — a stronger claim than either alone.</li>
+      <li><b>Phase diagram.</b> A heatmap of AGG/INC ratio over (distance × spread) is the
+      natural headline figure for direction #4.</li>
+      <li><b>Cheap reuse.</b> Rides the existing <code>s_0…s_8</code> pipeline almost verbatim.</li>
+    </ul>
+  </div>
+  <div class="card tl">
+    <h4>⚠ Four things to fix first</h4>
+    <ul style="padding-left:18px">
+      <li><b>Degenerate corner.</b> When <code>min_dist ≲ max_steps</code> the goal diamond
+      reaches back to (or past) the start → start becomes a near/actual goal. Mask those cells.</li>
+      <li><b>min_dist is a floor today.</b> Parent <code>s_2</code> accepts <code>dist ≥ min_dist</code>,
+      so values pile just above it. For a clean axis, sample into <b>bands</b> [d±δ].</li>
+      <li><b>Map-size thinning.</b> min_dist=500 + radius 100 needs map diameter ≳ 700;
+      small maps drop out → unbalanced panel biased to big maps.</li>
+      <li><b>Cost & pairing.</b> 25 cells; the far/large cells dominate runtime. And min_dist
+      is a <i>between-pair</i> factor (can't pair across it), unlike max_steps.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="box hyp">
+  <span class="tag">Predicted interaction (the science)</span>
+  Gap ≈ <b>R × F</b>, F fixed (grid+Manhattan). R rises along <b>both</b> axes, so the ratio
+  is <b>maximal at far + scattered</b> (bottom-right of the grid). Open question the grid
+  answers: is the effect <b>additive</b> (independent contributions), <b>multiplicative</b>
+  (trunk × dispersion compound), or <b>saturating</b> (one axis caps the other)?
+</div>
+
+<!-- ───────────────────────── 1 AXES ───────────────────────── -->
+<h2 id="axes"><span class="n">1</span>Two axes, two mechanisms</h2>
+
+<figure>
+<svg viewBox="0 0 760 250" role="img" aria-label="Trunk vs dispersion">
+  <rect x="0" y="0" width="760" height="250" fill="#11161d" rx="10"/>
+  <!-- start -->
+  <circle cx="70" cy="125" r="6" fill="#4c9aff"/>
+  <text x="70" y="150" fill="#4c9aff" font-size="12" text-anchor="middle" font-family="monospace">start</text>
+  <!-- trunk -->
+  <line x1="78" y1="125" x2="430" y2="125" stroke="#ffb454" stroke-width="3" stroke-dasharray="2 5"/>
+  <text x="250" y="112" fill="#ffb454" font-size="12" text-anchor="middle" font-family="monospace">trunk  ∝  min_dist  (all k goals active → AGG pays ≈k h/node)</text>
+  <!-- region -->
+  <polygon points="500,125 590,55 680,125 590,195" fill="#1c2330" stroke="#7ee787"/>
+  <circle cx="590" cy="125" r="3" fill="#ffb454"/>
+  <g fill="#7ee787">
+    <circle cx="560" cy="100" r="2.4"/><circle cx="620" cy="100" r="2.4"/><circle cx="540" cy="125" r="2.4"/>
+    <circle cx="640" cy="125" r="2.4"/><circle cx="590" cy="80" r="2.4"/><circle cx="590" cy="170" r="2.4"/>
+    <circle cx="565" cy="150" r="2.4"/><circle cx="615" cy="150" r="2.4"/>
+  </g>
+  <text x="590" y="218" fill="#7ee787" font-size="12" text-anchor="middle" font-family="monospace">region ∝ max_steps</text>
+  <text x="590" y="234" fill="#6e7b8a" font-size="11" text-anchor="middle" font-family="monospace">(dispersion → goals stay active longer)</text>
+</svg>
+<figcaption>min_dist sets trunk length; max_steps sets region dispersion — independent levers on the same R factor.</figcaption>
+</figure>
+
+<table>
+<thead><tr>
+  <th>Axis</th><th>Physical meaning</th><th>Mechanism on the gap</th>
+  <th>Strongest on…</th></tr></thead>
+<tbody>
+  <tr>
+    <td><code>max_steps</code><br>(radius)</td>
+    <td>goal <b>dispersion</b> — mean pairwise goal distance ∝ radius</td>
+    <td>scattered goals are found over a longer span ⇒ |A| stays high <i>inside</i> the region;
+    affects <i>borderline</i> expansions</td>
+    <td><b>runtime</b>, some <b>expanded</b></td>
+  </tr>
+  <tr>
+    <td><code>min_dist</code><br>(displacement)</td>
+    <td>goal-cloud <b>distance</b> from start — length of the shared corridor</td>
+    <td>longer trunk ⇒ more nodes where <b>all k</b> goals are still active ⇒ AGG pays ≈k
+    h-calls &amp; carries k-vectors over more nodes; trunk is <i>shared</i>, so expanded counts
+    barely move</td>
+    <td><b>runtime</b>, <b>memory</b> (weak on expanded)</td>
+  </tr>
+</tbody>
+</table>
+<p class="muted">Because the trunk is expanded by <i>both</i> algorithms identically, min_dist
+mainly widens the <b>per-node cost</b> gap (h-calls → runtime, k-vector → memory), not the
+expanded-node gap. That asymmetry is itself a clean, testable prediction the grid surfaces.</p>
+
+<!-- ───────────────────────── 2 FEASIBILITY ───────────────────────── -->
+<h2 id="feas"><span class="n">2</span>Feasibility of the grid</h2>
+
+<h3>Axis A — radius vs k=200 (diamond cell counts)</h3>
+<p>Wall-free size <code>|D(s)| = 2s²+2s+1</code>. The requested floor <b>20</b> is safe; the
+old <code>steps=10</code> (221 cells) would fail at k=200 on any map with walls.</p>
+<table>
+<thead><tr><th class="c">radius s</th><th class="c">20</th><th class="c">40</th><th class="c">60</th><th class="c">80</th><th class="c">100</th></tr></thead>
+<tbody>
+  <tr><td class="c">wall-free cells</td><td class="c">841</td><td class="c">3 281</td><td class="c">7 321</td><td class="c">12 961</td><td class="c">20 201</td></tr>
+  <tr><td class="c">headroom / 200</td><td class="c">4.2×</td><td class="c">16×</td><td class="c">37×</td><td class="c">65×</td><td class="c">101×</td></tr>
+  <tr><td class="c">k=200 feasible</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td></tr>
+</tbody>
+</table>
+<p class="muted">Note: at radius 100 the region holds ~20k cells, so 200 goals is a sparse 1%
+sample — maximally scattered. Good for the spread axis; just report realized
+<code>region_cells</code> so saturation (region ≈ whole map) is visible.</p>
+
+<h3>The 5×5 grid — degenerate corner &amp; map thinning</h3>
+<p>The goal diamond has radius = max_steps; the start sits min_dist from its center. When
+<code>min_dist ≤ max_steps</code> the start is <b>inside</b> the region; when only slightly
+larger, the nearest goals crowd it. Mask rule: keep a cell only if
+<b>min_dist ≥ max_steps + margin</b> (e.g. margin = 50 ⇒ nearest goal ≥ ~50 from start).</p>
+
+<figure>
+<svg viewBox="0 0 720 360" role="img" aria-label="Phase-diagram grid with masked corner">
+  <rect x="0" y="0" width="720" height="360" fill="#11161d" rx="10"/>
+  <text x="370" y="28" fill="#e6edf3" font-size="13" text-anchor="middle" font-family="monospace">AGG / INC ratio  (illustrative — color = bigger INC win)</text>
+  <!-- axis labels -->
+  <text x="370" y="345" fill="#9aa7b4" font-size="12" text-anchor="middle" font-family="monospace">max_steps  (goal spread)  →</text>
+  <text x="22" y="190" fill="#9aa7b4" font-size="12" text-anchor="middle" font-family="monospace" transform="rotate(-90 22 190)">min_dist  (distance)  →</text>
+  <!-- col headers -->
+  <g fill="#6e7b8a" font-size="11" font-family="monospace" text-anchor="middle">
+    <text x="170" y="58">20</text><text x="270" y="58">40</text><text x="370" y="58">60</text><text x="470" y="58">80</text><text x="570" y="58">100</text>
+  </g>
+  <!-- row headers (top=100 .. bottom=500) -->
+  <g fill="#6e7b8a" font-size="11" font-family="monospace" text-anchor="end">
+    <text x="112" y="93">100</text><text x="112" y="143">200</text><text x="112" y="193">300</text><text x="112" y="243">400</text><text x="112" y="293">500</text>
+  </g>
+  <!-- cells: x 120+c*100 .. , y 70+r*50 ; w100 h50 -->
+  <!-- row0 min100: c0 ok,c1 ok, c2/c3/c4 masked -->
+  <g stroke="#0d1117" stroke-width="2">
+    <rect x="120" y="70" width="100" height="50" fill="#2ea043"/>
+    <rect x="220" y="70" width="100" height="50" fill="#56b34a"/>
+    <rect x="320" y="70" width="100" height="50" fill="#2a2f37"/>
+    <rect x="420" y="70" width="100" height="50" fill="#2a2f37"/>
+    <rect x="520" y="70" width="100" height="50" fill="#2a2f37"/>
+    <!-- row1 min200 -->
+    <rect x="120" y="120" width="100" height="50" fill="#56b34a"/>
+    <rect x="220" y="120" width="100" height="50" fill="#7ec24a"/>
+    <rect x="320" y="120" width="100" height="50" fill="#b3c042"/>
+    <rect x="420" y="120" width="100" height="50" fill="#e3b341"/>
+    <rect x="520" y="120" width="100" height="50" fill="#f0913a"/>
+    <!-- row2 min300 -->
+    <rect x="120" y="170" width="100" height="50" fill="#7ec24a"/>
+    <rect x="220" y="170" width="100" height="50" fill="#b3c042"/>
+    <rect x="320" y="170" width="100" height="50" fill="#e3b341"/>
+    <rect x="420" y="170" width="100" height="50" fill="#f0913a"/>
+    <rect x="520" y="170" width="100" height="50" fill="#f06f3a"/>
+    <!-- row3 min400 -->
+    <rect x="120" y="220" width="100" height="50" fill="#b3c042"/>
+    <rect x="220" y="220" width="100" height="50" fill="#e3b341"/>
+    <rect x="320" y="220" width="100" height="50" fill="#f0913a"/>
+    <rect x="420" y="220" width="100" height="50" fill="#f06f3a"/>
+    <rect x="520" y="220" width="100" height="50" fill="#ee5540"/>
+    <!-- row4 min500 -->
+    <rect x="120" y="270" width="100" height="50" fill="#e3b341"/>
+    <rect x="220" y="270" width="100" height="50" fill="#f0913a"/>
+    <rect x="320" y="270" width="100" height="50" fill="#f06f3a"/>
+    <rect x="420" y="270" width="100" height="50" fill="#ee5540"/>
+    <rect x="520" y="270" width="100" height="50" fill="#d23b34"/>
+  </g>
+  <!-- masked hatch text -->
+  <g fill="#6e7b8a" font-size="10" font-family="monospace" text-anchor="middle">
+    <text x="370" y="99">masked</text><text x="470" y="99">masked</text><text x="570" y="99">masked</text>
+  </g>
+  <!-- sample ratio labels -->
+  <g fill="#0d1117" font-size="11" font-weight="bold" font-family="monospace" text-anchor="middle">
+    <text x="170" y="100">×2</text><text x="570" y="300">×16</text>
+  </g>
+</svg>
+<figcaption>5×5 factorial; top-right corner (close + scattered ⇒ start engulfed) masked. Gap grows toward far + scattered (bottom-right).</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>min_dist ↓ / max_steps →</th><th class="c">20</th><th class="c">40</th><th class="c">60</th><th class="c">80</th><th class="c">100</th></tr></thead>
+<tbody>
+  <tr><td>100</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="no">mask</span></td><td class="c"><span class="no">mask</span></td><td class="c"><span class="no">mask</span></td></tr>
+  <tr><td>200</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td></tr>
+  <tr><td>300</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td></tr>
+  <tr><td>400</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="may">size?</span></td></tr>
+  <tr><td>500</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="may">size?</span></td><td class="c"><span class="may">size?</span></td><td class="c"><span class="may">size?</span></td></tr>
+</tbody>
+</table>
+<p class="muted"><span class="no">mask</span> = geometrically degenerate (start in/near region).
+<span class="may">size?</span> = feasible only on large maps (diameter ≳ min_dist+2·radius);
+<code>s_3</code> reports per-cell map coverage so thinning is explicit, not hidden.</p>
+
+<!-- ───────────────────────── 3 DESIGN ───────────────────────── -->
+<h2 id="design"><span class="n">3</span>Experimental design</h2>
+<table>
+<thead><tr><th>Factor</th><th>Role</th><th>Setting</th></tr></thead>
+<tbody>
+  <tr><td><code>max_steps</code> (radius)</td><td><b class="lead-in">VARIED · within-pair</b></td><td>{20,40,60,80,100} — paired: same pair, rebuild region per radius</td></tr>
+  <tr><td><code>min_dist</code> (start→centroid)</td><td><b class="lead-in">VARIED · between-pair</b></td><td>{100,200,300,400,500} as <b>bands</b> [d±δ]; defines the pair, so cannot be paired across</td></tr>
+  <tr><td>k (goals)</td><td>fixed</td><td>200</td></tr>
+  <tr><td>map / heuristic</td><td>fixed</td><td>same 25 maps; Manhattan (F constant ⇒ isolates R)</td></tr>
+  <tr><td>algos</td><td>fixed</td><td>INC; AGG eager_opt_sv + lazy_opt_sv, Φ=MIN</td></tr>
+</tbody>
+</table>
+
+<div class="box dec">
+  <span class="tag">Mixed pairing — state it in the analysis</span>
+  <b>max_steps</b> is within-pair → analyze paired log-ratios (variance cancels along this axis).
+  <b>min_dist</b> is between-pair → cluster-bootstrap over maps within each band. The experimental
+  unit is <b>(map, min_dist-band, pair) → a max_steps series</b>. Bind sample size by the
+  <b>expanded-nodes</b> ratio (smallest effect). Recommend a <b>pilot at n_per_map=1</b>
+  (~1 series/map/band) to map coverage + cost before committing to n_per_map=4.
+</div>
+
+<!-- ───────────────────────── 4 PIPELINE ───────────────────────── -->
+<h2 id="pipeline"><span class="n">4</span>Pipeline — symmetric to the parent <code>s_0…s_8</code></h2>
+<p>Same numbered roles as <code>f_hs/experiments/omspp/</code>. Two steps are <span class="reuse">REUSED</span>
+verbatim; the rest are thin local variants (<span class="new">NEW</span>) that add the two
+parameters. Outputs live under <code>Experiments/OMSPP/goal_distance/</code> so the k-sweep
+artifacts are never touched.</p>
+
+<table>
+<thead><tr><th>sub <code>s_N</code></th><th>parent role</th><th>What changes for the 2-param grid</th><th>Out (Drive <code>…/goal_distance/</code>)</th></tr></thead>
+<tbody>
+  <tr><td><code>s_0_clusters_start</code></td><td>start pool</td><td><span class="reuse">REUSE</span> <code>../i_0_clusters_start.csv</code></td><td>—</td></tr>
+  <tr><td><code>s_1_clusters_goals</code></td><td>goal centers</td><td><span class="reuse">REUSE</span> <code>../i_1_clusters_goals.csv</code> (centers feasible at radius ≥20)</td><td>—</td></tr>
+  <tr><td><code>s_2_pairs_banded</code></td><td>pair start↔goal</td><td><span class="new">NEW</span> — sample pairs into <b>5 min_dist bands</b> [d±δ] (not one floor); one sub-CSV per band</td><td><code>i_2_pairs_banded.csv</code></td></tr>
+  <tr><td><code>s_3_problems_grid</code></td><td>build problems</td><td><span class="new">NEW</span> — cross-join: per (banded pair) × <b>max_steps</b>, rebuild ClusterDiamond at that radius, draw k=200; <b>mask</b> degenerate cells; log realized <code>dist_start</code>, <code>dist_goals</code>, <code>region_cells</code></td><td><code>i_3_problems_grid.{pkl,csv}</code></td></tr>
+  <tr><td><code>s_4_kastar_inc</code></td><td>run INC</td><td><span class="new">NEW</span> thin — INC @ k=200, one <code>run()</code>/problem (no extend chain); parent <code>s_4</code> body + Runner</td><td><code>kastar_inc_grid.csv</code></td></tr>
+  <tr><td><code>s_5_kastar_agg</code></td><td>run AGG</td><td><span class="new">NEW</span> thin — AGG eager+lazy, Φ=MIN; parent <code>s_5</code> body verbatim</td><td><code>kastar_agg_grid.csv</code></td></tr>
+  <tr><td><code>s_6_plot_heatmaps</code></td><td>plot</td><td><span class="new">NEW</span> — per metric: <b>5×5 ratio heatmap</b> (masked corner) + 2 marginal line plots (collapse each axis); reuse parent <code>s_6</code> table/overlay helpers</td><td><code>inc_vs_agg_phase.pdf</code></td></tr>
+  <tr><td><code>s_7</code></td><td>(survival)</td><td><span class="muted">skip — not central to the geometry sweep</span></td><td>—</td></tr>
+  <tr><td><code>s_8_robustness</code></td><td>robustness</td><td><span class="new">NEW</span> thin — cluster-boot CI on AGG/INC ratio per (cell, metric); parent <code>s_8</code></td><td><code>robustness_grid.csv</code></td></tr>
+</tbody>
+</table>
+
+<figure>
+<svg viewBox="0 0 720 200" role="img" aria-label="Pipeline DAG">
+  <rect x="0" y="0" width="720" height="200" fill="#11161d" rx="10"/>
+  <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6e7b8a"/></marker></defs>
+  <g font-family="monospace" font-size="10.5">
+    <rect x="14" y="78" width="120" height="44" rx="7" fill="#101820" stroke="#4c9aff"/>
+    <text x="74" y="96" fill="#4c9aff" text-anchor="middle" font-weight="bold">s_0 / s_1</text>
+    <text x="74" y="111" fill="#6e7b8a" text-anchor="middle">REUSE pools</text>
+    <rect x="160" y="78" width="118" height="44" rx="7" fill="#1a1710" stroke="#ffb454"/>
+    <text x="219" y="96" fill="#ffb454" text-anchor="middle" font-weight="bold">s_2 banded</text>
+    <text x="219" y="111" fill="#6e7b8a" text-anchor="middle">5 min_dist bands</text>
+    <rect x="302" y="78" width="120" height="44" rx="7" fill="#1a1710" stroke="#ffb454"/>
+    <text x="362" y="96" fill="#ffb454" text-anchor="middle" font-weight="bold">s_3 grid</text>
+    <text x="362" y="111" fill="#6e7b8a" text-anchor="middle">×5 max_steps</text>
+    <rect x="448" y="40" width="120" height="40" rx="7" fill="#101820" stroke="#4c9aff"/>
+    <text x="508" y="64" fill="#4c9aff" text-anchor="middle" font-weight="bold">s_4 INC</text>
+    <rect x="448" y="120" width="120" height="40" rx="7" fill="#1a1012" stroke="#ff5c5c"/>
+    <text x="508" y="144" fill="#ff5c5c" text-anchor="middle" font-weight="bold">s_5 AGG</text>
+    <rect x="592" y="78" width="114" height="44" rx="7" fill="#151020" stroke="#d2a8ff"/>
+    <text x="649" y="96" fill="#d2a8ff" text-anchor="middle" font-weight="bold">s_6 heatmaps</text>
+    <text x="649" y="111" fill="#6e7b8a" text-anchor="middle">+ s_8 CIs</text>
+  </g>
+  <g stroke="#6e7b8a" stroke-width="1.5" fill="none">
+    <line x1="134" y1="100" x2="158" y2="100" marker-end="url(#ar)"/>
+    <line x1="278" y1="100" x2="300" y2="100" marker-end="url(#ar)"/>
+    <line x1="422" y1="92" x2="446" y2="64" marker-end="url(#ar)"/>
+    <line x1="422" y1="108" x2="446" y2="138" marker-end="url(#ar)"/>
+    <line x1="568" y1="60" x2="600" y2="90" marker-end="url(#ar)"/>
+    <line x1="568" y1="140" x2="600" y2="110" marker-end="url(#ar)"/>
+  </g>
+</svg>
+<figcaption>s_0/s_1 reused; s_2 adds the distance axis; s_3 cross-joins the spread axis; s_4/s_5 run; s_6/s_8 visualize + bound.</figcaption>
+</figure>
+
+<!-- ───────────────────────── 5 OUTPUTS ───────────────────────── -->
+<h2 id="outputs"><span class="n">5</span>Outputs</h2>
+<div class="grid3">
+  <div class="card"><h4>3 phase heatmaps</h4><p class="muted">expanded · runtime · memory — each a 5×5
+  AGG/INC ratio map over (distance × spread), degenerate corner greyed.</p></div>
+  <div class="card"><h4>Marginals</h4><p class="muted">For each metric: ratio vs max_steps (averaged
+  over min_dist) and ratio vs min_dist (averaged over max_steps) — the two main effects.</p></div>
+  <div class="card"><h4>Per-cell tables + CIs</h4><p class="muted">Mean ratio + cluster-boot 95% CI +
+  realized dist_start / dist_goals / region_cells / map-coverage per cell.</p></div>
+</div>
+
+<!-- ───────────────────────── 6 GUARDS ───────────────────────── -->
+<h2 id="guards"><span class="n">6</span>Confounds &amp; honesty guards</h2>
+<table>
+<thead><tr><th>Risk</th><th>Guard</th></tr></thead>
+<tbody>
+  <tr><td>Degenerate corner (region swallows start)</td><td>Mask <code>min_dist &lt; max_steps + margin</code> (margin≈50); never report masked cells as data.</td></tr>
+  <tr><td><code>min_dist</code> floor ≠ a clean level</td><td><code>s_2</code> samples into bands [d±δ]; report realized <code>dist_start</code> as the true coordinate.</td></tr>
+  <tr><td>Map-size thinning at far/large cells</td><td>Report per-cell map coverage; consider <b>relative</b> min_dist (fractions of map diameter) for a balanced panel — see decisions.</td></tr>
+  <tr><td>Radius ≠ realized spread (walls/clip)</td><td>Log realized mean pairwise distance + <code>region_cells</code>; flag saturation (region ≈ whole map).</td></tr>
+  <tr><td>Fixed k over growing region lowers density</td><td>Intrinsic to "fixed k, varying geometry" — the intended manipulation; stated explicitly.</td></tr>
+  <tr><td>Pairing asymmetry</td><td>max_steps paired (log-ratios); min_dist between-pair (cluster-boot per band) — analyzed as a mixed design.</td></tr>
+  <tr><td>Cost blow-up</td><td>Pilot n_per_map=1; clamp Runner workers; far/large cells dominate, so log per-cell wall-clock.</td></tr>
+</tbody>
+</table>
+
+<!-- ───────────────────────── 7 DECISIONS ───────────────────────── -->
+<h2 id="decisions"><span class="n">7</span>Open decisions (your call)</h2>
+<div class="box dec">
+  <span class="tag">Confirm before I scaffold s_2…s_6</span>
+  <ol style="margin:6px 0 0">
+    <li><b>Grid shape.</b> (a) <b>Full 5×5 with masked corner</b> <i>(recommended — full interaction
+    surface)</i>; (b) <b>feasible-triangle only</b> (cheaper, no degeneracy); (c) <b>two crossed
+    1-D sweeps</b> through a center cell (cheapest, main effects only — no interaction).</li>
+    <li><b>min_dist scale.</b> <b>Absolute cells</b> {100…500} as asked (simple, but thins on small
+    maps) vs <b>relative</b> to map diameter {0.1…0.5} (balanced panel across heterogeneous maps).
+    Recommend <b>relative</b> if maps vary a lot in size.</li>
+    <li><b>Mask margin.</b> Require <code>min_dist ≥ max_steps + 50</code> (default) — looser/tighter?</li>
+    <li><b>n_per_map.</b> Pilot at <b>1</b>, then <b>4</b> for tight per-cell CIs.</li>
+    <li><b>Scope now.</b> Plan only. Say the word to scaffold <code>s_2…s_6</code>.</li>
+  </ol>
+</div>
+
+<footer>
+  f_hs/experiments/omspp/goal_distance · PLAN.html · revised 2026-06-15 ·
+  2-param phase diagram (max_steps × min_dist) · symmetric to parent s_0…s_8 ·
+  status: plan only · ties to OMSPP strategy direction #4 (goal-distribution / phase diagram)
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>f_gui.elements — The Scene Graph, Live</title>
+<style>
+/* ============================================================
+   Shared ABOUT.html dark theme  —  f_gui.elements
+   ============================================================ */
+:root{
+  --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+  --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+  --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --code-bg:#0a1220; --radius:14px; --maxw:1080px;
+  --el-window:#ff8c42; --el-container:#58a6ff; --el-label:#bc8cff;
+  --el-line:#34d399; --el-connector:#fbbf24;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);
+  background:radial-gradient(1100px 560px at 72% -10%,#16223a 0%,var(--bg) 55%);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 90px}
+.hero{padding:74px 0 30px;text-align:center}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+  margin-bottom:20px;background:rgba(167,139,250,.08)}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;margin:.15em 0;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.14rem;color:var(--muted);max-width:680px;margin:14px auto 0}
+section{margin-top:62px}
+h2{font-size:1.65rem;font-weight:750;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--faint);margin:0 0 22px}
+.analogy{display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+  border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px}
+.analogy .emoji{font-size:2rem;line-height:1}
+.analogy p{margin:0;color:var(--muted)} .analogy b{color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card .ico{font-size:1.6rem}
+.card h3{margin:.5em 0 .3em;font-size:1.04rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  overflow:auto;font:13.5px/1.6 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#dbe7ff}
+pre .cls{color:#7dd3fc;font-weight:600}
+pre .tag{color:var(--accent2)} pre .mut{color:var(--faint)}
+pre .kw{color:#fca5a5} pre .str{color:#86efac} pre .fn{color:#fbbf24}
+code.inl{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.85em;color:#cfe3ff}
+.module{border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px 22px;
+  background:linear-gradient(180deg,rgba(96,165,250,.07),transparent)}
+.badge{display:inline-block;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--border);color:var(--muted)}
+.badge.accent{color:var(--accent);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
+.badge.good{color:var(--good);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.badge.v2{color:var(--accent2);border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.08)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.rules li{counter-increment:r;position:relative;padding:12px 16px 12px 54px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;color:var(--muted)}
+ol.rules li::before{content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(96,165,250,.15);
+  color:var(--accent);font-weight:700;font-size:.85rem;border:1px solid rgba(96,165,250,.4)}
+ol.rules li b{color:var(--text)}
+.fact{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.fact .fi{font-size:1.5rem}
+.fact h3{margin:.4em 0 .3em;font-size:1rem}
+.fact p{margin:0;color:var(--muted);font-size:.9rem}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.flow .step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+  text-align:center;min-width:120px}
+.flow .step .t{font-weight:700} .flow .step .d{font-size:.82rem;color:var(--faint)}
+.flow .arr{color:var(--accent);font-size:1.5rem}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+table.tbl th{color:var(--faint);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td{color:var(--muted)} table.tbl td b{color:var(--text)}
+.tree{font:13.5px/1.7 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.tree .n{color:#7dd3fc;font-weight:600} .tree .c{color:var(--faint)}
+footer{margin-top:78px;border-top:1px solid var(--border);padding-top:22px;color:var(--faint);
+  font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+a{color:var(--accent)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}.flow{flex-direction:column}.flow .arr{transform:rotate(90deg)}}
+
+/* ============================================================
+   Interactive-only styles (this overview page)
+   ============================================================ */
+/* element-colored cast cards */
+a.cast{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+  border-top:3px solid var(--cc,var(--accent));border-radius:var(--radius);padding:16px 18px;
+  background:var(--panel);transition:transform .12s ease,border-color .12s ease,background .12s ease}
+a.cast:hover{transform:translateY(-3px);background:#16203a}
+a.cast .nm{font-weight:750;font-size:1.06rem;color:var(--cc)}
+a.cast .dep{float:right;font-size:.72rem;color:var(--faint);border:1px solid var(--border);
+  border-radius:999px;padding:1px 8px}
+a.cast .ds{margin:.5em 0 0;color:var(--muted);font-size:.9rem}
+a.cast .open{margin-top:10px;font-size:.8rem;color:var(--accent)}
+
+/* interactive hierarchy */
+.hwrap{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.hnode{cursor:pointer;border:1px solid var(--border);border-radius:10px;padding:7px 13px;font-weight:650;
+  background:var(--panel);transition:.12s;position:relative}
+.hnode small{font-weight:400;color:var(--faint);margin-left:8px}
+.hnode:hover{border-color:var(--cc)}
+.hnode.sel{background:#16203a;border-color:var(--cc);box-shadow:0 0 0 2px color-mix(in srgb,var(--cc) 35%,transparent)}
+.hindent{margin-left:30px;border-left:1px dashed var(--border);padding-left:16px;
+  display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+#hinfo{margin-top:16px}
+
+/* playground */
+.pgcontrols{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-bottom:14px}
+.ctl{display:flex;flex-direction:column;gap:5px}
+.ctl .lab{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--faint)}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:9px;overflow:hidden}
+.seg button{background:var(--panel);color:var(--muted);border:0;padding:6px 12px;cursor:pointer;
+  font:inherit;font-size:.84rem;border-right:1px solid var(--border)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--accent);color:#06101f;font-weight:700}
+select.mini{background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:9px;
+  padding:6px 10px;font:inherit;font-size:.84rem}
+.toggle{display:inline-flex;align-items:center;gap:7px;font-size:.86rem;color:var(--muted);cursor:pointer;
+  user-select:none;border:1px solid var(--border);border-radius:9px;padding:6px 11px;background:var(--panel)}
+.toggle input{accent-color:var(--accent)}
+#stage{position:relative;width:100%;height:430px;background:#0d1117;border:3px solid var(--el-window);
+  border-radius:8px;overflow:hidden;touch-action:none;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:10% 10%,10% 10%}
+.stage-tag{position:absolute;top:6px;left:10px;font:600 12px ui-monospace,monospace;
+  color:var(--el-window);opacity:.85;pointer-events:none}
+.pbox{position:absolute;border:2px dashed var(--el-container);border-radius:6px;background:rgba(88,166,255,.08);
+  display:flex;align-items:center;justify-content:center;cursor:grab;user-select:none;
+  font:600 13px ui-monospace,monospace;color:#cfe3ff;touch-action:none}
+.pbox:active{cursor:grabbing}
+.pbox .pin{position:absolute;top:3px;left:6px;font-size:10px;color:var(--el-container);opacity:.9}
+.pbox .ptxt{color:var(--el-label)}
+.svgov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.anchor{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--el-connector);
+  border:1.5px solid #06101f;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 6px rgba(251,191,36,.7)}
+.readout{margin-top:12px;font:13px/1.6 ui-monospace,monospace;color:var(--muted);
+  background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.readout b{color:var(--el-connector)}
+.hintline{color:var(--faint);font-size:.86rem;margin:6px 0 0}
+
+/* reparent demo */
+.rep{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.zone{border:2px dashed var(--el-container);border-radius:12px;min-height:120px;padding:14px;cursor:pointer;
+  background:rgba(88,166,255,.05);transition:.12s;display:flex;flex-direction:column;gap:10px}
+.zone:hover{background:rgba(88,166,255,.12)}
+.zone .zt{font:600 13px ui-monospace,monospace;color:var(--el-container)}
+.chip{align-self:flex-start;border:2px solid var(--el-label);border-radius:8px;padding:8px 14px;
+  background:rgba(188,140,255,.12);color:#e9ddff;font:600 13px ui-monospace,monospace}
+.replog{margin-top:14px;font:12.5px/1.7 ui-monospace,monospace;color:var(--muted);
+  background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;
+  max-height:128px;overflow:auto}
+.replog .ok{color:var(--good)} .replog .no{color:var(--warn)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <span class="kicker">f_gui · elements</span>
+    <h1>The Scene Graph,<br><span class="grad">Live</span></h1>
+    <p class="tagline">Six classes build every GUI: one abstract <b>Element</b>, the
+      containers that nest, the leaves that draw, and the connectors that link them —
+      a tree of regions in a normalized 0–100 space. Drag the boxes below and watch
+      the model react.</p>
+  </header>
+
+  <!-- ============ THE CAST ============ -->
+  <section id="cast">
+    <h2>The cast — six classes</h2>
+    <p class="sub">Each card opens that element's own visual explainer. Colors below are the
+      renderer's actual edge colors.</p>
+    <div class="grid g3">
+      <a class="cast" href="i_0_element/ABOUT.html" style="--cc:var(--accent)">
+        <span class="nm">Element</span><span class="dep">i_0 · abstract</span>
+        <p class="ds">The base node: bounds, name, parent, <code class="inl">anchor(side)</code>.
+          Never drawn itself — <code class="inl">Element()</code> raises.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+      <a class="cast" href="i_1_container/ABOUT.html" style="--cc:var(--el-container)">
+        <span class="nm">Container</span><span class="dep">i_1</span>
+        <p class="ds">An Element that holds children and keeps the parent/child
+          tree consistent (auto-detach on re-parent).</p>
+        <div class="open">Open explainer →</div>
+      </a>
+      <a class="cast" href="i_1_label/ABOUT.html" style="--cc:var(--el-label)">
+        <span class="nm">Label</span><span class="dep">i_1 · leaf</span>
+        <p class="ds">A leaf carrying <code class="inl">text</code>; its look is a
+          separate <code class="inl">TextStyle</code>, like background/border.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+      <a class="cast" href="i_1_line/ABOUT.html" style="--cc:var(--el-line)">
+        <span class="nm">Line</span><span class="dep">i_1 · leaf · SVG</span>
+        <p class="ds">A directed segment <code class="inl">p1→p2</code> with a
+          <code class="inl">Stroke</code> + optional arrow. Renders as SVG.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+      <a class="cast" href="i_1_connector/ABOUT.html" style="--cc:var(--el-connector)">
+        <span class="nm">Connector</span><span class="dep">i_1 · leaf · SVG</span>
+        <p class="ds">An auto-routing arrow between two elements — endpoints
+          pulled live from their bounds, so it follows when they move.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+      <a class="cast" href="i_2_window/ABOUT.html" style="--cc:var(--el-window)">
+        <span class="nm">Window</span><span class="dep">i_2 · root</span>
+        <p class="ds">The root Container — implicit full bounds (0,0,100,100)
+          and the <code class="inl">to_html()</code> render entry point.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ HIERARCHY ============ -->
+  <section id="tree">
+    <h2>One family tree</h2>
+    <p class="sub">Click a node to see what it adds. Every concrete element <i>is</i> an
+      <code class="inl">Element</code>; only <code class="inl">Window</code> reaches depth 2.</p>
+    <div class="panel">
+      <div class="hwrap">
+        <div class="hnode sel" data-k="element" style="--cc:var(--accent)">Element <small>abstract · HasName + HasParent</small></div>
+        <div class="hindent">
+          <div class="hnode" data-k="container" style="--cc:var(--el-container)">Container <small>+ HasChildren</small></div>
+          <div class="hindent">
+            <div class="hnode" data-k="window" style="--cc:var(--el-window)">Window <small>root · full bounds</small></div>
+          </div>
+          <div class="hnode" data-k="label" style="--cc:var(--el-label)">Label <small>leaf · text</small></div>
+          <div class="hnode" data-k="line" style="--cc:var(--el-line)">Line <small>leaf · two Points · SVG</small></div>
+          <div class="hnode" data-k="connector" style="--cc:var(--el-connector)">Connector <small>leaf · two refs · SVG</small></div>
+        </div>
+      </div>
+      <div id="hinfo" class="module"></div>
+    </div>
+  </section>
+
+  <!-- ============ COORDINATE MODEL ============ -->
+  <section id="coords">
+    <h2>The 0–100 coordinate model</h2>
+    <p class="sub">Every <code class="inl">Bounds</code> is <b>relative to its parent</b>, in a
+      normalized 0–100 box — so it maps 1:1 onto CSS percentages.</p>
+    <div class="analogy">
+      <div class="emoji">🗺️</div>
+      <p>Think percentages, not pixels. A child at <code class="inl">left=10, right=30</code> always
+        sits in the left tenth-to-third of <b>whatever</b> its parent is — resize the parent and the
+        child scales with it. That is why the whole renderer is ~30 lines: <b>0–100 ⇒ CSS %</b>, no
+        layout math.</p>
+    </div>
+    <ol class="rules" style="margin-top:16px">
+      <li><b>Bounds = (top, left, bottom, right)</b> — the four edges, each 0–100, top-left origin.</li>
+      <li><b>Relative to parent</b> — a label's bounds are read inside its container, not the window.</li>
+      <li><b>anchor(side)</b> returns the mid-point of an edge (TOP / RIGHT / BOTTOM / LEFT) — where a Connector attaches.</li>
+      <li><b>Window is implicitly full</b> — (0,0,100,100); it never takes a bounds argument.</li>
+    </ol>
+  </section>
+
+  <!-- ============ LIVE PLAYGROUND ============ -->
+  <section id="play">
+    <h2>Live playground — anchors, routing &amp; "follow me"</h2>
+    <p class="sub">Drag box <b>A</b> or <b>B</b> around the Window. The Connector recomputes its
+      path on every move — exactly like <code class="inl">Connector.path</code>, which reads the
+      elements' bounds live (no events).</p>
+
+    <div class="panel">
+      <div class="pgcontrols">
+        <div class="ctl">
+          <span class="lab">Routing</span>
+          <div class="seg" id="segRoute">
+            <button data-v="DIRECT" class="on">DIRECT</button>
+            <button data-v="ORTHOGONAL">ORTHOGONAL</button>
+          </div>
+        </div>
+        <div class="ctl">
+          <span class="lab">src side</span>
+          <select class="mini" id="selSrc">
+            <option value="AUTO">auto</option><option>TOP</option><option>RIGHT</option>
+            <option>BOTTOM</option><option>LEFT</option>
+          </select>
+        </div>
+        <div class="ctl">
+          <span class="lab">dst side</span>
+          <select class="mini" id="selDst">
+            <option value="AUTO">auto</option><option>TOP</option><option>RIGHT</option>
+            <option>BOTTOM</option><option>LEFT</option>
+          </select>
+        </div>
+        <div class="ctl">
+          <span class="lab">overlays</span>
+          <div style="display:flex;gap:8px">
+            <label class="toggle"><input type="checkbox" id="ckAnchor" checked> anchors</label>
+            <label class="toggle"><input type="checkbox" id="ckArrow" checked> arrow</label>
+          </div>
+        </div>
+      </div>
+
+      <div id="stage">
+        <span class="stage-tag">Window (0,0,100,100)</span>
+        <svg class="svgov" id="ov"><defs></defs></svg>
+        <div class="pbox" id="boxA"><span class="pin">A · Container</span><span class="ptxt">"src"</span></div>
+        <div class="pbox" id="boxB"><span class="pin">B · Container</span><span class="ptxt">"dst"</span></div>
+      </div>
+      <div class="readout" id="readout"></div>
+      <p class="hintline">The amber dots are the four <code class="inl">anchor(side)</code> points of
+        each box. With <b>auto</b> sides, the Connector picks the nearest facing pair from the boxes'
+        relative centers — move B across A and watch the chosen sides flip.</p>
+    </div>
+  </section>
+
+  <!-- ============ REPARENT DEMO ============ -->
+  <section id="reparent">
+    <h2>Reparenting — one parent, always</h2>
+    <p class="sub">Click a container to move the Label into it. This is
+      <code class="inl">add_child()</code>: it auto-detaches from the old parent, and re-adding to the
+      current parent is a no-op.</p>
+    <div class="panel">
+      <div class="rep">
+        <div class="zone" id="zoneA"><div class="zt">Container A — click to adopt</div></div>
+        <div class="zone" id="zoneB"><div class="zt">Container B — click to adopt</div></div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div>
+          <div class="sub" style="margin-bottom:8px">Live tree</div>
+          <pre class="tree" id="repTree"></pre>
+        </div>
+        <div>
+          <div class="sub" style="margin-bottom:8px">What the model did</div>
+          <div class="replog" id="repLog"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INTERACTION MATRIX ============ -->
+  <section id="matrix">
+    <h2>How they interact</h2>
+    <p class="sub">Three relationships only: <b>contain</b>, <b>connect</b>, and <b>render</b>.</p>
+    <div class="panel" style="overflow-x:auto">
+      <table class="tbl">
+        <thead><tr><th>Element</th><th>Holds children?</th><th>Attaches to others?</th><th>Renders as</th></tr></thead>
+        <tbody>
+          <tr><td><b style="color:var(--accent)">Element</b></td><td>— (abstract)</td><td>exposes <code class="inl">anchor(side)</code></td><td>— (never drawn)</td></tr>
+          <tr><td><b style="color:var(--el-container)">Container</b></td><td>✅ any Element</td><td>via its anchors</td><td><code class="inl">&lt;div&gt;</code> box + border</td></tr>
+          <tr><td><b style="color:var(--el-window)">Window</b></td><td>✅ (it is the root)</td><td>via its anchors</td><td>full-screen <code class="inl">&lt;div&gt;</code> stage</td></tr>
+          <tr><td><b style="color:var(--el-label)">Label</b></td><td>❌ leaf</td><td>via its anchors</td><td><code class="inl">&lt;div&gt;</code> with centered text</td></tr>
+          <tr><td><b style="color:var(--el-line)">Line</b></td><td>❌ leaf</td><td>fixed points (not refs)</td><td>inline <code class="inl">&lt;svg&gt;</code> segment</td></tr>
+          <tr><td><b style="color:var(--el-connector)">Connector</b></td><td>❌ leaf</td><td>✅ binds two elements, live</td><td><code class="inl">&lt;svg&gt;</code> overlay polyline</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hintline">Constraint: a Connector and its two endpoints must share one parent (the same
+      0–100 frame) — typically siblings in one Container.</p>
+  </section>
+
+  <!-- ============ RENDER PIPELINE ============ -->
+  <section id="render">
+    <h2>From tree to file</h2>
+    <p class="sub">The elements are a pure <b>data model</b>. Rendering lives entirely in
+      <code class="inl">RenderHtml</code> — the tree never knows how it's drawn.</p>
+    <div class="flow">
+      <div class="step"><div class="t">Scene graph</div><div class="d">Window + children</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="t">Window.to_html()</div><div class="d">one call on the root</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="t">RenderHtml.to_file()</div><div class="d">stateless emitter</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="t">standalone .html</div><div class="d">divs + inline SVG</div></div>
+    </div>
+    <pre style="margin-top:18px"><span class="kw">from</span> f_gui.elements.i_2_window    <span class="kw">import</span> <span class="cls">Window</span>
+<span class="kw">from</span> f_gui.elements.i_1_container <span class="kw">import</span> <span class="cls">Container</span>
+<span class="kw">from</span> f_gui.elements.i_1_label     <span class="kw">import</span> <span class="cls">Label</span>
+<span class="kw">from</span> f_gui.elements.i_1_connector <span class="kw">import</span> <span class="cls">Connector</span>
+<span class="kw">from</span> f_ds.geometry.bounds         <span class="kw">import</span> <span class="cls">Bounds</span>
+
+win   = <span class="cls">Window</span>.Factory.<span class="fn">default</span>()
+a     = <span class="cls">Container</span>(bounds=<span class="cls">Bounds</span>(top=<span class="str">20</span>, left=<span class="str">10</span>, bottom=<span class="str">40</span>, right=<span class="str">30</span>))
+b     = <span class="cls">Container</span>(bounds=<span class="cls">Bounds</span>(top=<span class="str">60</span>, left=<span class="str">70</span>, bottom=<span class="str">80</span>, right=<span class="str">90</span>))
+link  = <span class="cls">Connector</span>(src=a, dst=b)            <span class="mut"># auto sides, arrow at dst</span>
+
+win.<span class="fn">add_child</span>(child=a); win.<span class="fn">add_child</span>(child=b); win.<span class="fn">add_child</span>(child=link)
+win.<span class="fn">to_html</span>(path=<span class="str">'/tmp/demo.html'</span>)      <span class="mut"># the whole tree follows</span></pre>
+  </section>
+
+  <!-- ============ FUN FACTS ============ -->
+  <section id="facts">
+    <h2>Why it's built this way</h2>
+    <div class="grid g3">
+      <div class="fact"><div class="fi">🌳</div><h3>Retained mode</h3>
+        <p>The scene is kept as a tree of objects you mutate — not redrawn from scratch each frame
+          (immediate mode). The same model the DOM and SVG use.</p></div>
+      <div class="fact"><div class="fi">🧩</div><h3>Composite pattern</h3>
+        <p>Container/leaf is the Gang-of-Four Composite: treat one element and a whole subtree the
+          same way through one <code class="inl">Element</code> interface.</p></div>
+      <div class="fact"><div class="fi">🧲</div><h3>Derived, never stale</h3>
+        <p>A Connector's <code class="inl">path</code> and <code class="inl">bounds</code> are computed
+          on every read from the live element bounds — so they can't drift out of sync.</p></div>
+      <div class="fact"><div class="fi">📐</div><h3>Normalized space</h3>
+        <p>0–100 relative coordinates echo SVG's <code class="inl">viewBox</code> and normalized
+          device coordinates: layout that's resolution-independent by construction.</p></div>
+      <div class="fact"><div class="fi">✂️</div><h3>Data ⟂ rendering</h3>
+        <p>The elements store structure only. Hit-testing, focus, and events are out of scope; one
+          stateless emitter turns the tree into HTML.</p></div>
+      <div class="fact"><div class="fi">📏</div><h3>Inheritance as folders</h3>
+        <p>The <code class="inl">i_X_</code> folder prefix encodes depth: <code class="inl">i_0</code>
+          base, <code class="inl">i_1</code> the family, <code class="inl">i_2</code> Window.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>📁 <code class="inl">f_gui/elements/</code> — the scene-graph element classes (data model; rendering lives in <code class="inl">f_gui.render.html</code>).</span>
+    <span>Generated 2026-06-15</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- shared geometry (mirrors the Python) ---------- */
+  const NORMAL = { TOP:[0,-1], BOTTOM:[0,1], LEFT:[-1,0], RIGHT:[1,0] };
+  const STUB = 6;
+
+  function anchor(box, side){            // mid-point of an edge, 0-100
+    const cx = (box.l + box.r) / 2, cy = (box.t + box.b) / 2;
+    switch(side){
+      case 'TOP':    return {x:cx,    y:box.t};
+      case 'BOTTOM': return {x:cx,    y:box.b};
+      case 'LEFT':   return {x:box.l, y:cy};
+      case 'RIGHT':  return {x:box.r, y:cy};
+    }
+  }
+  function autoSides(a, b){               // nearest facing sides
+    const dx = (b.l+b.r)/2 - (a.l+a.r)/2;
+    const dy = (b.t+b.b)/2 - (a.t+a.b)/2;
+    if (Math.abs(dx) >= Math.abs(dy))
+      return dx >= 0 ? ['RIGHT','LEFT'] : ['LEFT','RIGHT'];
+    return dy >= 0 ? ['BOTTOM','TOP'] : ['TOP','BOTTOM'];
+  }
+  function simplify(pts){                 // drop dup + collinear
+    const out = [pts[0]];
+    for (let i=1;i<pts.length;i++){
+      const p = pts[i], q = out[out.length-1];
+      if (p.x !== q.x || p.y !== q.y) out.push(p);
+    }
+    let i = 1;
+    while (i < out.length-1){
+      const a=out[i-1], b=out[i], c=out[i+1];
+      if ((a.x===b.x && b.x===c.x) || (a.y===b.y && b.y===c.y)) out.splice(i,1);
+      else i++;
+    }
+    return out;
+  }
+  function orthogonal(ps, ss, pd, sd){
+    const ns = NORMAL[ss], nd = NORMAL[sd];
+    const a1 = {x:ps.x+ns[0]*STUB, y:ps.y+ns[1]*STUB};
+    const b1 = {x:pd.x+nd[0]*STUB, y:pd.y+nd[1]*STUB};
+    const sh = ns[0] !== 0, dh = nd[0] !== 0;
+    let mids;
+    if (sh && dh){ const mx=(a1.x+b1.x)/2; mids=[{x:mx,y:a1.y},{x:mx,y:b1.y}]; }
+    else if (!sh && !dh){ const my=(a1.y+b1.y)/2; mids=[{x:a1.x,y:my},{x:b1.x,y:my}]; }
+    else if (sh){ mids=[{x:b1.x,y:a1.y}]; }
+    else { mids=[{x:a1.x,y:b1.y}]; }
+    return simplify([ps,a1,...mids,b1,pd]);
+  }
+  function path(a, b, routing, srcSel, dstSel){
+    let ss = srcSel==='AUTO' ? null : srcSel;
+    let ds = dstSel==='AUTO' ? null : dstSel;
+    if (ss===null || ds===null){ const [as,ad]=autoSides(a,b); ss=ss||as; ds=ds||ad; }
+    const ps = anchor(a, ss), pd = anchor(b, ds);
+    const pts = routing==='ORTHOGONAL' ? orthogonal(ps,ss,pd,ds) : [ps,pd];
+    return {pts, ss, ds};
+  }
+
+  /* ---------- playground state + wiring ---------- */
+  const stage = document.getElementById('stage');
+  const ov = document.getElementById('ov');
+  const elA = document.getElementById('boxA');
+  const elB = document.getElementById('boxB');
+  const readout = document.getElementById('readout');
+  const SVGNS = 'http://www.w3.org/2000/svg';
+
+  const A = {t:18, l:9,  b:43, r:33};
+  const B = {t:55, l:64, b:82, r:90};
+  let routing = 'DIRECT';
+
+  // arrow marker
+  const defs = ov.querySelector('defs');
+  const mk = document.createElementNS(SVGNS,'marker');
+  mk.setAttribute('id','ah'); mk.setAttribute('markerWidth','10'); mk.setAttribute('markerHeight','10');
+  mk.setAttribute('refX','8'); mk.setAttribute('refY','3'); mk.setAttribute('orient','auto');
+  mk.setAttribute('markerUnits','userSpaceOnUse');
+  const mp = document.createElementNS(SVGNS,'path');
+  mp.setAttribute('d','M0,0 L9,3 L0,6 Z'); mp.setAttribute('fill','#fbbf24');
+  mk.appendChild(mp); defs.appendChild(mk);
+
+  const poly = document.createElementNS(SVGNS,'polyline');
+  poly.setAttribute('fill','none'); poly.setAttribute('stroke','#fbbf24');
+  poly.setAttribute('stroke-width','2.5'); poly.setAttribute('stroke-linejoin','round');
+  ov.appendChild(poly);
+
+  function place(node, box){
+    node.style.left = box.l + '%'; node.style.top = box.t + '%';
+    node.style.width = (box.r-box.l) + '%'; node.style.height = (box.b-box.t) + '%';
+  }
+  function clearAnchors(){ stage.querySelectorAll('.anchor').forEach(n=>n.remove()); }
+  function drawAnchors(box){
+    ['TOP','RIGHT','BOTTOM','LEFT'].forEach(s=>{
+      const p = anchor(box, s);
+      const d = document.createElement('div');
+      d.className = 'anchor';
+      d.style.left = p.x + '%'; d.style.top = p.y + '%';
+      stage.appendChild(d);
+    });
+  }
+  function render(){
+    place(elA, A); place(elB, B);
+    const srcSel = document.getElementById('selSrc').value;
+    const dstSel = document.getElementById('selDst').value;
+    const {pts, ss, ds} = path(A, B, routing, srcSel, dstSel);
+    const W = stage.clientWidth, H = stage.clientHeight;
+    poly.setAttribute('points', pts.map(p=>`${p.x/100*W},${p.y/100*H}`).join(' '));
+    poly.setAttribute('marker-end',
+      document.getElementById('ckArrow').checked ? 'url(#ah)' : '');
+    clearAnchors();
+    if (document.getElementById('ckAnchor').checked){ drawAnchors(A); drawAnchors(B); }
+    const fmt = p => `(${p.x.toFixed(0)},${p.y.toFixed(0)})`;
+    readout.innerHTML =
+      `routing=<b>${routing}</b>  src_side=<b>${ss}</b>  dst_side=<b>${ds}</b>  `+
+      `path[<b>${pts.length}</b>] = ${pts.map(fmt).join(' → ')}`;
+  }
+
+  /* drag */
+  function makeDraggable(node, box){
+    node.addEventListener('pointerdown', e=>{
+      e.preventDefault();
+      node.setPointerCapture(e.pointerId);
+      const rect = stage.getBoundingClientRect();
+      const sx = e.clientX, sy = e.clientY;
+      const o = {...box};
+      const w = box.r-box.l, h = box.b-box.t;
+      const move = ev=>{
+        const dx = (ev.clientX - sx)/rect.width*100;
+        const dy = (ev.clientY - sy)/rect.height*100;
+        let nl = Math.min(Math.max(o.l+dx, 0), 100-w);
+        let nt = Math.min(Math.max(o.t+dy, 0), 100-h);
+        box.l = nl; box.r = nl+w; box.t = nt; box.b = nt+h;
+        render();
+      };
+      const up = ev=>{
+        node.releasePointerCapture(e.pointerId);
+        node.removeEventListener('pointermove', move);
+        node.removeEventListener('pointerup', up);
+      };
+      node.addEventListener('pointermove', move);
+      node.addEventListener('pointerup', up);
+    });
+  }
+  makeDraggable(elA, A); makeDraggable(elB, B);
+
+  // controls
+  document.querySelectorAll('#segRoute button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#segRoute button').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on'); routing = btn.dataset.v; render();
+    });
+  });
+  ['selSrc','selDst','ckAnchor','ckArrow'].forEach(id=>
+    document.getElementById(id).addEventListener('change', render));
+  window.addEventListener('resize', render);
+  render();
+
+  /* ---------- hierarchy explorer ---------- */
+  const INFO = {
+    element:   `<b style="color:var(--accent)">Element</b> — abstract base. Combines <code class="inl">HasName</code> + <code class="inl">HasParent</code>, owns <code class="inl">bounds</code> / <code class="inl">background</code> / <code class="inl">border</code>, and exposes <code class="inl">anchor(side)</code>. <code class="inl">Element()</code> raises <code class="inl">TypeError</code> via a <code class="inl">__new__</code> guard.`,
+    container: `<b style="color:var(--el-container)">Container</b> — adds <code class="inl">HasChildren</code>. <code class="inl">add_child()</code> auto-detaches a child from its old parent; re-adding to the same parent is a no-op; <code class="inl">remove_child()</code> clears the parent pointer.`,
+    window:    `<b style="color:var(--el-window)">Window</b> — the root Container. Implicit full bounds (0,0,100,100), takes no <code class="inl">bounds</code>, and adds <code class="inl">to_html()</code> — the single render entry point. The only depth-2 class.`,
+    label:     `<b style="color:var(--el-label)">Label</b> — a leaf holding <code class="inl">text</code> (a plain str). Its appearance is a separate <code class="inl">TextStyle</code>; content ⟂ presentation, just like background/border.`,
+    line:      `<b style="color:var(--el-line)">Line</b> — a leaf segment <code class="inl">p1→p2</code> in 0–100 space, with a <code class="inl">Stroke</code> and optional arrow. Renders as inline SVG; bounds = bounding box of the endpoints.`,
+    connector: `<b style="color:var(--el-connector)">Connector</b> — a leaf that references two elements and routes between their anchors (DIRECT or ORTHOGONAL). Endpoints are pulled live from their bounds, so it follows when they move.`
+  };
+  const hinfo = document.getElementById('hinfo');
+  function selectNode(k, node){
+    document.querySelectorAll('.hnode').forEach(n=>n.classList.remove('sel'));
+    node.classList.add('sel');
+    hinfo.innerHTML = INFO[k];
+  }
+  document.querySelectorAll('.hnode').forEach(n=>
+    n.addEventListener('click', ()=>selectNode(n.dataset.k, n)));
+  hinfo.innerHTML = INFO.element;
+
+  /* ---------- reparent demo ---------- */
+  const zoneA = document.getElementById('zoneA'), zoneB = document.getElementById('zoneB');
+  const repTree = document.getElementById('repTree'), repLog = document.getElementById('repLog');
+  let parent = 'A';
+  const chip = document.createElement('div');
+  chip.className = 'chip'; chip.textContent = 'Label "Hi"';
+
+  function logLine(html){
+    const d = document.createElement('div'); d.innerHTML = html;
+    repLog.prepend(d);
+  }
+  function drawTree(){
+    const inA = parent==='A', inB = parent==='B';
+    repTree.innerHTML =
+`<span class="n">Window</span>
+├─ <span class="n">Container A</span>${inA ? `
+│   └─ <span class="n">Label</span> <span class="c">"Hi"</span>` : `  <span class="c">(empty)</span>`}
+└─ <span class="n">Container B</span>${inB ? `
+    └─ <span class="n">Label</span> <span class="c">"Hi"</span>` : `  <span class="c">(empty)</span>`}`;
+  }
+  function moveTo(target){
+    if (parent === target){
+      logLine(`<span class="no">B.${target}.add_child(label) → no-op</span> (already this parent)`);
+      return;
+    }
+    const old = parent; parent = target;
+    logLine(`<span class="ok">${target}.add_child(label)</span> → detached from ${old}, parent = ${target}`);
+    paint();
+  }
+  function paint(){
+    (parent==='A' ? zoneA : zoneB).appendChild(chip);
+    drawTree();
+  }
+  zoneA.addEventListener('click', ()=>moveTo('A'));
+  zoneB.addEventListener('click', ()=>moveTo('B'));
+  paint();
+  logLine('initial: <span class="ok">A.add_child(label)</span> → parent = A');
+})();
+</script>
+</body>
+</html>

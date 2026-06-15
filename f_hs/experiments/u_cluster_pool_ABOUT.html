@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>u_cluster_pool — Candidate-Location Pool Sampler</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#30363d;
+    --ink:#e6edf3; --mut:#9aa7b4; --dim:#6e7b8a;
+    --acc:#ffb454; --acc2:#7ee787; --acc3:#d2a8ff; --blue:#4c9aff; --red:#ff5c5c;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+       line-height:1.55;font-size:15px}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px 80px}
+  code,.mono{font-family:var(--mono);font-size:.88em}
+  code{background:#0b0f14;border:1px solid var(--line);border-radius:5px;
+       padding:1px 6px;color:#cdd9e5}
+  header{padding:44px 0 24px;border-bottom:1px solid var(--line);margin-bottom:28px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+          text-transform:uppercase;color:var(--acc)}
+  h1{font-size:31px;margin:12px 0 8px;font-weight:800}
+  h1 .sub{color:var(--acc3)}
+  .lead{color:var(--mut);font-size:16px;max-width:760px}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{font-family:var(--mono);font-size:11.5px;color:var(--mut);
+        background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+  .pill b{color:var(--ink)}
+  h2{font-size:20px;margin:40px 0 6px;font-weight:750}
+  h2 .n{font-family:var(--mono);color:var(--acc);font-size:14px;margin-right:9px}
+  h3{font-size:14px;margin:20px 0 6px;color:var(--acc2);font-family:var(--mono);font-weight:600}
+  p{margin:9px 0}.muted{color:var(--mut)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card h4{margin:0 0 6px;font-size:14px}
+  .card.start{border-top:3px solid var(--blue)} .card.goal{border-top:3px solid var(--acc2)}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);font-family:var(--mono);font-size:12px;font-weight:650}
+  td.c,th.c{text-align:center}
+  tbody tr:nth-child(odd){background:#11161d}
+  ul{margin:8px 0;padding-left:20px}li{margin:5px 0}
+  figure{margin:18px 0;text-align:center}
+  figcaption{color:var(--dim);font-size:12.5px;margin-top:8px;font-family:var(--mono)}
+  pre{background:#0b0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+      overflow:auto;font-family:var(--mono);font-size:12.5px;color:#cdd9e5}
+  .box{border-radius:10px;padding:13px 16px;margin:16px 0;border:1px solid var(--line);background:var(--panel)}
+  .box.tldr{border-left:4px solid var(--acc);background:#1a1710}
+  .box.warn{border-left:4px solid #e3b341;background:#1c190f}
+  .box .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+            display:block;margin-bottom:4px;color:var(--acc)}
+  .box.warn .tag{color:#e3b341}
+  footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--line);
+         color:var(--dim);font-size:12.5px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">f_hs · experiments · u_cluster_pool</div>
+  <h1>Candidate-Location Pool Sampler<br><span class="sub">one sampler — START pool & GOAL pool are just parameters</span></h1>
+  <p class="lead">The shared, grid-based building block under every heuristic-search
+  experiment: sample random <b>ClusterDiamond</b> locations across grid maps and stream
+  their metadata to a CSV. What used to be two near-identical scripts
+  (<code>s_0_clusters_start</code>, <code>s_1_clusters_goals</code>) is one function called
+  with different parameters.</p>
+  <div class="meta">
+    <span class="pill"><b>module</b> f_hs/experiments/u_cluster_pool.py</span>
+    <span class="pill"><b>used by</b> mospp · omspp · goal_distance</span>
+    <span class="pill"><b>tests</b> 5 passing</span>
+    <span class="pill"><b>shape</b> diamond (Manhattan ball)</span>
+  </div>
+</header>
+
+<div class="box tldr">
+  <span class="tag">In one line</span>
+  Sample <code>n</code> random diamonds of radius <code>steps</code> (each with ≥
+  <code>min_cells</code> cells) per grid, and write
+  <code>domain, map, center_row, center_col, steps, cells</code> rows to a CSV on Drive.
+  <b>START pool</b> = <code>steps=0, min_cells=1</code>; <b>GOAL pool</b> =
+  <code>steps≥1, min_cells=k</code>. Same code, different params.
+</div>
+
+<!-- 1 concept -->
+<h2><span class="n">1</span>Start pool vs goal pool — the same sampler</h2>
+<div class="grid2">
+  <div class="card start"><h4>START pool · steps=0, min_cells=1</h4>
+    <p class="muted">Each "cluster" is a single cell — a candidate place a search can begin.
+    Downstream, one start is paired with one goal region.</p></div>
+  <div class="card goal"><h4>GOAL pool · steps≥1, min_cells=k</h4>
+    <p class="muted">Each cluster is a diamond region of ≥ k cells, so k goals can be drawn
+    from it later. Radius (<code>steps</code>) controls how spread the goals can be.</p></div>
+</div>
+
+<figure>
+<svg viewBox="0 0 720 230" role="img" aria-label="Start cells vs goal regions on a grid">
+  <rect x="0" y="0" width="720" height="230" fill="#11161d" rx="10"/>
+  <!-- left grid: start cells -->
+  <g transform="translate(40,30)">
+    <text x="140" y="-8" fill="#4c9aff" font-size="12" text-anchor="middle" font-family="monospace">START pool — single cells (steps=0)</text>
+    <g stroke="#30363d" stroke-width="1">
+      <!-- 7x5 grid -->
+      <g fill="#161b22">
+        <!-- draw cells -->
+      </g>
+    </g>
+    <!-- grid lines -->
+    <g stroke="#262d36">
+      <line x1="0" y1="0" x2="280" y2="0"/><line x1="0" y1="40" x2="280" y2="40"/>
+      <line x1="0" y1="80" x2="280" y2="80"/><line x1="0" y1="120" x2="280" y2="120"/>
+      <line x1="0" y1="160" x2="280" y2="160"/>
+      <line x1="0" y1="0" x2="0" y2="160"/><line x1="40" y1="0" x2="40" y2="160"/>
+      <line x1="80" y1="0" x2="80" y2="160"/><line x1="120" y1="0" x2="120" y2="160"/>
+      <line x1="160" y1="0" x2="160" y2="160"/><line x1="200" y1="0" x2="200" y2="160"/>
+      <line x1="240" y1="0" x2="240" y2="160"/><line x1="280" y1="0" x2="280" y2="160"/>
+    </g>
+    <!-- sampled single cells -->
+    <g fill="#4c9aff">
+      <rect x="42" y="42" width="36" height="36" rx="3"/>
+      <rect x="162" y="2" width="36" height="36" rx="3"/>
+      <rect x="2" y="122" width="36" height="36" rx="3"/>
+      <rect x="242" y="82" width="36" height="36" rx="3"/>
+    </g>
+  </g>
+  <!-- right grid: goal regions -->
+  <g transform="translate(400,30)">
+    <text x="140" y="-8" fill="#7ee787" font-size="12" text-anchor="middle" font-family="monospace">GOAL pool — diamond regions (steps≥1)</text>
+    <g stroke="#262d36">
+      <line x1="0" y1="0" x2="280" y2="0"/><line x1="0" y1="40" x2="280" y2="40"/>
+      <line x1="0" y1="80" x2="280" y2="80"/><line x1="0" y1="120" x2="280" y2="120"/>
+      <line x1="0" y1="160" x2="280" y2="160"/>
+      <line x1="0" y1="0" x2="0" y2="160"/><line x1="40" y1="0" x2="40" y2="160"/>
+      <line x1="80" y1="0" x2="80" y2="160"/><line x1="120" y1="0" x2="120" y2="160"/>
+      <line x1="160" y1="0" x2="160" y2="160"/><line x1="200" y1="0" x2="200" y2="160"/>
+      <line x1="240" y1="0" x2="240" y2="160"/><line x1="280" y1="0" x2="280" y2="160"/>
+    </g>
+    <!-- diamond region (steps=2 ish) around (2,3) -->
+    <g fill="#7ee787" opacity="0.85">
+      <rect x="122" y="42" width="36" height="36" rx="3"/>
+      <rect x="82" y="82" width="36" height="36" rx="3"/><rect x="122" y="82" width="36" height="36" rx="3"/><rect x="162" y="82" width="36" height="36" rx="3"/>
+      <rect x="42" y="122" width="36" height="36" rx="3"/><rect x="82" y="122" width="36" height="36" rx="3"/><rect x="122" y="122" width="36" height="36" rx="3"/><rect x="162" y="122" width="36" height="36" rx="3"/><rect x="202" y="122" width="36" height="36" rx="3"/>
+    </g>
+    <circle cx="140" cy="140" r="6" fill="#ffb454"/>
+  </g>
+</svg>
+<figcaption>Left: 4 sampled start cells. Right: one sampled goal region (diamond) with its center (amber). Same sampler, different (steps, min_cells).</figcaption>
+</figure>
+
+<!-- 2 api -->
+<h2><span class="n">2</span>API — two entry points</h2>
+<table>
+<thead><tr><th>Function</th><th>Role</th><th>Drive?</th></tr></thead>
+<tbody>
+  <tr><td><code>sample_pool(grids, steps, min_cells, n, max_tries)</code></td>
+      <td>pure core — <b>yields</b> one metadata-row dict per sampled cluster</td><td class="c">no</td></tr>
+  <tr><td><code>generate_pool_csv(path_grids_pkl, path_csv, steps, min_cells, n, seed, max_tries, drive)</code></td>
+      <td>orchestration — <code>drive.read_pickle</code> grids → sample → <code>drive.upload_rows</code> CSV</td><td class="c">yes</td></tr>
+</tbody>
+</table>
+<p class="muted">Pure logic (<code>sample_pool</code>) is separated from Drive I/O
+(<code>generate_pool_csv</code>) so the core is unit-testable on an in-memory grid and the
+per-experiment <code>s_N</code> wrappers stay one call long. The generic Drive plumbing
+(pickle / CSV / temp-files) now lives on the <b>Drive</b> facade —
+<code>read_pickle</code> / <code>upload_pickle</code> / <code>upload_rows</code> — so it is
+shared by every experiment script, not re-implemented here.</p>
+
+<h3>Thin wrapper (omspp/s_0)</h3>
+<pre>from f_hs.experiments.u_cluster_pool import generate_pool_csv
+
+generate_pool_csv(
+    path_drive_grids_pkl='Experiments/Grids/grids.pkl',
+    path_drive_csv='Experiments/OMSPP/i_0_clusters_start.csv',
+    steps=0, min_cells=1, n=100, seed=0)        # START pool</pre>
+<p class="muted">s_1 is the same call with <code>steps=20, min_cells=200, max_tries=10_000</code>
+and the goals CSV path — that's the only difference.</p>
+
+<!-- 3 params -->
+<h2><span class="n">3</span>Parameters</h2>
+<table>
+<thead><tr><th>Param</th><th>Meaning</th><th>START</th><th>GOAL</th></tr></thead>
+<tbody>
+  <tr><td><code>steps</code></td><td>diamond radius (Manhattan)</td><td class="c">0</td><td class="c">20</td></tr>
+  <tr><td><code>min_cells</code></td><td>floor on cluster size (resample until met)</td><td class="c">1</td><td class="c">200</td></tr>
+  <tr><td><code>n</code></td><td>samples per grid</td><td class="c">100</td><td class="c">100</td></tr>
+  <tr><td><code>max_tries</code></td><td>resample attempts before skipping a sample</td><td class="c">100</td><td class="c">10 000</td></tr>
+  <tr><td><code>seed</code></td><td>reproducible pool (seeds global RNG)</td><td class="c">0</td><td class="c">0</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+  <span class="tag">⚠ Reproducibility & re-runs</span>
+  Sampling uses the <b>process-global</b> <code>random</code> module
+  (<code>GridMap.random.cells</code> → <code>random.sample</code>), so <code>seed</code>
+  calls <code>random.seed</code>. Re-running a seeded wrapper <b>regenerates the pool</b> and
+  would cascade to the downstream pinned artifacts (<code>i_2</code> pairs / <code>i_3</code>
+  problems). Re-run only to deliberately regenerate the whole pipeline.
+</div>
+
+<!-- 4 pipeline -->
+<h2><span class="n">4</span>Where it sits</h2>
+<figure>
+<svg viewBox="0 0 720 110" role="img" aria-label="pipeline position">
+  <rect x="0" y="0" width="720" height="110" fill="#11161d" rx="10"/>
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6e7b8a"/></marker></defs>
+  <g font-family="monospace" font-size="11">
+    <rect x="14" y="40" width="150" height="40" rx="7" fill="#1a1710" stroke="#ffb454"/>
+    <text x="89" y="58" fill="#ffb454" text-anchor="middle" font-weight="bold">u_cluster_pool</text>
+    <text x="89" y="72" fill="#6e7b8a" text-anchor="middle">START + GOAL pools</text>
+    <rect x="210" y="40" width="120" height="40" rx="7" fill="#161b22" stroke="#30363d"/>
+    <text x="270" y="64" fill="#9aa7b4" text-anchor="middle">s_2 pairs</text>
+    <rect x="376" y="40" width="120" height="40" rx="7" fill="#161b22" stroke="#30363d"/>
+    <text x="436" y="64" fill="#9aa7b4" text-anchor="middle">s_3 problems</text>
+    <rect x="542" y="40" width="160" height="40" rx="7" fill="#161b22" stroke="#30363d"/>
+    <text x="622" y="64" fill="#9aa7b4" text-anchor="middle">s_4/s_5 run algos</text>
+  </g>
+  <g stroke="#6e7b8a" stroke-width="1.5" fill="none">
+    <line x1="164" y1="60" x2="208" y2="60" marker-end="url(#a)"/>
+    <line x1="330" y1="60" x2="374" y2="60" marker-end="url(#a)"/>
+    <line x1="496" y1="60" x2="540" y2="60" marker-end="url(#a)"/>
+  </g>
+</svg>
+<figcaption>Step 0 of every grid pipeline: build the candidate-location pools that s_2 pairs and s_3 turns into problems.</figcaption>
+</figure>
+<p class="muted">Scope: grid-map experiments only. Puzzle / road-network benchmarks would
+need their own pool samplers — this one is intentionally grid-specific.</p>
+
+<footer>
+  f_hs/experiments/u_cluster_pool · ABOUT.html · 2026-06-15 ·
+  pure sampler + Drive orchestration + shared loader · tests:
+  <code>python -m pytest f_hs/experiments/_tester_cluster_pool.py -q</code>
+</footer>
+
+</div>
+</body>
+</html>

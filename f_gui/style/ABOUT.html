@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>f_gui.style — The Styling Vocabulary, Live</title>
+<style>
+/* ============================================================
+   Shared ABOUT.html dark theme  —  f_gui.style
+   ============================================================ */
+:root{
+  --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+  --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+  --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --code-bg:#0a1220; --radius:14px; --maxw:1080px;
+  --el-window:#ff8c42; --el-container:#58a6ff; --el-label:#bc8cff;
+  --el-line:#34d399; --el-connector:#fbbf24;
+  --st-stroke:#34d399; --st-border:#ff8c42; --st-text:#bc8cff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);
+  background:radial-gradient(1100px 560px at 72% -10%,#16223a 0%,var(--bg) 55%);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 90px}
+.hero{padding:74px 0 30px;text-align:center}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+  margin-bottom:20px;background:rgba(167,139,250,.08)}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;margin:.15em 0;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.14rem;color:var(--muted);max-width:680px;margin:14px auto 0}
+section{margin-top:62px}
+h2{font-size:1.65rem;font-weight:750;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--faint);margin:0 0 22px}
+.analogy{display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+  border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px}
+.analogy .emoji{font-size:2rem;line-height:1}
+.analogy p{margin:0;color:var(--muted)} .analogy b{color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card .ico{font-size:1.6rem}
+.card h3{margin:.5em 0 .3em;font-size:1.04rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  overflow:auto;font:13.5px/1.6 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#dbe7ff}
+pre .cls{color:#7dd3fc;font-weight:600}
+pre .tag{color:var(--accent2)} pre .mut{color:var(--faint)}
+pre .kw{color:#fca5a5} pre .str{color:#86efac} pre .fn{color:#fbbf24}
+code.inl{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.85em;color:#cfe3ff}
+.module{border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px 22px;
+  background:linear-gradient(180deg,rgba(96,165,250,.07),transparent)}
+.badge{display:inline-block;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--border);color:var(--muted)}
+.badge.accent{color:var(--accent);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
+.badge.good{color:var(--good);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.badge.v2{color:var(--accent2);border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.08)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.rules li{counter-increment:r;position:relative;padding:12px 16px 12px 54px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;color:var(--muted)}
+ol.rules li::before{content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(96,165,250,.15);
+  color:var(--accent);font-weight:700;font-size:.85rem;border:1px solid rgba(96,165,250,.4)}
+ol.rules li b{color:var(--text)}
+.fact{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.fact .fi{font-size:1.5rem}
+.fact h3{margin:.4em 0 .3em;font-size:1rem}
+.fact p{margin:0;color:var(--muted);font-size:.9rem}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.flow .step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+  text-align:center;min-width:120px}
+.flow .step .t{font-weight:700} .flow .step .d{font-size:.82rem;color:var(--faint)}
+.flow .arr{color:var(--accent);font-size:1.5rem}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+table.tbl th{color:var(--faint);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td{color:var(--muted)} table.tbl td b{color:var(--text)}
+.tree{font:13.5px/1.7 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.tree .n{color:#7dd3fc;font-weight:600} .tree .c{color:var(--faint)}
+footer{margin-top:78px;border-top:1px solid var(--border);padding-top:22px;color:var(--faint);
+  font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+a{color:var(--accent)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}.flow{flex-direction:column}.flow .arr{transform:rotate(90deg)}}
+
+/* ============================================================
+   Interactive-only styles (this overview page)
+   ============================================================ */
+a.cast{display:block;text-decoration:none;color:inherit;border:1px solid var(--border);
+  border-top:3px solid var(--cc,var(--accent));border-radius:var(--radius);padding:16px 18px;
+  background:var(--panel);transition:transform .12s ease,border-color .12s ease,background .12s ease}
+a.cast:hover{transform:translateY(-3px);background:#16203a}
+a.cast .nm{font-weight:750;font-size:1.06rem;color:var(--cc)}
+a.cast .dep{float:right;font-size:.72rem;color:var(--faint);border:1px solid var(--border);border-radius:999px;padding:1px 8px}
+a.cast .ds{margin:.5em 0 0;color:var(--muted);font-size:.9rem}
+a.cast .open{margin-top:10px;font-size:.8rem;color:var(--accent)}
+
+.lab{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);margin-bottom:6px}
+.row{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;margin-bottom:18px}
+.ctl{display:flex;flex-direction:column}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:9px;overflow:hidden}
+.seg button{background:var(--panel);color:var(--muted);border:0;padding:6px 12px;cursor:pointer;font:inherit;font-size:.84rem;border-right:1px solid var(--border)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--accent);color:#06101f;font-weight:700}
+select.mini,input[type=range]{accent-color:var(--accent)}
+select.mini{background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:6px 10px;font:inherit;font-size:.84rem}
+input[type=range]{width:150px}
+input[type=color]{width:46px;height:34px;border:1px solid var(--border);border-radius:8px;background:var(--panel);padding:2px;cursor:pointer}
+.toggle{display:inline-flex;align-items:center;gap:7px;font-size:.86rem;color:var(--muted);cursor:pointer;user-select:none;border:1px solid var(--border);border-radius:9px;padding:6px 11px;background:var(--panel)}
+.toggle input{accent-color:var(--accent)}
+.valbubble{font:600 12px ui-monospace,monospace;color:var(--accent);margin-left:8px}
+.stagebox{background:#0d1117;border:1px solid var(--border);border-radius:10px;min-height:120px;
+  display:flex;align-items:center;justify-content:center;padding:18px;overflow:hidden}
+.emit{margin-top:14px;font:12.5px/1.65 ui-monospace,monospace;color:var(--muted);
+  background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;white-space:pre-wrap}
+.emit b{color:var(--good)} .emit .k{color:#7dd3fc}
+.previewbox{width:150px;height:96px;border-radius:6px;background:rgba(255,255,255,.03)}
+.demoTxt{font-size:22px}
+.lay{font:13.5px/1.85 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.lay .pk{color:var(--st-stroke);font-weight:700}
+.lay .im{color:var(--el-connector)}
+.verdict{border-left:4px solid var(--good);background:rgba(52,211,153,.07);border-radius:0 12px 12px 0;padding:14px 18px;margin-bottom:16px}
+.verdict b{color:var(--good)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <span class="kicker">f_gui · style</span>
+    <h1>The Styling Vocabulary,<br><span class="grad">Live</span></h1>
+    <p class="tagline">Four pure <b>value objects</b> describe how the GUI looks — a
+      <b>Stroke</b> (and its <b>LineStyle</b>), a <b>Border</b> of four edge Strokes, and a
+      <b>TextStyle</b>. No geometry, no nodes, no rendering — just appearance, attached to
+      elements and read by the renderer. Tune them below and watch the emitted CSS.</p>
+  </header>
+
+  <!-- ============ THE CAST ============ -->
+  <section id="cast">
+    <h2>The cast — four value objects</h2>
+    <p class="sub">Each card opens that module's own explainer. <code class="inl">LineStyle</code>
+      lives inside the <code class="inl">stroke</code> module (shared by lines and borders).</p>
+    <div class="grid g4">
+      <a class="cast" href="stroke/ABOUT.html" style="--cc:var(--st-stroke)">
+        <span class="nm">Stroke</span><span class="dep">stroke</span>
+        <p class="ds">(color, width, style) — the look of a line, reused as a Border edge.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+      <a class="cast" href="stroke/ABOUT.html" style="--cc:var(--st-stroke)">
+        <span class="nm">LineStyle</span><span class="dep">stroke · enum</span>
+        <p class="ds">SOLID / DASHED / DOTTED — values are the exact CSS keywords.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+      <a class="cast" href="border/ABOUT.html" style="--cc:var(--st-border)">
+        <span class="nm">Border</span><span class="dep">border</span>
+        <p class="ds">Up to four edge Strokes (T/L/B/R), each optional. Element state.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+      <a class="cast" href="text/ABOUT.html" style="--cc:var(--st-text)">
+        <span class="nm">TextStyle</span><span class="dep">text</span>
+        <p class="ds">(font, size, bold, color) — how a Label's text looks.</p>
+        <div class="open">Open explainer →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ REUSE STORY ============ -->
+  <section id="reuse">
+    <h2>The reuse story — one Stroke, many users</h2>
+    <p class="sub">The whole package exists so the <code class="inl">(color, width, style)</code>
+      triple is defined <b>exactly once</b>.</p>
+    <div class="analogy">
+      <div class="emoji">🖊️</div>
+      <p>A <b>Stroke</b> is a pen-tip setting. A <b>Line</b> is that pen plus two endpoints and an
+        arrow. A <b>Border</b> is just four of those pens, one per edge. Define the triple once;
+        lines and borders both borrow it — no duplicated color/width/style.</p>
+    </div>
+    <div class="flow" style="margin-top:18px">
+      <div class="step" style="border-color:var(--st-stroke)"><div class="t" style="color:var(--st-stroke)">Stroke</div><div class="d">(color, width, style)</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="t">Line</div><div class="d">Stroke + p1→p2 + arrow</div></div>
+      <span style="width:24px"></span>
+      <div class="step" style="border-color:var(--st-border)"><div class="t" style="color:var(--st-border)">Border</div><div class="d">{T,L,B,R} : Stroke?</div></div>
+    </div>
+  </section>
+
+  <!-- ============ STROKE PLAYGROUND ============ -->
+  <section id="stroke">
+    <h2>Stroke playground</h2>
+    <p class="sub">One Stroke, two renderings: an <b>SVG stroke</b> on a Line, and a
+      <b>CSS border</b> on a box. Same triple — the renderer maps it with zero translation.</p>
+    <div class="panel">
+      <div class="row">
+        <div class="ctl"><span class="lab">style (LineStyle)</span>
+          <div class="seg" id="skStyle">
+            <button data-v="SOLID" class="on">SOLID</button>
+            <button data-v="DASHED">DASHED</button>
+            <button data-v="DOTTED">DOTTED</button>
+          </div>
+        </div>
+        <div class="ctl"><span class="lab">width <span class="valbubble" id="skWv">2px</span></span>
+          <input type="range" id="skW" min="1" max="8" step="0.5" value="2"></div>
+        <div class="ctl"><span class="lab">color</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="color" id="skC" value="#34d399">
+            <label class="toggle"><input type="checkbox" id="skAuto"> color=None (default)</label>
+          </div>
+        </div>
+      </div>
+      <div class="grid g2">
+        <div>
+          <span class="lab">as a Line → inline SVG</span>
+          <div class="stagebox"><svg width="100%" height="70" id="skSvg" preserveAspectRatio="none"></svg></div>
+        </div>
+        <div>
+          <span class="lab">as a Border edge → CSS box</span>
+          <div class="stagebox"><div class="previewbox" id="skBox"></div></div>
+        </div>
+      </div>
+      <div class="emit" id="skEmit"></div>
+    </div>
+  </section>
+
+  <!-- ============ BORDER COMPOSER ============ -->
+  <section id="border">
+    <h2>Border composer</h2>
+    <p class="sub">A Border is four independent Strokes. Toggle sides on/off — each set side emits one
+      <code class="inl">border-{side}</code> declaration; unset sides emit nothing.</p>
+    <div class="panel">
+      <div class="row">
+        <div class="ctl"><span class="lab">edges</span>
+          <div style="display:flex;gap:8px">
+            <label class="toggle"><input type="checkbox" id="bT" checked> top</label>
+            <label class="toggle"><input type="checkbox" id="bR"> right</label>
+            <label class="toggle"><input type="checkbox" id="bB" checked> bottom</label>
+            <label class="toggle"><input type="checkbox" id="bL"> left</label>
+          </div>
+        </div>
+        <div class="ctl"><span class="lab">edge style</span>
+          <div class="seg" id="bdStyle">
+            <button data-v="SOLID" class="on">SOLID</button>
+            <button data-v="DASHED">DASHED</button>
+            <button data-v="DOTTED">DOTTED</button>
+          </div>
+        </div>
+        <div class="ctl"><span class="lab">width <span class="valbubble" id="bdWv">3px</span></span>
+          <input type="range" id="bdW" min="1" max="8" step="1" value="3"></div>
+        <div class="ctl"><span class="lab">color</span><input type="color" id="bdC" value="#ff8c42"></div>
+      </div>
+      <div class="stagebox" style="min-height:150px">
+        <div id="bdBox" style="width:200px;height:110px;border-radius:6px;background:rgba(255,255,255,.03);
+          display:flex;align-items:center;justify-content:center;color:var(--faint);font:600 12px ui-monospace,monospace">box</div>
+      </div>
+      <div class="emit" id="bdEmit"></div>
+    </div>
+  </section>
+
+  <!-- ============ TEXTSTYLE PLAYGROUND ============ -->
+  <section id="text">
+    <h2>TextStyle playground</h2>
+    <p class="sub">Presentation, separate from content. Note the <b>three-state color</b>: omitted →
+      <b>black</b>, <code class="inl">color=None</code> → inherit, an explicit color → that color.</p>
+    <div class="panel">
+      <div class="row">
+        <div class="ctl"><span class="lab">presets</span>
+          <div class="seg" id="txPreset">
+            <button data-p="default">default()</button>
+            <button data-p="title">title()</button>
+            <button data-p="body">body()</button>
+            <button data-p="code">code()</button>
+          </div>
+        </div>
+        <div class="ctl"><span class="lab">font</span>
+          <select class="mini" id="txFont">
+            <option>monospace</option><option>sans-serif</option><option>serif</option>
+            <option>cursive</option><option>fantasy</option>
+          </select>
+        </div>
+        <div class="ctl"><span class="lab">size <span class="valbubble" id="txSv">12px</span></span>
+          <input type="range" id="txS" min="8" max="40" step="1" value="12"></div>
+        <div class="ctl"><span class="lab">weight</span>
+          <label class="toggle"><input type="checkbox" id="txB"> bold</label></div>
+        <div class="ctl"><span class="lab">color</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="seg" id="txCmode">
+              <button data-m="black" class="on">black</button>
+              <button data-m="custom">custom</button>
+              <button data-m="none">None</button>
+            </div>
+            <input type="color" id="txC" value="#bc8cff" disabled>
+          </div>
+        </div>
+      </div>
+      <div class="stagebox" style="min-height:120px"><span class="demoTxt" id="txDemo">The quick brown fox</span></div>
+      <div class="emit" id="txEmit"></div>
+    </div>
+  </section>
+
+  <!-- ============ RENDERING MAP ============ -->
+  <section id="map">
+    <h2>The rendering map</h2>
+    <p class="sub">The style objects store appearance only. <code class="inl">RenderHtml</code> turns
+      each into CSS or SVG — and imports no style type (it duck-types).</p>
+    <div class="panel" style="overflow-x:auto">
+      <table class="tbl">
+        <thead><tr><th>Model</th><th>Becomes</th></tr></thead>
+        <tbody>
+          <tr><td><b style="color:var(--st-stroke)">Stroke</b> on a Border edge</td><td><code class="inl">border-{side}: {width}px {style} {color}</code></td></tr>
+          <tr><td><b style="color:var(--st-stroke)">Stroke</b> on a Line</td><td>SVG <code class="inl">stroke</code> / <code class="inl">stroke-width</code> / <code class="inl">stroke-dasharray</code></td></tr>
+          <tr><td><b>LineStyle.*</b></td><td>CSS <code class="inl">border-style</code> keyword / SVG dash pattern</td></tr>
+          <tr><td><b style="color:var(--st-text)">TextStyle</b> on a Label</td><td><code class="inl">font-family</code> / <code class="inl">font-size</code> / <code class="inl">font-weight</code> / <code class="inl">color</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ WHERE IT LIVES (LAYERING ANSWER) ============ -->
+  <section id="layer">
+    <h2>Where does <code class="inl">style</code> belong?</h2>
+    <p class="sub">A natural question: should this sit under <code class="inl">elements/</code>, since
+      elements use it? The dependency graph answers it.</p>
+    <div class="verdict">
+      <b>Verdict: keep <code class="inl">f_gui/style/</code> as a peer of <code class="inl">elements/</code>
+      and <code class="inl">render/</code> — do not nest it under elements.</b> Style is a dependency of
+      elements, not a part of them, and it is already used outside the element context.
+    </div>
+    <div class="panel">
+      <div class="lay">f_gui/
+├── <span class="pk">style/</span>     <span class="c">← value objects (Stroke, LineStyle, Border, TextStyle)</span>
+├── elements/  <span class="im">── imports ──▶</span> <span class="pk">style</span>
+└── render/    <span class="im">── imports ──▶</span> <span class="pk">style</span>
+f_quiz/        <span class="im">── imports ──▶</span> <span class="pk">style</span>   <span class="c">(a different top-level module!)</span></div>
+    </div>
+    <ol class="rules" style="margin-top:16px">
+      <li><b>One-way dependency.</b> elements→style, render→style, f_quiz→style. Style imports nothing back — nesting it inside a consumer inverts the layering.</li>
+      <li><b>Used outside elements.</b> The renderer (<code class="inl">f_gui/render/html</code>) and a different top-level module (<code class="inl">f_quiz/question_diagram</code>) both consume style without any Element.</li>
+      <li><b>Repo precedent.</b> The other primitives elements depend on — <code class="inl">f_ds.geometry</code> (Bounds/Point/Side) — live in their own layer, not under <code class="inl">elements</code>.</li>
+      <li><b>Future caveat.</b> If a non-GUI consumer ever appears, promote it to a top-level <code class="inl">f_style</code>. Until then that's YAGNI — <code class="inl">f_gui/style</code> is the right altitude.</li>
+    </ol>
+  </section>
+
+  <!-- ============ FUN FACTS ============ -->
+  <section id="facts">
+    <h2>Why it's built this way</h2>
+    <div class="grid g3">
+      <div class="fact"><div class="fi">♻️</div><h3>Value objects</h3>
+        <p>Small immutable bundles of data, shared by reference — define the
+          <code class="inl">(color,width,style)</code> triple once, reuse it everywhere.</p></div>
+      <div class="fact"><div class="fi">🎯</div><h3>Zero-translation enums</h3>
+        <p><code class="inl">LineStyle</code> stores the literal CSS keywords
+          <code class="inl">solid/dashed/dotted</code>, so the renderer maps them with no lookup.</p></div>
+      <div class="fact"><div class="fi">✂️</div><h3>Data ⟂ rendering</h3>
+        <p>Style stores appearance; the stateless <code class="inl">RenderHtml</code> turns it into
+          CSS/SVG and imports no style type — it duck-types the values.</p></div>
+      <div class="fact"><div class="fi">🧱</div><h3>Composition</h3>
+        <p>A <code class="inl">Border</code> isn't a new primitive — it's literally four
+          <code class="inl">Stroke</code>s grouped, one per edge.</p></div>
+      <div class="fact"><div class="fi">🎨</div><h3>Content ⟂ presentation</h3>
+        <p><code class="inl">TextStyle</code> is the CSS idea (since 1996): keep the words on the Label,
+          keep the look in a separate, reusable object.</p></div>
+      <div class="fact"><div class="fi">🕳️</div><h3>The sentinel trick</h3>
+        <p>TextStyle's color has three states — omitted→black, None→inherit, RGB→that — so it needs a
+          sentinel, since Python can't tell "not passed" from "passed None".</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>📁 <code class="inl">f_gui/style/</code> — appearance value objects (Stroke · LineStyle · Border · TextStyle); rendering lives in <code class="inl">f_gui.render.html</code>.</span>
+    <span>Generated 2026-06-15</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  // dash pattern (SVG) per LineStyle, scaled to width
+  function dashArray(style, w){
+    if (style === 'DASHED') return `${(w*3).toFixed(1)} ${(w*2).toFixed(1)}`;
+    if (style === 'DOTTED') return `0.1 ${(w*2).toFixed(1)}`;
+    return '';   // SOLID
+  }
+  function cssKeyword(style){ return style.toLowerCase(); }   // values ARE the CSS keywords
+  function seg(rootId, onPick){
+    document.querySelectorAll('#'+rootId+' button').forEach(b=>
+      b.addEventListener('click', ()=>{
+        document.querySelectorAll('#'+rootId+' button').forEach(x=>x.classList.remove('on'));
+        b.classList.add('on'); onPick(b.dataset.v);
+      }));
+  }
+
+  /* ---------------- Stroke playground ---------------- */
+  const sk = {style:'SOLID', width:2, color:'#34d399', auto:false};
+  function skRender(){
+    const w = sk.width, kw = cssKeyword(sk.style);
+    const col = sk.auto ? '#9fb0c3' : sk.color;
+    const colStr = sk.auto ? 'default' : sk.color.toUpperCase();
+    // SVG line
+    const svg = $('skSvg'); svg.innerHTML='';
+    const ln = document.createElementNS(SVGNS,'line');
+    ln.setAttribute('x1','4%'); ln.setAttribute('y1','50%');
+    ln.setAttribute('x2','96%'); ln.setAttribute('y2','50%');
+    ln.setAttribute('stroke', col); ln.setAttribute('stroke-width', w);
+    const da = dashArray(sk.style, w);
+    if (da){ ln.setAttribute('stroke-dasharray', da);
+             if (sk.style==='DOTTED') ln.setAttribute('stroke-linecap','round'); }
+    svg.appendChild(ln);
+    // CSS border box
+    $('skBox').style.border = `${w}px ${kw} ${col}`;
+    // emitted
+    const svgEmit = `<span class="k">&lt;line&gt;</span> stroke="${colStr==='default'?'(renderer default)':col}" `+
+                    `stroke-width="${w}"${da?` stroke-dasharray="${da}"`:''}`;
+    $('skEmit').innerHTML =
+      `<b>Stroke(width=${w}, style=LineStyle.${sk.style}${sk.auto?'':`, color=RGB('${col}')`}${sk.auto?', color=None':''})</b>\n`+
+      `str   →  (${w}px ${kw} ${colStr})\n`+
+      `Line  →  ${svgEmit}\n`+
+      `Border→  border-top: ${w}px ${kw} ${colStr};`;
+  }
+  seg('skStyle', v=>{sk.style=v; skRender();});
+  $('skW').addEventListener('input', e=>{sk.width=parseFloat(e.target.value); $('skWv').textContent=sk.width+'px'; skRender();});
+  $('skC').addEventListener('input', e=>{sk.color=e.target.value; skRender();});
+  $('skAuto').addEventListener('change', e=>{sk.auto=e.target.checked; $('skC').disabled=sk.auto; skRender();});
+  skRender();
+
+  /* ---------------- Border composer ---------------- */
+  const bd = {style:'SOLID', width:3, color:'#ff8c42'};
+  const SIDES = [['bT','top'],['bR','right'],['bB','bottom'],['bL','left']];
+  function bdRender(){
+    const box = $('bdBox'); const kw = cssKeyword(bd.style);
+    const decls = [];
+    ['top','right','bottom','left'].forEach(s=> box.style['border-'+s]='none');
+    SIDES.forEach(([id,side])=>{
+      if ($(id).checked){
+        const v = `${bd.width}px ${kw} ${bd.color}`;
+        box.style['border-'+side]=v;
+        decls.push(`border-${side}: ${bd.width}px ${kw} ${bd.color.toUpperCase()};`);
+      }
+    });
+    const tag = s => $('b'+s).checked ? `${s}=(${bd.width}px ${kw} ${bd.color.toUpperCase()})` : null;
+    const parts = [tag('T'),tag('L'),tag('B'),tag('R')].filter(Boolean);
+    $('bdEmit').innerHTML =
+      `<b>str → ${parts.length? 'Border['+parts.join(', ')+']' : 'Border[]'}</b>\n`+
+      (decls.length ? decls.join('\n') : '(no edges set → emits nothing)');
+  }
+  seg('bdStyle', v=>{bd.style=v; bdRender();});
+  $('bdW').addEventListener('input', e=>{bd.width=parseInt(e.target.value); $('bdWv').textContent=bd.width+'px'; bdRender();});
+  $('bdC').addEventListener('input', e=>{bd.color=e.target.value; bdRender();});
+  SIDES.forEach(([id])=> $(id).addEventListener('change', bdRender));
+  bdRender();
+
+  /* ---------------- TextStyle playground ---------------- */
+  const tx = {font:'monospace', size:12, bold:false, cmode:'black', color:'#bc8cff'};
+  const PRESETS = {
+    default:{font:'monospace', size:12, bold:false, cmode:'black'},
+    title:  {font:'monospace', size:18, bold:true,  cmode:'black'},
+    body:   {font:'sans-serif',size:14, bold:false, cmode:'black'},
+    code:   {font:'monospace', size:12, bold:false, cmode:'black'}
+  };
+  function txColorValues(){
+    if (tx.cmode==='black') return {css:'#000000', str:'black(0, 0, 0)'};
+    if (tx.cmode==='none')  return {css:null,       str:'inherit'};
+    return {css:tx.color, str:tx.color.toUpperCase()};
+  }
+  function txRender(){
+    const d = $('txDemo'); const {css,str} = txColorValues();
+    d.style.fontFamily = tx.font;
+    d.style.fontSize = tx.size+'px';
+    d.style.fontWeight = tx.bold ? 'bold' : 'normal';
+    d.style.color = (css===null) ? 'var(--text)' : css;   // None → inherit page color
+    const weight = tx.bold ? 'bold' : 'normal';
+    const lines = [
+      `font-family:${tx.font};`,
+      `font-size:${tx.size}px;`,
+      ...(tx.bold ? ['font-weight:bold;'] : []),
+      ...(css===null ? ['/* color omitted → inherit page color */'] : [`color:${css};`])
+    ];
+    $('txEmit').innerHTML =
+      `<b>str → (${tx.font} ${tx.size}px ${weight} ${str})</b>\n` + lines.join('\n');
+  }
+  function txSync(){
+    $('txFont').value=tx.font; $('txS').value=tx.size; $('txSv').textContent=tx.size+'px';
+    $('txB').checked=tx.bold;
+    document.querySelectorAll('#txCmode button').forEach(b=>b.classList.toggle('on', b.dataset.m===tx.cmode));
+    $('txC').disabled = tx.cmode!=='custom';
+  }
+  document.querySelectorAll('#txPreset button').forEach(b=>
+    b.addEventListener('click', ()=>{ Object.assign(tx, PRESETS[b.dataset.p]); txSync(); txRender(); }));
+  $('txFont').addEventListener('change', e=>{tx.font=e.target.value; txRender();});
+  $('txS').addEventListener('input', e=>{tx.size=parseInt(e.target.value); $('txSv').textContent=tx.size+'px'; txRender();});
+  $('txB').addEventListener('change', e=>{tx.bold=e.target.checked; txRender();});
+  document.querySelectorAll('#txCmode button').forEach(b=>
+    b.addEventListener('click', ()=>{ tx.cmode=b.dataset.m; txSync(); txRender(); }));
+  $('txC').addEventListener('input', e=>{tx.color=e.target.value; txRender();});
+  txSync(); txRender();
+})();
+</script>
+</body>
+</html>

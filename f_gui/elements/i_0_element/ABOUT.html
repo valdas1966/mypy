@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is an Element? · f_gui.elements.i_0_element</title>
+<style>
+/* ============================================================
+   Shared ABOUT.html dark theme  —  f_gui.elements
+   Paste verbatim inside a <style> tag. Do not edit tokens.
+   ============================================================ */
+:root{
+  --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+  --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+  --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --code-bg:#0a1220; --radius:14px; --maxw:1080px;
+  /* renderer-faithful element colors */
+  --el-window:#ff8c42; --el-container:#58a6ff; --el-label:#bc8cff;
+  --el-line:#34d399; --el-connector:#fbbf24;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);
+  background:radial-gradient(1100px 560px at 72% -10%,#16223a 0%,var(--bg) 55%);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 90px}
+.hero{padding:74px 0 30px;text-align:center}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+  margin-bottom:20px;background:rgba(167,139,250,.08)}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;margin:.15em 0;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.14rem;color:var(--muted);max-width:680px;margin:14px auto 0}
+section{margin-top:62px}
+h2{font-size:1.65rem;font-weight:750;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--faint);margin:0 0 22px}
+.analogy{display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+  border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px}
+.analogy .emoji{font-size:2rem;line-height:1}
+.analogy p{margin:0;color:var(--muted)} .analogy b{color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card .ico{font-size:1.6rem}
+.card h3{margin:.5em 0 .3em;font-size:1.04rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.cmp{border-radius:var(--radius);padding:18px;border:1px solid var(--border)}
+.cmp.bad{border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.06)}
+.cmp.good{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.06)}
+.cmp h3{margin:0 0 8px;font-size:1rem}
+.cmp.bad h3{color:var(--bad)} .cmp.good h3{color:var(--good)}
+.cmp ul{margin:.2em 0 0;padding-left:18px;color:var(--muted);font-size:.92rem}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  overflow:auto;font:13.5px/1.6 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#dbe7ff}
+pre .cls{color:#7dd3fc;font-weight:600}
+pre .tag{color:var(--accent2)} pre .mut{color:var(--faint)}
+pre .kw{color:#fca5a5} pre .str{color:#86efac} pre .fn{color:#fbbf24}
+code.inl{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.85em;color:#cfe3ff}
+.module{border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px 22px;
+  background:linear-gradient(180deg,rgba(96,165,250,.07),transparent)}
+.badge{display:inline-block;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--border);color:var(--muted)}
+.badge.accent{color:var(--accent);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
+.badge.good{color:var(--good);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.badge.v2{color:var(--accent2);border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.08)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.rules li{counter-increment:r;position:relative;padding:12px 16px 12px 54px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;color:var(--muted)}
+ol.rules li::before{content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(96,165,250,.15);
+  color:var(--accent);font-weight:700;font-size:.85rem;border:1px solid rgba(96,165,250,.4)}
+ol.rules li b{color:var(--text)}
+.fact{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.fact .fi{font-size:1.5rem}
+.fact h3{margin:.4em 0 .3em;font-size:1rem}
+.fact p{margin:0;color:var(--muted);font-size:.9rem}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.flow .step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+  text-align:center;min-width:120px}
+.flow .step .t{font-weight:700} .flow .step .d{font-size:.82rem;color:var(--faint)}
+.flow .arr{color:var(--accent);font-size:1.5rem}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+table.tbl th{color:var(--faint);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td{color:var(--muted)} table.tbl td b{color:var(--text)}
+.tree{font:13.5px/1.7 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.tree .n{color:#7dd3fc;font-weight:600} .tree .c{color:var(--faint)}
+footer{margin-top:78px;border-top:1px solid var(--border);padding-top:22px;color:var(--faint);
+  font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+a{color:var(--accent)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}.flow{flex-direction:column}.flow .arr{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- (1) HERO -->
+  <header class="hero">
+    <span class="kicker">f_gui · elements · i_0_element</span>
+    <h1>What is an <span class="grad">Element</span>?</h1>
+    <p class="tagline">The abstract node every GUI thing inherits from — it
+      owns identity, position, and shape, but can never be drawn itself.</p>
+  </header>
+
+  <!-- (2) THE IDEA -->
+  <section id="idea">
+    <h2>The Idea</h2>
+    <p class="sub">One blueprint, many concrete shapes cut from it.</p>
+
+    <div class="analogy">
+      <div class="emoji">🧬</div>
+      <p><b>Element is a cookie-cutter, not a cookie.</b> It defines the shape
+        that every concrete GUI thing shares — a <b>bounds</b> rectangle, a
+        <b>name</b>, a <b>parent</b> pointer, and four <b>anchor</b> points —
+        but you can't bake the cutter. Calling <code class="inl">Element()</code>
+        directly raises <code class="inl">TypeError</code>. You always
+        instantiate a concrete subclass: a <b>Container</b>, a <b>Label</b>, a
+        <b>Window</b>, and so on.</p>
+    </div>
+
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card">
+        <div class="ico">📐</div>
+        <h3>Bounds</h3>
+        <p>A rectangle in a normalized <b>0–100</b> space, <b>relative to the
+          parent</b>. Defaults to the full region
+          <code class="inl">(0, 0, 100, 100)</code> via
+          <code class="inl">Bounds.Factory.full()</code>.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🏷️</div>
+        <h3>Identity</h3>
+        <p>Composed from the <code class="inl">HasName</code> and
+          <code class="inl">HasParent</code> mixins → a <b>name</b>, a
+          <b>parent</b> pointer, and <code class="inl">path_from_root()</code>
+          up the tree.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🔗</div>
+        <h3>Anchor</h3>
+        <p><code class="inl">anchor(side)</code> returns the <b>mid-point of an
+          edge</b> (TOP / RIGHT / BOTTOM / LEFT) — the spot where a
+          <b>Connector</b> latches on.</p>
+      </div>
+    </div>
+
+    <h3 style="margin:30px 0 12px">The rules that make it tick</h3>
+    <ol class="rules">
+      <li>Abstractness is enforced by a <b>__new__ guard</b>, not
+        <code class="inl">abc.ABC</code> — <code class="inl">if cls is
+        Element: raise TypeError(...)</code>.</li>
+      <li><b>Bounds default to full</b> <code class="inl">(0, 0, 100,
+        100)</code> when none is passed.</li>
+      <li><b>background</b> and <b>border</b> are <b>opt-in</b>, both default to
+        <code class="inl">None</code> (transparent / no border).</li>
+      <li><code class="inl">anchor(side)</code> delegates to
+        <code class="inl">self.bounds.anchor(side)</code> and reads the bounds
+        <b>property</b> — so subclasses with dynamic bounds stay correct.</li>
+      <li>It is a <b>pure data model</b>: rendering lives in
+        <code class="inl">RenderHtml</code>, <b>never</b> here.</li>
+    </ol>
+  </section>
+
+  <!-- (3) HOW IT CONNECTS -->
+  <section id="connects">
+    <h2>How It Connects</h2>
+    <p class="sub">Element sits between the f_core mixins and every concrete
+      widget.</p>
+
+    <div class="panel">
+      <div class="tree">
+<span class="c">f_core mixins</span>
+<span class="n">HasName</span> , <span class="n">HasParent</span>
+ └── <span class="n">Element</span>  <span class="c">(abstract — i_0_element)</span>
+      ├── <span class="n">Container</span>   <span class="c">i_1_container</span>
+      │    └── <span class="n">Window</span>  <span class="c">i_2_window  (only depth-2 class)</span>
+      ├── <span class="n">Label</span>       <span class="c">i_1_label</span>
+      ├── <span class="n">Line</span>        <span class="c">i_1_line</span>
+      └── <span class="n">Connector</span>   <span class="c">i_1_connector</span>
+      </div>
+    </div>
+
+    <p style="color:var(--muted);margin-top:16px">Every concrete element
+      <b style="color:var(--text)">is an</b> <code class="inl">Element</code>;
+      <code class="inl">Window</code> is the only depth-2 class (a
+      <code class="inl">Container</code> that is itself an
+      <code class="inl">Element</code>).</p>
+  </section>
+
+  <!-- (4) THIS MODULE'S CONTRIBUTION -->
+  <section id="contribution">
+    <h2>This Module's Contribution</h2>
+    <p class="sub">The abstractness guard, the constructor, and the anchor —
+      straight from <code class="inl">main.py</code>.</p>
+
+    <div class="module">
+      <p style="margin:0 0 6px">
+        <span class="badge accent">__new__ guard</span>
+        <span class="badge v2">no metaclass</span>
+        <span class="badge good">no fake abstract method</span>
+      </p>
+      <pre><span class="kw">def</span> <span class="fn">__new__</span>(cls, *args, **kwargs) -> <span class="str">'Element'</span>:
+    <span class="kw">if</span> cls <span class="kw">is</span> <span class="cls">Element</span>:
+        <span class="kw">raise</span> <span class="cls">TypeError</span>(
+            <span class="str">'Element is abstract; instantiate a concrete subclass '</span>
+            <span class="str">'(Container, Label, Window).'</span>)
+    <span class="kw">return</span> <span class="kw">super</span>().<span class="fn">__new__</span>(cls)</pre>
+      <p style="color:var(--muted)">This single check blocks
+        <code class="inl">Element()</code> while allowing <b>every</b>
+        subclass (where <code class="inl">cls is not Element</code>) — no
+        metaclass, no fake <code class="inl">@abstractmethod</code> hook.</p>
+
+      <p style="margin:22px 0 6px"><span class="badge">constructor — subclasses
+        only</span></p>
+      <pre><span class="kw">def</span> <span class="fn">__init__</span>(self,
+             bounds: <span class="cls">Bounds</span>[<span class="cls">float</span>] = <span class="kw">None</span>,
+             name: <span class="cls">str</span> = <span class="str">'Element'</span>,
+             background: <span class="cls">RGB</span> | <span class="kw">None</span> = <span class="kw">None</span>,
+             border: <span class="cls">Border</span> | <span class="kw">None</span> = <span class="kw">None</span>) -> <span class="kw">None</span>:
+    <span class="cls">HasName</span>.<span class="fn">__init__</span>(self, name=name)
+    <span class="cls">HasParent</span>.<span class="fn">__init__</span>(self)
+    self._bounds = bounds <span class="kw">or</span> <span class="cls">Bounds</span>.Factory.<span class="fn">full</span>()
+    self._background = background
+    self._border = border</pre>
+
+      <p style="margin:22px 0 6px"><span class="badge warn">anchor — reads the
+        property</span></p>
+      <pre><span class="kw">def</span> <span class="fn">anchor</span>(self, side: <span class="cls">Side</span>) -> <span class="cls">Point</span>:
+    <span class="mut"># mid-point of the given edge; where a Connector attaches</span>
+    <span class="kw">return</span> self.bounds.<span class="fn">anchor</span>(side=side)</pre>
+    </div>
+  </section>
+
+  <!-- (5) GALLERY -->
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <p class="sub">The five concrete elements cut from this blueprint.</p>
+
+    <div class="grid g3">
+      <div class="card">
+        <div class="ico">📦</div>
+        <h3><span class="badge" style="color:var(--el-container);border-color:var(--el-container)">Container</span></h3>
+        <p>Holds children — an Element that adds <code class="inl">HasChildren</code>
+          and owns the parent/child tree invariants.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🏷️</div>
+        <h3><span class="badge" style="color:var(--el-label);border-color:var(--el-label)">Label</span></h3>
+        <p>A leaf that carries <b>text</b> (plus an optional
+          <code class="inl">TextStyle</code>).</p>
+      </div>
+      <div class="card">
+        <div class="ico">➖</div>
+        <h3><span class="badge" style="color:var(--el-line);border-color:var(--el-line)">Line</span></h3>
+        <p>A leaf: two <code class="inl">Point</code>s plus a
+          <code class="inl">Stroke</code>, rendered as SVG.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🔗</div>
+        <h3><span class="badge" style="color:var(--el-connector);border-color:var(--el-connector)">Connector</span></h3>
+        <p>A leaf holding two element refs; auto-routes a line/arrow between
+          their anchors, recomputed live.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🪟</div>
+        <h3><span class="badge" style="color:var(--el-window);border-color:var(--el-window)">Window</span></h3>
+        <p>The root Container with implicit full bounds — the only depth-2
+          class.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- (6) FUN FACTS -->
+  <section id="facts">
+    <h2>Fun Facts</h2>
+    <p class="sub">Context that makes the design choices click.</p>
+
+    <div class="grid g3">
+      <div class="fact">
+        <div class="fi">🌳</div>
+        <h3>Retained, not immediate</h3>
+        <p>f_gui stores a <b>tree of objects</b> you can inspect and mutate
+          (retained mode) — unlike immediate-mode GUIs that redraw from raw
+          draw-calls each frame.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🕸️</div>
+        <h3>Scene graphs are everywhere</h3>
+        <p>The same parent/child node tree shows up in <b>SVG / the DOM</b>,
+          game engines, and vector editors like Illustrator or Figma.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">⚠️</div>
+        <h3>The ABC gotcha</h3>
+        <p>Subclassing <code class="inl">abc.ABC</code> <b>without</b> an
+          <code class="inl">@abstractmethod</code> does <b>not</b> block
+          instantiation — exactly why Element uses a
+          <code class="inl">__new__</code> guard instead.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🧬</div>
+        <h3>Mixins + MRO</h3>
+        <p>Element composes <code class="inl">HasName</code> and
+          <code class="inl">HasParent</code> as capability mixins; Python's
+          <b>MRO</b> linearizes them so each
+          <code class="inl">__init__</code> runs once.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🗺️</div>
+        <h3>Normalized 0–100 space</h3>
+        <p>Resolution-independent coordinates echo SVG's
+          <code class="inl">viewBox</code> and normalized device coordinates —
+          layout stays correct at any pixel size.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- (7) FOOTER -->
+  <footer>
+    <span>f_gui/elements/i_0_element/ &nbsp;·&nbsp; Abstract base element:
+      bounds + identity + anchors (no rendering)</span>
+    <span>Generated 2026-06-15</span>
+  </footer>
+
+</div>
+</body>
+</html>

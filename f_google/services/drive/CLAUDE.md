@@ -57,6 +57,20 @@ Read a file from Drive into memory (no disk writes).
 - `.pdf`: markdown text + rendered page images (delegates to `f_pdf`)
 - Returns `_ReadResponse` with `.text` and `.pages` properties
 
+### `read_pickle(path: str) -> object`
+Download a pickle file from Drive and return the unpickled object.
+Temp file managed internally (download → `pickle.load` → cleanup).
+
+### `upload_pickle(obj: object, path: str) -> None`
+Pickle `obj` and upload it to Drive at `path` (parents auto-created,
+overwrites silently).
+
+### `upload_rows(rows: Iterable[dict], columns: list[str], path: str) -> None`
+Stream `rows` (dicts keyed by `columns`) to a CSV and upload to Drive at
+`path`. Extra keys ignored; `rows` may be a generator (written one at a
+time). Together these three remove the temp-file / pickle / csv
+boilerplate that experiment scripts used to hand-roll.
+
 ### `get_path_by_id(file_id: str) -> str`
 Resolve a Drive file/folder ID to its `/`-joined path relative to
 "My Drive" root. Walks parents via `files().get(fields='name,parents')`.
@@ -79,7 +93,8 @@ Drive (facade)
 ├── _Folders   — create, delete, ensure parents
 ├── _Download  — download files/folders to disk
 ├── _Upload    — upload files/folders from disk
-└── _Read      — read files into memory (uses f_pdf for PDFs)
+├── _Read      — read files into memory (uses f_pdf for PDFs)
+└── _Serial    — object/rows ↔ Drive round-trips (composes _Download/_Upload)
 ```
 
 All helpers live in `_internal/`:
@@ -92,6 +107,7 @@ All helpers live in `_internal/`:
 | `_internal/_upload.py` | `_Upload` | upload file/folder from disk |
 | `_internal/_read.py` | `_Read` | read to memory, delegate to f_pdf |
 | `_internal/_read_response.py` | `_ReadResponse` | return type for read() |
+| `_internal/_serial.py` | `_Serial` | pickle / CSV round-trips via _Download + _Upload |
 
 ## Path Semantics
 - Separator: `/`

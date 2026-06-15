@@ -18,46 +18,6 @@ this and ask** whether to use a higher reasoning effort (e.g.,
 take a shortcut on a task that warrants the extra budget. For
 routine, well-scoped tasks, proceed without asking.
 
-## Response Style
-
-Format every reply so the reader grasps it **at a glance and
-in full**. Structure for fast scanning; never pad.
-
-1. **Bottom line first.** Open with the verdict / result /
-   answer — a bold line or short header — before any detail.
-   The takeaway comes before the reasoning.
-
-2. **Structure over prose.** Prefer headers, **bold
-   lead-ins**, and ranked lists. Use a **table** for anything
-   comparative (option vs. trade-off, proposal vs. take vs.
-   why, before vs. after). Avoid paragraph walls.
-
-3. **Status markers.** Signal verdicts and rankings with
-   compact icons — ✅ do · 🟡 caveat · ❌ avoid · ⏸️ defer ·
-   🚫 don't — so items can be ranked without close reading.
-
-4. **Complete but tight.** As long as needed to be fully
-   understood, as short as possible. No fixed word or sentence
-   cap — but cut all preamble, recap, restatement of the
-   request, and hedging. Every line earns its place.
-
-5. **No narration of tool calls or diffs.** Tools, files, and
-   the session `.md` carry the evidence — do not replay them
-   in chat.
-
-6. **Long rationale → session `.md`, link from chat.** When
-   deep reasoning is warranted, write it to the Drive session
-   summary and link it in one line; keep the chat reply to the
-   conclusions.
-
-7. **Task reports — lead with outcome.** State what changed /
-   what holds / what's blocked, using the structure above. Add
-   a **Note** only for genuinely critical, non-obvious info
-   (default: none — most reports need none). Raise a
-   **Question** only as a pre-task blocker (genuine ambiguity
-   that stops progress) — never as an after-the-fact
-   follow-up.
-
 ## Project Structure
 
 ### Top-Level Modules

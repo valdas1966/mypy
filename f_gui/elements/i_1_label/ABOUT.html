@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is a Label? — f_gui.elements.i_1_label</title>
+<style>
+/* ============================================================
+   Shared ABOUT.html dark theme  —  f_gui.elements
+   Paste verbatim inside a <style> tag. Do not edit tokens.
+   ============================================================ */
+:root{
+  --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+  --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+  --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --code-bg:#0a1220; --radius:14px; --maxw:1080px;
+  /* renderer-faithful element colors */
+  --el-window:#ff8c42; --el-container:#58a6ff; --el-label:#bc8cff;
+  --el-line:#34d399; --el-connector:#fbbf24;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);
+  background:radial-gradient(1100px 560px at 72% -10%,#16223a 0%,var(--bg) 55%);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 90px}
+.hero{padding:74px 0 30px;text-align:center}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+  margin-bottom:20px;background:rgba(167,139,250,.08)}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;margin:.15em 0;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.14rem;color:var(--muted);max-width:680px;margin:14px auto 0}
+section{margin-top:62px}
+h2{font-size:1.65rem;font-weight:750;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--faint);margin:0 0 22px}
+.analogy{display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+  border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px}
+.analogy .emoji{font-size:2rem;line-height:1}
+.analogy p{margin:0;color:var(--muted)} .analogy b{color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card .ico{font-size:1.6rem}
+.card h3{margin:.5em 0 .3em;font-size:1.04rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.cmp{border-radius:var(--radius);padding:18px;border:1px solid var(--border)}
+.cmp.bad{border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.06)}
+.cmp.good{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.06)}
+.cmp h3{margin:0 0 8px;font-size:1rem}
+.cmp.bad h3{color:var(--bad)} .cmp.good h3{color:var(--good)}
+.cmp ul{margin:.2em 0 0;padding-left:18px;color:var(--muted);font-size:.92rem}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  overflow:auto;font:13.5px/1.6 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#dbe7ff}
+pre .cls{color:#7dd3fc;font-weight:600}
+pre .tag{color:var(--accent2)} pre .mut{color:var(--faint)}
+pre .kw{color:#fca5a5} pre .str{color:#86efac} pre .fn{color:#fbbf24}
+code.inl{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.85em;color:#cfe3ff}
+.module{border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px 22px;
+  background:linear-gradient(180deg,rgba(96,165,250,.07),transparent)}
+.badge{display:inline-block;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--border);color:var(--muted)}
+.badge.accent{color:var(--accent);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
+.badge.good{color:var(--good);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.badge.v2{color:var(--accent2);border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.08)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.rules li{counter-increment:r;position:relative;padding:12px 16px 12px 54px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;color:var(--muted)}
+ol.rules li::before{content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(96,165,250,.15);
+  color:var(--accent);font-weight:700;font-size:.85rem;border:1px solid rgba(96,165,250,.4)}
+ol.rules li b{color:var(--text)}
+.fact{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.fact .fi{font-size:1.5rem}
+.fact h3{margin:.4em 0 .3em;font-size:1rem}
+.fact p{margin:0;color:var(--muted);font-size:.9rem}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.flow .step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+  text-align:center;min-width:120px}
+.flow .step .t{font-weight:700} .flow .step .d{font-size:.82rem;color:var(--faint)}
+.flow .arr{color:var(--accent);font-size:1.5rem}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+table.tbl th{color:var(--faint);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td{color:var(--muted)} table.tbl td b{color:var(--text)}
+.tree{font:13.5px/1.7 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.tree .n{color:#7dd3fc;font-weight:600} .tree .c{color:var(--faint)}
+footer{margin-top:78px;border-top:1px solid var(--border);padding-top:22px;color:var(--faint);
+  font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+a{color:var(--accent)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}.flow{flex-direction:column}.flow .arr{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="kicker">f_gui · elements · i_1_label</div>
+    <h1>What is a <span class="grad" style="background:linear-gradient(90deg,var(--el-label),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent">Label</span>?</h1>
+    <p class="tagline">A leaf that carries text — with content and styling kept deliberately separate.</p>
+    <p style="margin-top:18px"><span class="badge v2" style="color:var(--el-label);border-color:rgba(188,140,255,.5);background:rgba(188,140,255,.10)">leaf element · carries text</span></p>
+  </header>
+
+  <!-- ============ THE IDEA ============ -->
+  <section>
+    <h2>The Idea</h2>
+    <p class="sub">A Label is the simplest possible element: it just holds some words.</p>
+
+    <div class="analogy">
+      <div class="emoji">🏷️</div>
+      <p>Think of a <b>printed sticky note</b>. The <b>words</b> on it are one thing — "Hello", "Save", "Total". The <b>font</b> they're printed in is something else entirely. Swap the marker for a fountain pen and the message doesn't change; rewrite the message and the ink color stays. A <b>Label</b> keeps those two ideas apart on purpose: the <code class="inl">text</code> is what it says, the <code class="inl">style</code> is how it looks.</p>
+    </div>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="cmp bad">
+        <h3>🚫 One tangled blob</h3>
+        <ul>
+          <li>The string and its font, size, and color all welded into a single object.</li>
+          <li>Want the same words in a new look? You rebuild everything.</li>
+          <li>Presentation logic leaks into the content.</li>
+        </ul>
+      </div>
+      <div class="cmp good">
+        <h3>✅ Content ⟂ presentation</h3>
+        <ul>
+          <li><code class="inl">text</code> is a plain <code class="inl">str</code> — just the words.</li>
+          <li><code class="inl">style</code> is an optional <code class="inl">TextStyle</code> — the look, opt-in.</li>
+          <li>Exactly how <code class="inl">background</code> / <code class="inl">border</code> are separate on every Element.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 style="margin-top:42px;font-size:1.2rem">The contract</h2>
+    <ol class="rules" style="margin-top:8px">
+      <li>A Label is a <b>leaf</b> — it holds no children, it is the end of a branch.</li>
+      <li><code class="inl">text</code> is a plain <b><code class="inl">str</code></b> — nothing fancier than the words themselves.</li>
+      <li>On render the text is <b>HTML-escaped and centered</b> in the label's box.</li>
+      <li><code class="inl">style=None</code> falls back to the <b>renderer baseline look</b> — monospace, 12px.</li>
+      <li>A Label carries <b>exactly one</b> <code class="inl">TextStyle</code> — no style stacking.</li>
+    </ol>
+  </section>
+
+  <!-- ============ HOW IT CONNECTS ============ -->
+  <section>
+    <h2>How It Connects</h2>
+    <p class="sub">Label is the leaf that sits one step below the abstract Element base.</p>
+
+    <div class="panel">
+      <div class="tree">
+<span class="n">Element</span>  <span class="c"># i_0_element — abstract base: bounds + name + parent</span>
+ └── <span class="n">Label</span>  <span class="c"># i_1_label — leaf, carries text  ◀ you are here</span>
+      </div>
+    </div>
+
+    <div class="analogy" style="margin-top:18px;border-left-color:var(--el-label);background:linear-gradient(90deg,rgba(188,140,255,.10),transparent)">
+      <div class="emoji">🧩</div>
+      <p>The <code class="inl">TextStyle</code> itself lives in <code class="inl">f_gui.style.text</code>, <b>not here</b>. That split is intentional: the <b>content</b> module (Label) and the <b>presentation</b> module (TextStyle) are kept apart, so a look can be defined once and reused across many labels.</p>
+    </div>
+  </section>
+
+  <!-- ============ THIS MODULE'S CONTRIBUTION ============ -->
+  <section>
+    <h2>This Module's Contribution</h2>
+    <p class="sub">A leaf Element with a <code class="inl">text</code> string and an optional, separate <code class="inl">style</code>.</p>
+
+    <div class="module">
+      <p style="margin-top:0"><span class="badge accent">main.py</span> &nbsp;The real constructor — note <code class="inl">text</code> and <code class="inl">style</code> live side by side as independent parameters:</p>
+<pre><span class="kw">class</span> <span class="cls">Label</span>(<span class="cls">Element</span>):
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self,
+                 bounds: <span class="cls">Bounds</span>[<span class="cls">float</span>] = <span class="kw">None</span>,
+                 text: <span class="cls">str</span> = <span class="str">''</span>,
+                 name: <span class="cls">str</span> = <span class="str">'Label'</span>,
+                 background: <span class="cls">RGB</span> | <span class="kw">None</span> = <span class="kw">None</span>,
+                 border: <span class="cls">Border</span> | <span class="kw">None</span> = <span class="kw">None</span>,
+                 style: <span class="cls">TextStyle</span> | <span class="kw">None</span> = <span class="kw">None</span>) -> <span class="kw">None</span>:
+        <span class="cls">Element</span>.<span class="fn">__init__</span>(self, bounds=bounds, name=name,
+                         background=background, border=border)
+        self._text = text     <span class="mut"># the words — a plain str</span>
+        self._style = style   <span class="mut"># the look — optional TextStyle</span></pre>
+
+      <p style="margin-bottom:6px"><span class="badge v2">properties</span> &nbsp;Read-only access to each, kept separate:</p>
+<pre>    <span class="tag">@property</span>
+    <span class="kw">def</span> <span class="fn">text</span>(self) -> <span class="cls">str</span>:
+        <span class="kw">return</span> self._text
+
+    <span class="tag">@property</span>
+    <span class="kw">def</span> <span class="fn">style</span>(self) -> <span class="cls">TextStyle</span> | <span class="kw">None</span>:   <span class="mut"># None = renderer default look</span>
+        <span class="kw">return</span> self._style</pre>
+
+      <div class="analogy" style="margin-top:4px;border-left-color:var(--el-label);background:linear-gradient(90deg,rgba(188,140,255,.10),transparent)">
+        <div class="emoji">📐</div>
+        <p><b>Content ⟂ presentation.</b> <code class="inl">text</code> (what it says) and <code class="inl">style</code> (how it looks) are independent — mirroring exactly how <code class="inl">background</code> and <code class="inl">border</code> are separate, opt-in concerns on every Element.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section>
+    <h2>Gallery</h2>
+    <p class="sub">"Separate the content from how it's presented" is one of computing's oldest, best ideas.</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <div class="ico">🌐</div>
+        <h3>HTML + CSS</h3>
+        <p>The markup says <i>what</i> the page is; the stylesheet says how it looks. One page, many themes.</p>
+      </div>
+      <div class="card">
+        <div class="ico">📝</div>
+        <h3>Markdown + theme</h3>
+        <p>Plain text holds the words; a theme renders them — same document, different skins.</p>
+      </div>
+      <div class="card">
+        <div class="ico">📄</div>
+        <h3>LaTeX + class file</h3>
+        <p>The <code class="inl">.tex</code> carries the content; the document class decides the typography.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🎛️</div>
+        <h3>MVC: model + view</h3>
+        <p>The model holds the data; the view decides how it's drawn. Change one without touching the other.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FUN FACTS ============ -->
+  <section>
+    <h2>Fun Facts</h2>
+    <p class="sub">Five ideas baked into this tiny leaf.</p>
+
+    <div class="grid g3">
+      <div class="fact">
+        <div class="fi">🎨</div>
+        <h3>The founding idea of CSS</h3>
+        <p>Separating content from presentation is exactly why CSS was born in 1996 — so one document could take on many looks.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🛡️</div>
+        <h3>Escaping defuses markup</h3>
+        <p>HTML-escaping turns text like <code class="inl">&lt;b&gt;</code> into literal characters instead of tags — the root of defending against XSS.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">⌨️</div>
+        <h3>Monospace by default</h3>
+        <p>The baseline look gives every glyph the same width — a straight inheritance from the typewriter era.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🎯</div>
+        <h3>One style, no stacking</h3>
+        <p>A Label carries exactly one <code class="inl">TextStyle</code>. The deliberate "no stacking" choice keeps the model simple to reason about.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🍃</div>
+        <h3>A leaf has no children</h3>
+        <p>With nothing below it, a Label is the natural terminator of the element tree — a branch that simply ends.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>f_gui/elements/i_1_label/ — a leaf Element carrying text, with content and styling kept separate.</span>
+    <span>Generated 2026-06-15</span>
+  </footer>
+
+</div>
+</body>
+</html>

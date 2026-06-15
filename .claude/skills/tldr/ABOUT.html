@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>/tldr — focusing lens skill</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c2230; --ink:#e6edf3;
+    --muted:#9aa7b4; --line:#2a323d; --pink:#ff6ea9; --pink-d:#c64a82;
+    --green:#3fb950; --amber:#d29922; --blue:#58a6ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 70% -10%,#1a2030 0,var(--bg) 55%);
+    color:var(--ink); font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:48px 20px;
+  }
+  .wrap{max-width:920px;margin:0 auto}
+  .hero{
+    border:1px solid var(--line); border-radius:18px; padding:34px 36px;
+    background:linear-gradient(180deg,#19202c,#12161d);
+    box-shadow:0 18px 50px -24px rgba(0,0,0,.8);
+  }
+  .badge{
+    display:inline-block; font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--pink);
+    border:1px solid var(--pink-d); border-radius:999px; padding:7px 13px; margin-bottom:18px;
+  }
+  h1{margin:0 0 6px; font-size:42px; letter-spacing:-.01em}
+  h1 code{color:var(--pink); font-family:ui-monospace,Menlo,monospace}
+  .sub{color:var(--muted); font-size:18px; margin:0}
+  h2{margin:46px 0 16px; font-size:22px}
+  h2 .dot{color:var(--pink)}
+  .card{
+    border:1px solid var(--line); border-radius:14px; background:var(--panel);
+    padding:22px 24px;
+  }
+  .grid{display:grid; gap:16px}
+  @media(min-width:680px){.cols-3{grid-template-columns:repeat(3,1fr)}
+    .cols-2{grid-template-columns:1fr 1fr}}
+  .mini h3{margin:0 0 6px; font-size:15px}
+  .mini p{margin:0; color:var(--muted); font-size:14px}
+  .ico{font-size:26px; display:block; margin-bottom:8px}
+
+  /* flow diagram */
+  .flow{display:flex; align-items:stretch; gap:0; flex-wrap:wrap}
+  .node{
+    flex:1 1 150px; border:1px solid var(--line); border-radius:12px;
+    padding:16px; background:var(--panel2); text-align:center;
+  }
+  .node .lbl{font-size:13px; color:var(--muted)}
+  .node .big{font-size:17px; font-weight:600; margin-top:4px}
+  .node.lens{border-color:var(--pink-d); background:linear-gradient(180deg,#241420,#161b22)}
+  .node.lens .big{color:var(--pink)}
+  .arrow{align-self:center; color:var(--pink); font-size:24px; padding:0 10px}
+  @media(max-width:679px){.arrow{transform:rotate(90deg); padding:6px 0}}
+
+  /* before / after */
+  .ba{display:grid; gap:16px}
+  @media(min-width:680px){.ba{grid-template-columns:1fr 1fr}}
+  .pane{border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  .pane .head{
+    padding:11px 16px; font:600 13px/1 ui-monospace,Menlo,monospace;
+    letter-spacing:.06em; display:flex; justify-content:space-between; align-items:center;
+  }
+  .before .head{background:#241a12; color:var(--amber); border-bottom:1px solid var(--line)}
+  .after  .head{background:#10241a; color:var(--green); border-bottom:1px solid var(--line)}
+  .pane .body{padding:16px 18px; font-size:14px}
+  .pane .body p{margin:0 0 10px}
+  .pane .body p:last-child{margin:0}
+  .dim{color:var(--muted)}
+  code.k{background:#0d1117;border:1px solid var(--line);border-radius:6px;
+    padding:1px 6px;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--blue)}
+  .tag{font:600 11px/1 ui-monospace,Menlo,monospace;color:var(--muted)}
+  .prompt{font-family:ui-monospace,Menlo,monospace;color:var(--pink)}
+
+  table{width:100%; border-collapse:collapse; margin-top:6px}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); font-size:14px}
+  th{color:var(--muted); font-weight:600; font-size:12px; letter-spacing:.05em; text-transform:uppercase}
+  td code{color:var(--pink); font-family:ui-monospace,Menlo,monospace}
+  .foot{margin-top:40px; color:var(--muted); font-size:13px; text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="badge">skill · focusing lens</span>
+    <h1><code>/tldr</code></h1>
+    <p class="sub">Compress my <em>last</em> response — same substance, far fewer words.</p>
+  </div>
+
+  <h2><span class="dot">▍</span> The idea in one breath</h2>
+  <div class="card">
+    My <strong>default voice</strong> is whatever feels natural for the answer —
+    sometimes that runs long. Rather than forcing one fixed style on every reply,
+    <strong>skills act as focusing lenses</strong> you snap on <em>in the moment</em>.
+    <code class="k">/tldr</code> is the “make it short” lens: it takes the reply I just
+    gave and re-states it tight — leading with the answer, cutting the padding,
+    keeping every fact.
+  </div>
+
+  <h2><span class="dot">▍</span> How it works</h2>
+  <div class="card">
+    <div class="flow">
+      <div class="node">
+        <div class="lbl">my default</div>
+        <div class="big">Natural reply</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node lens">
+        <div class="lbl">you apply</div>
+        <div class="big">/tldr lens</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node">
+        <div class="lbl">you get</div>
+        <div class="big">Tight answer</div>
+      </div>
+    </div>
+  </div>
+
+  <h2><span class="dot">▍</span> What the lens does &amp; doesn't</h2>
+  <div class="grid cols-3">
+    <div class="card mini"><span class="ico">🎯</span><h3>Leads with the answer</h3><p>First line is the verdict. No preamble, no re-stating your question.</p></div>
+    <div class="card mini"><span class="ico">✂️</span><h3>Cuts, never drops</h3><p>Removes hedging &amp; recap — keeps numbers, paths, caveats, commands.</p></div>
+    <div class="card mini"><span class="ico">🚫</span><h3>No new work</h3><p>Pure rewrite of what was already said. No re-running tools or adding facts.</p></div>
+  </div>
+
+  <h2><span class="dot">▍</span> A classic example</h2>
+  <p class="dim" style="margin:0 0 14px">You asked: <span class="prompt">“How do I rename a file in Python?”</span></p>
+  <div class="ba">
+    <div class="pane before">
+      <div class="head"><span>DEFAULT REPLY</span><span class="tag">~120 words</span></div>
+      <div class="body">
+        <p>Great question! There are a few ways to rename a file in Python,
+        depending on your needs and which module you prefer to use…</p>
+        <p class="dim">The classic approach uses the <code class="k">os</code> module.
+        You'd call <code class="k">os.rename(src, dst)</code>. Note that the file must
+        exist, the destination directory must exist, and on some platforms an existing
+        destination behaves differently…</p>
+        <p class="dim">Alternatively, the more modern <code class="k">pathlib</code>
+        gives you <code class="k">Path('old').rename('new')</code>, which many consider
+        cleaner. You may also want a <code class="k">try/except</code> around it to
+        handle <code class="k">FileNotFoundError</code>…</p>
+      </div>
+    </div>
+    <div class="pane after">
+      <div class="head"><span>AFTER /tldr</span><span class="tag">2 lines</span></div>
+      <div class="body">
+        <p><strong>os.rename('old.txt', 'new.txt')</strong></p>
+        <p class="dim">Or, modern style:
+        <code class="k">Path('old.txt').rename('new.txt')</code>.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2><span class="dot">▍</span> Dial the length</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>You type</th><th>You get</th></tr></thead>
+      <tbody>
+        <tr><td><code>/tldr</code></td><td>As short as stays faithful — usually ≤ 5 bullets</td></tr>
+        <tr><td><code>/tldr one-line</code></td><td>A single sentence</td></tr>
+        <tr><td><code>/tldr 3</code></td><td>At most 3 bullets</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="foot">MyPy · <code>.claude/skills/tldr/</code> — a momentary lens, not a standing style.</p>
+
+</div>
+</body>
+</html>

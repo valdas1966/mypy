@@ -1,9 +1,9 @@
-from typing import Callable
+from typing import Callable, Iterable
 from google.oauth2.credentials import Credentials as OAuthCredentials
 from google.oauth2.service_account import Credentials as SACredentials
 from googleapiclient.discovery import build
 from f_google.services.drive._internal import (
-    _Nav, _Folders, _Download, _Upload, _Read, _ReadResponse
+    _Nav, _Folders, _Download, _Upload, _Read, _ReadResponse, _Serial
 )
 
 
@@ -35,6 +35,8 @@ class Drive:
                                folders=self._folders)
         self._read = _Read(service=service,
                            nav=self._nav)
+        self._serial = _Serial(download=self._download,
+                               upload=self._upload)
 
     def folders(self, path: str = None) -> list[str]:
         """
@@ -138,6 +140,36 @@ class Drive:
         ====================================================================
         """
         return self._read.read(path=path, encoding=encoding)
+
+    def read_pickle(self, path: str) -> object:
+        """
+        ====================================================================
+         Download a pickle file from Drive and return the unpickled
+         object (temp file managed internally).
+        ====================================================================
+        """
+        return self._serial.read_pickle(path=path)
+
+    def upload_pickle(self, obj: object, path: str) -> None:
+        """
+        ====================================================================
+         Pickle `obj` and upload it to Drive at `path` (parents
+         auto-created, overwrites silently).
+        ====================================================================
+        """
+        self._serial.upload_pickle(obj=obj, path=path)
+
+    def upload_rows(self,
+                    rows: Iterable[dict],
+                    columns: list[str],
+                    path: str) -> None:
+        """
+        ====================================================================
+         Stream `rows` (dicts keyed by `columns`) to a CSV and upload it
+         to Drive at `path`. `rows` may be a generator.
+        ====================================================================
+        """
+        self._serial.upload_rows(rows=rows, columns=columns, path=path)
 
     def get_path_by_id(self, file_id: str) -> str:
         """

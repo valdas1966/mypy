@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is a Container? — f_gui.elements.i_1_container</title>
+<style>
+/* ============================================================
+   Shared ABOUT.html dark theme  —  f_gui.elements
+   Paste verbatim inside a <style> tag. Do not edit tokens.
+   ============================================================ */
+:root{
+  --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+  --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+  --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+  --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --code-bg:#0a1220; --radius:14px; --maxw:1080px;
+  /* renderer-faithful element colors */
+  --el-window:#ff8c42; --el-container:#58a6ff; --el-label:#bc8cff;
+  --el-line:#34d399; --el-connector:#fbbf24;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);
+  background:radial-gradient(1100px 560px at 72% -10%,#16223a 0%,var(--bg) 55%);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 90px}
+.hero{padding:74px 0 30px;text-align:center}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+  margin-bottom:20px;background:rgba(167,139,250,.08)}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;margin:.15em 0;font-weight:800;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:1.14rem;color:var(--muted);max-width:680px;margin:14px auto 0}
+section{margin-top:62px}
+h2{font-size:1.65rem;font-weight:750;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--faint);margin:0 0 22px}
+.analogy{display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+  border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px}
+.analogy .emoji{font-size:2rem;line-height:1}
+.analogy p{margin:0;color:var(--muted)} .analogy b{color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card .ico{font-size:1.6rem}
+.card h3{margin:.5em 0 .3em;font-size:1.04rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.cmp{border-radius:var(--radius);padding:18px;border:1px solid var(--border)}
+.cmp.bad{border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.06)}
+.cmp.good{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.06)}
+.cmp h3{margin:0 0 8px;font-size:1rem}
+.cmp.bad h3{color:var(--bad)} .cmp.good h3{color:var(--good)}
+.cmp ul{margin:.2em 0 0;padding-left:18px;color:var(--muted);font-size:.92rem}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+  overflow:auto;font:13.5px/1.6 "SF Mono",ui-monospace,Menlo,Consolas,monospace;color:#dbe7ff}
+pre .cls{color:#7dd3fc;font-weight:600}
+pre .tag{color:var(--accent2)} pre .mut{color:var(--faint)}
+pre .kw{color:#fca5a5} pre .str{color:#86efac} pre .fn{color:#fbbf24}
+code.inl{background:var(--code-bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.85em;color:#cfe3ff}
+.module{border:1.5px solid var(--accent);border-radius:var(--radius);padding:20px 22px;
+  background:linear-gradient(180deg,rgba(96,165,250,.07),transparent)}
+.badge{display:inline-block;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--border);color:var(--muted)}
+.badge.accent{color:var(--accent);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.08)}
+.badge.good{color:var(--good);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.badge.v2{color:var(--accent2);border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.08)}
+ol.rules{counter-reset:r;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.rules li{counter-increment:r;position:relative;padding:12px 16px 12px 54px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;color:var(--muted)}
+ol.rules li::before{content:counter(r);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(96,165,250,.15);
+  color:var(--accent);font-weight:700;font-size:.85rem;border:1px solid rgba(96,165,250,.4)}
+ol.rules li b{color:var(--text)}
+.fact{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.fact .fi{font-size:1.5rem}
+.fact h3{margin:.4em 0 .3em;font-size:1rem}
+.fact p{margin:0;color:var(--muted);font-size:.9rem}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.flow .step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+  text-align:center;min-width:120px}
+.flow .step .t{font-weight:700} .flow .step .d{font-size:.82rem;color:var(--faint)}
+.flow .arr{color:var(--accent);font-size:1.5rem}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+table.tbl th,table.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+table.tbl th{color:var(--faint);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+table.tbl td{color:var(--muted)} table.tbl td b{color:var(--text)}
+.tree{font:13.5px/1.7 "SF Mono",ui-monospace,Menlo,monospace;color:var(--muted)}
+.tree .n{color:#7dd3fc;font-weight:600} .tree .c{color:var(--faint)}
+footer{margin-top:78px;border-top:1px solid var(--border);padding-top:22px;color:var(--faint);
+  font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+a{color:var(--accent)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}.flow{flex-direction:column}.flow .arr{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1. HERO -->
+  <header class="hero">
+    <span class="kicker">f_gui · elements · i_1_container</span>
+    <h1>What is a <span class="grad">Container</span>?</h1>
+    <p class="tagline">An Element that holds children — and quietly keeps the
+      parent/child tree consistent for you.</p>
+    <p style="margin-top:18px">
+      <span class="badge accent" style="color:var(--el-container);border-color:rgba(88,166,255,.55);background:rgba(88,166,255,.10)">Container</span>
+      <span class="badge">Element</span>
+      <span class="badge v2">+ HasChildren</span>
+    </p>
+  </header>
+
+  <!-- 2. THE IDEA -->
+  <section>
+    <h2>The Idea</h2>
+    <p class="sub">A box that owns other boxes — and never lets one box have two owners.</p>
+
+    <div class="analogy">
+      <div class="emoji">🗂️</div>
+      <p>A Container is a <b>folder that holds files</b>. Drag a file into another
+        folder and it automatically <b>leaves the first one</b> — you never end up
+        with the same file living in two places. A Container does exactly this for
+        Elements: attach a child somewhere new and its old home is cleaned up for you.</p>
+    </div>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="cmp bad">
+        <h3>❌ Hand-managing the tree yourself</h3>
+        <ul>
+          <li>You keep a children <code class="inl">list</code> <i>and</i> a parent pointer in every class.</li>
+          <li>Move a child without remembering to remove it from the old parent →
+            the child now sits in <b>two parents</b>.</li>
+          <li>Dangling pointers: <code class="inl">child.parent</code> says one thing,
+            the parent's <code class="inl">children</code> says another.</li>
+          <li>The bug surfaces far away — during render or traversal, not at the move.</li>
+        </ul>
+      </div>
+      <div class="cmp good">
+        <h3>✅ Let the Container own the invariant</h3>
+        <ul>
+          <li><code class="inl">add_child()</code> auto-detaches the child from its old parent first.</li>
+          <li>Every node has <b>exactly one parent</b>, always.</li>
+          <li>The parent pointer and the children list can never disagree.</li>
+          <li>One place owns the rule, so there's one place to get it right.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 style="margin-top:38px">The Rules It Enforces</h2>
+    <p class="sub">Everything the Container guarantees, in plain terms.</p>
+    <ol class="rules">
+      <li><b><code class="inl">add_child(child)</code> detaches the child from its previous
+        parent first</b> — so attaching it here removes it from there.</li>
+      <li><b>Re-adding a child already owned by <code class="inl">self</code> is a no-op</b> —
+        the <code class="inl">old_parent is self</code> check short-circuits, so there's no duplication.</li>
+      <li><b><code class="inl">remove_child(child)</code> clears <code class="inl">child.parent</code></b> —
+        a detached child reports <code class="inl">parent is None</code>.</li>
+      <li><b>The parent pointer is only ever mutated via <code class="inl">HasParent._set_parent()</code></b> —
+        callers never touch <code class="inl">_parent</code> directly.</li>
+      <li><b>The children list itself comes from the <code class="inl">HasChildren</code> mixin</b> —
+        the Container just wires the parent side onto it.</li>
+    </ol>
+  </section>
+
+  <!-- 3. HOW IT CONNECTS -->
+  <section>
+    <h2>How It Connects</h2>
+    <p class="sub">Container sits one rung above the abstract Element, and is the base of Window.</p>
+
+    <div class="panel">
+      <div class="tree">
+<span class="n">Element</span>              <span class="c"># abstract base — bounds + name + parent</span>
+ └── <span class="n">Container</span>       <span class="c"># + HasChildren — this module</span>
+      └── <span class="n">Window</span>     <span class="c"># root container, full 0–100 bounds</span>
+      </div>
+    </div>
+
+    <div class="fact" style="margin-top:16px;border-left:4px solid var(--el-container)">
+      <p>A Container may hold <b>any Element</b> — another
+        <span class="badge" style="color:var(--el-container);border-color:rgba(88,166,255,.5)">Container</span>,
+        a <span class="badge" style="color:var(--el-label);border-color:rgba(188,140,255,.5)">Label</span>,
+        a <span class="badge" style="color:var(--el-line);border-color:rgba(52,211,153,.5)">Line</span>,
+        a <span class="badge" style="color:var(--el-connector);border-color:rgba(251,191,36,.5)">Connector</span>,
+        even a <span class="badge" style="color:var(--el-window);border-color:rgba(255,140,66,.5)">Window</span>.
+        Children nest arbitrarily deep — that's the Composite pattern at work.</p>
+    </div>
+  </section>
+
+  <!-- 4. THIS MODULE'S CONTRIBUTION -->
+  <section>
+    <h2>This Module's Contribution</h2>
+    <p class="sub">The two methods that keep the tree honest — verbatim from <code class="inl">main.py</code>.</p>
+
+    <div class="module">
+      <p style="margin:0 0 14px">
+        <span class="badge accent">single owner of the tree-mutation invariant</span>
+      </p>
+      <pre><span class="kw">def</span> <span class="fn">add_child</span>(self, child: <span class="cls">Element</span>) -> <span class="kw">None</span>:
+    <span class="mut"># Detach from old parent (if any)</span>
+    old_parent = child.parent
+    <span class="kw">if</span> old_parent <span class="kw">is not</span> <span class="kw">None</span>:
+        <span class="kw">if</span> old_parent <span class="kw">is</span> self:
+            <span class="kw">return</span>
+        old_parent.<span class="fn">remove_child</span>(child=child)
+    <span class="mut"># Attach to this Container</span>
+    child.<span class="fn">_set_parent</span>(parent=self)
+    <span class="cls">HasChildren</span>.<span class="fn">add_child</span>(self, child=child)
+
+
+<span class="kw">def</span> <span class="fn">remove_child</span>(self, child: <span class="cls">Element</span>) -> <span class="kw">None</span>:
+    <span class="cls">HasChildren</span>.<span class="fn">remove_child</span>(self, child=child)
+    child.<span class="fn">_set_parent</span>(parent=<span class="kw">None</span>)</pre>
+      <p style="margin:14px 0 0;color:var(--muted)">
+        Read the flow: grab the old parent → if it's already us, bail (no-op) →
+        otherwise remove from the old parent → set our pointer → append to our list.
+        Removal is the mirror image: drop from the list, then null the back-pointer.</p>
+    </div>
+
+    <div class="flow" style="margin-top:20px">
+      <div class="step"><div class="t">old_parent?</div><div class="d">read child.parent</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="t">is self?</div><div class="d">return (no-op)</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="t">detach</div><div class="d">old.remove_child</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="t">_set_parent</div><div class="d">point at self</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="t">append</div><div class="d">HasChildren list</div></div>
+    </div>
+  </section>
+
+  <!-- 5. GALLERY -->
+  <section>
+    <h2>Gallery — The Composite Pattern in the Wild</h2>
+    <p class="sub">"A thing that contains things of its own kind" shows up everywhere.</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <div class="ico">📁</div>
+        <h3>OS folders &amp; files</h3>
+        <p>A folder holds files and other folders; move a file and it leaves its old folder.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🌐</div>
+        <h3>The HTML DOM</h3>
+        <p>Every element has child nodes and one parent node — a tree of regions, like this one.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🏢</div>
+        <h3>Org charts</h3>
+        <p>A manager contains reports who may manage their own reports — nesting without limit.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🪟</div>
+        <h3>Nested UI panels</h3>
+        <p>A window holds panels, panels hold widgets — exactly what Container + Window model.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. FUN FACTS -->
+  <section>
+    <h2>Fun Facts</h2>
+    <p class="sub">Why the design looks the way it does.</p>
+
+    <div class="grid g3">
+      <div class="fact">
+        <div class="fi">🧩</div>
+        <h3>It's the Composite pattern</h3>
+        <p>A Gang-of-Four classic: treat individual objects and compositions of them
+          uniformly, so a Label and a deeply-nested Container are both just "an Element".</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🌐</div>
+        <h3>The DOM does this too</h3>
+        <p>JavaScript's <code class="inl">appendChild</code> also reparents — moving an
+          existing node detaches it from its old parent. Same semantics as
+          <code class="inl">add_child</code>.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🌳</div>
+        <h3>Two tree invariants</h3>
+        <p>Exactly one parent per node, and no cycles. Auto-detach-on-add is what keeps
+          the "one parent" half true without any caller effort.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🎞️</div>
+        <h3>Retained-mode scene graph</h3>
+        <p>The tree is <i>stored</i>, not re-issued every frame. Mutate it once and the
+          structure persists — the opposite of immediate-mode drawing.</p>
+      </div>
+      <div class="fact">
+        <div class="fi">🔒</div>
+        <h3>Why <code class="inl">_set_parent</code> is private</h3>
+        <p>Encapsulating the back-pointer is what prevents the classic "child in two
+          parents" bug — no caller can set <code class="inl">_parent</code> behind the Container's back.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>f_gui/elements/i_1_container/ — the Element that holds children and owns the parent/child tree invariant.</span>
+    <span>Generated 2026-06-15</span>
+  </footer>
+
+</div>
+</body>
+</html>

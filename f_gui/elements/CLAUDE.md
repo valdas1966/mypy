@@ -81,6 +81,16 @@ recomputed live from their bounds. See `i_1_connector/CLAUDE.md`.
 | `f_core.mixins.has.children.HasChildren` | Children list + add/remove|
 | `f_ds.geometry.bounds.Bounds`            | Rectangular bounds        |
 
+## Visual Docs (human-facing)
+
+- `ABOUT.html` (this folder) — **interactive** overview: a live, draggable
+  scene-graph playground (anchors, DIRECT/ORTHOGONAL routing, connector
+  "follow", reparenting) plus the hierarchy, coordinate model, interaction
+  matrix, and render pipeline. Links out to each element's page below.
+- `i_*/ABOUT.html` — one visual explainer per element (Element, Container,
+  Label, Line, Connector, Window). Dark-theme, concept-first ("what is a
+  …?"). Generated on demand; Claude reads `CLAUDE.md`, not these.
+
 ## Usage Example
 
 ```python
