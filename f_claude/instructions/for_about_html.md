@@ -102,6 +102,17 @@ Use these HTML patterns throughout:
 - Grid layouts collapse to single column on mobile.
 - Flow diagrams: arrows rotate 90° on narrow screens.
 
+## AI-Generated Images (optional)
+
+This is the most visual of the docs — lean into illustration. If a
+generated image would significantly enhance it (concept illustration,
+analogy art, architecture/flow diagram):
+1. Pause generation.
+2. Give the user a clear image-generation prompt (suitable for ChatGPT,
+   Google Gemini, or NanoBanana — the user has all three).
+3. Wait for the user to upload the image(s).
+4. Embed them into the HTML (base64 inline or relative path).
+
 ## Deliverable
 
 - Write the full HTML to `ABOUT.html` in the target folder.

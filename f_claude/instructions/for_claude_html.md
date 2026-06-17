@@ -133,6 +133,17 @@ Presentation requirements:
 - Ensure hover states are obvious (links, buttons, panels).
 
 
+## AI-Generated Images (optional)
+
+Make the page as visual as the content allows. If an illustration would
+significantly enhance it (architecture diagram, class-hierarchy visual,
+concept illustration):
+1. Pause generation.
+2. Give the user a clear image-generation prompt (suitable for ChatGPT,
+   Google Gemini, or NanoBanana — the user has all three).
+3. Wait for the user to upload the image(s).
+4. Embed them into the HTML (base64 inline or relative path).
+
 ## Deliverable
 - Write the full HTML contents to `CLAUDE.html`.
 - Ensure it renders correctly when opened locally (no build step).

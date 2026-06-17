@@ -23,6 +23,7 @@ also links its guide inline):
 | Write imports / an `__init__.py` | `for_imports.md` |
 | Lay out a module (folders, file roles) | `for_structure.md` |
 | Add logging to a module | `for_logging.md` |
+| Look up a domain abbreviation | `for_glossary.md` |
 | Do any Google Drive operation | `for_drive.md` |
 | Write or edit LaTeX (`.tex`) | `for_tex.md` |
 
@@ -240,17 +241,8 @@ Full guide (aggregator vs direct, `ULazy`, `__init__.py` patterns):
 
 ## Domain Abbreviations
 
-| Abbreviation | Meaning |
-|-------------|---------|
-| SPP | Shortest Path Problem (one-to-one) |
-| OMSPP | One-to-Many Shortest Path Problem |
-| MMSPP | Many-to-Many Shortest Path Problem |
-| BFS | Breadth-First Search |
-| HS | Heuristic Search |
-| DS | Data Structures |
-| CS | Computer Science |
-| PSL | Python Standard Library (wrappers) |
-| GUI | Graphical User Interface |
+Domain abbreviations (SPP, OMSPP, MMSPP, BFS, HS, DS, CS, PSL, GUI) are
+defined in `f_claude/instructions/for_glossary.md`.
 
 ---
 
@@ -271,10 +263,7 @@ Full guide (aggregator vs direct, `ULazy`, `__init__.py` patterns):
 Every code change MUST update the `CLAUDE.md` file in each folder that contains at least one changed file. Follow `f_claude/instructions/for_claude_md.md`. If `CLAUDE.md` does not exist in the folder, create it.
 
 ### On demand: CLAUDE.html and CLAUDE_REVIEW.html
-`CLAUDE.html` and `CLAUDE_REVIEW.html` are generated **only when the user explicitly requests** them. These files are for human reading — Claude reads only `CLAUDE.md`. Follow `for_claude_html.md` / `for_claude_review.md` (and `for_about_html.md` for `ABOUT.html`).
-
-### Visual HTML Files
-All generated HTML files (`CLAUDE.html`, `CLAUDE_REVIEW.html`, `ABOUT.html`) should be **as visual as possible** — diagrams, colored sections, icons, visual hierarchies, illustrations. If an image would significantly enhance the docs (architecture diagrams, class-hierarchy visuals, concept illustrations): (1) pause generation, (2) give the user a clear image-generation prompt (ChatGPT / Google Gemini / NanoBanana — the user has all three), (3) wait for the upload, (4) embed it (base64 inline or relative path).
+`CLAUDE.html` and `CLAUDE_REVIEW.html` are generated **only when the user explicitly requests** them. These files are for human reading — Claude reads only `CLAUDE.md`. Follow `for_claude_html.md` / `for_claude_review.md` (and `for_about_html.md` for `ABOUT.html`); those guides cover the visual style and the AI-generated-image workflow.
 
 ### Scope: Which folders get CLAUDE files
 CLAUDE files are required **only** for folders containing class modules or utility modules:
@@ -322,21 +311,11 @@ one-sentence `\you{...}`). Both rules are specified in `for_tex.md`.
 
 ## Session Management
 
-The session lifecycle lives in two skills under `.claude/skills/`:
-
-- **`start-session`** — start or continue a named session: read Drive
-  instructions, find & continue a prior same-named session, create
-  today's skeleton, report back. Triggers: "start session '<name>'",
-  "new session", "open session".
-- **`finish-session`** — save / close / summarize / end the session:
-  write & upload the full summary. Triggers: "save the session", "close
-  session", "summarize the session", "end session".
-
-Both call the shared Drive helper at
-`.claude/skills/_session_lib/session.py` and are the authoritative
-workflows. Session summaries live on Drive at
-`YYYY/MM/DD/<name>_session.md` (flat names); the Google Drive rules above
-still apply.
+Session lifecycle = two skills under `.claude/skills/`: **`start-session`**
+(start/continue) and **`finish-session`** (save/close/summarize). The
+skills are the authoritative workflows — triggers and steps live in their
+`SKILL.md`. Summaries live on Drive at `YYYY/MM/DD/<name>_session.md`
+(flat names); the Google Drive rules above apply.
 
 ---
 
