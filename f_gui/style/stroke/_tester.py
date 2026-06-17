@@ -1,4 +1,4 @@
-from f_gui.style.stroke.main import Stroke, LineStyle
+from f_gui.style.stroke.main import Stroke, DashPattern
 from f_color.rgb import RGB
 
 
@@ -11,7 +11,7 @@ def test_defaults() -> None:
     s = Stroke()
     assert s.color is None
     assert s.width == 1
-    assert s.style is LineStyle.SOLID
+    assert s.pattern is DashPattern.SOLID
 
 
 def test_color() -> None:
@@ -33,13 +33,13 @@ def test_width() -> None:
     assert Stroke(width=4).width == 4
 
 
-def test_style() -> None:
+def test_pattern() -> None:
     """
     ========================================================================
-     Test that the style is stored.
+     Test that the dash pattern is stored.
     ========================================================================
     """
-    assert Stroke(style=LineStyle.DOTTED).style is LineStyle.DOTTED
+    assert Stroke(pattern=DashPattern.DOTTED).pattern is DashPattern.DOTTED
 
 
 def test_str() -> None:
@@ -48,7 +48,7 @@ def test_str() -> None:
      Test the string representation.
     ========================================================================
     """
-    assert str(Stroke(width=2, style=LineStyle.DASHED)) == '(2px dashed default)'
+    assert str(Stroke(width=2, pattern=DashPattern.DASHED)) == '(2px dashed default)'
 
 
 def test_factory_dashed() -> None:
@@ -58,5 +58,5 @@ def test_factory_dashed() -> None:
     ========================================================================
     """
     s = Stroke.Factory.dashed()
-    assert s.style is LineStyle.DASHED
+    assert s.pattern is DashPattern.DASHED
     assert s.width == 2

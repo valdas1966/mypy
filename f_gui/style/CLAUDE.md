@@ -14,13 +14,13 @@ The `__init__.py` is a **lazy aggregator** (`ULazy` + `TYPE_CHECKING`
 mirror block).
 
 ```python
-from f_gui.style import Stroke, LineStyle, Border, TextStyle
+from f_gui.style import Stroke, DashPattern, Border, TextStyle
 ```
 
 | Export      | Source module            | Role                                  |
 |-------------|--------------------------|---------------------------------------|
-| `Stroke`    | `f_gui.style.stroke`     | `(color, width, style)` appearance    |
-| `LineStyle` | `f_gui.style.stroke`     | enum: `SOLID` / `DASHED` / `DOTTED`   |
+| `Stroke`    | `f_gui.style.stroke`     | `(color, width, pattern)` appearance  |
+| `DashPattern` | `f_gui.style.stroke`     | enum: `SOLID` / `DASHED` / `DOTTED`   |
 | `Border`    | `f_gui.style.border`     | four edge `Stroke`s (T/L/B/R)         |
 | `TextStyle` | `f_gui.style.text` | `(font, size, bold, color)` text look |
 
@@ -28,8 +28,8 @@ from f_gui.style import Stroke, LineStyle, Border, TextStyle
 
 ```
 f_gui/style/
-├── __init__.py     lazy aggregator (Stroke, LineStyle, Border, TextStyle)
-├── stroke/         Stroke + LineStyle — shared line/edge appearance
+├── __init__.py     lazy aggregator (Stroke, DashPattern, Border, TextStyle)
+├── stroke/         Stroke + DashPattern — shared line/edge appearance
 ├── border/         Border — four edge Strokes
 └── text/           TextStyle — text appearance (font/size/bold/color)
 ```
@@ -37,15 +37,16 @@ f_gui/style/
 ## The Reuse Story
 
 ```
-Stroke  = (color, width, style: LineStyle)        the shared appearance
+Stroke  = (color, width, pattern: DashPattern)      the shared appearance
 Line    = Stroke + (p1, p2) + arrow               geometry + direction
 Border  = { top, left, bottom, right : Stroke? }  four edges
 ```
 
 `Line` (an element) and `Border` (element state) both consume `Stroke` +
-`LineStyle` from here, so the `(color, width, style)` triple is defined
-exactly once. `LineStyle` keeps its name (used by both lines and borders)
-even though it now lives in the style package, not the line element.
+`DashPattern` from here, so the `(color, width, pattern)` triple is defined
+exactly once. `DashPattern` (the dash pattern: solid / dashed / dotted) is
+used by both lines and borders via `Stroke`, so it lives in the style
+package, not the line element. It is `Stroke`'s `pattern` attribute.
 
 ## Rendering Map (handled by RenderHtml)
 
@@ -53,7 +54,7 @@ even though it now lives in the style package, not the line element.
 |-----------------------------|-------------------------------------------------|
 | `Stroke` on a `Border` edge | CSS `border-{side}: {width}px {style} {color}`  |
 | `Stroke` on a `Line`        | SVG `stroke` / `stroke-width` / `stroke-dasharray` |
-| `LineStyle.*`               | CSS `border-style` keyword / SVG dash pattern   |
+| `DashPattern.*`               | CSS `border-style` keyword / SVG dash pattern   |
 | `TextStyle` on a `Label`    | CSS `font-family` / `font-size` / `font-weight` / `color` |
 
 ## Visual Docs (human-facing)

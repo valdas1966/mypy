@@ -6,7 +6,7 @@ dotted = round dots), plus per-side, multi-color, and width variants.
 Run:  python -m f_gui.render.html.s_border   (then open border.html)
 """
 from f_gui.elements import Window, Container, Label
-from f_gui.style import Stroke, LineStyle, Border
+from f_gui.style import Stroke, DashPattern, Border
 from f_gui.render import RenderHtml
 from f_ds.geometry import Bounds
 from f_color import RGB
@@ -25,27 +25,27 @@ def demo(i: int, text: str, border: Border) -> Container:
     return con
 
 
-def stroke(color: str, width: float, style: LineStyle) -> Stroke:
-    return Stroke(color=RGB(color), width=width, style=style)
+def stroke(color: str, width: float, pattern: DashPattern) -> Stroke:
+    return Stroke(color=RGB(color), width=width, pattern=pattern)
 
 
 win = Window(background=RGB('gainsboro'))
 
 variants = [
-    ('solid',   Border.Factory.all(stroke('black', 2, LineStyle.SOLID))),
-    ('dashed',  Border.Factory.all(stroke('blue', 2, LineStyle.DASHED))),
-    ('dotted',  Border.Factory.all(stroke('green', 2, LineStyle.DOTTED))),
-    ('top only', Border(top=stroke('red', 3, LineStyle.SOLID))),
+    ('solid',   Border.Factory.all(stroke('black', 2, DashPattern.SOLID))),
+    ('dashed',  Border.Factory.all(stroke('blue', 2, DashPattern.DASHED))),
+    ('dotted',  Border.Factory.all(stroke('green', 2, DashPattern.DOTTED))),
+    ('top only', Border(top=stroke('red', 3, DashPattern.SOLID))),
     ('top + bottom',
-     Border(top=stroke('purple', 3, LineStyle.SOLID),
-            bottom=stroke('purple', 3, LineStyle.SOLID))),
+     Border(top=stroke('purple', 3, DashPattern.SOLID),
+            bottom=stroke('purple', 3, DashPattern.SOLID))),
     ('4 colors',
-     Border(top=stroke('red', 3, LineStyle.SOLID),
-            right=stroke('green', 3, LineStyle.SOLID),
-            bottom=stroke('blue', 3, LineStyle.SOLID),
-            left=stroke('orange', 3, LineStyle.SOLID))),
-    ('thick (6px)', Border.Factory.all(stroke('black', 6, LineStyle.SOLID))),
-    ('thin (1px)',  Border.Factory.all(stroke('black', 1, LineStyle.SOLID))),
+     Border(top=stroke('red', 3, DashPattern.SOLID),
+            right=stroke('green', 3, DashPattern.SOLID),
+            bottom=stroke('blue', 3, DashPattern.SOLID),
+            left=stroke('orange', 3, DashPattern.SOLID))),
+    ('thick (6px)', Border.Factory.all(stroke('black', 6, DashPattern.SOLID))),
+    ('thin (1px)',  Border.Factory.all(stroke('black', 1, DashPattern.SOLID))),
 ]
 for i, (text, border) in enumerate(variants):
     win.add_child(demo(i, text, border))

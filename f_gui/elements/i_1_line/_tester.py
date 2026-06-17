@@ -1,5 +1,5 @@
 from f_gui.elements.i_1_line.main import Line
-from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.stroke import Stroke, DashPattern
 from f_ds.geometry.point import Point
 
 
@@ -23,7 +23,7 @@ def test_default_stroke() -> None:
     line = Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100))
     assert line.stroke.color is None
     assert line.stroke.width == 1
-    assert line.stroke.style is LineStyle.SOLID
+    assert line.stroke.pattern is DashPattern.SOLID
     assert line.arrow is False
 
 
@@ -33,7 +33,7 @@ def test_stroke_stored() -> None:
      Test that a provided Stroke is stored.
     ========================================================================
     """
-    stroke = Stroke(width=3, style=LineStyle.DASHED)
+    stroke = Stroke(width=3, pattern=DashPattern.DASHED)
     line = Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100), stroke=stroke)
     assert line.stroke is stroke
 

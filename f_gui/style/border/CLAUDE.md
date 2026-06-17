@@ -46,7 +46,7 @@ def __str__(self) -> str    # 'Border[T=(2px solid default)]' (set sides only)
 
 `RenderHtml._border()` reads `Element.border` and emits one
 `border-{side}: {width}px {style} {color}` declaration per set side —
-`LineStyle` values are the exact CSS `border-style` keywords, so the map
+`DashPattern` values are the exact CSS `border-style` keywords, so the map
 is 1:1. An Element with `border is None` emits nothing (borders are fully
 opt-in; the old per-type default borders were removed).
 
@@ -67,13 +67,13 @@ opt-in; the old per-type default borders were removed).
 
 ```python
 from f_gui.style.border import Border
-from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.stroke import Stroke, DashPattern
 from f_color.rgb import RGB
 
 # Uniform red 2px border
 uniform = Border.Factory.all(stroke=Stroke(color=RGB('RED'), width=2))
 
 # Dashed blue top + bottom only
-edge = Stroke(color=RGB('BLUE'), width=3, style=LineStyle.DASHED)
+edge = Stroke(color=RGB('BLUE'), width=3, pattern=DashPattern.DASHED)
 partial = Border(top=edge, bottom=edge)
 ```

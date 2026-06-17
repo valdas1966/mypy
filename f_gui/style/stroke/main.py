@@ -1,16 +1,15 @@
 from __future__ import annotations
-
-from enum import Enum
 from typing import TYPE_CHECKING
+from enum import Enum
 
 if TYPE_CHECKING:
     from f_color.rgb import RGB
 
 
-class LineStyle(Enum):
+class DashPattern(Enum):
     """
     ========================================================================
-     Stroke style — shared by Line and by Border edges.
+     Stroke dash pattern — shared by Line and by Border edges.
     ========================================================================
      Values are the exact CSS keywords (border-style / SVG dash family),
      so the renderer maps them with zero translation.
@@ -24,7 +23,7 @@ class LineStyle(Enum):
 class Stroke:
     """
     ============================================================================
-     Stroke — the visual appearance of a line (color, width, style).
+     Stroke — the visual appearance of a line (color, width, pattern).
     ============================================================================
      Pure appearance, no geometry. Reused as: the look of a `Line`
      (Line = Stroke + endpoints + arrow) and as a single edge of a
@@ -36,9 +35,9 @@ class Stroke:
     Factory: type = None
 
     def __init__(self,
-                 color: RGB | None = None,
+                 color: RGB = RGB(name='Black'),
                  width: float = 1,
-                 style: LineStyle = LineStyle.SOLID) -> None:
+                 pattern: DashPattern = DashPattern.SOLID) -> None:
         """
         ========================================================================
          Init private Attributes.
@@ -46,7 +45,7 @@ class Stroke:
         """
         self._color = color
         self._width = width
-        self._style = style
+        self._pattern = pattern
 
     @property
     def color(self) -> RGB | None:
@@ -67,13 +66,13 @@ class Stroke:
         return self._width
 
     @property
-    def style(self) -> LineStyle:
+    def pattern(self) -> DashPattern:
         """
         ========================================================================
-         Get the Style of the Stroke (solid / dashed / dotted).
+         Get the dash Pattern of the Stroke (solid / dashed / dotted).
         ========================================================================
         """
-        return self._style
+        return self._pattern
 
     def __str__(self) -> str:
         """
@@ -82,4 +81,4 @@ class Stroke:
         ========================================================================
         """
         color = self._color if self._color is not None else 'default'
-        return f'({self._width}px {self._style.value} {color})'
+        return f'({self._width}px {self._pattern.value} {color})'

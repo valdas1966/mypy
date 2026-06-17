@@ -19,14 +19,14 @@ appearance triple lives in one place:
 Line = Stroke + (p1, p2) + arrow
 ```
 
-`LineStyle` (`SOLID`/`DASHED`/`DOTTED`) also lives in `f_gui.style.stroke`
+`DashPattern` (`SOLID`/`DASHED`/`DOTTED`) also lives in `f_gui.style.stroke`
 (it is shared with borders) — import it from there, not from this module.
 
 | Aspect    | Source                       | Renders as            |
 |-----------|------------------------------|-----------------------|
 | `stroke.color` | `RGB \| None` (→ default)| SVG `stroke`          |
 | `stroke.width` | `float` (px)             | `stroke-width`        |
-| `stroke.style` | `LineStyle`              | `stroke-dasharray`    |
+| `stroke.pattern` | `DashPattern`              | `stroke-dasharray`    |
 | `arrow`        | `bool`                   | `marker-end` at `p2`  |
 
 ## Public API
@@ -108,12 +108,12 @@ content-derived id (unique per distinct line).
 
 ```python
 from f_gui.elements.i_1_line import Line
-from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.stroke import Stroke, DashPattern
 from f_ds.geometry.point import Point
 from f_color.rgb import RGB
 
 arrow = Line(p1=Point(x=10, y=50), p2=Point(x=90, y=50),
              stroke=Stroke(color=RGB('RED'), width=3), arrow=True)
 dashed = Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100),
-              stroke=Stroke(style=LineStyle.DASHED))
+              stroke=Stroke(pattern=DashPattern.DASHED))
 ```

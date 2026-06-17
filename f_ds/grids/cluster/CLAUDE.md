@@ -41,8 +41,15 @@ f_ds/grids/cluster/
 
 ## Design Notes
 
-- Clusters compose `Collectionable[CellMap]` from `f_ds.mixins.collectionable`,
-  so `len()`, `in`, iteration, `bool()` all come for free from `to_iterable()`.
+- The grid `Cluster` is the **grid specialisation** of the general
+  `f_ds.clusters.Cluster[Item]` abstract base (`Item = CellMap`).
+  Identity (`name`), the `members` accessor, and the `representative`
+  slot come from that base.
+- `map: str` (the grid's NAME) is grid-local provenance — the grid
+  object is never retained. It is part of `ClusterDiamond.key`.
+- Clusters compose `Collectionable[CellMap]` (via the general base), so
+  `len()`, `in`, iteration, `bool()` all come for free from
+  `to_iterable()`.
 - `ClusterDiamond` is built via BFS from the center (connected-component
   semantics): walls split the geometric ball into disconnected regions; only
   the component containing the center is retained.

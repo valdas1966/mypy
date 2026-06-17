@@ -1,5 +1,13 @@
 # Instructions for Generating LaTeX (.tex) Files
 
+> **Drive is authoritative.** Before creating or editing any LaTeX
+> document, report, TikZ figure, or graph diagram — even outside a named
+> session — read `Instructions/For_Tex.md` from Drive first
+> (`drive.read(path='Instructions/For_Tex.md').text`). It holds the
+> authoritative conventions for colors, section styling, enumerated
+> sentences, TikZ graph diagrams, and compilation. If it conflicts with
+> this local file, **Drive wins**.
+
 ## Document Structure
 
 ### Standalone Document
@@ -119,3 +127,60 @@ Second detail sentence.}}
 1. Compile with `tectonic` (lightweight, auto-downloads packages).
 2. When updating a `.tex` file on Drive, **always compile and upload the `.pdf` alongside it**.
 3. Use `/tmp` for local compilation — do not save permanently to the local filesystem.
+
+---
+
+## Mandatory `\me` / `\you` Annotation Macros
+
+Every `.tex` file created or edited under this project — whether
+destined for Drive or Overleaf — **must** define both annotation
+macros in the preamble, so the option to write inline author /
+AI comments is available at all times:
+
+- **`\me{...}`** — the author's voice, rendered in **red**.
+- **`\you{...}`** — Claude's (the AI's) reply, rendered in
+  **blue**.
+
+Both macros share a single `\ifdraft` toggle, so flipping it to
+`\draftfalse` strips every annotation for the publication build.
+A `.tex` without the block is **non-conforming** — fix before
+upload (to Drive or Overleaf).
+
+**Required preamble block** (paste verbatim, after the color /
+styling preamble, before `\begin{document}`):
+
+```latex
+% ── Author annotations (draft only) ─────────────────────
+\newif\ifdraft\drafttrue  % flip to \draftfalse to strip all
+
+\newcommand{\me}[1]{%
+    \ifdraft\textcolor{red}{\textbf{[me:\,#1]}}\fi%
+}
+\newcommand{\you}[1]{%
+    \ifdraft\textcolor{blue}{\textbf{[you:\,#1]}}\fi%
+}
+```
+
+The block must be present even when the file currently contains
+zero `\me{...}` or `\you{...}` calls — annotations may be added
+inline at any time.
+
+## Bidirectional `\me` / `\you` Protocol
+
+On every read of a `.tex`, scan for inline `\me{...}`
+annotations and act:
+
+- **Tasks** (imperatives — "make X bold", "add reference") —
+  execute the edit. If a `\me{...}` line sits in a LaTeX-invalid
+  position (e.g., inside `\begin{itemize}` before any `\item`),
+  remove the line as part of the fix.
+- **Questions** (interrogatives — "why X?", "does Y hold?") —
+  insert `\you{<one-sentence answer>}` immediately after the
+  `\me{...}`, keeping the `\me{...}` so the thread reads
+  naturally.
+- **No `\you{...}` without a `\me{...}`** — AI annotations exist
+  to answer the author. Do not add unsolicited `\you{...}`.
+
+Replies inside `\you{...}` follow the same brevity rule: one
+sentence or less. Long rationale belongs in the session `.md`,
+never the `.tex`.

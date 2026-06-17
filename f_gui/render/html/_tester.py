@@ -6,7 +6,7 @@ from f_gui.elements.i_2_window.main import Window
 from f_gui.elements.i_1_container.main import Container
 from f_gui.elements.i_1_label.main import Label
 from f_gui.elements.i_1_line.main import Line
-from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.stroke import Stroke, DashPattern
 from f_gui.style.border import Border
 from f_ds.geometry.bounds import Bounds
 from f_ds.geometry.point import Point
@@ -170,7 +170,7 @@ def test_line_dashed_has_dasharray() -> None:
     """
     html = RenderHtml.element(elem=Line(
         p1=Point(x=0, y=0), p2=Point(x=100, y=100),
-        stroke=Stroke(style=LineStyle.DASHED)))
+        stroke=Stroke(pattern=DashPattern.DASHED)))
     assert 'stroke-dasharray="8 6"' in html
 
 
@@ -245,7 +245,7 @@ def test_border_per_side() -> None:
      Test that only set sides emit border CSS (dashed maps to CSS keyword).
     ========================================================================
     """
-    border = Border(top=Stroke(width=3, style=LineStyle.DASHED))
+    border = Border(top=Stroke(width=3, pattern=DashPattern.DASHED))
     html = RenderHtml.element(elem=Container(border=border))
     assert 'border-top:3px dashed #e6edf3;' in html
     assert 'border-bottom' not in html
@@ -256,10 +256,10 @@ def test_border_per_side() -> None:
 def test_border_style_keywords() -> None:
     """
     ========================================================================
-     Test that LineStyle maps 1:1 to the CSS border-style keyword.
+     Test that DashPattern maps 1:1 to the CSS border-style keyword.
     ========================================================================
     """
-    border = Border(top=Stroke(style=LineStyle.DOTTED))
+    border = Border(top=Stroke(pattern=DashPattern.DOTTED))
     html = RenderHtml.element(elem=Container(border=border))
     assert 'border-top:1px dotted ' in html
 

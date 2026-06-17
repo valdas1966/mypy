@@ -1,6 +1,6 @@
 
 from f_gui.elements import Window, Container, Label, Line
-from f_gui.style import Stroke, LineStyle, Border
+from f_gui.style import Stroke, DashPattern, Border
 from f_gui.render import RenderHtml
 from f_ds.geometry import Bounds, Point
 from f_color import RGB
@@ -15,7 +15,7 @@ def create_con_left() -> Container:
 def create_con_right() -> Container:
     # Yellow panel with a dashed blue border on top + bottom only.
     bounds = Bounds(10, 60, 90, 90)
-    edge = Stroke(color=RGB('BLUE'), width=3, style=LineStyle.DASHED)
+    edge = Stroke(color=RGB('BLUE'), width=3, pattern=DashPattern.DASHED)
     border = Border(top=edge, bottom=edge)
     return Container(bounds=bounds, background=RGB('YELLOW'), border=border)
 
@@ -28,7 +28,7 @@ def create_diagonal() -> Line:
     # Dashed blue diagonal across the whole window.
     return Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100),
                 stroke=Stroke(color=RGB('BLUE'), width=2,
-                              style=LineStyle.DASHED))
+                              pattern=DashPattern.DASHED))
 
 win = Window(background=RGB('WHITE'))
 con_left = create_con_left()

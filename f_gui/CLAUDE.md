@@ -27,12 +27,12 @@ from f_gui import Element, Container, Label, Window
 | `Connector` | `f_gui.elements.i_1_connector`      | Leaf: two element refs, auto-routed; SVG|
 | `Window`    | `f_gui.elements.i_2_window`         | Root container (full bounds)|
 
-Styling value objects live in **`f_gui.style`**: `Stroke`, `LineStyle`
+Styling value objects live in **`f_gui.style`**: `Stroke`, `DashPattern`
 (`SOLID`/`DASHED`/`DOTTED`), `Border`, `TextStyle` (`font`/`size`/`bold`/
 `color`, attached to a `Label`).
 
 ```python
-from f_gui.style import Stroke, LineStyle, Border, TextStyle
+from f_gui.style import Stroke, DashPattern, Border, TextStyle
 ```
 
 ## Module Hierarchy
@@ -49,8 +49,8 @@ f_gui/
 │   ├── i_1_line/        Line      (Element + two Points + Stroke)
 │   └── i_2_window/      Window    (Container with implicit full bounds)
 ├── style/
-│   ├── __init__.py      lazy aggregator (Stroke, LineStyle, Border, TextStyle)
-│   ├── stroke/          Stroke + LineStyle  (shared line/edge appearance)
+│   ├── __init__.py      lazy aggregator (Stroke, DashPattern, Border, TextStyle)
+│   ├── stroke/          Stroke + DashPattern  (shared line/edge appearance)
 │   ├── border/          Border    (four edge Strokes)
 │   └── text/            TextStyle (text font/size/bold/color)
 └── render/

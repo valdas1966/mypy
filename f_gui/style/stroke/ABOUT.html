@@ -107,12 +107,12 @@ a{color:var(--accent)}
 <header class="hero">
   <span class="kicker">f_gui · style · stroke</span>
   <h1>What is a <span class="grad">Stroke</span>?</h1>
-  <p class="tagline">The look of a line — color, width, style — with no
+  <p class="tagline">The look of a line — color, width, pattern — with no
   geometry, reused everywhere a stroke appears.</p>
   <p style="margin-top:18px">
     <span class="badge good" style="border-color:var(--el-line);color:var(--el-line);background:rgba(52,211,153,.10)">value object</span>
     <span class="badge accent">pure appearance</span>
-    <span class="badge v2">+ LineStyle enum</span>
+    <span class="badge v2">+ DashPattern enum</span>
   </p>
   <!-- BONUS: solid / dashed / dotted in green -->
   <svg width="300" height="60" viewBox="0 0 300 60" aria-label="solid, dashed, dotted strokes"
@@ -141,7 +141,7 @@ a{color:var(--accent)}
     <div class="cmp bad">
       <h3>🚫 Without Stroke</h3>
       <ul>
-        <li>The <code class="inl">(color, width, style)</code> triple is
+        <li>The <code class="inl">(color, width, pattern)</code> triple is
         repeated on <b>Line</b> and again on <b>every Border edge</b>.</li>
         <li>Four border sides + lines = the same three fields copied many
         times.</li>
@@ -171,10 +171,10 @@ a{color:var(--accent)}
     fallback — the Stroke does not.</li>
     <li><b><code class="inl">width</code> is in pixels</b> (a
     <code class="inl">float</code>, default <code class="inl">1</code>).</li>
-    <li><b><code class="inl">style</code> is a <code class="inl">LineStyle</code></b> —
+    <li><b><code class="inl">pattern</code> is a <code class="inl">DashPattern</code></b> —
     <code class="inl">SOLID</code> / <code class="inl">DASHED</code> /
     <code class="inl">DOTTED</code>.</li>
-    <li><b>LineStyle values are the exact CSS keywords</b>
+    <li><b>DashPattern values are the exact CSS keywords</b>
     (<code class="inl">'solid'</code> / <code class="inl">'dashed'</code> /
     <code class="inl">'dotted'</code>), so the renderer maps them with
     <b>zero translation</b>.</li>
@@ -214,11 +214,11 @@ a{color:var(--accent)}
 
   <div class="panel" style="margin-top:18px">
     <div class="tree">
-<span class="n">Stroke</span>  <span class="c"># the shared (color, width, style) appearance</span>
+<span class="n">Stroke</span>  <span class="c"># the shared (color, width, pattern) appearance</span>
  ├── consumed by <span class="n">Line</span>    <span class="c"># Line   = Stroke + endpoints + arrow</span>
  └── consumed by <span class="n">Border</span>  <span class="c"># Border = up to four Strokes (one per edge)</span>
 
-<span class="n">LineStyle</span>  <span class="c"># shared by BOTH lines and borders —</span>
+<span class="n">DashPattern</span>  <span class="c"># shared by BOTH lines and borders —</span>
            <span class="c"># which is why it lives in the style package,</span>
            <span class="c"># not inside the line element.</span>
     </div>
@@ -229,13 +229,13 @@ a{color:var(--accent)}
 <section>
   <h2>This Module's Contribution</h2>
   <p class="sub">The single reuse point for line / edge appearance — plus
-  the <code class="inl">LineStyle</code> enum that both share.</p>
+  the <code class="inl">DashPattern</code> enum that both share.</p>
 
   <div class="module">
     <p style="margin:0 0 12px">
       <span class="badge accent">f_gui/style/stroke/main.py</span>
     </p>
-    <pre><span class="kw">class</span> <span class="cls">LineStyle</span>(<span class="cls">Enum</span>):
+    <pre><span class="kw">class</span> <span class="cls">DashPattern</span>(<span class="cls">Enum</span>):
     <span class="mut"># Values are the exact CSS keywords (border-style / SVG dash</span>
     <span class="mut"># family), so the renderer maps them with zero translation.</span>
     SOLID  = <span class="str">'solid'</span>
@@ -249,14 +249,14 @@ a{color:var(--accent)}
     <span class="kw">def</span> <span class="fn">__init__</span>(self,
                  color: <span class="cls">RGB</span> | <span class="kw">None</span> = <span class="kw">None</span>,
                  width: <span class="cls">float</span> = <span class="str">1</span>,
-                 style: <span class="cls">LineStyle</span> = LineStyle.SOLID) -> <span class="kw">None</span>:
+                 pattern: <span class="cls">DashPattern</span> = DashPattern.SOLID) -> <span class="kw">None</span>:
         self._color = color
         self._width = width
-        self._style = style
+        self._pattern = pattern
 
     <span class="kw">def</span> <span class="fn">__str__</span>(self) -> <span class="cls">str</span>:
         color = self._color <span class="kw">if</span> self._color <span class="kw">is not</span> <span class="kw">None</span> <span class="kw">else</span> <span class="str">'default'</span>
-        <span class="kw">return</span> <span class="str">f'({self._width}px {self._style.value} {color})'</span></pre>
+        <span class="kw">return</span> <span class="str">f'({self._width}px {self._pattern.value} {color})'</span></pre>
     <p style="margin:14px 0 0;color:var(--muted);font-size:.92rem">
       <span class="badge good" style="border-color:var(--el-line);color:var(--el-line);background:rgba(52,211,153,.10)">key idea</span>
       Defining the triple here — once — is what lets <b>Line</b> and every
@@ -290,17 +290,17 @@ a{color:var(--accent)}
   <div class="grid g3" style="margin-top:16px">
     <div class="card">
       <div class="ico" style="color:var(--el-line)">━</div>
-      <h3>LineStyle.SOLID</h3>
+      <h3>DashPattern.SOLID</h3>
       <p>Unbroken line — the default style for a fresh Stroke.</p>
     </div>
     <div class="card">
       <div class="ico" style="color:var(--el-line)">╌</div>
-      <h3>LineStyle.DASHED</h3>
+      <h3>DashPattern.DASHED</h3>
       <p>Dash pattern — keyword passes straight through to CSS/SVG.</p>
     </div>
     <div class="card">
       <div class="ico" style="color:var(--el-line)">⋯</div>
-      <h3>LineStyle.DOTTED</h3>
+      <h3>DashPattern.DOTTED</h3>
       <p>Dotted pattern — same verbatim keyword, no mapping.</p>
     </div>
   </div>
@@ -315,7 +315,7 @@ a{color:var(--accent)}
     <div class="card">
       <div class="ico">✂️</div>
       <h3>Factory.dashed()</h3>
-      <p><code class="inl">Stroke(width=2, style=DASHED)</code> — a 2px
+      <p><code class="inl">Stroke(width=2, pattern=DASHED)</code> — a 2px
       dashed preset.</p>
     </div>
   </div>
@@ -326,7 +326,7 @@ a{color:var(--accent)}
       <tr><th>Model</th><th>Output</th></tr>
       <tr><td><b>Stroke</b> on a Border edge</td><td><code class="inl">border-{side}: {width}px {style} {color}</code></td></tr>
       <tr><td><b>Stroke</b> on a Line</td><td><code class="inl">stroke</code> / <code class="inl">stroke-width</code> / <code class="inl">stroke-dasharray</code></td></tr>
-      <tr><td><b>LineStyle.*</b></td><td>CSS <code class="inl">border-style</code> keyword / SVG dash pattern</td></tr>
+      <tr><td><b>DashPattern.*</b></td><td>CSS <code class="inl">border-style</code> keyword / SVG dash pattern</td></tr>
     </table>
   </div>
 </section>
@@ -373,7 +373,7 @@ a{color:var(--accent)}
 <!-- ============================ 7. FOOTER ============================ -->
 <footer>
   <span><code class="inl">f_gui/style/stroke/</code> — shared line/edge
-  appearance (color · width · style) + the LineStyle enum.</span>
+  appearance (color · width · style) + the DashPattern enum.</span>
   <span>Generated 2026-06-15</span>
 </footer>
 

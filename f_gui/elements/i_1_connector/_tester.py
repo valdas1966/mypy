@@ -1,6 +1,6 @@
 from f_gui.elements.i_1_connector.main import Connector, Routing
 from f_gui.elements.i_1_container.main import Container
-from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.stroke import Stroke, DashPattern
 from f_ds.geometry.bounds import Bounds
 from f_ds.geometry.side import Side
 
@@ -54,7 +54,7 @@ def test_stroke_stored() -> None:
      Test that a provided Stroke is stored.
     ========================================================================
     """
-    stroke = Stroke(width=3, style=LineStyle.DASHED)
+    stroke = Stroke(width=3, pattern=DashPattern.DASHED)
     c = Connector(src=_src(), dst=_dst(), stroke=stroke)
     assert c.stroke is stroke
 

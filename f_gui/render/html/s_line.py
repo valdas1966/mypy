@@ -7,7 +7,7 @@ its own cell so its 0-100 coords are clear; caption at the cell bottom.
 Run:  python -m f_gui.render.html.s_line   (then open line.html)
 """
 from f_gui.elements import Window, Container, Label, Line
-from f_gui.style import Stroke, LineStyle, Border
+from f_gui.style import Stroke, DashPattern, Border
 from f_gui.render import RenderHtml
 from f_ds.geometry import Bounds, Point
 from f_color import RGB
@@ -30,9 +30,9 @@ def cell(i: int, text: str, line: Line) -> Container:
 
 
 def line(x1, y1, x2, y2, color, width=2,
-         style=LineStyle.SOLID, arrow=False) -> Line:
+         pattern=DashPattern.SOLID, arrow=False) -> Line:
     return Line(p1=Point(x=x1, y=y1), p2=Point(x=x2, y=y2),
-                stroke=Stroke(color=RGB(color), width=width, style=style),
+                stroke=Stroke(color=RGB(color), width=width, pattern=pattern),
                 arrow=arrow)
 
 
@@ -40,8 +40,8 @@ win = Window(background=RGB('gainsboro'))
 
 cells = [
     ('solid',        line(12, 18, 88, 60, 'black')),
-    ('dashed',       line(12, 18, 88, 60, 'blue', style=LineStyle.DASHED)),
-    ('dotted',       line(12, 18, 88, 60, 'green', style=LineStyle.DOTTED)),
+    ('dashed',       line(12, 18, 88, 60, 'blue', pattern=DashPattern.DASHED)),
+    ('dotted',       line(12, 18, 88, 60, 'green', pattern=DashPattern.DOTTED)),
     ('arrow ->',     line(12, 40, 88, 40, 'red', arrow=True)),
     ('horizontal',   line(12, 40, 88, 40, 'teal')),
     ('vertical',     line(50, 8, 50, 70, 'orange')),

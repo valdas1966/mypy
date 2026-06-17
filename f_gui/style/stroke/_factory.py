@@ -1,4 +1,4 @@
-from f_gui.style.stroke.main import Stroke, LineStyle
+from f_gui.style.stroke.main import Stroke, DashPattern
 
 
 class Factory:
@@ -9,19 +9,10 @@ class Factory:
     """
 
     @staticmethod
-    def default() -> Stroke:
-        """
-        ========================================================================
-         Generate a default Stroke (1px, solid, no color).
-        ========================================================================
-        """
-        return Stroke()
-
-    @staticmethod
     def dashed() -> Stroke:
         """
         ========================================================================
          Generate a 2px dashed Stroke.
         ========================================================================
         """
-        return Stroke(width=2, style=LineStyle.DASHED)
+        return Stroke(width=2, pattern=DashPattern.DASHED)

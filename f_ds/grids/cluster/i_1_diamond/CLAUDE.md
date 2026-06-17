@@ -25,10 +25,15 @@ The `grid` is consumed by `_build` and **not** retained on `self`.
 
 | Property | Type | Meaning |
 |----------|------|---------|
-| `center` | `CellMap` | center of the diamond (overrides `Cluster.center: None` default) |
+| `center` | `CellMap` | center of the diamond |
+| `representative` | `CellMap` | same as `center` (overrides the base `None`) |
 | `steps` | `int` | Manhattan radius |
 | `key` | `tuple[str, tuple[int,int], int]` | `(map, center.key, steps)` — drives `__eq__` / `__hash__` |
-| `map`, `name`, `cells` | — | inherited from `Cluster` |
+| `map`, `name`, `members`, `cells` | — | inherited from the grid / general `Cluster` |
+
+### String forms
+- `__str__` → `ClusterDiamond(center=(r,c), steps=s, cells=n)`
+- `__repr__` → `<ClusterDiamond: map=X, center=(r,c), steps=s, cells=n>`
 
 ### Identity (via `Hashable`)
 `__eq__` and `__hash__` come from `f_core.mixins.hashable.Hashable`,

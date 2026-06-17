@@ -73,6 +73,15 @@ class ClusterDiamond(Cluster, Hashable):
         return self._center
 
     @property
+    def representative(self) -> CellMap:
+        """
+        ========================================================================
+         The Diamond's representative is its center cell.
+        ========================================================================
+        """
+        return self._center
+
+    @property
     def steps(self) -> int:
         """
         ========================================================================
@@ -90,6 +99,17 @@ class ClusterDiamond(Cluster, Hashable):
         ========================================================================
         """
         return (self._map, self._center.key, self._steps)
+
+    def __str__(self) -> str:
+        """
+        ========================================================================
+         Return STR-REPR: 'ClusterDiamond(center=(r,c), steps=s, cells=n)'.
+        ========================================================================
+        """
+        return (f'{type(self).__name__}('
+                f'center={self._center.key}, '
+                f'steps={self._steps}, '
+                f'cells={len(self)})')
 
     def __repr__(self) -> str:
         """

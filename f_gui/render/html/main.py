@@ -6,7 +6,7 @@ from f_gui.elements.i_1_container.main import Container
 from f_gui.elements.i_1_label.main import Label
 from f_gui.elements.i_1_line.main import Line
 from f_gui.elements.i_1_connector.main import Connector
-from f_gui.style.stroke import LineStyle
+from f_gui.style.stroke import DashPattern
 
 
 class RenderHtml:
@@ -22,8 +22,8 @@ class RenderHtml:
     # Fallback color when a Stroke (Line or Border edge) carries no color.
     _STROKE_DEFAULT = '#e6edf3'
 
-    # SVG stroke-dasharray per LineStyle (solid -> no dasharray).
-    _DASH = {LineStyle.DASHED: '8 6', LineStyle.DOTTED: '1 6'}
+    # SVG stroke-dasharray per DashPattern (solid -> no dasharray).
+    _DASH = {DashPattern.DASHED: '8 6', DashPattern.DOTTED: '1 6'}
 
     @staticmethod
     def element(elem: Element) -> str:
@@ -138,8 +138,8 @@ class RenderHtml:
         p1, p2 = elem.p1, elem.p2
         stroke = elem.stroke
         color = RenderHtml._stroke_color(stroke=stroke)
-        cap = 'round' if stroke.style is LineStyle.DOTTED else 'butt'
-        dash = RenderHtml._dash(style=stroke.style)
+        cap = 'round' if stroke.pattern is DashPattern.DOTTED else 'butt'
+        dash = RenderHtml._dash(pattern=stroke.pattern)
         # Arrowhead — id is content-derived so it is unique per distinct Line
         # (duplicate ids across inline SVGs would otherwise collide).
         defs = marker = ''
@@ -176,8 +176,8 @@ class RenderHtml:
         pts = elem.path
         stroke = elem.stroke
         color = RenderHtml._stroke_color(stroke=stroke)
-        cap = 'round' if stroke.style is LineStyle.DOTTED else 'butt'
-        dash = RenderHtml._dash(style=stroke.style)
+        cap = 'round' if stroke.pattern is DashPattern.DOTTED else 'butt'
+        dash = RenderHtml._dash(pattern=stroke.pattern)
         # Arrowhead — id is content-derived (unique per distinct path).
         defs = marker = ''
         if elem.arrow:
@@ -204,16 +204,16 @@ class RenderHtml:
         return f'<svg style="{style}">{defs}{segments}</svg>'
 
     @staticmethod
-    def _dash(style: LineStyle) -> str:
+    def _dash(pattern: DashPattern) -> str:
         """
         ========================================================================
-         CSS stroke-dasharray attribute for the style, or '' for solid.
+         CSS stroke-dasharray attribute for the pattern, or '' for solid.
         ========================================================================
         """
-        pattern = RenderHtml._DASH.get(style)
-        if pattern is None:
+        dasharray = RenderHtml._DASH.get(pattern)
+        if dasharray is None:
             return ''
-        return f' stroke-dasharray="{pattern}"'
+        return f' stroke-dasharray="{dasharray}"'
 
     @staticmethod
     def _stroke_color(stroke) -> str:
@@ -235,7 +235,7 @@ class RenderHtml:
         ========================================================================
          Border is opt-in: an Element with no border emits nothing. Each set
          side maps 1:1 onto `border-{side}: {width}px {style} {color}` —
-         LineStyle values are the exact CSS border-style keywords.
+         DashPattern values are the exact CSS border-style keywords.
         ========================================================================
         """
         border = elem.border
@@ -249,7 +249,7 @@ class RenderHtml:
                 continue
             color = RenderHtml._stroke_color(stroke=stroke)
             out += (f'border-{side}:{stroke.width}px '
-                    f'{stroke.style.value} {color};')
+                    f'{stroke.pattern.value} {color};')
         return out
 
     @staticmethod

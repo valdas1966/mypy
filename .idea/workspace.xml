@@ -5,36 +5,78 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/.claude/skills/tldr/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.claude/skills/tldr/SKILL.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/_serial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_0_element/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_container/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_label/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/elements/i_2_window/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/border/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/stroke/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_gui/style/text/ABOUT.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/_tester_cluster_pool.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/PLAN.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/u_cluster_pool.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/u_cluster_pool_ABOUT.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_claude/instructions/for_drive.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_claude/instructions/for_new_class.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_claude/instructions/for_patterns.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_claude/instructions/for_skill.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/clusters/CLAUDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/clusters/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_0_base/CLAUDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_0_base/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_0_base/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_0_base/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/grids_3d/map_properties.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/grids_3d/neighbors_6_vs_26.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/settings.local.json" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/skills/finish-session/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/skills/finish-session/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/skills/start-session/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/skills/start-session/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/skills/tldr/SKILL.md" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/skills/tldr/SKILL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/drive/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/drive/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/drive/_internal/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/drive/_internal/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_google/services/drive/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_google/services/drive/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_temp_article.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_temp_find_pdf.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_temp_read_pdf.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/background.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/border.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bounds.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/connector.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/diagram_argument_a.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/diagram_argument_q.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/diagram_modus_a.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/diagram_modus_q.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/diagram_syllogism_a.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/diagram_syllogism_q.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_claude/instructions/for_tex.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_claude/instructions/for_tex.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/CLAUDE.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_gui/elements/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_0_element/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_0_element/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_connector/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_line/ABOUT.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/ABOUT.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_line/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_line/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_line/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/_study.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/s_border.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/s_border.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/s_connector.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/s_connector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/s_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/s_line.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/ABOUT.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/ABOUT.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_gui/style/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_0_clusters_start.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_0_clusters_start.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_1_clusters_goals.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_1_clusters_goals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/border/ABOUT.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/border/ABOUT.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/border/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/border/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/border/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/border/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/stroke/ABOUT.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/stroke/ABOUT.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/stroke/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/stroke/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/stroke/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/stroke/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/stroke/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/stroke/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/stroke/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/stroke/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/stroke/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/stroke/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/text/ABOUT.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/text/ABOUT.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix_bidi_docx.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kids_money_israel.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/line.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/study.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/text.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +103,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -1169,7 +1211,7 @@
       <recent name="F:\mypy\f_log\_comparing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.s_4_aggregate">
+  <component name="RunManager" selected="Python.main">
     <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1183,8 +1225,29 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mypy2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_gui/style/stroke" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/style/stroke/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1206,7 +1269,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1229,31 +1291,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="s_4_aggregate (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="mypy2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/f_hs/experiments/mospp" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_aggregate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1275,7 +1313,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_aggregate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1298,7 +1335,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/render/html/s_text.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1310,26 +1346,26 @@
     </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
+      <item itemvalue="Python.main" />
       <item itemvalue="Python.s_3_astar_inc_bpmx_depth" />
       <item itemvalue="Python.s_4_aggregate" />
       <item itemvalue="Python.s_text" />
       <item itemvalue="Python._study" />
-      <item itemvalue="Python.s_4_aggregate (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.s_4_aggregate" />
         <item itemvalue="Python.s_3_astar_inc_bpmx_depth" />
         <item itemvalue="Python.s_text" />
         <item itemvalue="Python._study" />
-        <item itemvalue="Python.s_4_aggregate (1)" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>

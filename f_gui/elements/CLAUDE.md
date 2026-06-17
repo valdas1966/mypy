@@ -14,7 +14,7 @@ Aggregator package holding the four GUI element classes. Organized with
 | `i_1_connector/` | `Connector` | 1     | Element + two element refs + routing (leaf, SVG)|
 | `i_2_window/`    | `Window`    | 2     | Container with implicit full bounds |
 
-`Line` holds a `Stroke`; the `Stroke` / `LineStyle` / `Border` styling
+`Line` holds a `Stroke`; the `Stroke` / `DashPattern` / `Border` styling
 value objects live in **`f_gui.style`** (not here).
 
 ## Package Exports
@@ -42,7 +42,7 @@ from f_gui.elements.i_1_connector import Connector, Routing
 from f_gui.elements.i_2_window    import Window
 ```
 
-Styling value objects (`Stroke`, `LineStyle`, `Border`) come from
+Styling value objects (`Stroke`, `DashPattern`, `Border`) come from
 `f_gui.style`, not from here.
 
 ## Inheritance Graph

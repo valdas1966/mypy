@@ -140,7 +140,7 @@ input[type=color]{width:46px;height:34px;border:1px solid var(--border);border-r
     <span class="kicker">f_gui · style</span>
     <h1>The Styling Vocabulary,<br><span class="grad">Live</span></h1>
     <p class="tagline">Four pure <b>value objects</b> describe how the GUI looks — a
-      <b>Stroke</b> (and its <b>LineStyle</b>), a <b>Border</b> of four edge Strokes, and a
+      <b>Stroke</b> (and its <b>DashPattern</b>), a <b>Border</b> of four edge Strokes, and a
       <b>TextStyle</b>. No geometry, no nodes, no rendering — just appearance, attached to
       elements and read by the renderer. Tune them below and watch the emitted CSS.</p>
   </header>
@@ -148,16 +148,16 @@ input[type=color]{width:46px;height:34px;border:1px solid var(--border);border-r
   <!-- ============ THE CAST ============ -->
   <section id="cast">
     <h2>The cast — four value objects</h2>
-    <p class="sub">Each card opens that module's own explainer. <code class="inl">LineStyle</code>
+    <p class="sub">Each card opens that module's own explainer. <code class="inl">DashPattern</code>
       lives inside the <code class="inl">stroke</code> module (shared by lines and borders).</p>
     <div class="grid g4">
       <a class="cast" href="stroke/ABOUT.html" style="--cc:var(--st-stroke)">
         <span class="nm">Stroke</span><span class="dep">stroke</span>
-        <p class="ds">(color, width, style) — the look of a line, reused as a Border edge.</p>
+        <p class="ds">(color, width, pattern) — the look of a line, reused as a Border edge.</p>
         <div class="open">Open explainer →</div>
       </a>
       <a class="cast" href="stroke/ABOUT.html" style="--cc:var(--st-stroke)">
-        <span class="nm">LineStyle</span><span class="dep">stroke · enum</span>
+        <span class="nm">DashPattern</span><span class="dep">stroke · enum</span>
         <p class="ds">SOLID / DASHED / DOTTED — values are the exact CSS keywords.</p>
         <div class="open">Open explainer →</div>
       </a>
@@ -177,7 +177,7 @@ input[type=color]{width:46px;height:34px;border:1px solid var(--border);border-r
   <!-- ============ REUSE STORY ============ -->
   <section id="reuse">
     <h2>The reuse story — one Stroke, many users</h2>
-    <p class="sub">The whole package exists so the <code class="inl">(color, width, style)</code>
+    <p class="sub">The whole package exists so the <code class="inl">(color, width, pattern)</code>
       triple is defined <b>exactly once</b>.</p>
     <div class="analogy">
       <div class="emoji">🖊️</div>
@@ -186,7 +186,7 @@ input[type=color]{width:46px;height:34px;border:1px solid var(--border);border-r
         lines and borders both borrow it — no duplicated color/width/style.</p>
     </div>
     <div class="flow" style="margin-top:18px">
-      <div class="step" style="border-color:var(--st-stroke)"><div class="t" style="color:var(--st-stroke)">Stroke</div><div class="d">(color, width, style)</div></div>
+      <div class="step" style="border-color:var(--st-stroke)"><div class="t" style="color:var(--st-stroke)">Stroke</div><div class="d">(color, width, pattern)</div></div>
       <div class="arr">→</div>
       <div class="step"><div class="t">Line</div><div class="d">Stroke + p1→p2 + arrow</div></div>
       <span style="width:24px"></span>
@@ -201,7 +201,7 @@ input[type=color]{width:46px;height:34px;border:1px solid var(--border);border-r
       <b>CSS border</b> on a box. Same triple — the renderer maps it with zero translation.</p>
     <div class="panel">
       <div class="row">
-        <div class="ctl"><span class="lab">style (LineStyle)</span>
+        <div class="ctl"><span class="lab">pattern (DashPattern)</span>
           <div class="seg" id="skStyle">
             <button data-v="SOLID" class="on">SOLID</button>
             <button data-v="DASHED">DASHED</button>
@@ -317,7 +317,7 @@ input[type=color]{width:46px;height:34px;border:1px solid var(--border);border-r
         <tbody>
           <tr><td><b style="color:var(--st-stroke)">Stroke</b> on a Border edge</td><td><code class="inl">border-{side}: {width}px {style} {color}</code></td></tr>
           <tr><td><b style="color:var(--st-stroke)">Stroke</b> on a Line</td><td>SVG <code class="inl">stroke</code> / <code class="inl">stroke-width</code> / <code class="inl">stroke-dasharray</code></td></tr>
-          <tr><td><b>LineStyle.*</b></td><td>CSS <code class="inl">border-style</code> keyword / SVG dash pattern</td></tr>
+          <tr><td><b>DashPattern.*</b></td><td>CSS <code class="inl">border-style</code> keyword / SVG dash pattern</td></tr>
           <tr><td><b style="color:var(--st-text)">TextStyle</b> on a Label</td><td><code class="inl">font-family</code> / <code class="inl">font-size</code> / <code class="inl">font-weight</code> / <code class="inl">color</code></td></tr>
         </tbody>
       </table>
@@ -336,7 +336,7 @@ input[type=color]{width:46px;height:34px;border:1px solid var(--border);border-r
     </div>
     <div class="panel">
       <div class="lay">f_gui/
-├── <span class="pk">style/</span>     <span class="c">← value objects (Stroke, LineStyle, Border, TextStyle)</span>
+├── <span class="pk">style/</span>     <span class="c">← value objects (Stroke, DashPattern, Border, TextStyle)</span>
 ├── elements/  <span class="im">── imports ──▶</span> <span class="pk">style</span>
 └── render/    <span class="im">── imports ──▶</span> <span class="pk">style</span>
 f_quiz/        <span class="im">── imports ──▶</span> <span class="pk">style</span>   <span class="c">(a different top-level module!)</span></div>
@@ -357,7 +357,7 @@ f_quiz/        <span class="im">── imports ──▶</span> <span class="pk"
         <p>Small immutable bundles of data, shared by reference — define the
           <code class="inl">(color,width,style)</code> triple once, reuse it everywhere.</p></div>
       <div class="fact"><div class="fi">🎯</div><h3>Zero-translation enums</h3>
-        <p><code class="inl">LineStyle</code> stores the literal CSS keywords
+        <p><code class="inl">DashPattern</code> stores the literal CSS keywords
           <code class="inl">solid/dashed/dotted</code>, so the renderer maps them with no lookup.</p></div>
       <div class="fact"><div class="fi">✂️</div><h3>Data ⟂ rendering</h3>
         <p>Style stores appearance; the stateless <code class="inl">RenderHtml</code> turns it into
@@ -375,7 +375,7 @@ f_quiz/        <span class="im">── imports ──▶</span> <span class="pk"
   </section>
 
   <footer>
-    <span>📁 <code class="inl">f_gui/style/</code> — appearance value objects (Stroke · LineStyle · Border · TextStyle); rendering lives in <code class="inl">f_gui.render.html</code>.</span>
+    <span>📁 <code class="inl">f_gui/style/</code> — appearance value objects (Stroke · DashPattern · Border · TextStyle); rendering lives in <code class="inl">f_gui.render.html</code>.</span>
     <span>Generated 2026-06-15</span>
   </footer>
 </div>
@@ -385,7 +385,7 @@ f_quiz/        <span class="im">── imports ──▶</span> <span class="pk"
   "use strict";
   const $ = id => document.getElementById(id);
   const SVGNS = 'http://www.w3.org/2000/svg';
-  // dash pattern (SVG) per LineStyle, scaled to width
+  // dash pattern (SVG) per DashPattern, scaled to width
   function dashArray(style, w){
     if (style === 'DASHED') return `${(w*3).toFixed(1)} ${(w*2).toFixed(1)}`;
     if (style === 'DOTTED') return `0.1 ${(w*2).toFixed(1)}`;
@@ -422,7 +422,7 @@ f_quiz/        <span class="im">── imports ──▶</span> <span class="pk"
     const svgEmit = `<span class="k">&lt;line&gt;</span> stroke="${colStr==='default'?'(renderer default)':col}" `+
                     `stroke-width="${w}"${da?` stroke-dasharray="${da}"`:''}`;
     $('skEmit').innerHTML =
-      `<b>Stroke(width=${w}, style=LineStyle.${sk.style}${sk.auto?'':`, color=RGB('${col}')`}${sk.auto?', color=None':''})</b>\n`+
+      `<b>Stroke(width=${w}, pattern=DashPattern.${sk.style}${sk.auto?'':`, color=RGB('${col}')`}${sk.auto?', color=None':''})</b>\n`+
       `str   →  (${w}px ${kw} ${colStr})\n`+
       `Line  →  ${svgEmit}\n`+
       `Border→  border-top: ${w}px ${kw} ${colStr};`;

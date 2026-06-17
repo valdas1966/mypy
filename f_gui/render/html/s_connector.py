@@ -9,7 +9,7 @@ bounds, so moving a box moves the line.
 Run:  python -m f_gui.render.html.s_connector   (then open connector.html)
 """
 from f_gui.elements import Window, Container, Label, Connector, Routing
-from f_gui.style import Stroke, LineStyle, Border
+from f_gui.style import Stroke, DashPattern, Border
 from f_gui.render import RenderHtml
 from f_ds.geometry import Bounds, Side
 from f_color import RGB
@@ -42,8 +42,8 @@ def cell(i: int, text: str, src: Container, dst: Container,
 
 
 def stroke(color: str, width: float = 2,
-           style: LineStyle = LineStyle.SOLID) -> Stroke:
-    return Stroke(color=RGB(color), width=width, style=style)
+           pattern: DashPattern = DashPattern.SOLID) -> Stroke:
+    return Stroke(color=RGB(color), width=width, pattern=pattern)
 
 
 # Reusable layouts (relative to a cell).
@@ -72,7 +72,7 @@ cells.append(('orthogonal', a, b,
 a, b = box(TL, 'lightyellow'), box(BR, 'lightyellow')
 cells.append(('dashed', a, b,
               Connector(src=a, dst=b,
-                        stroke=stroke('green', style=LineStyle.DASHED))))
+                        stroke=stroke('green', pattern=DashPattern.DASHED))))
 
 # 4. ORTHOGONAL thick.
 a, b = box(TL, 'lightyellow'), box(BR, 'lightyellow')

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Map Properties — the top 5 that matter</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#181b22; --panel2:#1e222b; --line:#2b313c;
+    --txt:#e6e8ec; --dim:#9aa3b0; --dim2:#8b94a3;
+    --orange:#fb923c; --green:#4ade80; --amber:#fbbf24; --red:#f87171;
+    --blue:#60a5fa;
+    --mono:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6;}
+  .wrap{max-width:1040px;margin:0 auto;padding:32px 22px 80px;}
+  h1{font-size:30px;margin:0 0 4px;letter-spacing:-.5px;}
+  h1 .accent{color:var(--orange);}
+  .sub{color:var(--dim2);font-size:15px;margin-bottom:26px;}
+  h2{font-size:21px;margin:40px 0 10px;color:var(--orange);
+    border-bottom:1px solid var(--line);padding-bottom:6px;}
+  p{color:#cdd2da;}
+  code{font-family:var(--mono);background:#11141a;border:1px solid var(--line);
+    padding:1px 6px;border-radius:5px;font-size:13px;color:#ffd9b0;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:20px 22px;margin:16px 0;}
+  .note{background:#15181f;border-left:3px solid var(--orange);
+    padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;color:#cdd2da;font-size:14px;}
+  /* ---- playground ---- */
+  .play{display:flex;gap:22px;flex-wrap:wrap;}
+  .board{flex:0 0 auto;}
+  #grid{display:grid;gap:2px;background:var(--line);border:2px solid var(--line);
+    border-radius:8px;padding:2px;user-select:none;touch-action:none;}
+  .cell{width:25px;height:25px;border-radius:3px;background:#222831;
+    transition:background .08s;}
+  .panelR{flex:1 1 280px;min-width:270px;}
+  .btnrow{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px;}
+  button{font-family:inherit;font-size:13px;cursor:pointer;color:var(--txt);
+    background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+    padding:8px 12px;transition:.15s;}
+  button:hover{border-color:var(--orange);}
+  button.on{background:var(--orange);border-color:var(--orange);color:#1a1205;font-weight:600;}
+  .small{font-size:12px;padding:6px 10px;}
+  .metric{display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:13px;padding:8px 0;
+    border-bottom:1px dashed var(--line);}
+  .metric .lab{color:var(--dim);}
+  .metric .val{font-size:17px;color:var(--orange);font-weight:600;}
+  .metric .val.g{color:var(--green)} .metric .val.r{color:var(--red)}
+  .metric .val.b{color:var(--blue)} .metric .val.a{color:var(--amber)}
+  .toggle{display:flex;align-items:center;gap:7px;color:var(--dim2);
+    font-size:13px;margin:6px 0;}
+  .legend{font-size:12px;color:var(--dim2);margin-top:10px;display:flex;
+    gap:14px;flex-wrap:wrap;}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;
+    vertical-align:-1px;margin-right:5px;}
+  table.k{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;}
+  table.k td,table.k th{border:1px solid var(--line);padding:9px 11px;
+    text-align:left;vertical-align:top;}
+  table.k th{color:var(--orange);background:#15181f;}
+  table.k td.m{font-family:var(--mono);color:#ffd9b0;white-space:nowrap;}
+  .why{color:var(--green);font-size:13px;}
+  .propnum{display:inline-block;width:26px;height:26px;line-height:26px;
+    text-align:center;border-radius:50%;background:var(--orange);color:#1a1205;
+    font-weight:700;font-family:var(--mono);margin-right:8px;font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Map Properties: <span class="accent">the top 5 that matter</span></h1>
+  <div class="sub">A live 2D playground (2D 8-connected = the easy twin of 3D
+    26-connected). Paint walls, drop a start/goal, watch every number move.</div>
+
+  <!-- ============ playground ============ -->
+  <h2>Playground — build a map, read its properties</h2>
+  <div class="card">
+    <div class="play">
+      <div class="board">
+        <div id="grid"></div>
+        <div class="legend">
+          <span><i style="background:#222831"></i>free</span>
+          <span><i style="background:#5b6472"></i>wall</span>
+          <span><i style="background:var(--green)"></i>start</span>
+          <span><i style="background:var(--red)"></i>goal</span>
+          <span><i style="background:var(--orange)"></i>path</span>
+        </div>
+      </div>
+      <div class="panelR">
+        <div class="btnrow">
+          <button data-tool="wall" class="on small">✏ wall</button>
+          <button data-tool="erase" class="small">⌫ erase</button>
+          <button data-tool="start" class="small">▶ start</button>
+          <button data-tool="goal" class="small">⚑ goal</button>
+        </div>
+        <div class="btnrow">
+          <button data-pre="open" class="small">preset: open</button>
+          <button data-pre="porous" class="small">porous</button>
+          <button data-pre="struct" class="small">structured</button>
+          <button data-pre="clear" class="small">clear</button>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tClear">
+          show clearance heat-map</label>
+        <label class="toggle"><input type="checkbox" id="tPath" checked>
+          show shortest path</label>
+
+        <div style="margin-top:14px;">
+          <div class="metric"><span class="lab">free fraction</span>
+            <span class="val" id="mFree">–</span></div>
+          <div class="metric"><span class="lab"># components</span>
+            <span class="val b" id="mComp">–</span></div>
+          <div class="metric"><span class="lab">unreachable fraction</span>
+            <span class="val r" id="mUnre">–</span></div>
+          <div class="metric"><span class="lab">mean / max clearance</span>
+            <span class="val a" id="mClear">–</span></div>
+          <div class="metric"><span class="lab">detour ratio (opt / straight)</span>
+            <span class="val g" id="mDetour">–</span></div>
+        </div>
+        <p style="font-size:12px;color:var(--dim2);margin-top:10px;">
+          Path = 8-connected A*, no corner-cutting. The same definitions apply
+          unchanged to a 3D voxel map — just swap cells for voxels.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ explanations ============ -->
+  <h2>What each number means (and why it matters for search)</h2>
+
+  <div class="card">
+    <p><span class="propnum">1</span><b>Size — dimensions &amp; total voxels</b></p>
+    <p>The bounding box <code>X × Y × Z</code>; total voxels is their product.
+      A 1000³ map is a <em>billion</em> cells — pure scale, before any obstacle.
+      It sets memory and runtime, and lets you compare "big vs small" maps.</p>
+    <p class="why">▶ For search: caps how large OPEN/CLOSED can grow; the first
+      thing that decides whether a map even fits in memory.</p>
+  </div>
+
+  <div class="card">
+    <p><span class="propnum">2</span><b>Free fraction (porosity)</b> —
+      <code>free / total</code></p>
+    <p>What share of cells are passable. Near <code>1.0</code> = wide open
+      (Warframe debris in lots of empty space); low = packed with obstacles
+      (Sandstone rock).</p>
+    <p class="why">▶ For search: high free fraction → the octile heuristic is
+      nearly perfect (few detours); low → many obstacles bend paths and the
+      heuristic loses grip — exactly the obstacle regime in your INC-vs-AGG work.</p>
+  </div>
+
+  <div class="card">
+    <p><span class="propnum">3</span><b>Components &amp; unreachable fraction</b></p>
+    <p>Group the free cells into <b>connected components</b> (islands you can
+      travel within). The biggest one is the real navigable space; everything
+      else — sealed pockets, holes inside rock — is <b>unreachable</b>.
+      <code>unreachable_fraction = (free − largest_component) / free</code>.</p>
+    <p class="why">▶ For search: tells you how much of the "free" space is a
+      trap. A high value (porous Sandstone) means many start/goal pairs are
+      simply unsolvable; a near-zero value (open Warframe) means one big blob.</p>
+    <div class="note"><b>Efficient algorithm:</b> one connected-components
+      labelling pass (union-find / <code>scipy.ndimage.label</code> with
+      26-connectivity) gives every component and its size in O(N). Then
+      <code>unreachable = free − size(largest)</code>. No per-query BFS needed.</div>
+  </div>
+
+  <div class="card">
+    <p><span class="propnum">4</span><b>Clearance (openness)</b> — distance from
+      each free cell to the nearest obstacle</p>
+    <p>A distance map: small near walls, large in the middle of open volume.
+      <b>Mean clearance</b> = how roomy the map is on average; <b>max
+      clearance</b> = the radius of its biggest cavity. Tight pipes (Industrial
+      Plants) score low; open arenas score high.</p>
+    <p class="why">▶ For search: low clearance ⇒ narrow corridors ⇒ few real
+      move choices per node (low effective branching) and lots of forced moves
+      — where jump-point-style shortcuts pay off most.</p>
+  </div>
+
+  <div class="card">
+    <p><span class="propnum">5</span><b>Detour ratio (difficulty)</b> —
+      <code>optimal_cost / heuristic(start, goal)</code></p>
+    <p>The straight-line octile distance is a lower bound; the real shortest
+      path is usually longer because obstacles force detours. Ratio
+      <code>= 1.0</code> means the heuristic was exact (clear shot);
+      <code>&gt; 1.0</code> means obstacles made it work. Averaged over a map's
+      problem set, this is the single best one-number measure of how <em>hard</em>
+      the map is.</p>
+    <p class="why">▶ For search: this <b>is</b> heuristic accuracy. It comes
+      free from the scenario files (they store optimal <em>and</em> heuristic
+      distance per instance) and is the most research-relevant column for
+      heuristic-search experiments.</p>
+  </div>
+
+  <div class="note" style="margin-top:24px;">
+    <b>Cluster the maps with these 5.</b> Scale (1), porosity (2),
+    fragmentation (3), openness (4), and hardness (5) are near-independent
+    axes — plot or k-means on them and the four domains (Warframe, Sandstone,
+    Descent, Industrial Plants) should separate cleanly. The full property
+    table adds finer features later.</div>
+
+</div>
+
+<script>
+/* ===== grid model ===== */
+const COLS=20, ROWS=12;
+let g=[], start=[6,2], goal=[6,17], tool="wall", down=false;
+const gridEl=document.getElementById("grid");
+gridEl.style.gridTemplateColumns=`repeat(${COLS},25px)`;
+const cells=[];
+for(let r=0;r<ROWS;r++){g.push(new Array(COLS).fill(0));}
+for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+  const d=document.createElement("div");d.className="cell";
+  d.dataset.r=r;d.dataset.c=c;gridEl.appendChild(d);cells.push(d);
+}
+function cellAt(r,c){return cells[r*COLS+c];}
+
+/* ===== editing ===== */
+function paint(r,c){
+  if(tool==="wall"){ if(!(r===start[0]&&c===start[1])&&!(r===goal[0]&&c===goal[1])) g[r][c]=1; }
+  else if(tool==="erase"){ g[r][c]=0; }
+  else if(tool==="start"){ if(g[r][c]===0) start=[r,c]; }
+  else if(tool==="goal"){ if(g[r][c]===0) goal=[r,c]; }
+}
+gridEl.addEventListener("mousedown",e=>{if(!e.target.dataset.r)return;
+  down=true;paint(+e.target.dataset.r,+e.target.dataset.c);recompute();});
+gridEl.addEventListener("mouseover",e=>{if(!down||!e.target.dataset.r)return;
+  paint(+e.target.dataset.r,+e.target.dataset.c);recompute();});
+window.addEventListener("mouseup",()=>down=false);
+gridEl.addEventListener("touchstart",e=>{const t=e.target;
+  if(!t.dataset.r)return;down=true;paint(+t.dataset.r,+t.dataset.c);recompute();},{passive:true});
+gridEl.addEventListener("touchmove",e=>{const t=document.elementFromPoint(
+  e.touches[0].clientX,e.touches[0].clientY);
+  if(!t||!t.dataset.r)return;paint(+t.dataset.r,+t.dataset.c);recompute();},{passive:true});
+
+document.querySelectorAll("[data-tool]").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("[data-tool]").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");tool=b.dataset.tool;});
+document.getElementById("tClear").onchange=recompute;
+document.getElementById("tPath").onchange=recompute;
+
+/* ===== presets ===== */
+function fill(fn){for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)g[r][c]=fn(r,c)?1:0;}
+const PRE={
+  clear:()=>fill(()=>false),
+  open:()=>fill((r,c)=>((r*7+c*5)%23===0)&&!(r%3===0&&c%4===0)),
+  porous:()=>fill((r,c)=>((r*13+c*7+ (r*c))%5<2)),
+  struct:()=>fill((r,c)=> (c%5===0 && r%6!==2) || (r%6===0 && c%5!==3))
+};
+document.querySelectorAll("[data-pre]").forEach(b=>b.onclick=()=>{
+  PRE[b.dataset.pre]();
+  if(g[start[0]][start[1]])start=findFree();if(g[goal[0]][goal[1]])goal=findFree(true);
+  recompute();});
+function findFree(fromEnd){
+  const order=[];for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)order.push([r,c]);
+  if(fromEnd)order.reverse();
+  for(const[r,c]of order)if(g[r][c]===0)return[r,c];return[0,0];
+}
+
+/* ===== analysis ===== */
+const N8=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+const inb=(r,c)=>r>=0&&r<ROWS&&c>=0&&c<COLS;
+
+function components(){           // 8-conn CCL over free cells
+  const lab=Array.from({length:ROWS},()=>new Array(COLS).fill(-1));
+  let n=0,sizes=[];
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+    if(g[r][c]||lab[r][c]>=0)continue;
+    const st=[[r,c]];lab[r][c]=n;let sz=0;
+    while(st.length){const[y,x]=st.pop();sz++;
+      for(const[dy,dx]of N8){const ny=y+dy,nx=x+dx;
+        if(inb(ny,nx)&&!g[ny][nx]&&lab[ny][nx]<0){lab[ny][nx]=n;st.push([ny,nx]);}}}
+    sizes.push(sz);n++;
+  }
+  return{n,sizes,lab};
+}
+function clearance(){            // multi-source BFS dist to nearest wall/border
+  const d=Array.from({length:ROWS},()=>new Array(COLS).fill(Infinity));
+  const q=[];
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+    if(g[r][c]){d[r][c]=0;q.push([r,c]);}
+    else if(r===0||c===0||r===ROWS-1||c===COLS-1){} // border handled below
+  }
+  // treat outside border as wall: seed free border cells at dist 1
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+    if(!g[r][c]&&(r===0||c===0||r===ROWS-1||c===COLS-1)){d[r][c]=1;q.push([r,c]);}
+  }
+  let head=0;
+  while(head<q.length){const[y,x]=q[head++];
+    for(const[dy,dx]of N8){const ny=y+dy,nx=x+dx;
+      if(inb(ny,nx)&&!g[ny][nx]&&d[ny][nx]>d[y][x]+1){d[ny][nx]=d[y][x]+1;q.push([ny,nx]);}}}
+  return d;
+}
+function octile(a,b){const dr=Math.abs(a[0]-b[0]),dc=Math.abs(a[1]-b[1]);
+  return Math.max(dr,dc)+(Math.SQRT2-1)*Math.min(dr,dc);}
+function astar(){                // 8-conn, no corner-cut
+  if(g[start[0]][start[1]]||g[goal[0]][goal[1]])return null;
+  const key=(r,c)=>r*COLS+c;
+  const gsc=new Map(),prev=new Map(),open=[[octile(start,goal),start[0],start[1]]];
+  gsc.set(key(...start),0);
+  while(open.length){
+    let bi=0;for(let i=1;i<open.length;i++)if(open[i][0]<open[bi][0])bi=i;
+    const[,y,x]=open.splice(bi,1)[0];
+    if(y===goal[0]&&x===goal[1])break;
+    const cg=gsc.get(key(y,x));
+    for(const[dy,dx]of N8){const ny=y+dy,nx=x+dx;
+      if(!inb(ny,nx)||g[ny][nx])continue;
+      if(dy&&dx&&(g[y+dy][x]||g[y][x+dx]))continue;          // no corner cut
+      const step=(dy&&dx)?Math.SQRT2:1, ng=cg+step, k=key(ny,nx);
+      if(!gsc.has(k)||ng<gsc.get(k)){gsc.set(k,ng);prev.set(k,key(y,x));
+        open.push([ng+octile([ny,nx],goal),ny,nx]);}}
+  }
+  const gk=key(...goal);if(!gsc.has(gk))return null;
+  const path=[];let k=gk;while(k!==key(...start)){path.push([Math.floor(k/COLS),k%COLS]);
+    k=prev.get(k);if(k===undefined)break;}
+  path.push([start[0],start[1]]);
+  return{cost:gsc.get(gk),path};
+}
+
+/* ===== render + readouts ===== */
+function heat(t){ // t 0(tight)->1(open): red->amber->green
+  const stops=[[248,113,113],[251,191,36],[74,222,128]];
+  const seg=t<.5?0:1, f=t<.5?t*2:(t-.5)*2;
+  const a=stops[seg],b=stops[seg+1];
+  return `rgb(${a[0]+(b[0]-a[0])*f|0},${a[1]+(b[1]-a[1])*f|0},${a[2]+(b[2]-a[2])*f|0})`;
+}
+function recompute(){
+  const total=ROWS*COLS;let free=0;
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(!g[r][c])free++;
+  const comp=components();
+  const largest=comp.sizes.length?Math.max(...comp.sizes):0;
+  const unreach=free-largest;
+  const showClear=document.getElementById("tClear").checked;
+  const showPath=document.getElementById("tPath").checked;
+  const dmap=showClear?clearance():null;
+  let maxC=0,sumC=0,cntC=0;
+  if(dmap)for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)
+    if(!g[r][c]){sumC+=dmap[r][c];cntC++;if(dmap[r][c]>maxC)maxC=dmap[r][c];}
+  // path
+  const res=showPath?astar():null;
+  const onPath=new Set();
+  if(res)res.path.forEach(([r,c])=>onPath.add(r*COLS+c));
+
+  // colour cells
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+    const el=cellAt(r,c);let bg="#222831";
+    if(g[r][c])bg="#5b6472";
+    else if(showClear&&dmap)bg=heat(maxC>1?(dmap[r][c]-1)/(maxC-1):0);
+    else if(showPath&&onPath.has(r*COLS+c))bg="var(--orange)";
+    el.style.background=bg;el.style.boxShadow="";
+  }
+  cellAt(start[0],start[1]).style.background="var(--green)";
+  cellAt(goal[0],goal[1]).style.background="var(--red)";
+
+  // readouts
+  set("mFree",(free/total).toFixed(2));
+  set("mComp",comp.n);
+  set("mUnre",free?(unreach/free).toFixed(2):"0.00");
+  set("mClear",dmap?`${(sumC/cntC).toFixed(1)} / ${maxC}`:"(toggle on)");
+  if(showPath){
+    if(res){const straight=octile(start,goal);
+      set("mDetour",(res.cost/straight).toFixed(2)+"×");}
+    else set("mDetour","∞ (blocked)");
+  } else set("mDetour","(toggle on)");
+}
+function set(id,v){document.getElementById(id).textContent=v;}
+
+PRE.struct();start=[1,1];goal=[10,18];recompute();
+</script>
+</body>
+</html>

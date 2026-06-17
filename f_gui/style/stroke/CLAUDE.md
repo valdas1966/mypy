@@ -3,17 +3,17 @@
 ## Purpose
 
 `Stroke` is the **shared visual appearance of a line**: `(color, width,
-style)` with no geometry. It is the single reuse point between a `Line`
+pattern)` with no geometry. It is the single reuse point between a `Line`
 (geometry + appearance + arrow) and a `Border` edge (just appearance), so
-the two never duplicate the color/width/style triple.
+the two never duplicate the color/width/pattern triple.
 
-This module also defines the **`LineStyle`** enum (relocated here from the
+This module also defines the **`DashPattern`** enum (relocated here from the
 line element, since both Line and Border now use it).
 
-## `LineStyle` Enum
+## `DashPattern` Enum
 
 ```python
-class LineStyle(Enum):
+class DashPattern(Enum):
     SOLID  = 'solid'
     DASHED = 'dashed'
     DOTTED = 'dotted'
@@ -29,7 +29,7 @@ and the SVG dash family — so the renderer translates with zero mapping.
 def __init__(self,
              color: RGB | None = None,
              width: float = 1,
-             style: LineStyle = LineStyle.SOLID) -> None
+             pattern: DashPattern = DashPattern.SOLID) -> None
 ```
 `RGB` is imported only under `TYPE_CHECKING`, so a plain `Stroke` never
 pulls in `matplotlib`.
@@ -42,7 +42,7 @@ def color(self) -> RGB | None      # None = renderer default
 @property
 def width(self) -> float           # pixels
 @property
-def style(self) -> LineStyle
+def pattern(self) -> DashPattern
 ```
 
 ### Dunder Methods
@@ -78,14 +78,14 @@ def __str__(self) -> str    # '(2px dashed RED(255, 0, 0))' / '... default'
 | Method      | Stroke                          |
 |-------------|---------------------------------|
 | `default()` | `Stroke()` (1px, solid, no color)|
-| `dashed()`  | `Stroke(width=2, style=DASHED)` |
+| `dashed()`  | `Stroke(width=2, pattern=DASHED)` |
 
 ## Usage Example
 
 ```python
-from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.stroke import Stroke, DashPattern
 from f_color.rgb import RGB
 
-s = Stroke(color=RGB('RED'), width=3, style=LineStyle.DASHED)
+s = Stroke(color=RGB('RED'), width=3, pattern=DashPattern.DASHED)
 print(s)   # (3px dashed RED(255, 0, 0))
 ```

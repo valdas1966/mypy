@@ -103,10 +103,10 @@ font-family:{font}; font-size:{size}px; [font-weight:bold;] [color:{hex};]
 one declaration per set side:
 
 ```
-border-{side}: {stroke.width}px {stroke.style.value} {color};
+border-{side}: {stroke.width}px {stroke.pattern.value} {color};
 ```
 
-- `LineStyle` values (`'solid'`/`'dashed'`/`'dotted'`) are the **exact CSS
+- `DashPattern` values (`'solid'`/`'dashed'`/`'dotted'`) are the **exact CSS
   `border-style` keywords** — no translation.
 - `stroke.color` → hex; `None` → `_STROKE_DEFAULT` (`#e6edf3`), shared with
   lines via `_stroke_color()`.
@@ -128,10 +128,10 @@ images).
 | `p1`/`p2`           | `<line x1="p1.x%" y1="p1.y%" x2="p2.x%" y2="p2.y%">` |
 | `stroke.color`      | `stroke` (hex); `None` → `_STROKE_DEFAULT` (`#e6edf3`) |
 | `stroke.width`      | `stroke-width` (px)                                  |
-| `stroke.style`      | `_dash()` → `stroke-dasharray` (`_DASH` map)         |
+| `stroke.pattern`      | `_dash()` → `stroke-dasharray` (`_DASH` map)         |
 | `arrow`             | per-`<svg>` `<marker>` + `marker-end="url(#…)"`      |
 
-The line's `color`/`width`/`style` come from its `Stroke` (the same value
+The line's `color`/`width`/`pattern` come from its `Stroke` (the same value
 object Border edges use) via `_stroke_color()` and `_dash()`.
 
 - **Percent coords, no `viewBox`.** SVG `%` resolves `x` against width and
@@ -198,7 +198,7 @@ so the polyline is distortion-free and needs no `viewBox`.
 | `f_gui.elements.i_1_label.Label`         | Text emission             |
 | `f_gui.elements.i_1_line.Line`           | SVG line dispatch         |
 | `f_gui.elements.i_1_connector.Connector` | SVG connector (polyline) dispatch |
-| `f_gui.style.stroke.LineStyle`           | Dasharray / linecap selection |
+| `f_gui.style.stroke.DashPattern`           | Dasharray / linecap selection |
 | `f_gui.style.text.TextStyle`       | **duck-typed** (read via `label.style`) — not imported |
 | `html.escape` (stdlib)                   | Text safety               |
 | `pathlib.Path` (stdlib)                  | File write                |

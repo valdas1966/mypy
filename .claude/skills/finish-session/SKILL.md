@@ -14,8 +14,7 @@ description: >-
 Write and upload the end-of-session summary. Summaries live on Google Drive
 at `YYYY/MM/DD/<name>_session.md` (flat names).
 
-**Helper script** (run from anywhere inside the repo — it self-locates the
-repo root for the `f_google` import):
+**Helper script** (run from anywhere in the repo):
 
 ```bash
 python .claude/skills/_session_lib/session.py read   <drive_path>
@@ -52,5 +51,3 @@ Today's date is in your context (`currentDate`) — pass it to `create`.
 
 - All Drive ops use `Drive.Factory.valdas()` (VALDAS OAuth) via the helper.
 - If a Drive instruction conflicts with project `CLAUDE.md`, Drive wins.
-- The summary's primary audience is the *next* session (human or AI) — make
-  it resumable: someone with zero prior context should be able to pick up.

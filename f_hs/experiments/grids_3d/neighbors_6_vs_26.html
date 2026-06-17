@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Grid Neighbors — 6 vs 18 vs 26</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#181b22; --panel2:#1e222b; --line:#2b313c;
+    --txt:#e6e8ec; --dim:#9aa3b0; --dim2:#8b94a3;
+    --orange:#fb923c; --orange2:#E65100;
+    --face:#4ade80; --edge:#fbbf24; --corner:#f87171; --center:#fb923c;
+    --mono:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    line-height:1.6;}
+  .wrap{max-width:1040px;margin:0 auto;padding:32px 22px 80px;}
+  h1{font-size:30px;margin:0 0 4px;letter-spacing:-.5px;}
+  h1 .accent{color:var(--orange);}
+  .sub{color:var(--dim2);font-size:15px;margin-bottom:28px;}
+  h2{font-size:21px;margin:42px 0 10px;color:var(--orange);
+    border-bottom:1px solid var(--line);padding-bottom:6px;}
+  p{color:#cdd2da;}
+  code{font-family:var(--mono);background:#11141a;border:1px solid var(--line);
+    padding:1px 6px;border-radius:5px;font-size:13px;color:#ffd9b0;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:20px 22px;margin:16px 0;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}}
+  .tag{display:inline-block;font-family:var(--mono);font-size:12px;
+    padding:2px 9px;border-radius:20px;border:1px solid var(--line);}
+  .t-face{color:var(--face);border-color:#2f5d3f;background:#16241c;}
+  .t-edge{color:var(--edge);border-color:#5d4f25;background:#241f14;}
+  .t-corner{color:var(--corner);border-color:#5d2f33;background:#241618;}
+  .t-center{color:var(--center);border-color:#5d4023;background:#241b12;}
+  /* ---- 3D scene ---- */
+  .stage{display:flex;gap:24px;flex-wrap:wrap;align-items:center;}
+  .scene-wrap{flex:1 1 360px;min-width:320px;height:420px;
+    background:radial-gradient(circle at 50% 40%,#1b1f28,#0c0e13);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    perspective:1100px;cursor:grab;position:relative;}
+  .scene-wrap:active{cursor:grabbing;}
+  .hint{position:absolute;bottom:8px;left:0;right:0;text-align:center;
+    color:#6b7280;font-size:12px;pointer-events:none;}
+  .scene{position:absolute;top:50%;left:50%;width:0;height:0;
+    transform-style:preserve-3d;transition:transform .05s linear;}
+  .vox{position:absolute;transform-style:preserve-3d;
+    transition:opacity .25s ease;}
+  .fc{position:absolute;width:46px;height:46px;left:-23px;top:-23px;
+    border:1px solid rgba(255,255,255,.18);opacity:.92;}
+  .controls{flex:1 1 280px;min-width:260px;}
+  .btnrow{display:flex;gap:8px;margin:6px 0 14px;flex-wrap:wrap;}
+  button{font-family:inherit;font-size:14px;cursor:pointer;color:var(--txt);
+    background:var(--panel2);border:1px solid var(--line);border-radius:9px;
+    padding:9px 14px;transition:.15s;}
+  button:hover{border-color:var(--orange);}
+  button.on{background:var(--orange);border-color:var(--orange);color:#1a1205;
+    font-weight:600;}
+  .count{font-family:var(--mono);font-size:14px;margin:4px 0;
+    display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1px dashed var(--line);padding:6px 0;}
+  .count b{font-size:18px;}
+  .bar{height:10px;border-radius:6px;margin-top:3px;background:#11141a;
+    overflow:hidden;border:1px solid var(--line);}
+  .bar>span{display:block;height:100%;}
+  .toggle{display:flex;align-items:center;gap:8px;margin-top:14px;color:var(--dim2);
+    font-size:13px;}
+  /* ---- small 2d svg ---- */
+  .twocol{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;}
+  .mini{text-align:center;}
+  .mini h4{margin:0 0 8px;font-size:14px;color:var(--dim2);font-weight:500;}
+  table.k{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;}
+  table.k td,table.k th{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  table.k th{color:var(--orange);font-weight:600;background:#15181f;}
+  table.k td.m{font-family:var(--mono);color:#ffd9b0;}
+  .note{background:#15181f;border-left:3px solid var(--orange);
+    padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;color:#cdd2da;
+    font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>3D Grid Neighbors: <span class="accent">6 vs 18 vs 26</span></h1>
+  <div class="sub">How a voxel connects to its neighbours — and why the
+    benchmark uses 26. Drag the cube to rotate.</div>
+
+  <!-- ============ 2D recap ============ -->
+  <h2>1 · Start from 2D (what you already know)</h2>
+  <div class="card">
+    <p>In a 2D grid a cell touches its neighbours in two ways: sharing an
+      <b style="color:var(--face)">edge</b> (4 of them) or sharing only a
+      <b style="color:var(--edge)">corner</b> (4 more). That is the familiar
+      <b>4-connected</b> vs <b>8-connected</b> choice.</p>
+    <div class="twocol">
+      <div class="mini">
+        <h4>4-connected (orthogonal only)</h4>
+        <svg width="200" height="200" id="svg4"></svg>
+      </div>
+      <div class="mini">
+        <h4>8-connected (+ diagonals)</h4>
+        <svg width="200" height="200" id="svg8"></svg>
+      </div>
+    </div>
+    <div class="note"><b>The whole idea in one line:</b>
+      6-connected is the 3D version of 4-connected, and
+      <b>26-connected is the 3D version of 8-connected</b>. Going to 3D just
+      adds a third kind of contact — touching through a single corner of the
+      cube in space.</div>
+  </div>
+
+  <!-- ============ 3D interactive ============ -->
+  <h2>2 · The 3D cube — 3×3×3 around one voxel</h2>
+  <div class="card">
+    <p>The centre voxel (<span class="tag t-center">center</span>) has 26
+      surrounding cells. They split into three families by <em>how</em> they
+      touch the centre:</p>
+    <div class="stage">
+      <div class="scene-wrap" id="sceneWrap">
+        <div class="scene" id="scene"></div>
+        <div class="hint">drag to rotate · scroll-free · pure CSS 3D</div>
+      </div>
+      <div class="controls">
+        <div class="btnrow">
+          <button data-mode="6">6 · faces</button>
+          <button data-mode="18">18 · +edges</button>
+          <button data-mode="26" class="on">26 · +corners</button>
+        </div>
+        <div class="count">
+          <span><span class="tag t-face">face</span> share a whole face</span>
+          <b style="color:var(--face)">6</b>
+        </div>
+        <div class="bar"><span style="width:23%;background:var(--face)"></span></div>
+        <div class="count">
+          <span><span class="tag t-edge">edge</span> touch along an edge</span>
+          <b style="color:var(--edge)">12</b>
+        </div>
+        <div class="bar"><span style="width:46%;background:var(--edge)"></span></div>
+        <div class="count">
+          <span><span class="tag t-corner">corner</span> meet at one point</span>
+          <b style="color:var(--corner)">8</b>
+        </div>
+        <div class="bar"><span style="width:31%;background:var(--corner)"></span></div>
+        <div class="count" style="border:0;margin-top:10px;">
+          <span>active neighbours now</span>
+          <b id="liveCount" style="color:var(--orange)">26</b>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="spin" checked> auto-spin
+        </label>
+      </div>
+    </div>
+    <p style="margin-top:18px;color:var(--dim2);font-size:14px;">
+      Count check: <code>6 faces + 12 edges + 8 corners = 26</code>. Drop the
+      corners and you get 18; drop the edges too and you get the 6 axis moves.</p>
+  </div>
+
+  <!-- ============ step costs ============ -->
+  <h2>3 · Each family costs a different amount to step</h2>
+  <div class="card">
+    <p>Move cost = straight-line length between voxel centres (unit cells):</p>
+    <table class="k">
+      <tr><th>Neighbour</th><th>Coords change</th><th>Step cost</th><th>In the 6-conn world…</th></tr>
+      <tr><td><span class="tag t-face">face</span></td><td class="m">1 axis</td>
+        <td class="m">1</td><td>1 step</td></tr>
+      <tr><td><span class="tag t-edge">edge</span></td><td class="m">2 axes</td>
+        <td class="m">√2 ≈ 1.414</td><td>2 steps (cost 2)</td></tr>
+      <tr><td><span class="tag t-corner">corner</span></td><td class="m">3 axes</td>
+        <td class="m">√3 ≈ 1.732</td><td>3 steps (cost 3)</td></tr>
+    </table>
+    <div class="note">A single corner move (√3 ≈ 1.73) replaces three
+      axis moves (cost 3). That is exactly why 26-connected paths are shorter
+      and look natural instead of climbing a 3D staircase.</div>
+  </div>
+
+  <!-- ============ path comparison ============ -->
+  <h2>4 · Same trip, two path lengths</h2>
+  <div class="card grid2">
+    <div>
+      <p><b>2D, corner-to-corner of a cell:</b></p>
+      <ul>
+        <li>4-connected: right + up = <code>2</code></li>
+        <li>8-connected: one diagonal = <code>√2 ≈ 1.41</code></li>
+      </ul>
+      <p><b>3D, opposite corner of a cube:</b></p>
+      <ul>
+        <li>6-connected: x + y + z = <code>3</code></li>
+        <li>26-connected: one body-diagonal = <code>√3 ≈ 1.73</code></li>
+      </ul>
+    </div>
+    <div>
+      <div class="mini"><h4>3D body diagonal</h4>
+        <svg width="220" height="200" id="svgPath"></svg></div>
+    </div>
+  </div>
+
+  <!-- ============ corner cutting ============ -->
+  <h2>5 · The catch: no corner-cutting</h2>
+  <div class="card">
+    <p>A diagonal move is allowed <b>only if the cells it squeezes past are
+      free</b>. The agent fills a whole voxel, so it cannot slip through the
+      gap between two obstacles that meet at a corner.</p>
+    <div class="twocol">
+      <div class="mini"><h4 style="color:var(--face)">✓ allowed</h4>
+        <svg width="170" height="170" id="svgOk"></svg></div>
+      <div class="mini"><h4 style="color:var(--corner)">✗ blocked (would cut a corner)</h4>
+        <svg width="170" height="170" id="svgNo"></svg></div>
+    </div>
+    <p style="color:var(--dim2);font-size:14px;">Same rule in 3D: a face/edge/
+      corner diagonal needs its component axis-cells to be free.</p>
+  </div>
+
+  <!-- ============ heuristic ============ -->
+  <h2>6 · The matching heuristic</h2>
+  <div class="card">
+    <table class="k">
+      <tr><th>Connectivity</th><th>Admissible heuristic</th><th>2D ancestor</th></tr>
+      <tr><td class="m">6</td><td class="m">|Δx|+|Δy|+|Δz| (Manhattan)</td>
+        <td>4-conn Manhattan</td></tr>
+      <tr><td class="m">26</td>
+        <td class="m">(√3−√2)·d<sub>min</sub> + (√2−1)·d<sub>mid</sub> + d<sub>max</sub></td>
+        <td>8-conn octile</td></tr>
+    </table>
+    <p style="margin-top:12px;"><code>d<sub>max</sub>≥d<sub>mid</sub>≥d<sub>min</sub></code>
+      are the sorted <code>|Δx|,|Δy|,|Δz|</code>. This is just the 2D octile
+      distance with one extra term for the third dimension.</p>
+    <div class="note"><b>Why it matters for the benchmark:</b> the released
+      scenario files store each problem's optimal cost computed under
+      <b>26-connected</b> movement. Use 26 and you inherit those optimal costs
+      for free; switch to 6 and you must recompute every optimal cost yourself.</div>
+  </div>
+
+</div>
+
+<script>
+/* ---------- helpers ---------- */
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs){const e=document.createElementNS(NS,tag);
+  for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+/* ---------- 2D recap grids ---------- */
+function grid2d(id,diag){
+  const s=document.getElementById(id),c=60,o=10;
+  const col={c:"#fb923c",f:"#4ade80",e:"#fbbf24",x:"#222831"};
+  function cell(cx,cy,fill,stroke){
+    const r=el("rect",{x:o+cx*c,y:o+cy*c,width:c-4,height:c-4,rx:6,
+      fill:fill,stroke:stroke||"#3a414d","stroke-width":1.5});
+    s.appendChild(r);}
+  for(let y=0;y<3;y++)for(let x=0;x<3;x++)cell(x,y,col.x);
+  // orthogonal
+  cell(1,0,col.f);cell(0,1,col.f);cell(2,1,col.f);cell(1,2,col.f);
+  if(diag){cell(0,0,col.e);cell(2,0,col.e);cell(0,2,col.e);cell(2,2,col.e);}
+  cell(1,1,col.c,"#ffd9b0");
+}
+grid2d("svg4",false);grid2d("svg8",true);
+
+/* ---------- corner-cut demos ---------- */
+function cutDemo(id,blocked){
+  const s=document.getElementById(id),c=70,o=12;
+  function cell(cx,cy,fill){s.appendChild(el("rect",
+    {x:o+cx*c,y:o+cy*c,width:c-4,height:c-4,rx:6,fill:fill,
+     stroke:"#3a414d","stroke-width":1.5}));}
+  for(let y=0;y<2;y++)for(let x=0;x<2;x++)cell(x,y,"#222831");
+  // start bottom-left, goal top-right
+  cell(0,1,"#fb923c");cell(1,0,"#fb923c");
+  if(blocked){cell(0,0,"#5b6472");cell(1,1,"#5b6472");}
+  const x0=o+0.5*c, y0=o+1.5*c, x1=o+1.5*c, y1=o+0.5*c;
+  s.appendChild(el("line",{x1:x0,y1:y0,x2:x1,y2:y1,
+    stroke:blocked?"#f87171":"#4ade80","stroke-width":4,
+    "stroke-dasharray":blocked?"7 5":"0","stroke-linecap":"round"}));
+}
+cutDemo("svgOk",false);cutDemo("svgNo",true);
+
+/* ---------- 3D body-diagonal sketch ---------- */
+(function(){
+  const s=document.getElementById("svgPath");
+  const pts={A:[40,150],B:[120,150],C:[160,110],D:[80,110],
+             E:[40,70],F:[120,70],G:[160,30],H:[80,30]};
+  function ln(a,b,col,w,dash){s.appendChild(el("line",
+    {x1:pts[a][0],y1:pts[a][1],x2:pts[b][0],y2:pts[b][1],
+     stroke:col,"stroke-width":w||1.5,"stroke-dasharray":dash||"0",
+     "stroke-linecap":"round"}));}
+  ["AB","BC","CD","DA","EF","FG","GH","HE","AE","BF","CG","DH"]
+    .forEach(p=>ln(p[0],p[1],"#3a414d",1.5));
+  // 6-conn staircase A->B->C->G  (cost 3)
+  ln("A","B","#fbbf24",3.5);ln("B","C","#fbbf24",3.5);ln("C","G","#fbbf24",3.5);
+  // 26-conn diagonal A->G  (cost sqrt3)
+  ln("A","G","#4ade80",3.5,"6 5");
+  function dot(p,col){s.appendChild(el("circle",
+    {cx:pts[p][0],cy:pts[p][1],r:5,fill:col}));}
+  dot("A","#fb923c");dot("G","#fb923c");
+  const t1=el("text",{x:14,y:185,fill:"#fbbf24","font-size":12,
+    "font-family":"monospace"});t1.textContent="6-conn = 3";s.appendChild(t1);
+  const t2=el("text",{x:120,y:185,fill:"#4ade80","font-size":12,
+    "font-family":"monospace"});t2.textContent="26-conn ≈ 1.73";s.appendChild(t2);
+})();
+
+/* ---------- 3D voxel cluster ---------- */
+const scene=document.getElementById("scene");
+const SP=70;            // spacing between voxel centres
+const COL={face:"#4ade80",edge:"#fbbf24",corner:"#f87171",center:"#fb923c"};
+const FACES=[ "translateZ(23px)","rotateY(180deg) translateZ(23px)",
+  "rotateY(90deg) translateZ(23px)","rotateY(-90deg) translateZ(23px)",
+  "rotateX(90deg) translateZ(23px)","rotateX(-90deg) translateZ(23px)"];
+const SHADE=[1,.55,.78,.78,.92,.45];   // simple per-face lighting
+
+const voxels=[];
+function classify(dx,dy,dz){
+  if(dx===0&&dy===0&&dz===0)return "center";
+  const m=Math.abs(dx)+Math.abs(dy)+Math.abs(dz);
+  return m===1?"face":m===2?"edge":"corner";
+}
+function hex2rgb(h){return [parseInt(h.slice(1,3),16),
+  parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+for(let z=-1;z<=1;z++)for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++){
+  const kind=classify(x,y,z);
+  const v=document.createElement("div");
+  v.className="vox";
+  v.style.transform=`translate3d(${x*SP}px,${y*SP}px,${z*SP}px)`;
+  const base=hex2rgb(COL[kind]);
+  FACES.forEach((tf,i)=>{
+    const f=document.createElement("div");
+    f.className="fc";
+    const s=SHADE[i];
+    f.style.background=`rgb(${base[0]*s|0},${base[1]*s|0},${base[2]*s|0})`;
+    f.style.transform=tf;
+    v.appendChild(f);
+  });
+  scene.appendChild(v);
+  voxels.push({el:v,kind:kind,m:(x===0&&y===0&&z===0)?0:
+    Math.abs(x)+Math.abs(y)+Math.abs(z)});
+}
+
+/* visibility by mode */
+let mode=26;
+function applyMode(){
+  let n=0;
+  voxels.forEach(v=>{
+    if(v.kind==="center"){v.el.style.opacity=1;return;}
+    const show = v.m<=({6:1,18:2,26:3})[mode];
+    v.el.style.opacity = show?1:0.06;
+    if(show)n++;
+  });
+  document.getElementById("liveCount").textContent=n;
+}
+document.querySelectorAll("[data-mode]").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll("[data-mode]").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");mode=+b.dataset.mode;applyMode();
+  };
+});
+applyMode();
+
+/* rotation: auto-spin + drag */
+let rx=-22, ry=-32, spin=true, dragging=false, lx=0, ly=0;
+const wrap=document.getElementById("sceneWrap");
+function render(){scene.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;}
+render();
+document.getElementById("spin").onchange=e=>spin=e.target.checked;
+wrap.addEventListener("mousedown",e=>{dragging=true;spin=false;
+  document.getElementById("spin").checked=false;lx=e.clientX;ly=e.clientY;});
+window.addEventListener("mouseup",()=>dragging=false);
+window.addEventListener("mousemove",e=>{
+  if(!dragging)return;
+  ry+=(e.clientX-lx)*0.5; rx-=(e.clientY-ly)*0.5;
+  lx=e.clientX;ly=e.clientY;render();
+});
+wrap.addEventListener("touchstart",e=>{spin=false;
+  document.getElementById("spin").checked=false;
+  lx=e.touches[0].clientX;ly=e.touches[0].clientY;},{passive:true});
+wrap.addEventListener("touchmove",e=>{
+  ry+=(e.touches[0].clientX-lx)*0.5; rx-=(e.touches[0].clientY-ly)*0.5;
+  lx=e.touches[0].clientX;ly=e.touches[0].clientY;render();},{passive:true});
+setInterval(()=>{if(spin){ry+=0.35;render();}},30);
+</script>
+</body>
+</html>

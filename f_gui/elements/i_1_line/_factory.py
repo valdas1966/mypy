@@ -1,5 +1,5 @@
 from f_gui.elements.i_1_line.main import Line
-from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.stroke import Stroke, DashPattern
 from f_ds.geometry.point import Point
 
 
@@ -39,4 +39,4 @@ class Factory:
         """
         return Line(p1=Point(x=0, y=0),
                     p2=Point(x=100, y=100),
-                    stroke=Stroke(style=LineStyle.DASHED))
+                    stroke=Stroke(pattern=DashPattern.DASHED))

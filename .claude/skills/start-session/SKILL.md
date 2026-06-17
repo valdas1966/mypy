@@ -20,8 +20,7 @@ YYYY/MM/DD/<name>_session.md
 Names are **flat** (e.g. `skills`, `drive_refactor`) — keep the current
 folder/file convention; do not introduce nested paths.
 
-**Helper script** (run from anywhere inside the repo — it self-locates the
-repo root for the `f_google` import):
+**Helper script** (run from anywhere in the repo):
 
 ```bash
 python .claude/skills/_session_lib/session.py find   <name>
@@ -67,8 +66,7 @@ do not rely on the machine clock.
      ```
    - `.md` only — no `.tex` / `.pdf` at session start.
 
-5. **Report back**, obeying the project Response Style (≤ 5 sentences,
-   lead with the outcome):
+5. **Report back**, leading with the outcome:
    - **S1 (mandatory):** which session started, today's date, and the
      prior date being continued (or "fresh session").
    - **S2–S5 (optional, drop if no value):** recap of prior session,

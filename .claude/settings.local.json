@@ -141,7 +141,9 @@
       "Bash(mkdir -p .claude/skills/_session_lib)",
       "Bash(cp .claude/skills/session/scripts/session.py .claude/skills/_session_lib/session.py)",
       "Bash(rm -rf .claude/skills/session)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.movingai.com)",
+      "WebFetch(domain:benchmarks.pathfinding.ai)"
     ],
     "defaultMode": "acceptEdits"
   }

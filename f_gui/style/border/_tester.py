@@ -1,5 +1,5 @@
 from f_gui.style.border.main import Border
-from f_gui.style.stroke import Stroke, LineStyle
+from f_gui.style.stroke import Stroke, DashPattern
 
 
 def test_sides_default_none() -> None:
@@ -21,7 +21,7 @@ def test_per_side() -> None:
      Test that an individual side carries its Stroke.
     ========================================================================
     """
-    stroke = Stroke(width=3, style=LineStyle.DASHED)
+    stroke = Stroke(width=3, pattern=DashPattern.DASHED)
     b = Border(top=stroke)
     assert b.top is stroke
     assert b.bottom is None

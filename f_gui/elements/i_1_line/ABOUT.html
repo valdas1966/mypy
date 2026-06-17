@@ -178,7 +178,7 @@ a{color:var(--accent)}
     <ol class="rules">
       <li>A Line is defined by two <b>Point</b>s, <code class="inl">p1 -&gt; p2</code>,
         in the normalized <b>0–100</b> space (relative to the parent).</li>
-      <li>Appearance is a <b>Stroke</b> = <code class="inl">(color, width, style)</code> —
+      <li>Appearance is a <b>Stroke</b> = <code class="inl">(color, width, pattern)</code> —
         the <b>same value object a Border edge uses</b>, so the appearance triple lives in one place.</li>
       <li>An <b>optional arrowhead</b> sits at <code class="inl">p2</code>, the end point
         (so direction is well-defined: <code class="inl">p1 → p2</code>).</li>
@@ -203,7 +203,7 @@ a{color:var(--accent)}
     <div class="analogy" style="margin-top:16px;border-left-color:var(--good);
          background:linear-gradient(90deg,rgba(52,211,153,.10),transparent)">
       <div class="emoji">🔗</div>
-      <p><b>Stroke</b> and <b>LineStyle</b> (<code class="inl">SOLID</code> /
+      <p><b>Stroke</b> and <b>DashPattern</b> (<code class="inl">SOLID</code> /
         <code class="inl">DASHED</code> / <code class="inl">DOTTED</code>) come from
         <code class="inl">f_gui.style.stroke</code> — <b>shared with Border</b>. A Line
         and a Border edge describe their appearance with the exact same triple; only the
@@ -270,7 +270,7 @@ a{color:var(--accent)}
       <div class="card">
         <div class="ico">┄</div>
         <h3>Dashed strokes</h3>
-        <p><code class="inl">LineStyle.DASHED</code> maps to a <code class="inl">stroke-dasharray</code> pattern.</p>
+        <p><code class="inl">DashPattern.DASHED</code> maps to a <code class="inl">stroke-dasharray</code> pattern.</p>
       </div>
       <div class="card">
         <div class="ico">🎯</div>
