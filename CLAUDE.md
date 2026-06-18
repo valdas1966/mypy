@@ -17,7 +17,7 @@ also links its guide inline):
 | Generate `CLAUDE_REVIEW.html` | `for_claude_review.md` |
 | Generate `ABOUT.html` | `for_about_html.md` |
 | Write or edit a skill | `for_skill.md` |
-| Build a new class | `for_new_class.md` |
+| Write new code (reuse-first check) / build a class | `for_new_class.md` |
 | Apply a design pattern | `for_patterns.md` |
 | Write tests (`_tester.py`) | `for_testing.md` |
 | Write imports / an `__init__.py` | `for_imports.md` |
@@ -194,21 +194,28 @@ applying one. The canonical patterns:
 
 ---
 
-## Building New Classes — Infrastructure Check
+## Writing New Code — Reuse-First Check
 
-Before writing a new class, run the 2-step infra check. Full procedure
-(tables, rule-of-three, decision cheat-sheet):
+Before writing **any** new code, run this 3-tier check in order. It is a
+pre-coding gate, same category as *Clarify Before Acting*. Full procedure
+for classes (tables, rule-of-three, decision cheat-sheet):
 `f_claude/instructions/for_new_class.md`.
 
-1. **Reuse first** — if the capability (identity, equality, ordering,
-   serialization, validation, event capture, container type) already
-   exists in `f_core/mixins/`, `f_core/recorder/`, or `f_ds/`, USE IT by
-   inheritance/composition. Never reimplement `__eq__` / `__hash__` /
-   ordering / recording / heap ops.
-2. **Missing but broadly useful → SUGGEST, don't silently build** — if
-   ≥3 classes already hand-roll it, or it is foundational with ≥2
-   reusers, propose extracting shared infra into `f_core`/`f_ds` and
-   **wait for explicit user OK**. Otherwise write it inline (YAGNI).
+1. **Reuse first** — if the capability already exists in the codebase
+   (`f_core/mixins/`, `f_core/recorder/`, `f_ds/`, `f_psl/`, or any
+   `u_*`/`c_*` utility), USE IT by import / inheritance / composition.
+   Never reimplement identity, equality, ordering, serialization,
+   validation, event capture, or heap/container ops.
+2. **Exists but not good enough → propose to improve it** — don't
+   silently work around, fork, or duplicate existing code. Surface the
+   gap and propose improving the existing code in place; **wait for OK**
+   before a non-trivial change.
+3. **Missing and broadly useful → propose core/infra, don't silently
+   build** — if it would serve many tasks/contexts (rule of three: ≥3
+   sites hand-roll it, or foundational with ≥2 reusers), propose
+   extracting shared infrastructure into `f_core`/`f_ds`/`f_psl` and
+   **wait for explicit user OK**. If it's one-off, write it inline
+   (YAGNI).
 
 ---
 

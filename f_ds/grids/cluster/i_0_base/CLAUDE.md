@@ -1,7 +1,7 @@
 # Cluster (Grid Abstract Base)
 
 ## Purpose
-Grid specialisation of the general `f_ds.clusters.Cluster[Item]` abstract
+Grid specialisation of the general `f_ds.clusters.ClusterBase[Item]` abstract
 base (`Item = CellMap`). Represents a set of valid `CellMap`s on a
 `GridMap`. Subclasses define the shape (Manhattan ball, rectangle, disk,
 arbitrary seed-BFS, …) by implementing `to_iterable()`. Identity
@@ -60,7 +60,7 @@ both sides to expose a non-None `center`.
 ## Inheritance
 
 ```
-f_ds.clusters.Cluster[Item]   (general abstract base)
+f_ds.clusters.ClusterBase[Item]   (general abstract base)
  └── Cluster[CellMap]         (this class — grid abstract base)
       └── ClusterDiamond, …
 ```

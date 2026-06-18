@@ -1,6 +1,6 @@
 from abc import ABC
 
-from f_ds.clusters.i_0_base.main import Cluster as ClusterBase
+from f_ds.clusters.i_0_base.main import ClusterBase
 from f_ds.grids.cell.i_1_map.main import CellMap
 from f_ds.grids.grid.map.main import GridMap
 
@@ -10,7 +10,7 @@ class Cluster(ClusterBase[CellMap], ABC):
     ============================================================================
      Abstract Cluster: a set of valid CellMaps on a GridMap.
 
-     Grid specialisation of the general `f_ds.clusters.Cluster`. Members
+     Grid specialisation of the general `f_ds.clusters.ClusterBase`. Members
      are `CellMap`s. Holds only the grid's NAME (`map: str`), not the grid
      object — the grid is required at construction time by `_build()`
      (BFS, etc.) and released as soon as `__init__` returns. This keeps

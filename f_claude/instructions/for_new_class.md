@@ -1,11 +1,18 @@
-# Instruction to AI Agent (Claude Code): Building a New Class — Infrastructure Check
+# Instruction to AI Agent (Claude Code): Writing New Code — Reuse-First Check
 
-Before writing a new class, run this **2-step check**. It is a
-pre-coding gate, same category as *Clarify Before Acting*. The
-codebase's primary design language is capability-as-mixin +
-reusable-data-structure — silently re-implementing a capability
-fragments the framework (future migrations become N-class
-refactors).
+Before writing **any** new code (a class, a function, a utility, a
+helper), run this **3-step check**. It is a pre-coding gate, same
+category as *Clarify Before Acting*. The codebase's primary design
+language is capability-as-mixin + reusable-data-structure — silently
+re-implementing, forking, or working around existing code fragments the
+framework (future migrations become N-site refactors).
+
+**The three tiers, in order:**
+1. It already exists and fits → **reuse it** (Step 1).
+2. It exists but isn't good enough → **propose to improve it in place**
+   (Step 2) — never silently fork, duplicate, or work around.
+3. It doesn't exist and would help many tasks → **propose core/infra**
+   (Step 3) — wait for OK; otherwise write it inline (YAGNI).
 
 ## Step 1 — Reuse existing `f_core` / `f_ds` infrastructure
 
@@ -45,7 +52,28 @@ composition. Never reimplement `__eq__` / `__hash__` / ordering
 / recording / heap ops in a new class — delegate to the mixin
 or data structure.
 
-## Step 2 — Missing but broadly useful → **SUGGEST, don't silently build**
+## Step 2 — Exists but not good enough → **propose to improve it**
+
+If existing code *almost* fits but is missing a feature, has a bug, or
+its API doesn't quite cover your case, do **not** silently fork it,
+copy-paste a variant, or wrap it in a workaround. Improving the shared
+code in place keeps the framework coherent and the fix benefits every
+existing caller.
+
+**How to propose (mandatory script):** name the existing code, the
+gap, and the minimal change:
+
+> "`<existing_class_or_util>` already does `<capability>` but lacks
+> `<X>` / breaks on `<case>`. Propose improving it in place
+> (`<file:path>`) by `<minimal change>`, rather than forking it.
+> Proceed?"
+
+**Wait for OK before any non-trivial change** to shared code — other
+callers depend on it. A purely additive, backward-compatible tweak
+(e.g. a new optional kwarg) can proceed with a one-line heads-up; a
+behavior change to an existing path must wait for confirmation.
+
+## Step 3 — Missing but broadly useful → **SUGGEST, don't silently build**
 
 If no existing infrastructure matches and you're about to
 hand-roll the capability, apply the **rule of three + future
@@ -84,15 +112,19 @@ user owns.
 ## Decision cheat-sheet
 
 ```
-new class needed
+new code needed
     │
-    ├── capability already in f_core/f_ds? ──► YES → use it (inherit/compose)
-    │                                          │
-    │                                          NO
-    │                                          ▼
+    ├── capability already exists and fits? ──► YES → use it (inherit/compose/import)
+    │                                           │
+    │                                           NO
+    │                                           ▼
+    ├── exists but not good enough? ──────────► YES → PROPOSE improving it in place
+    │                                           │      (wait for OK; no silent fork)
+    │                                           NO
+    │                                           ▼
     ├── ≥3 hand-rolled duplicates OR foundational + ≥2 reusers?
     │       │
-    │       ├── YES → SUGGEST new shared infra (wait for user OK)
+    │       ├── YES → PROPOSE new shared infra (wait for user OK)
     │       │
-    │       └── NO  → write it inline in the new class (YAGNI)
+    │       └── NO  → write it inline (YAGNI)
 ```

@@ -1,4 +1,4 @@
-# Cluster (General Abstract Base)
+# ClusterBase (General Abstract Base)
 
 ## Purpose
 Domain-agnostic abstract root of every cluster: a named collection of
@@ -6,7 +6,7 @@ members with an optional representative. Subclasses own their member
 storage and implement `to_iterable()`.
 
 ```python
-class Cluster(Generic[Item], Collectionable[Item], HasName, ABC)
+class ClusterBase(Generic[Item], Collectionable[Item], HasName, ABC)
 ```
 
 ## Public API
@@ -31,21 +31,30 @@ def to_iterable(self) -> IterableSized[Item]   # subclass owns storage
 
 ### Free from `Collectionable`
 `len()`, `in`, `iter()`, `bool()` — all dispatched through
-`to_iterable()`. `__str__` → `'name(size=n)'`; `__repr__` →
-`'<Cls: name=…, size=…>'`.
+`to_iterable()`.
+
+### String forms
+- `__str__` → `'name(size=n)'`, plus `', rep=…'` when `representative`
+  is not `None` (e.g. `'K(size=3, rep=1)'`).
+- `__repr__` is **not** defined here — it comes from `HasRepr` (via
+  `HasName`) and wraps `__str__` as `'<Cls: str>'`
+  (e.g. `'<ClusterList: K(size=3, rep=1)>'`).
 
 ## Inheritance
 ```
 Collection[Item], Sizable          HasRepr
  └── Collectionable[Item]           └── HasName
-              └────────── Cluster (abstract) ──────────┘
-                   └── f_ds.grids.cluster.Cluster[CellMap] → ClusterDiamond
+              └────────── ClusterBase (abstract) ──────────┘
+                   ├── ClusterList                       (i_1_list — explicit members)
+                   └── f_ds.grids.cluster.ClusterBase[CellMap] → ClusterDiamond
 ```
 
 ## Notes
-- Abstract → no `Factory`. Tested via a list-backed test double
-  (`_ClusterList`) in `_tester.py`.
-- `members` (not `items`): `items` is reserved in `f_ds` for mapping
-  (key→value) views (`dual_indexable`, `indexable_key`).
+- Abstract → no `Factory` and **no `_tester.py`**. The behaviour is
+  exercised through the concrete `ClusterList` (`../i_1_list/`), which
+  replaced the former `_ClusterList` test double.
+- `members` (not `items`): `items` is the Python *Mapping* term for
+  key→value pairs (`dict.items()`, `Dictable.items()`); a flat
+  collection uses iteration + a domain noun (`members`).
 - Deliberately minimal — no set algebra / merge / split / provenance at
   this stage.

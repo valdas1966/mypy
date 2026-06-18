@@ -42,7 +42,7 @@ f_ds/grids/cluster/
 ## Design Notes
 
 - The grid `Cluster` is the **grid specialisation** of the general
-  `f_ds.clusters.Cluster[Item]` abstract base (`Item = CellMap`).
+  `f_ds.clusters.ClusterBase[Item]` abstract base (`Item = CellMap`).
   Identity (`name`), the `members` accessor, and the `representative`
   slot come from that base.
 - `map: str` (the grid's NAME) is grid-local provenance — the grid

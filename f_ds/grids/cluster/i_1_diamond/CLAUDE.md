@@ -29,7 +29,7 @@ The `grid` is consumed by `_build` and **not** retained on `self`.
 | `representative` | `CellMap` | same as `center` (overrides the base `None`) |
 | `steps` | `int` | Manhattan radius |
 | `key` | `tuple[str, tuple[int,int], int]` | `(map, center.key, steps)` — drives `__eq__` / `__hash__` |
-| `map`, `name`, `members`, `cells` | — | inherited from the grid / general `Cluster` |
+| `map`, `name`, `members`, `cells` | — | inherited from the grid / general `ClusterBase` |
 
 ### String forms
 - `__str__` → `ClusterDiamond(center=(r,c), steps=s, cells=n)`

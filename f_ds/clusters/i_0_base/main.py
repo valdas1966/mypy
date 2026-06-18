@@ -1,17 +1,16 @@
 from __future__ import annotations
+from f_ds.mixins.collectionable import Collectionable, IterableSized
+from f_core.mixins import HasName
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
-
-from f_core.mixins.has.name.main import HasName
-from f_ds.mixins.collectionable.main import Collectionable, IterableSized
 
 Item = TypeVar('Item')
 
 
-class Cluster(Generic[Item], Collectionable[Item], HasName, ABC):
+class ClusterBase(Generic[Item], Collectionable[Item], HasName, ABC):
     """
     ============================================================================
-     Cluster: a labelled set of members with an optional representative.
+     ClusterBase: a labeled set of members with an optional representative.
     ============================================================================
      Domain-agnostic abstract base. A Cluster is a named collection of
      members (the items that belong together) that may expose a single
@@ -21,6 +20,9 @@ class Cluster(Generic[Item], Collectionable[Item], HasName, ABC):
      implements `to_iterable()` — which drives `len`/`in`/`iter`/`bool`
      via the `Collectionable` mixin. The base adds only identity (`name`),
      the public `members` accessor, and the `representative` slot.
+
+     Concrete subclasses: `ClusterList` (explicit members, this package);
+     the grid clusters in `f_ds/grids/cluster/` (`ClusterDiamond`, …).
     ============================================================================
     """
 
@@ -33,7 +35,7 @@ class Cluster(Generic[Item], Collectionable[Item], HasName, ABC):
         """
         ========================================================================
          Init the Cluster's identity (`name`). Concrete subclasses must
-         initialise their own member storage.
+         initialize their own member storage.
         ========================================================================
         """
         HasName.__init__(self, name=name)
@@ -70,17 +72,11 @@ class Cluster(Generic[Item], Collectionable[Item], HasName, ABC):
     def __str__(self) -> str:
         """
         ========================================================================
-         Return STR-REPR: 'name(size=n)'.
+         Return STR-REPR: 'name(size=n)', plus 'rep=…' when the Cluster
+         has a representative. (__repr__ comes from HasRepr → wraps this.)
         ========================================================================
         """
-        return f'{self.name}(size={len(self)})'
-
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         Return the representation of the Cluster.
-        ========================================================================
-        """
-        return (f'<{type(self).__name__}: '
-                f'name={self.name}, '
-                f'size={len(self)}>')
+        rep = self.representative
+        if rep is None:
+            return f'{self.name}(size={len(self)})'
+        return f'{self.name}(size={len(self)}, rep={rep})'
