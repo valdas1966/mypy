@@ -43,8 +43,8 @@ f_ds/grids/cluster/
 
 - `ClusterGrid` is the abstract root of the hierarchy. It composes
   `Collectionable[CellMap]` (collection behaviour) and `HasName`
-  (identity), and adds the `members`/`cells` accessors and the
-  `representative` slot. (It was once a specialisation of a separate
+  (identity), and adds the `members`/`cells` accessors. (It was once a
+  specialisation of a separate
   generic `f_ds.clusters.ClusterBase`; that layer was removed and folded
   in — no non-grid consumer existed.)
 - `map: str` (the grid's NAME) is grid-local provenance — the grid
@@ -64,9 +64,8 @@ from f_ds.grids import GridMap, ClusterDiamond
 
 grid = GridMap(rows=10, cols=10)
 
-# Deterministic
-cluster = ClusterDiamond.Factory.at_center(
-    grid=grid, center=grid[5][5], steps=2)
+# Deterministic — call the constructor directly
+cluster = ClusterDiamond(grid=grid, center=grid[5][5], steps=2)
 print(len(cluster))   # 13
 
 # Random with a floor on size

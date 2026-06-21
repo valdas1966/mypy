@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HasName — The Regression, Visualized</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#1f2933; --muted:#6b7785;
+    --line:#e2e6ea; --good:#1b9e54; --good-bg:#e9f7ef;
+    --bad:#d23b3b; --bad-bg:#fdecec; --accent:#2563eb; --accent-bg:#e8f0fe;
+    --code:#0f172a; --code-bg:#f1f3f6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 24px 64px}
+  h1{font-size:30px;margin:0 0 4px}
+  h2{font-size:20px;margin:38px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  .sub{color:var(--muted);margin:0 0 8px}
+  code,pre{font-family:"SF Mono",Menlo,Consolas,monospace}
+  pre{background:var(--code-bg);color:var(--code);padding:12px 14px;border-radius:8px;
+      overflow:auto;font-size:13px;margin:8px 0}
+  code.inline{background:var(--code-bg);padding:1px 6px;border-radius:5px;font-size:13px}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px}
+  .pill.bad{background:var(--bad-bg);color:var(--bad)}
+  .pill.good{background:var(--good-bg);color:var(--good)}
+  .pill.acc{background:var(--accent-bg);color:var(--accent)}
+
+  /* family row */
+  .family{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:6px}
+  .fcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .fcard h3{margin:0 0 6px;font-size:15px}
+  .fcard .keys{color:var(--muted);font-size:12.5px}
+  .fcard.ok{border-top:4px solid var(--good)}
+  .fcard.broken{border-top:4px solid var(--bad);background:var(--bad-bg)}
+
+  /* two-up */
+  .twoup{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .panel.bad{border:1px solid #f3c6c6}
+  .panel.good{border:1px solid #b8e6cb}
+  .panel h3{margin:0 0 10px;display:flex;align-items:center;gap:8px;font-size:16px}
+
+  table{border-collapse:collapse;width:100%;background:var(--card);
+        border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:6px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
+  th{background:#fafbfc;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  tr:last-child td{border-bottom:none}
+  td.now{color:var(--bad);font-weight:600;font-family:monospace}
+  td.want{color:var(--good);font-weight:600;font-family:monospace}
+  .mono{font-family:monospace}
+
+  .callout{background:var(--accent-bg);border:1px solid #cfe0fd;border-radius:10px;
+           padding:14px 16px;margin-top:14px}
+  .arrow{text-align:center;color:var(--muted);font-size:26px;margin:2px}
+  .note{color:var(--muted);font-size:13px}
+  ul{margin:8px 0 0;padding-left:20px}
+  li{margin:4px 0}
+  @media(max-width:760px){.family{grid-template-columns:1fr 1fr}.twoup{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>HasName — the regression, visualized</h1>
+  <p class="sub">Why <code class="inline">HasName</code> is quietly broken, and what it should look like.
+     Generated as a decision aid — not a <code class="inline">CLAUDE.*</code> doc.</p>
+
+  <!-- ============================================================ -->
+  <h2>1 · The idea: the <code class="inline">Has*</code> family gives objects an <em>identity</em></h2>
+  <p class="sub">Every <code class="inline">Has*</code> mixin picks <strong>one value</strong> as the object's
+     <code class="inline">key</code>, then derives <strong>equality, ordering, hashing &amp; repr</strong> from it.
+     That's the whole point of the family. Three siblings still do it — one no longer does.</p>
+
+  <div class="family">
+    <div class="fcard ok">
+      <h3>HasKey <span class="pill good">identity</span></h3>
+      <div class="keys">key = <b>the key</b><br>== &lt; hash repr ✅</div>
+    </div>
+    <div class="fcard ok">
+      <h3>HasRowCol <span class="pill good">identity</span></h3>
+      <div class="keys">key = <b>(row, col)</b><br>== &lt; hash repr ✅</div>
+    </div>
+    <div class="fcard broken">
+      <h3>HasName <span class="pill bad">regressed</span></h3>
+      <div class="keys">key = <s>name</s> <b>— gone</b><br>== &lt; hash ❌ &nbsp; repr ✅</div>
+    </div>
+    <div class="fcard broken">
+      <h3>HasRowsCols <span class="pill bad">regressed</span></h3>
+      <div class="keys">key = <s>(rows,cols)</s> <b>gone</b><br>== &lt; hash ❌</div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:10px">All four are documented as identity mixins.
+     Only <code class="inline">HasKey</code> and <code class="inline">HasRowCol</code> still are in code.
+     This page is about <code class="inline">HasName</code> (the highest-impact one).</p>
+
+  <!-- ============================================================ -->
+  <h2>2 · What it IS vs what it SHOULD be</h2>
+  <div class="twoup">
+    <div class="panel bad">
+      <h3><span class="pill bad">NOW · broken</span> current code</h3>
+<pre>class HasName(<b>HasRepr</b>):           <span style="color:#d23b3b"># only repr!</span>
+
+    def __init__(self, name='NoName'):
+        self._name = name
+
+    @property
+    def name(self): return self._name
+
+    def __str__(self): return self.name
+    <span style="color:#d23b3b"># NO key
+    # NO __eq__ / __lt__ / __hash__</span></pre>
+      <p class="note">Inherits nothing that gives identity. Two same-named objects
+         fall back to Python's default <em>object-identity</em> equality.</p>
+    </div>
+
+    <div class="panel good">
+      <h3><span class="pill good">SHOULD BE</span> mirror of HasKey</h3>
+<pre>class HasName(<b>Comparable, Hashable, HasRepr</b>):
+
+    def __init__(self, name='NoName'):
+        self._name = name
+
+    @property
+    def name(self): return self._name
+
+    <b style="color:#1b9e54">@property
+    def key(self): return self._name</b>  <span style="color:#1b9e54"># ← identity</span>
+
+    def __str__(self): return self.name</pre>
+      <p class="note">One added base + one <code class="inline">key</code> property → equality,
+         ordering, hashing all come for free (exactly like <code class="inline">HasKey</code>).</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>Why this is the fix, not a new feature:</b> <code class="inline">HasKey</code> = key on an explicit key,
+    <code class="inline">HasName</code> = key on the name. They should be twins. Someone deleted
+    <code class="inline">HasName</code>'s <code class="inline">key</code> + bases, leaving only repr.
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>3 · What actually breaks right now <span class="pill bad">live, measured</span></h2>
+  <p class="sub">Real output from the current code — not hypothetical:</p>
+  <table>
+    <tr><th>You write…</th><th>NOW (broken)</th><th>SHOULD be</th></tr>
+    <tr>
+      <td class="mono">HasName('A') == HasName('A')</td>
+      <td class="now">False</td><td class="want">True</td>
+    </tr>
+    <tr>
+      <td class="mono">HasName('A') &lt; HasName('B')</td>
+      <td class="now">TypeError 💥</td><td class="want">True</td>
+    </tr>
+    <tr>
+      <td class="mono">hash(HasName('A'))</td>
+      <td class="now">id-based (random)</td><td class="want">hash('A')</td>
+    </tr>
+    <tr>
+      <td class="mono">HasName('A').key</td>
+      <td class="now">AttributeError 💥</td><td class="want">'A'</td>
+    </tr>
+    <tr>
+      <td class="mono">{HasName('A'), HasName('A')}</td>
+      <td class="now">2 elements (dupes!)</td><td class="want">1 element</td>
+    </tr>
+  </table>
+  <p class="note">Compare: <code class="inline">HasKey('A') == HasKey('A')</code> → <b style="color:var(--good)">True</b>.
+     Same family, different answer.</p>
+
+  <!-- ============================================================ -->
+  <h2>4 · Who already depends on the missing behavior</h2>
+  <div class="twoup">
+    <div class="panel bad">
+      <h3>🔴 f_ds/groups/main.py:120</h3>
+<pre>def key(self) -> list:
+    return [<b>HasName.key(self)</b>, self.data]</pre>
+      <p class="note"><code class="inline">HasName.key</code> no longer exists → this call is dead.
+         <code class="inline">Group</code> explicitly wants name as part of its identity.</p>
+    </div>
+    <div class="panel bad">
+      <h3>🔴 f_ds/grids/cluster/i_0_base</h3>
+<pre>class ClusterGrid(Collectionable, HasName, ABC):
+    <span style="color:#6b7785"># "Identity (name) comes from HasName."</span></pre>
+      <p class="note">The class comment states identity comes from <code class="inline">HasName</code> —
+         but right now it comes from object identity instead.</p>
+    </div>
+  </div>
+  <p class="note" style="margin-top:10px">Plus the docs: <code class="inline">has/name/CLAUDE.md</code> and
+     <code class="inline">ProcessBase</code>'s CLAUDE.md both still describe the full
+     <code class="inline">==/&lt;/hash</code> contract that the code no longer provides.</p>
+
+  <!-- ============================================================ -->
+  <h2>5 · The decision</h2>
+  <div class="twoup">
+    <div class="panel good">
+      <h3><span class="pill good">Option A · recommended</span> restore identity</h3>
+      <ul>
+        <li>Make <code class="inline">HasName(Comparable, Hashable, HasRepr)</code> + <code class="inline">key→name</code>.</li>
+        <li>Fixes <code class="inline">Group</code>, matches docs &amp; <code class="inline">ClusterGrid</code>.</li>
+        <li>Symmetric with the <code class="inline">HasKey</code> change we just made.</li>
+        <li><b>Trade-off:</b> <code class="inline">HasName</code> equality changes from
+            <em>identity → by-name</em> (affects set/dict use across f_ds).</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3><span class="pill acc">Option B</span> keep lightweight</h3>
+      <ul>
+        <li>Leave <code class="inline">HasName</code> as name + repr only.</li>
+        <li>Rewrite its CLAUDE.md + <code class="inline">ProcessBase</code> docs to drop identity claims.</li>
+        <li>Fix the broken <code class="inline">Group.key()</code> caller separately.</li>
+        <li><b>Downside:</b> breaks the family symmetry; consumers that want name-identity stay unserved.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

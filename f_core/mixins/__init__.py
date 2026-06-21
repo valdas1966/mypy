@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING
-
 from f_core.imports import ULazy
 
 if TYPE_CHECKING:
     from f_core.mixins.sizable import Sizable
     from f_core.mixins.dictable import Dictable
+    from f_core.mixins.hashable import Hashable
     from f_core.mixins.equatable import Equatable
     from f_core.mixins.comparable import Comparable
     from f_core.mixins.validatable import Validatable
@@ -19,6 +19,7 @@ ULazy.install(globals(), {
     'Dictable': 'f_core.mixins.dictable:Dictable',
     'Equatable': 'f_core.mixins.equatable:Equatable',
     'Comparable': 'f_core.mixins.comparable:Comparable',
+    'Hashable': 'f_core.mixins.hashable:Hashable',
     'Validatable': 'f_core.mixins.validatable:Validatable',
     'ValidatableMutable': 'f_core.mixins.validatable_mutable:ValidatableMutable',
     'HasKey': 'f_core.mixins.has:HasKey',

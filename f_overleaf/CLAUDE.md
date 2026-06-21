@@ -25,6 +25,14 @@ internal dict. Raises `KeyError` if no such project. Internally
 is moved to Overleaf's Trash (server-side soft-delete); not
 recoverable through this API.
 
+### `rename_project(name: str, name_new: str) -> None`
+Rename an existing project in place, preserving its id / URL /
+history. Raises `KeyError` if `name` is missing, `ValueError` if
+`name_new` already exists. Internally `POST`s
+`/project/<id>/rename` with `{newProjectName}` and a fresh CSRF
+token (same session/host pattern as `create_project`); updates the
+internal dict key.
+
 ### `tag_project(project_name: str, tag_name: str) -> None`
 Apply a tag (visible as a "folder" in the Overleaf sidebar) to
 a project. The tag is created if it does not yet exist. Issues

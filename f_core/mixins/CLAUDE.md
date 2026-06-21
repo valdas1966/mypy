@@ -9,7 +9,7 @@ size/validity, and property injection (name, key, position).
 
 ```python
 from f_core.mixins import (
-    Sizable, Dictable, Equatable, Comparable,
+    Sizable, Dictable, Equatable, Comparable, Hashable,
     Validatable, ValidatableMutable,
     HasKey, HasName, HasRowCol, HasRowsCols
 )
@@ -19,7 +19,7 @@ from f_core.mixins import (
 
 ```
 f_core/mixins/
-├── __init__.py                 re-exports 10 classes
+├── __init__.py                 re-exports 11 classes
 ├── equatable/                  Equatable — __eq__ via abstract key
 ├── comparable/                 Comparable — __lt__, __le__, __gt__, __ge__
 ├── hashable/                   Hashable — __hash__ via key
@@ -47,7 +47,7 @@ f_core/mixins/
 | `dictable` | `Dictable[K, V]` | `Sizable`, `Generic[K, V]` | Dict-like wrapper with `__getitem__`, iteration |
 | `validatable` | `Validatable` | (none) | Immutable `__bool__` from constructor |
 | `validatable_mutable` | `ValidatableMutable` | `Validatable` | `set_valid()`, `set_invalid()` |
-| `has/key` | `HasKey[Key]` | `Comparable`, `Hashable` | Generic typed key identity |
+| `has/key` | `HasKey[Key]` | `Comparable`, `Hashable`, `HasRepr` | Generic typed key identity |
 | `has/name` | `HasName` | (none) | String name + `str()`/`repr()` |
 | `has/row_col` | `HasRowCol` | `Comparable`, `Hashable` | Position, neighbors, distance |
 | `has/rows_cols` | `HasRowsCols` | `Comparable`, `Hashable` | Dimensions, shape, `len()` |
@@ -60,7 +60,7 @@ f_core/mixins/
 SupportsEquality (Protocol)
  └── Equatable ─── __eq__ via key
       ├── Comparable (+ SupportsComparison) ─── __lt__, __le__, __gt__, __ge__
-      │    ├── HasKey[Key](+ Hashable) ─── generic key identity
+      │    ├── HasKey[Key](+ Hashable, HasRepr) ─── generic key identity
       │    ├── HasRowCol(+ Hashable) ─── (row, col) position
       │    └── HasRowsCols(+ Hashable) ─── (rows, cols) dimensions
       └── Hashable ─── __hash__ via key

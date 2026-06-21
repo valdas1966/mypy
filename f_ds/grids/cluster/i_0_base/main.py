@@ -12,8 +12,7 @@ class ClusterGrid(Collectionable[CellMap], HasName, ABC):
      Abstract ClusterGrid: a named set of valid CellMaps on a GridMap.
     ============================================================================
      The root of the cluster hierarchy. A cluster is a named collection of
-     cells (the members that belong together) that may expose a single
-     `representative` cell (center / medoid / seed). Subclasses define the
+     cells (the members that belong together). Subclasses define the
      shape (Manhattan ball, rectangle, disk, arbitrary seed-BFS, …) by
      filling `_cells` in their own `__init__` and reading them through
      `to_iterable()` — which drives `len`/`in`/`iter`/`bool` via the
@@ -75,16 +74,6 @@ class ClusterGrid(Collectionable[CellMap], HasName, ABC):
         """
         return list(self.to_iterable())
 
-    @property
-    def representative(self) -> CellMap | None:
-        """
-        ========================================================================
-         Return the Cluster's representative (center / medoid / seed).
-         Default None — subclasses with a distinguished cell override.
-        ========================================================================
-        """
-        return None
-
     def to_iterable(self) -> list[CellMap]:
         """
         ========================================================================
@@ -97,14 +86,10 @@ class ClusterGrid(Collectionable[CellMap], HasName, ABC):
     def __str__(self) -> str:
         """
         ========================================================================
-         Return STR-REPR: 'name(size=n)', plus 'rep=…' when the Cluster
-         has a representative.
+         Return STR-REPR: 'name(size=n)'.
         ========================================================================
         """
-        rep = self.representative
-        if rep is None:
-            return f'{self.name}(size={len(self)})'
-        return f'{self.name}(size={len(self)}, rep={rep})'
+        return f'{self.name}(size={len(self)})'
 
     def __repr__(self) -> str:
         """

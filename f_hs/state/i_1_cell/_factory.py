@@ -1,5 +1,5 @@
-from f_hs.state.i_1_cell.main import StateCell
-from f_ds.grids.cell.i_1_map import CellMap
+from f_hs.state import StateCell as State
+from f_ds.grids import CellMap as Cell
 
 
 class Factory:
@@ -10,37 +10,12 @@ class Factory:
     """
 
     @staticmethod
-    def at(row: int, col: int) -> StateCell:
+    def at(row: int, col: int = None) -> State:
         """
         ====================================================================
          Create a StateCell at the given (row, col).
         ====================================================================
         """
-        return StateCell(key=CellMap(row=row, col=col))
-
-    @staticmethod
-    def origin() -> StateCell:
-        """
-        ====================================================================
-         Create a StateCell at (0, 0).
-        ====================================================================
-        """
-        return StateCell(key=CellMap(row=0, col=0))
-
-    @staticmethod
-    def a() -> StateCell:
-        """
-        ====================================================================
-         Create a StateCell at (0, 0).
-        ====================================================================
-        """
-        return StateCell(key=CellMap(row=0, col=0))
-
-    @staticmethod
-    def b() -> StateCell:
-        """
-        ====================================================================
-         Create a StateCell at (2, 2).
-        ====================================================================
-        """
-        return StateCell(key=CellMap(row=2, col=2))
+        col = row if col is None else col
+        cell = Cell(row=row, col=col)
+        return State(key=cell)

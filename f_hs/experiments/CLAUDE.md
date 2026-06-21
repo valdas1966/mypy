@@ -14,6 +14,7 @@ f_hs/experiments/
 ├── u_cluster_pool_ABOUT.html  visual overview (human reading)
 ├── mospp/                     MOSPP pipeline (s_0 … )
 └── omspp/                     OMSPP pipeline (s_0 … s_8) + goal_distance/
+                               + goal_removal/  (quota / early-stop plan)
 ```
 
 ## u_cluster_pool — candidate-location pool sampler

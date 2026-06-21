@@ -104,6 +104,32 @@ class OverLeaf(Dictable[str, ProjectOverLeaf]):
         resp.raise_for_status()
         del self._data[name]
 
+    def rename_project(self, name: str, name_new: str) -> None:
+        """
+        ====================================================================
+         Rename an existing Project in place (keeps id / url / history).
+         Raises KeyError if `name` is missing, ValueError if `name_new`
+         already exists.
+        ====================================================================
+        """
+        if name_new in self:
+            raise ValueError(f"Project '{name_new}' already exists.")
+        project = self[name]
+        host = self._api._host
+        session = self._api._get_session()
+        resp = session.post(
+            f'https://{host}/project/{project.key}/rename',
+            json={'newProjectName': name_new},
+            headers={'x-csrf-token': self._csrf()},
+            **self._api._request_kwargs,
+        )
+        resp.raise_for_status()
+        renamed = ProjectOverLeaf(key=project.key,
+                                  name=name_new,
+                                  api=self._api)
+        del self._data[name]
+        self[name_new] = renamed
+
     def tag_project(self,
                     project_name: str,
                     tag_name: str) -> None:

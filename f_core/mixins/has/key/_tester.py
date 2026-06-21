@@ -11,5 +11,5 @@ def test_a() -> None:
     assert hash(a) == hash('A')
     assert a == other_a
     assert str(a) == 'A'
-    assert repr(a) == '<HasKey: Key=A>'
+    assert repr(a) == '<HasKey: A>'
     

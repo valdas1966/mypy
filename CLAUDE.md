@@ -18,6 +18,9 @@ also links its guide inline):
 | Generate `ABOUT.html` | `for_about_html.md` |
 | Write or edit a skill | `for_skill.md` |
 | Write new code (reuse-first check) / build a class | `for_new_class.md` |
+| Name a folder / file / class / var (prefixes, case) | `for_naming.md` |
+| Write a docstring / inline comment (`=`-separator) | `for_docstrings.md` |
+| Format code / annotate types / clean-code statements | `for_code_style.md` |
 | Apply a design pattern | `for_patterns.md` |
 | Write tests (`_tester.py`) | `for_testing.md` |
 | Write imports / an `__init__.py` | `for_imports.md` |
@@ -50,125 +53,60 @@ hierarchy diagram + file-role table:
 
 ## Naming Conventions
 
-### Folders
-| Prefix | Meaning | Example |
-|--------|---------|---------|
-| `f_` | Framework module | `f_search`, `f_core`, `f_google` |
-| `i_X_` | Inheritance level X | `i_0_base`, `i_1_astar`, `i_2_dijkstra` |
-| `_internal/` | Private helper classes | `drive/_internal/` |
-| (none) | Domain grouping | `algos/`, `problems/`, `solutions/`, `ds/` |
+Full prefix tables + finer rules:
+`f_claude/instructions/for_naming.md`. Essentials:
 
-### Files
-| Prefix | Meaning | Example |
-|--------|---------|---------|
-| `u_` | Utility module (functions, no classes) | `u_dict.py`, `u_file.py`, `u_datetime.py` |
-| `c_` | Component / service wrapper | `c_loguru.py`, `c_timer.py` |
-| `_` | Internal / private | `_factory.py`, `_tester.py` |
-| (none) | Public module | `main.py` |
-
-### Classes
-- **PascalCase**: `AlgoSearch`, `CellBase`, `AStar`, `ProblemSPP`
-- **Base classes**: named `*Base` or placed in `i_0_base/`
-- **Mixins**: named as adjectives/capabilities — `Comparable`, `Printable`, `HasRowCol`, `ValidatableMutable`
-- **Enums**: `TypeComparison`, `ServiceAccount`
-
-### Functions and Methods
-- **snake_case**: `_discover()`, `_handle_successor()`, `_need_relax()`
-- **Private**: single `_` prefix — `_init_add_atts()`, `_pre_run()`
-- **Factory statics**: short names for test objects — `a()`, `b()`, `gen()`
-
-### Variables
-- **Instance attributes**: `self._name` (single `_` for protected)
-- **Local aliases**: short names in method bodies — `data = self._data`
-- **Dict attributes**: descriptive prefixed names — `dict_g`, `dict_h`
-- **Module-level constants**: `_UPPER_CASE` (private) — `_SCOPES = [...]`
-- **Class-level constants**: `UPPER_CASE` (public) — `Factory: type = None`
-
-### Type Variables
-- PascalCase, descriptive, with bound:
-```python
-State = TypeVar('State', bound=StateBase)
-Problem = TypeVar('Problem', bound=ProblemSearch)
-Item = TypeVar('Item')
-```
+- **Folders**: `f_` framework module, `i_X_` inheritance level
+  (`i_0_` = abstract base), `_internal/` private helpers, (none) =
+  domain grouping (`algos/`, `problems/`).
+- **Files**: `u_` utility (functions), `c_` component/service wrapper,
+  `_` private (`_factory.py`, `_tester.py`), (none) = public
+  (`main.py`).
+- **Classes**: PascalCase; bases `*Base` or in `i_0_base/`; mixins are
+  adjectives (`Comparable`, `HasRowCol`); enums `TypeComparison`.
+- **Functions/vars**: snake_case; single `_` prefix = private;
+  `UPPER_CASE` public / `_UPPER_CASE` private constants; a plural
+  producer is suffixed `_many` and takes a `many: int` count.
+- **Type vars**: PascalCase with bound —
+  `State = TypeVar('State', bound=StateBase)`.
 
 ---
 
 ## Docstring Conventions
 
-### Separator Width Rule
-The `=` count adjusts to keep total line width at 80 characters:
-| Context | Indentation | `=` count |
-|---------|-------------|-----------|
-| Module-level | 0 spaces | 80 |
-| Class docstring | 4 spaces | 76 |
-| Method docstring | 8 spaces | 72 |
+Width table + worked examples:
+`f_claude/instructions/for_docstrings.md`. Essentials:
 
-### Class Docstrings
-```python
-class AStar(Generic[State], AlgoSPP[State, DataHeuristics]):
-    """
-    ============================================================================
-     AStar (A*) Algorithm.
-    ============================================================================
-    """
-```
-
-### Method Docstrings
-```python
-def _discover(self, state: State) -> None:
-    """
-    ========================================================================
-     Discover the given State.
-    ========================================================================
-    """
-```
-
-### Inline Comments
-Short, above the line they describe:
-```python
-# Aliases
-data = self._data
-# Set State's Parent
-data.set_best_to_be_parent_of(state=state)
-```
+- `=`-separator docstrings; the `=` count keeps total width at 80, so it
+  shrinks with indentation: module 80 / class 76 / method 72.
+- Short inline comments sit **above** the line they describe.
 
 ---
 
 ## Code Style
 
+Worked examples, class-definition order, full clean-code rule:
+`f_claude/instructions/for_code_style.md`. Essentials:
+
 ### Type Annotations
-- Annotate all function parameters and return types.
-- Use `-> None` for methods that return nothing.
-- Use modern union syntax: `type | None` (not `Optional`).
-- Use lowercase generics: `dict[str, Any]`, `tuple[int, int]`, `list[str]`.
-
-```python
-def __init__(self,
-             row: int,
-             col: int,
-             name: str = 'CellBase') -> None:
-
-@property
-def key(self) -> tuple[int, int]:
-```
+- Annotate all params and returns; `-> None` when returning nothing.
+- Modern union syntax `type | None` (not `Optional`); lowercase generics
+  `dict[str, Any]`, `list[str]`.
+- Prefer `typing.Self` (PEP 673) for the enclosing class's own instances
+  (`-> Self`, `child: Self`, `other: Self` in domain methods);
+  comparison/`__eq__` dunders keep `other: object`.
 
 ### Formatting
-- **Indentation**: 4 spaces, no tabs.
-- **Line length**: 80 characters.
-- **Multi-line params**: align with opening parenthesis.
-- **Blank lines**: 2 between top-level definitions, 1 between methods, none inside short methods.
-- **Strings**: f-strings preferred — `f'{self.name}({self.row},{self.col})'`.
-- **Named arguments** in calls: `data.set_best_to_be_parent_of(state=state)`.
+- 4-space indent, no tabs; 80-char lines; multi-line params align with
+  the opening paren.
+- f-strings preferred; pass named arguments —
+  `data.set_best_to_be_parent_of(state=state)`.
 
-### Class Definition Order
-1. Class docstring
-2. Class-level attributes (`Factory: type = None`, `cls_stats: type = ...`)
-3. `__init__`
-4. Properties (`@property`)
-5. Public methods
-6. Private methods (`_method`)
-7. Dunder methods (`__str__`, `__repr__`, `__lt__`)
+### Clean Code
+- Decompose nested/complex statements into simple named steps —
+  `cell = Cell(row=0, col=0)`; `state = State(cell=cell)` — not a
+  constructor nested in another call's argument. Trigger is nesting, not
+  single-use; keep simple calls (`len(items)`) inline.
 
 ---
 

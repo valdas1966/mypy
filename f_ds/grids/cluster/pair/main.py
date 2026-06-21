@@ -1,15 +1,18 @@
-from typing import Generic, TypeVar
+from typing import TypeVar
+
+from f_ds.pair.main import Pair
 from f_ds.grids.cluster.i_0_base.main import ClusterGrid
 
 
 T = TypeVar('T', bound=ClusterGrid)
 
 
-class PairCluster(Generic[T]):
+class PairCluster(Pair[T]):
     """
     ============================================================================
-     Pair of Clusters (A, B) on a GridMap with Manhattan distance between
-     their centers.
+     Ordered Pair of grid Clusters (A, B) with the Manhattan distance
+     between their centers. Inherits `a`/`b`/`key`/eq/hash from `Pair`
+     (ordered: identity is (A, B)); adds the cluster-specific `distance`.
     ============================================================================
     """
 
@@ -20,44 +23,13 @@ class PairCluster(Generic[T]):
                  # Cluster A
                  a: T,
                  # Cluster B
-                 b: T,
-                 # Pair's Name
-                 name: str = 'PairCluster') -> None:
+                 b: T) -> None:
         """
         ========================================================================
-         Init private Attributes.
+         Init as an ordered Pair of Clusters.
         ========================================================================
         """
-        self._a = a
-        self._b = b
-        self._name = name
-
-    @property
-    def a(self) -> T:
-        """
-        ========================================================================
-         Return Cluster A.
-        ========================================================================
-        """
-        return self._a
-
-    @property
-    def b(self) -> T:
-        """
-        ========================================================================
-         Return Cluster B.
-        ========================================================================
-        """
-        return self._b
-
-    @property
-    def name(self) -> str:
-        """
-        ========================================================================
-         Return the Pair's Name.
-        ========================================================================
-        """
-        return self._name
+        Pair.__init__(self, a=a, b=b, is_ordered=True)
 
     @property
     def distance(self) -> int:
@@ -66,28 +38,27 @@ class PairCluster(Generic[T]):
          Return the Manhattan distance between the centers of A and B.
         ========================================================================
         """
-        return self._a.center.distance(other=self._b.center)
+        return self.a.center.distance(other=self.b.center)
 
     def __str__(self) -> str:
         """
         ========================================================================
-         Return STR-REPR: 'PairCluster(a=..., b=..., distance=d)'
+         Return STR-REPR: 'PairCluster(a=..., b=..., distance=d)'.
         ========================================================================
         """
-        return (f'{self._name}('
-                f'a={self._a}, '
-                f'b={self._b}, '
+        return (f'{type(self).__name__}('
+                f'a={self.a}, '
+                f'b={self.b}, '
                 f'distance={self.distance})')
 
     def __repr__(self) -> str:
         """
         ========================================================================
-         Return the representation of the PairCluster --- concise identifier
-         with the shared map, both centers, and the pair distance.
+         Return '<PairCluster: map=X, a.center=.., b.center=.., distance=d>'.
         ========================================================================
         """
         return (f'<{type(self).__name__}: '
-                f'map={self._a.map}, '
-                f'a.center={self._a.center.key}, '
-                f'b.center={self._b.center.key}, '
+                f'map={self.a.map}, '
+                f'a.center={self.a.center.key}, '
+                f'b.center={self.b.center.key}, '
                 f'distance={self.distance}>')

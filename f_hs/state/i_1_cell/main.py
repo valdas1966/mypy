@@ -1,15 +1,16 @@
-from f_hs.state.i_0_base.main import StateBase
-from f_ds.grids.cell.i_1_map import CellMap
+from f_hs.state import StateBase
+from f_ds.grids import CellMap as Cell
+from typing import Self
 
 
-class StateCell(StateBase[CellMap]):
+class StateCell(StateBase[Cell]):
     """
     ========================================================================
      Search State wrapping a CellMap for Grid-Based Pathfinding.
     ========================================================================
     """
 
-    def __init__(self, key: CellMap) -> None:
+    def __init__(self, key: Cell) -> None:
         """
         ====================================================================
          Init private Attributes.
@@ -26,18 +27,10 @@ class StateCell(StateBase[CellMap]):
         """
         return self.key.rc
 
-    def distance(self, other: 'StateCell') -> int:
+    def distance(self, other: Self) -> int:
         """
         ====================================================================
          Return the Manhattan Distance to another StateCell.
         ====================================================================
         """
         return self.key.distance(other.key)
-
-    def __str__(self) -> str:
-        """
-        ====================================================================
-         Return the String Representation.
-        ====================================================================
-        """
-        return str(self.key)

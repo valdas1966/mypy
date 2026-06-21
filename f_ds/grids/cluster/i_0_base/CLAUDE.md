@@ -5,8 +5,7 @@ Root of the cluster hierarchy: a named set of valid `CellMap`s on a
 `GridMap`. Subclasses define the shape (Manhattan ball, rectangle, disk,
 arbitrary seed-BFS, …) by filling `_cells` and exposing them through
 `to_iterable()`. Composes `Collectionable[CellMap]` (collection behaviour)
-and `HasName` (identity); adds the `members`/`cells` accessors and the
-`representative` slot.
+and `HasName` (identity); adds the `members`/`cells` accessors.
 
 **Holds only the grid's NAME (`map: str`), not the grid object.** The
 grid is required at construction time by the subclass `_build()` (BFS,
@@ -34,7 +33,6 @@ consume `grid` inside their own `__init__` (typically by passing it to
 | `name` | `str` | `HasName` |
 | `cells` | `list[CellMap]` | this class — a list copy of the members |
 | `members` | `list[CellMap]` | this class — `list(to_iterable())` |
-| `representative` | `CellMap \| None` | this class — default `None`; shapes with a natural center override (e.g. `ClusterDiamond` → center) |
 
 ### `to_iterable`
 
@@ -46,16 +44,14 @@ Returns the underlying `_cells`. Drives `len()`, `in`, `iter()`,
 `__init__`.
 
 ### String forms
-- `__str__` → `'name(size=n)'`, plus `', rep=…'` when `representative`
-  is not `None`.
+- `__str__` → `'name(size=n)'`.
 - `__repr__` → `<ClusterGrid: map=X, cells=N>`; concrete shapes override.
 
-## `representative` is optional, not abstract
-Not every shape has a meaningful center (rectangle, multi-seed BFS,
-arbitrary cell-set). `representative` returns `None` by default;
-concrete shapes with a natural center (e.g. `ClusterDiamond`) expose it
-as both `center` and `representative`. `PairCluster.distance` requires
-both sides to expose a non-None `center`.
+## The distinguished cell lives on the shape, not the base
+The base is just a named cell collection; it defines no
+center/representative. Shapes that have a natural distinguished cell
+expose it themselves (e.g. `ClusterDiamond.center`). `PairCluster.distance`
+requires both sides to expose a `center`.
 
 ## Inheritance
 

@@ -38,7 +38,9 @@ Returns `str(self.key)`.
 ```python
 def __repr__(self) -> str
 ```
-Returns `<ClassName: Key=value>`.
+Inherited from `HasRepr`. Returns `<ClassName: str(self)>` — i.e.
+`<ClassName: value>`. Uniform with the rest of the `has/` family; no
+custom `__repr__` on `HasKey`.
 
 ## Inheritance (Hierarchy)
 
@@ -46,7 +48,8 @@ Returns `<ClassName: Key=value>`.
 Equatable (abstract key, __eq__)
   ├── Comparable (@total_ordering, __lt__)
   └── Hashable (__hash__ via key)
-       └── HasKey(Comparable, Hashable, Generic[Key])
+HasRepr (standardized __repr__ from __str__)
+       └── HasKey(Comparable, Hashable, HasRepr, Generic[Key])
 ```
 
 | Base | Responsibility |
@@ -54,6 +57,7 @@ Equatable (abstract key, __eq__)
 | `Equatable` | Abstract `key` property, concrete `__eq__` |
 | `Comparable` | `@total_ordering`, concrete `__lt__` |
 | `Hashable` | Concrete `__hash__` via `hash(self.key)` |
+| `HasRepr` | Standardized `__repr__` as `<ClassName: str(self)>` |
 | `Generic[Key]` | Type parameterization for the key type |
 
 ## Dependencies
@@ -62,6 +66,7 @@ Equatable (abstract key, __eq__)
 |--------|---------|
 | `f_core.mixins.comparable.Comparable` | Base — ordering operators |
 | `f_core.mixins.hashable.Hashable` | Base — hashing |
+| `f_core.mixins.has.repr.HasRepr` | Base — standardized repr |
 | `typing.Generic`, `TypeVar` | Generics |
 
 ## Usage Example
@@ -74,7 +79,7 @@ b = HasKey.Factory.b()   # HasKey[str](key='B')
 
 print(a.key)      # 'A'
 print(str(a))     # 'A'
-print(repr(a))    # '<HasKey: Key=A>'
+print(repr(a))    # '<HasKey: A>'
 print(a == HasKey.Factory.a())  # True
 print(a < b)      # True
 print(hash(a))    # hash('A')

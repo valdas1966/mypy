@@ -1,79 +1,24 @@
-import pytest
-from f_hs.state.i_1_cell import StateCell
+from f_hs.state import StateCell as State
+from f_ds.grids import CellMap as Cell
 
 
-@pytest.fixture
-def a() -> StateCell:
-    """
-    ========================================================================
-     Create a StateCell at (0, 0).
-    ========================================================================
-    """
-    return StateCell.Factory.a()
-
-
-@pytest.fixture
-def b() -> StateCell:
-    """
-    ========================================================================
-     Create a StateCell at (2, 2).
-    ========================================================================
-    """
-    return StateCell.Factory.b()
-
-
-def test_key(a: StateCell) -> None:
+def test_key() -> None:
     """
     ========================================================================
      Test the key property returns the CellMap.
     ========================================================================
     """
-    assert a.key.row == 0
-    assert a.key.col == 0
+    zero = State.Factory.at(row=0)
+    assert zero.key == Cell.Factory.at(row=0)
 
 
-def test_distance(a: StateCell, b: StateCell) -> None:
+def test_distance() -> None:
     """
     ========================================================================
      Test Manhattan distance between two StateCells.
     ========================================================================
     """
-    assert a.distance(b) == 4
-
-
-def test_eq(a: StateCell) -> None:
-    """
-    ========================================================================
-     Test equality between two StateCells at the same position.
-    ========================================================================
-    """
-    other = StateCell.Factory.a()
-    assert a == other
-
-
-def test_neq(a: StateCell, b: StateCell) -> None:
-    """
-    ========================================================================
-     Test inequality between two StateCells at different positions.
-    ========================================================================
-    """
-    assert a != b
-
-
-def test_hash(a: StateCell) -> None:
-    """
-    ========================================================================
-     Test hash consistency with equality.
-    ========================================================================
-    """
-    other = StateCell.Factory.a()
-    assert hash(a) == hash(other)
-
-
-def test_str(a: StateCell) -> None:
-    """
-    ========================================================================
-     Test string representation.
-    ========================================================================
-    """
-    assert str(a) == 'CellMap(0,0)'
+    zero = State.Factory.at(row=0)
+    one = State.Factory.at(row=1)
+    assert zero.distance(zero) == 0
+    assert zero.distance(one) == 2

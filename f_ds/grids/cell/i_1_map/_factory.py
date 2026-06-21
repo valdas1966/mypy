@@ -3,10 +3,20 @@ from f_ds.grids.cell.i_1_map.main import CellMap
 
 class Factory:
     """
-    ============================================================================
+    ===========================================================================
      Factory-Class for the CellMap.
-    ============================================================================
+    ===========================================================================
     """
+
+    @staticmethod
+    def at(row: int, col: int = None) -> CellMap:
+        """
+        =======================================================================
+         Return a new CellMap with specified Row and Col.
+        =======================================================================
+        """
+        col = row if col is None else col
+        return CellMap(row=row, col=col)
     
     @staticmethod
     def zero() -> CellMap:

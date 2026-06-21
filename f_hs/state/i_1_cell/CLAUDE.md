@@ -19,7 +19,10 @@ def __init__(self, key: CellMap) -> None
 ### Methods
 | Method | Signature | Description |
 |--------|-----------|-------------|
-| `distance` | `(other: StateCell) -> int` | Manhattan distance |
+| `distance` | `(other: Self) -> int` | Manhattan distance |
+
+`__str__` / `__repr__` / `__eq__` / `__lt__` / `__hash__` come from
+`HasKey` (all delegate to `key`); `StateCell` adds no overrides.
 
 Canonical `(row, col)` identity for recording tests is now
 produced by `f_core.canonize.canonize` (descends
@@ -30,10 +33,7 @@ deleted 2026-06-20.
 ## Factory
 | Method | Returns | Description |
 |--------|---------|-------------|
-| `at(row, col)` | `StateCell` | At given position |
-| `origin()` | `StateCell` | At (0, 0) |
-| `a()` | `StateCell` | At (0, 0) |
-| `b()` | `StateCell` | At (2, 2) |
+| `at(row, col=None)` | `StateCell` | At `(row, col)`; `col` defaults to `row` |
 
 ## Inheritance
 ```
@@ -42,5 +42,5 @@ StateBase[CellMap]
 ```
 
 ## Dependencies
-- `f_hs.state.i_0_base.StateBase`
-- `f_ds.grids.cell.i_1_map.CellMap`
+- `f_hs.state.StateBase` (aggregator)
+- `f_ds.grids.CellMap` (aggregator, aliased `Cell`)

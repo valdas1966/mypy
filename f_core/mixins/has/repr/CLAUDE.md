@@ -15,7 +15,8 @@ Returns `<ClassName: str(self)>`.
 ## Inheritance (Hierarchy)
 ```
 HasRepr (this class)
- └── HasName (inherits repr)
+ ├── HasName (inherits repr)
+ └── HasKey  (inherits repr; also Comparable, Hashable)
 ```
 
 ## Dependencies

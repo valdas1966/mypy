@@ -8,4 +8,4 @@ def test_repr() -> None:
     ========================================================================
     """
     a = StateBase.Factory.a()
-    assert repr(a) == '<StateBase: Key=A>'
+    assert repr(a) == '<StateBase: A>'

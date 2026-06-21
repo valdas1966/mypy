@@ -1,11 +1,12 @@
 from f_core.mixins.comparable import Comparable
 from f_core.mixins.hashable import Hashable
+from f_core.mixins.has.repr import HasRepr
 from typing import Generic, TypeVar
 
 Key = TypeVar('Key')
 
 
-class HasKey(Comparable, Hashable, Generic[Key]):
+class HasKey(Comparable, Hashable, HasRepr, Generic[Key]):
     """
     ============================================================================
      Mixin for objects that have a key.
@@ -39,11 +40,3 @@ class HasKey(Comparable, Hashable, Generic[Key]):
         ========================================================================
         """
         return str(self.key)
-
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         Return the representation of the object.
-        ========================================================================
-        """
-        return f'<{type(self).__name__}: Key={self.key}>'

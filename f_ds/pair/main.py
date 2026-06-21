@@ -1,14 +1,16 @@
-from f_core.mixins.equatable.main import Equatable
 from typing import Generic, TypeVar
+
+from f_core.mixins import Hashable
 
 Item = TypeVar('Item')
 
 
-class Pair(Generic[Item], Equatable):
+class Pair(Hashable, Generic[Item]):
     """
     ============================================================================
-     1. Pair of two items.
-     2. Can be ordered or unordered.
+     Pair of two items — ordered or unordered. Identity (eq + hash, via
+     Hashable) keys on (a, b) when ordered, else on the sorted items, so
+     (a, b) and (b, a) match. Unordered mode needs sortable items.
     ============================================================================
     """
 
@@ -55,16 +57,17 @@ class Pair(Generic[Item], Equatable):
         """
         return self._is_ordered
 
+    @property
     def key(self) -> tuple[Item, Item]:
         """
         ========================================================================
-         Get the key for comparison of the pair.
+         Identity key (drives __eq__ / __hash__): (a, b) when ordered,
+         else the sorted items so (a, b) and (b, a) match.
         ========================================================================
         """
         if self._is_ordered:
             return self._a, self._b
-        else:
-            return tuple(sorted((self._a, self._b)))
+        return tuple(sorted((self._a, self._b)))
     
     def __str__(self) -> str:
         """

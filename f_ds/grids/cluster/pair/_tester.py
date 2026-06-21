@@ -24,9 +24,9 @@ def test_distance_manhattan() -> None:
     ============================================================================
     """
     grid = GridMap(rows=10, cols=10)
-    a = ClusterDiamond.Factory.at_center(
+    a = ClusterDiamond(
         grid=grid, center=grid[1][1], steps=1)
-    b = ClusterDiamond.Factory.at_center(
+    b = ClusterDiamond(
         grid=grid, center=grid[8][8], steps=1)
     pair = PairCluster(a=a, b=b)
     # |1-8| + |1-8| = 14
@@ -40,9 +40,9 @@ def test_a_b_properties() -> None:
     ============================================================================
     """
     grid = GridMap(rows=10, cols=10)
-    a = ClusterDiamond.Factory.at_center(
+    a = ClusterDiamond(
         grid=grid, center=grid[1][1], steps=1)
-    b = ClusterDiamond.Factory.at_center(
+    b = ClusterDiamond(
         grid=grid, center=grid[8][8], steps=1)
     pair = PairCluster(a=a, b=b)
     assert pair.a is a

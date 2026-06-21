@@ -16,24 +16,23 @@ Inherits `ClusterGrid` (light: holds `map: str`, not the grid) and
 def __init__(self,
              grid: GridMap,
              center: CellMap,
-             steps: int,
-             name: str = 'ClusterDiamond') -> None
+             steps: int) -> None
 ```
-The `grid` is consumed by `_build` and **not** retained on `self`.
+The `grid` is consumed by `_build` and **not** retained on `self`. The
+`name` is set by `ClusterGrid` to the class name (`'ClusterDiamond'`).
 
 ### Properties
 
 | Property | Type | Meaning |
 |----------|------|---------|
 | `center` | `CellMap` | center of the diamond |
-| `representative` | `CellMap` | same as `center` (overrides the base `None`) |
 | `steps` | `int` | Manhattan radius |
 | `key` | `tuple[str, tuple[int,int], int]` | `(map, center.key, steps)` — drives `__eq__` / `__hash__` |
 | `map`, `name`, `members`, `cells` | — | inherited from `ClusterGrid` |
 
 ### String forms
 - `__str__` → `ClusterDiamond(center=(r,c), steps=s, cells=n)`
-- `__repr__` → `<ClusterDiamond: map=X, center=(r,c), steps=s, cells=n>`
+- `__repr__` → inherited from `ClusterGrid`: `<ClusterDiamond: map=X, cells=n>`
 
 ### Identity (via `Hashable`)
 `__eq__` and `__hash__` come from `f_core.mixins.hashable.Hashable`,
@@ -53,18 +52,29 @@ bool(cluster)     # True iff non-empty
 
 ## Factory
 
+The Factory holds the random samplers (`random`, `random_many`). For a
+deterministic diamond at a known cell, call the constructor directly —
+`ClusterDiamond(grid=..., center=..., steps=...)` — there is no
+`at_center` wrapper.
+
 ```python
-ClusterDiamond.Factory.at_center(grid, center, steps) -> ClusterDiamond
 ClusterDiamond.Factory.random(grid, min_cells, steps,
                               max_tries=100) -> ClusterDiamond
-ClusterDiamond.Factory.a() -> ClusterDiamond
+ClusterDiamond.Factory.random_many(grid, many, steps,
+                                   min_cells=1,
+                                   max_tries=100) -> list[ClusterDiamond]
 ```
 
 - `random(...)` samples a center via `grid.random.cells(size=1)` and retries
   until `|cluster| >= min_cells`. Raises `ValueError` after `max_tries`.
-- `a()` returns the canonical 5-cell test instance on
-  `GridMap.Factory.four_without_obstacles()` centered at `(1,1)` with
-  `steps=1`.
+- `random_many(...)` accumulates `random(...)` draws into a `set` until
+  `many` **distinct** diamonds are collected, then returns them as a
+  `list`. De-duplication is by Hashable identity (same center, since
+  `grid` and `steps` are fixed), so clusters may overlap but none
+  repeats; order is unspecified (set-derived). Bounded to `many *
+  max_tries` draws — raises `ValueError` if that many distinct diamonds
+  can't be collected (e.g. `many` exceeds the valid cells yielding
+  `>= min_cells`).
 
 ## BFS Construction
 
@@ -91,9 +101,8 @@ from f_ds.grids import GridMap, ClusterDiamond
 
 grid = GridMap(rows=10, cols=10)
 
-# Deterministic, at a specific cell
-c = ClusterDiamond.Factory.at_center(
-    grid=grid, center=grid[5][5], steps=2)
+# Deterministic, at a specific cell — call the constructor directly
+c = ClusterDiamond(grid=grid, center=grid[5][5], steps=2)
 print(len(c))    # 13
 print(c)         # ClusterDiamond(center=(5, 5), steps=2, cells=13)
 
@@ -104,13 +113,12 @@ assert len(c) >= 8
 
 # Walls are honored
 grid.invalidate([grid[5][6]])
-c = ClusterDiamond.Factory.at_center(
-    grid=grid, center=grid[5][5], steps=1)
+c = ClusterDiamond(grid=grid, center=grid[5][5], steps=1)
 assert len(c) == 4   # one neighbor missing
 
 # Hashable identity
-c1 = ClusterDiamond.Factory.at_center(grid=grid, center=grid[5][5], steps=2)
-c2 = ClusterDiamond.Factory.at_center(grid=grid, center=grid[5][5], steps=2)
+c1 = ClusterDiamond(grid=grid, center=grid[5][5], steps=2)
+c2 = ClusterDiamond(grid=grid, center=grid[5][5], steps=2)
 assert c1 == c2
 assert {c1, c2} == {c1}
 ```

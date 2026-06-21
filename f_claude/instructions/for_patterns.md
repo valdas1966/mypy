@@ -59,6 +59,10 @@ class Comparable(Equatable):
     def __ge__(self, other: object) -> bool:
         return self.key >= other.key
 ```
+Comparison/equality dunders keep `other: object` (they delegate to
+`key` and nominally accept any object) — do **not** narrow them to
+`Self`. `Self` is for same-type *domain* methods instead, e.g.
+`distance(self, other: Self) -> int`.
 
 ## Dataclasses vs Manual `__init__`
 Use `@dataclass` for **data-holder classes** with no business logic:

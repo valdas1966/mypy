@@ -1,6 +1,5 @@
-from f_ds.grids.cluster.i_1_diamond.main import ClusterDiamond
-from f_ds.grids.cell.i_1_map.main import CellMap
-from f_ds.grids.grid.map.main import GridMap
+from f_ds.grids import GridMap as Grid, CellMap as Cell, \
+    ClusterDiamond as Cluster
 
 
 class Factory:
@@ -11,23 +10,10 @@ class Factory:
     """
 
     @staticmethod
-    def at_center(grid: GridMap,
-                  center: CellMap,
-                  steps: int) -> ClusterDiamond:
-        """
-        ========================================================================
-         Return a ClusterDiamond centered at the given cell.
-        ========================================================================
-        """
-        return ClusterDiamond(grid=grid,
-                              center=center,
-                              steps=steps)
-
-    @staticmethod
-    def random(grid: GridMap,
+    def random(grid: Grid,
                min_cells: int,
                steps: int,
-               max_tries: int = 100) -> ClusterDiamond:
+               max_tries: int = 100) -> Cluster:
         """
         ========================================================================
          Sample a ClusterDiamond around a random valid center.
@@ -37,9 +23,9 @@ class Factory:
         """
         for _ in range(max_tries):
             center = grid.random.cells(size=1)[0]
-            cluster = ClusterDiamond(grid=grid,
-                                     center=center,
-                                     steps=steps)
+            cluster = Cluster(grid=grid,
+                              center=center,
+                              steps=steps)
             if len(cluster) >= min_cells:
                 return cluster
         raise ValueError(
@@ -48,14 +34,27 @@ class Factory:
             f'{max_tries} tries.')
 
     @staticmethod
-    def a() -> ClusterDiamond:
+    def random_many(grid: Grid,
+                    many: int,
+                    steps: int,
+                    min_cells: int = 1,
+                    max_tries: int = 100) -> list[Cluster]:
         """
         ========================================================================
-         Canonical small ClusterDiamond for testing.
-         4x4 no-walls grid, center at (1,1), steps=1 => 5 cells.
+         1. Return many distinct random Clusters
+         2. Raises ValueError if the distinct target cannot be reached.
         ========================================================================
         """
-        grid = GridMap.Factory.four_without_obstacles()
-        return ClusterDiamond(grid=grid,
-                              center=grid[1][1],
-                              steps=1)
+        clusters: set[Cluster] = set()
+        tries = many * max_tries
+        while len(clusters) < many and tries:
+            cluster = Factory.random(grid, min_cells, steps, max_tries)
+            clusters.add(cluster)
+            tries -= 1
+        if len(clusters) < many:
+            raise ValueError(
+                f'Could only sample {len(clusters)} distinct '
+                f'ClusterDiamonds of {many} requested '
+                f'(min_cells={min_cells}, steps={steps}) within '
+                f'{many * max_tries} tries.')
+        return list(clusters)

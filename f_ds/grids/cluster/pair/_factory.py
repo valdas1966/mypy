@@ -23,9 +23,9 @@ class Factory:
          each with its own steps.
         ========================================================================
         """
-        a = ClusterDiamond.Factory.at_center(
+        a = ClusterDiamond(
             grid=grid, center=center_a, steps=steps_a)
-        b = ClusterDiamond.Factory.at_center(
+        b = ClusterDiamond(
             grid=grid, center=center_b, steps=steps_b)
         return PairCluster(a=a, b=b)
 

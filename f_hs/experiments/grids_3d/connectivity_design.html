@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connectivity Redesign — Enabling 8-Neighbors (2D now, 3D soon)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#161a21; --panel2:#1c2230; --ink:#e6e9ef;
+    --mut:#9aa4b2; --acc:#fb923c; --acc2:#E65100; --grn:#4ade80;
+    --red:#f87171; --blu:#60a5fa; --vio:#a78bfa; --line:#2a3140;
+    --warn:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 26px 90px;}
+  h1{font-size:30px;line-height:1.2;margin:0 0 6px;letter-spacing:-.5px}
+  h1 .hl{color:var(--acc)}
+  .sub{color:var(--mut);font-size:15px;margin:0 0 4px}
+  .meta{color:#5f6b7a;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-top:6px}
+  h2{font-size:21px;margin:46px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line);
+     color:var(--acc)}
+  h2 .n{color:#3a4150;font-family:ui-monospace,monospace;font-size:16px;margin-right:8px}
+  h3{font-size:16px;margin:24px 0 8px;color:#cbd3df}
+  p{margin:10px 0}
+  code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  code{background:#10141b;border:1px solid var(--line);border-radius:5px;
+    padding:1px 6px;font-size:13px;color:#e7c08a}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;margin:16px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:780px){.grid2,.grid3{grid-template-columns:1fr}}
+  .tag{display:inline-block;font-family:ui-monospace,monospace;font-size:11px;
+    padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--mut);
+    background:#10141b;margin-right:6px}
+  .tag.now{color:var(--acc);border-color:#5a3a1e}
+  .tag.soon{color:var(--vio);border-color:#3a3160}
+  .tag.core{color:var(--red);border-color:#5a2a2a}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:#cbd3df;font-weight:600}
+  td.mono,th.mono{font-family:ui-monospace,monospace;font-size:12.5px}
+  .callout{border-left:3px solid var(--acc);background:#171b22;border-radius:0 10px 10px 0;
+    padding:14px 18px;margin:18px 0}
+  .callout.warn{border-left-color:var(--warn);background:#1d1a12}
+  .callout.good{border-left-color:var(--grn);background:#121c16}
+  .callout.crit{border-left-color:var(--red);background:#1d1414}
+  .callout b{color:#fff}
+  .lead{font-weight:700;color:#fff}
+  ul{margin:8px 0;padding-left:22px}li{margin:5px 0}
+  .pill{font-family:ui-monospace,monospace;font-size:11.5px;padding:1px 7px;border-radius:5px}
+  .p-id{background:#16233a;color:var(--blu)}
+  .p-topo{background:#3a2a16;color:var(--acc)}
+  .p-met{background:#2a1a3a;color:var(--vio)}
+  .box{border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:12px 14px}
+  .box .ttl{font-family:ui-monospace,monospace;font-size:13px;color:#cbd3df;margin-bottom:6px}
+  .arrow{color:var(--acc);font-weight:700}
+  .strike{color:#6b7280;text-decoration:line-through}
+  .small{font-size:12.5px;color:var(--mut)}
+  svg{display:block;margin:6px auto}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;font-size:12.5px;color:var(--mut);margin-top:8px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .steps{counter-reset:s;list-style:none;padding-left:0}
+  .steps>li{counter-increment:s;position:relative;padding:12px 12px 12px 48px;margin:10px 0;
+    background:var(--panel2);border:1px solid var(--line);border-radius:10px}
+  .steps>li::before{content:counter(s);position:absolute;left:12px;top:12px;width:24px;height:24px;
+    background:var(--acc2);color:#fff;border-radius:7px;display:grid;place-items:center;
+    font-family:ui-monospace,monospace;font-size:13px;font-weight:700}
+  .kbd{font-family:ui-monospace,monospace;font-size:12px;color:#e7c08a}
+  .hr{height:1px;background:var(--line);margin:30px 0}
+  .twocol{columns:2;column-gap:26px}@media(max-width:780px){.twocol{columns:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Connectivity Redesign — Enabling <span class="hl">8-Neighbors</span></h1>
+  <p class="sub">A design plan for <code>f_ds/grids</code>: make connectivity a
+     first-class, swappable policy — <b>4↔8 in 2D today</b>, <b>6/18/26 in 3D soon</b>.</p>
+  <p class="meta">f_ds/grids · f_core/mixins/has/row_col · f_hs/problem ·
+     plan only — no code changed · 2026-06-21</p>
+
+  <div class="callout">
+    <p style="margin:0"><span class="lead">TL;DR.</span> Today the grid metric is
+    <b>welded into one core identity mixin</b> (<code>HasRowCol</code>: position
+    <i>and</i> neighbors <i>and</i> Manhattan distance) and the search hot-path
+    <b>assumes integer edge weights</b>. 8-connectivity breaks both: it needs a
+    different neighbor set, a different heuristic, <b>and a √2 (non-integer) move
+    cost</b>. The fix is one idea — <b>extract a <code>Connectivity</code> policy</b>
+    that owns <i>offsets + cost + heuristic + corner-cutting</i>, inject it into the
+    grid, and default it to 4-conn so <b>nothing existing changes</b>. The same seam
+    yields 6/18/26 in 3D by swapping the policy, not rewriting the grid.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="n">01</span>What we're changing — and the two walls</h2>
+
+  <p>Two facts in the current code make "just add diagonals" impossible without a
+     design change. Both are real and both are quoted below.</p>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3 style="margin-top:0">Wall 1 — the metric is welded to identity</h3>
+      <p class="small" style="margin-top:0">One <span class="tag core">core mixin</span>
+        <code>HasRowCol</code> conflates <b>three</b> concerns:</p>
+      <p style="margin:10px 0">
+        <span class="pill p-id">identity</span> <code>(row, col)</code>, <code>key</code>, eq/hash<br>
+        <span class="pill p-topo">topology</span> <code>neighbors()</code> → hard-coded 4-conn<br>
+        <span class="pill p-met">metric</span> <code>distance()</code> → hard-coded Manhattan
+      </p>
+      <p class="small">Because topology + metric live <i>inside</i> identity, there is
+        no seam to vary them — and the mixin is reused by <code>CellBase</code>,
+        <code>CellMap</code>, every grid, and f_hs.</p>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Wall 2 — the integer-weight invariant</h3>
+      <p class="small" style="margin-top:0"><code>ProblemSPP.w()</code> returns
+        <code>int</code> and documents a deliberate hot-path assumption:</p>
+      <div class="box mono" style="font-size:12px;color:#c7cdd8">
+        "Integer-weight assumption: the framework treats edge costs as
+        <b style="color:var(--warn)">int</b> in its hot path … Fractional weights
+        would require a separate weighted variant (not shipped)."
+      </div>
+      <p class="small">A cardinal move is <code>1</code>. A diagonal move is
+        <code>√2 ≈ 1.414</code> — <b>not an integer</b>. So 8-conn collides with the
+        invariant head-on. This is the decision in §03.</p>
+    </div>
+  </div>
+
+  <h3>The call chain today (all roads lead to the welded mixin)</h3>
+  <div class="panel mono" style="font-size:12.5px;line-height:1.7">
+    A* expansion<br>
+    &nbsp;&nbsp;├─ successors &nbsp;<span class="arrow">→</span>&nbsp;
+       <code>GridMap.neighbors(cell)</code> &nbsp;<span class="arrow">→</span>&nbsp;
+       <code>GridBase.neighbors</code> &nbsp;<span class="arrow">→</span>&nbsp;
+       <code>cell.neighbors()</code> &nbsp;<span class="small">[HasRowCol: 4 offsets]</span><br>
+    &nbsp;&nbsp;├─ edge cost &nbsp;&nbsp;<span class="arrow">→</span>&nbsp;
+       <code>problem.w(parent, child)</code> &nbsp;<span class="small">[returns int 1]</span><br>
+    &nbsp;&nbsp;└─ heuristic &nbsp;&nbsp;<span class="arrow">→</span>&nbsp;
+       <code>state.distance(goal)</code> &nbsp;<span class="arrow">→</span>&nbsp;
+       <code>HasRowCol.distance</code> &nbsp;<span class="small">[Manhattan]</span>
+  </div>
+
+  <table>
+    <tr><th>Concern</th><th>Lives in</th><th class="mono">file : line</th><th>Hard-coded to</th></tr>
+    <tr><td><span class="pill p-topo">topology</span></td><td>HasRowCol.neighbors</td>
+        <td class="mono">f_core/mixins/has/row_col/main.py:50–64</td><td>4 offsets (N,E,S,W)</td></tr>
+    <tr><td><span class="pill p-met">metric (h)</span></td><td>HasRowCol.distance</td>
+        <td class="mono">…/row_col/main.py:66–74</td><td>Manhattan</td></tr>
+    <tr><td>neighbor filter</td><td>GridBase / GridMap.neighbors</td>
+        <td class="mono">f_ds/grids/grid/{base,map}/main.py</td><td>bounds + validity only</td></tr>
+    <tr><td>edge cost (w)</td><td>ProblemSPP.w</td>
+        <td class="mono">f_hs/problem/i_0_base/main.py:64–78</td><td><b>int</b> 1</td></tr>
+    <tr><td>norm distance</td><td>GridBase.norm_distance</td>
+        <td class="mono">f_ds/grids/grid/base/main.py:74–83</td><td>Manhattan max</td></tr>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2><span class="n">02</span>The principle — split identity · topology · metric</h2>
+
+  <p>The whole redesign is one move: <b>pull topology and metric out of the identity
+     mixin into a <code>Connectivity</code> policy</b>, and inject that policy into the
+     grid. Identity (<code>HasRowCol</code> / future <code>HasXYZ</code>) keeps only
+     position + key. The grid owns a policy; the policy owns "how cells connect and
+     what moves cost."</p>
+
+  <div class="grid2">
+    <div class="panel">
+      <div class="box" style="background:#13202f;border-color:#1d3350">
+        <div class="ttl" style="color:var(--red)">BEFORE — one welded mixin</div>
+        <div class="mono small">
+          <span style="color:var(--blu)">HasRowCol</span> {<br>
+          &nbsp;&nbsp;<span class="pill p-id">id</span> row, col, key<br>
+          &nbsp;&nbsp;<span class="pill p-topo">topo</span> neighbors() <span class="small">4-conn</span><br>
+          &nbsp;&nbsp;<span class="pill p-met">met</span> distance() <span class="small">Manhattan</span><br>
+          }
+        </div>
+      </div>
+      <p class="small" style="text-align:center;margin-bottom:0">topology &amp; metric trapped inside identity</p>
+    </div>
+    <div class="panel">
+      <div class="box" style="background:#121c16;border-color:#244a2e">
+        <div class="ttl" style="color:var(--grn)">AFTER — identity stays pure</div>
+        <div class="mono small">
+          <span style="color:var(--blu)">HasRowCol</span> { <span class="pill p-id">id</span> row, col, key }<br><br>
+          <span style="color:var(--acc)">Connectivity</span> {<br>
+          &nbsp;&nbsp;<span class="pill p-topo">topo</span> offsets(), neighbors(cell, grid)<br>
+          &nbsp;&nbsp;<span class="pill p-met">met</span> cost(a,b), heuristic(a,b)<br>
+          &nbsp;&nbsp;<span class="tag">rule</span> corner-cut check<br>
+          }
+        </div>
+      </div>
+      <p class="small" style="text-align:center;margin-bottom:0">grid holds a swappable policy</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="n">03</span>The cost decision (Wall 2) — √2 vs the int hot-path</h2>
+
+  <p>8-conn needs a diagonal cost of <code>√2</code>. The framework's hot path is
+     integer. Two clean ways out — the policy owns the choice, so it's localised:</p>
+
+  <table>
+    <tr><th>Option</th><th>Cardinal / Diagonal</th><th>Heuristic</th><th>Hot path</th><th>Trade-off</th></tr>
+    <tr>
+      <td><b style="color:var(--grn)">A · scaled-int octile</b><br><span class="small">recommended now</span></td>
+      <td class="mono">K=10000 / round(K√2)=14142</td>
+      <td class="mono">octile, same scale</td>
+      <td><span style="color:var(--grn)">unchanged — stays int</span></td>
+      <td>order/tie structure exact; costs differ from MovingAI floats by a constant factor (irrelevant for INC/AGG node counts)</td>
+    </tr>
+    <tr>
+      <td><b style="color:var(--blu)">B · float weights</b><br><span class="small">benchmark-fidelity path</span></td>
+      <td class="mono">1.0 / √2</td>
+      <td class="mono">float octile</td>
+      <td><span style="color:var(--warn)">audit needed</span> (priority, g)</td>
+      <td>matches released MovingAI/voxel float costs exactly; revises the documented int invariant — a core stance change</td>
+    </tr>
+  </table>
+
+  <div class="callout good">
+    <b>Recommendation:</b> ship <b>Option A (scaled-int octile)</b> first — it preserves
+    the framework's stated integer invariant with <b>zero hot-path disruption</b>, and
+    for the INC-vs-AGG line only ordering &amp; tie structure matter, which A reproduces
+    exactly. Move to <b>Option B</b> only when/if you decide to <i>inherit external float
+    optimal costs</i> (the "Euclidean / benchmark" philosophy). Either way the choice is
+    confined to one <code>Connectivity</code> subclass.
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="n">04</span>Proposed architecture</h2>
+
+  <p>A small policy hierarchy, dimension-agnostic at the base. The grid composes one
+     (default = 4-conn); the problem/heuristic read cost &amp; <code>h</code> from it.</p>
+
+  <div class="panel mono" style="font-size:12.5px;line-height:1.7">
+    <span style="color:var(--acc)">ConnectivityBase</span> &nbsp;<span class="small">(abstract: offsets, cost, heuristic, is_legal_move)</span><br>
+    &nbsp;├─ <span style="color:var(--acc)">Connectivity4</span> &nbsp;<span class="tag now">2D now</span> <span class="small">4 offsets · all cost 1 · Manhattan · (default)</span><br>
+    &nbsp;├─ <span style="color:var(--acc)">Connectivity8</span> &nbsp;<span class="tag now">2D now</span> <span class="small">8 offsets · 1/√2 (scaled) · octile · no-corner-cut</span><br>
+    &nbsp;├─ <span class="strike">Connectivity6</span> &nbsp;&nbsp;<span class="tag soon">3D soon</span> <span class="small">faces · Manhattan-3D</span><br>
+    &nbsp;├─ <span class="strike">Connectivity18</span> &nbsp;<span class="tag soon">3D soon</span> <span class="small">+edges</span><br>
+    &nbsp;└─ <span class="strike">Connectivity26</span> &nbsp;<span class="tag soon">3D soon</span> <span class="small">+corners · voxel-octile</span>
+  </div>
+
+  <h3>What the policy owns</h3>
+  <table>
+    <tr><th>Member</th><th>Responsibility</th><th>4-conn</th><th>8-conn</th></tr>
+    <tr><td class="mono">offsets()</td><td>candidate Δ-positions</td>
+        <td class="mono">±(1,0),±(0,1)</td><td class="mono">+ 4 diagonals</td></tr>
+    <tr><td class="mono">neighbors(cell, grid)</td><td>legal in-bounds, valid, corner-cut-checked neighbors</td>
+        <td>bounds+valid</td><td>+ flank check</td></tr>
+    <tr><td class="mono">cost(a, b)</td><td>edge weight (feeds <code>w()</code>)</td>
+        <td class="mono">1</td><td class="mono">1 or 14142</td></tr>
+    <tr><td class="mono">heuristic(a, b)</td><td>admissible <code>h</code> (feeds <code>distance</code>)</td>
+        <td>Manhattan</td><td>octile</td></tr>
+    <tr><td class="mono">is_legal_move(a,b,grid)</td><td>no-corner-cutting rule</td>
+        <td>—</td><td>both flanks valid</td></tr>
+  </table>
+
+  <h3>Injection — three small delegations</h3>
+  <div class="grid3">
+    <div class="box"><div class="ttl">GridMap</div><p class="small" style="margin:0">
+      holds <code>connectivity</code> (default <code>Connectivity4</code>);
+      <code>neighbors()</code> delegates to <code>connectivity.neighbors(cell, self)</code>.</p></div>
+    <div class="box"><div class="ttl">ProblemGrid.w</div><p class="small" style="margin:0">
+      returns <code>grid.connectivity.cost(parent, child)</code> instead of constant 1.</p></div>
+    <div class="box"><div class="ttl">heuristic</div><p class="small" style="margin:0">
+      A*'s <code>h</code> reads <code>grid.connectivity.heuristic(s, goal)</code>
+      instead of <code>s.distance(goal)</code>.</p></div>
+  </div>
+  <p class="small">Plus a one-line fix to <code>GridBase.norm_distance</code> to ask the
+     policy for its max distance. <code>HasRowCol.neighbors/distance</code> stay in place
+     (now vestigial) for backward-compat, deprecated later.</p>
+
+  <!-- ============================================================ -->
+  <h2><span class="n">05</span>Neighbor offsets &amp; the corner-cutting rule</h2>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3 style="margin-top:0;text-align:center">4-conn vs 8-conn (2D)</h3>
+      <svg width="380" height="200" viewBox="0 0 380 200">
+        <!-- 4-conn -->
+        <g transform="translate(20,20)">
+          <text x="75" y="-4" fill="#9aa4b2" font-size="12" text-anchor="middle" font-family="monospace">Connectivity4</text>
+          <!-- grid 3x3 -->
+          <g stroke="#2a3140" fill="#161a21">
+            <rect x="0" y="0" width="50" height="50"/><rect x="50" y="0" width="50" height="50"/><rect x="100" y="0" width="50" height="50"/>
+            <rect x="0" y="50" width="50" height="50"/><rect x="50" y="50" width="50" height="50"/><rect x="100" y="50" width="50" height="50"/>
+            <rect x="0" y="100" width="50" height="50"/><rect x="50" y="100" width="50" height="50"/><rect x="100" y="100" width="50" height="50"/>
+          </g>
+          <rect x="50" y="50" width="50" height="50" fill="#3a2a16" stroke="#fb923c"/>
+          <!-- cardinals -->
+          <rect x="50" y="0" width="50" height="50" fill="#1b3a2a" stroke="#4ade80"/>
+          <rect x="0" y="50" width="50" height="50" fill="#1b3a2a" stroke="#4ade80"/>
+          <rect x="100" y="50" width="50" height="50" fill="#1b3a2a" stroke="#4ade80"/>
+          <rect x="50" y="100" width="50" height="50" fill="#1b3a2a" stroke="#4ade80"/>
+          <text x="75" y="80" fill="#fb923c" font-size="13" text-anchor="middle" font-family="monospace">·</text>
+        </g>
+        <!-- 8-conn -->
+        <g transform="translate(210,20)">
+          <text x="75" y="-4" fill="#9aa4b2" font-size="12" text-anchor="middle" font-family="monospace">Connectivity8</text>
+          <g stroke="#2a3140" fill="#161a21">
+            <rect x="0" y="0" width="50" height="50"/><rect x="50" y="0" width="50" height="50"/><rect x="100" y="0" width="50" height="50"/>
+            <rect x="0" y="50" width="50" height="50"/><rect x="50" y="50" width="50" height="50"/><rect x="100" y="50" width="50" height="50"/>
+            <rect x="0" y="100" width="50" height="50"/><rect x="50" y="100" width="50" height="50"/><rect x="100" y="100" width="50" height="50"/>
+          </g>
+          <rect x="50" y="50" width="50" height="50" fill="#3a2a16" stroke="#fb923c"/>
+          <rect x="50" y="0" width="50" height="50" fill="#1b3a2a" stroke="#4ade80"/>
+          <rect x="0" y="50" width="50" height="50" fill="#1b3a2a" stroke="#4ade80"/>
+          <rect x="100" y="50" width="50" height="50" fill="#1b3a2a" stroke="#4ade80"/>
+          <rect x="50" y="100" width="50" height="50" fill="#1b3a2a" stroke="#4ade80"/>
+          <!-- diagonals -->
+          <rect x="0" y="0" width="50" height="50" fill="#2a1a3a" stroke="#a78bfa"/>
+          <rect x="100" y="0" width="50" height="50" fill="#2a1a3a" stroke="#a78bfa"/>
+          <rect x="0" y="100" width="50" height="50" fill="#2a1a3a" stroke="#a78bfa"/>
+          <rect x="100" y="100" width="50" height="50" fill="#2a1a3a" stroke="#a78bfa"/>
+        </g>
+      </svg>
+      <div class="legend">
+        <span><i class="sw" style="background:#3a2a16;border:1px solid #fb923c"></i>cell</span>
+        <span><i class="sw" style="background:#1b3a2a;border:1px solid #4ade80"></i>cardinal · cost 1</span>
+        <span><i class="sw" style="background:#2a1a3a;border:1px solid #a78bfa"></i>diagonal · cost √2</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0;text-align:center">No-corner-cutting rule</h3>
+      <svg width="280" height="200" viewBox="0 0 280 200">
+        <g transform="translate(60,30)">
+          <g stroke="#2a3140" fill="#161a21">
+            <rect x="0" y="0" width="55" height="55"/><rect x="55" y="0" width="55" height="55"/>
+            <rect x="0" y="55" width="55" height="55"/><rect x="55" y="55" width="55" height="55"/>
+          </g>
+          <rect x="0" y="55" width="55" height="55" fill="#3a2a16" stroke="#fb923c"/>
+          <text x="27" y="88" fill="#fb923c" font-size="13" text-anchor="middle" font-family="monospace">A</text>
+          <rect x="55" y="0" width="55" height="55" fill="#2a1a3a" stroke="#a78bfa"/>
+          <text x="82" y="33" fill="#a78bfa" font-size="13" text-anchor="middle" font-family="monospace">B</text>
+          <!-- flanks -->
+          <rect x="0" y="0" width="55" height="55" fill="#1d1414" stroke="#f87171"/>
+          <text x="27" y="33" fill="#f87171" font-size="20" text-anchor="middle">✗</text>
+          <line x1="27" y1="83" x2="82" y2="28" stroke="#f87171" stroke-width="2.5" stroke-dasharray="5 4"/>
+        </g>
+      </svg>
+      <p class="small" style="margin:0">The diagonal <code>A→B</code> is legal
+        <b>only if both flanking cardinals are free</b>. One blocked flank
+        (<span style="color:var(--red)">✗</span>) ⇒ the diagonal is rejected. This
+        lives in <code>Connectivity8.is_legal_move</code> and needs the grid's validity
+        oracle — which is why <code>neighbors(cell, <b>grid</b>)</code> takes the grid.</p>
+      <p class="small">Consequence (already established): under strict no-corner-cutting,
+        8-conn adds <b>no reachability</b> over 4-conn — only cheaper cost. So the default
+        flip is safe; only path <i>costs</i> change.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="n">06</span>Built for 3D from day one</h2>
+
+  <p>The policy is dimension-agnostic: it generates offsets over a position type and
+     returns cost/heuristic. 3D = a new identity mixin (<code>HasXYZ</code>) + new
+     <code>Connectivity{6,18,26}</code> subclasses. <b>The grid and problem code do not
+     change.</b> Mirror, don't fork.</p>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3 style="margin-top:0">Parallel structure</h3>
+      <table style="margin:0">
+        <tr><th>Axis</th><th>2D</th><th>3D</th></tr>
+        <tr><td>identity</td><td class="mono">HasRowCol</td><td class="mono">HasXYZ <span class="tag soon">new</span></td></tr>
+        <tr><td>low / L1</td><td class="mono">Connectivity4</td><td class="mono">Connectivity6</td></tr>
+        <tr><td>mid</td><td class="mono">—</td><td class="mono">Connectivity18</td></tr>
+        <tr><td>full / Euclid</td><td class="mono">Connectivity8</td><td class="mono">Connectivity26</td></tr>
+        <tr><td>heuristic</td><td class="mono">octile</td><td class="mono">voxel-octile</td></tr>
+      </table>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Consistency pairs <span class="small">(don't cross them)</span></h3>
+      <p class="small" style="margin-top:0">Hold the metric philosophy constant across
+        dimensions, or 2D↔3D comparisons confound <i>dimension</i> with <i>metric</i>:</p>
+      <ul class="small" style="margin-bottom:0">
+        <li><b style="color:var(--blu)">L1 column:</b> <code>Connectivity4</code> ↔
+            <code>Connectivity6</code> — self-generated costs.</li>
+        <li><b style="color:var(--acc)">Euclidean column:</b> <code>Connectivity8</code> ↔
+            <code>Connectivity26</code> — can inherit benchmark float costs (Option B).</li>
+      </ul>
+      <p class="small" style="margin-bottom:0">The <code>HasRowCol</code> welding is the
+        anti-pattern to <b>not repeat</b> in <code>HasXYZ</code>.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2><span class="n">07</span>Migration — backward-compatible by construction</h2>
+
+  <p>Default <code>Connectivity4</code> reproduces today's behaviour <b>byte-for-byte</b>
+     (4 offsets, all cost 1, Manhattan). Every existing test and every hard-coded optimal
+     cost stays green. 8-conn is opt-in.</p>
+
+  <ol class="steps">
+    <li><b>Extract <code>ConnectivityBase</code> + <code>Connectivity4</code></b> in
+       <code>f_ds/grids</code> (new <code>connectivity/</code> module). Move the 4 offsets
+       + Manhattan into <code>Connectivity4</code>. <span class="tag core">core area</span>
+       <span class="small">— needs your OK; it's foundational with ≥2 reusers.</span></li>
+    <li><b>Inject into <code>GridMap</code></b>: add <code>connectivity=Connectivity4()</code>
+       default; route <code>neighbors()</code> through it. No public signature change.</li>
+    <li><b>Route cost &amp; heuristic</b>: <code>ProblemGrid.w</code> →
+       <code>connectivity.cost</code>; A* <code>h</code> → <code>connectivity.heuristic</code>;
+       fix <code>norm_distance</code>.</li>
+    <li><b>Add <code>Connectivity8</code></b> (Option A scaled-int octile + no-corner-cut).
+       New <code>_tester.py</code>: diagonal legality, octile values, flank rejection.</li>
+    <li><b>Regenerate the 8-conn ground truth</b> for the experiment fixtures by re-running
+       the internal solver (costs are self-generated — mechanical, not a research redo).</li>
+    <li><b>Update CLAUDE.md</b> in every touched folder (row_col, grids/grid, grids/cell,
+       f_hs/problem) per <code>for_claude_md.md</code>.</li>
+  </ol>
+
+  <div class="callout warn">
+    <b>Gate.</b> Step 1 edits a <span class="tag core">core mixin area</span> reused by
+    f_ds grids <i>and</i> f_hs (rule-of-three: ≥2 reusers). Per project convention this is
+    proposed, not silently built — <b>this document is that proposal; it waits for your OK</b>
+    before any code is written.
+  </div>
+
+  <h3>Files touched</h3>
+  <table>
+    <tr><th class="mono">path</th><th>change</th><th>risk</th></tr>
+    <tr><td class="mono">f_ds/grids/connectivity/ <span class="small">(new)</span></td><td>ConnectivityBase, Connectivity4, Connectivity8</td><td><span style="color:var(--grn)">new code</span></td></tr>
+    <tr><td class="mono">f_ds/grids/grid/map/main.py</td><td>hold + delegate to policy</td><td><span style="color:var(--warn)">additive</span></td></tr>
+    <tr><td class="mono">f_ds/grids/grid/base/main.py</td><td>norm_distance via policy</td><td><span style="color:var(--warn)">additive</span></td></tr>
+    <tr><td class="mono">f_hs/problem/i_1_grid/…</td><td>w() + h via policy</td><td><span style="color:var(--warn)">additive</span></td></tr>
+    <tr><td class="mono">f_core/mixins/has/row_col/main.py</td><td>neighbors/distance → vestigial (kept)</td><td><span style="color:var(--grn)">none (compat)</span></td></tr>
+  </table>
+
+  <div class="hr"></div>
+  <p class="small" style="text-align:center;color:#5f6b7a">
+    Design plan · <span class="mono">f_hs/experiments/grids_3d/connectivity_design.html</span> ·
+    sibling to <span class="mono">neighbors_6_vs_26.html</span> ·
+    <span class="mono">map_properties.html</span> · no code changed
+  </p>
+
+</div>
+</body>
+</html>

@@ -39,7 +39,7 @@ f_core/mixins/has/
 | Module | Class | Bases | Key Capability |
 |--------|-------|-------|----------------|
 | `children` | `HasChildren` | (none) | Children list, `add_child()` |
-| `key` | `HasKey[Key]` | `Comparable`, `Hashable`, `Generic[Key]` | Typed key as identity |
+| `key` | `HasKey[Key]` | `Comparable`, `Hashable`, `HasRepr`, `Generic[Key]` | Typed key as identity |
 | `name` | `HasName` | (none) | String name as identity |
 | `parent` | `HasParent` | (none) | Parent ref, `path_from_root()` |
 | `row_col` | `HasRowCol` | `Comparable`, `Hashable` | Cell position, neighbors, distance |
