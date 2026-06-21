@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is a Grid Cluster?</title>
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+    --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+    --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+    --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+    --code-bg:#0a1220;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:2.4rem;margin:.2em 0 .1em;letter-spacing:-.02em}
+  h2{font-size:1.5rem;margin:2.2em 0 .6em;border-bottom:1px solid var(--border);padding-bottom:.3em}
+  h3{font-size:1.1rem;margin:1.4em 0 .4em;color:var(--muted)}
+  p{color:var(--muted)}
+  code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+  code{background:var(--code-bg);padding:.1em .35em;border-radius:4px;color:#e2e8f0;font-size:.92em}
+  pre{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;
+    padding:16px 18px;overflow:auto;font-size:.86rem;line-height:1.5}
+  .tag{display:inline-block;font-size:.95rem;color:var(--faint)}
+  .lead{font-size:1.15rem;color:var(--faint);margin-top:.2em}
+  .analogy{background:linear-gradient(90deg,rgba(96,165,250,.10),transparent);
+    border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:18px 0}
+  .analogy .emoji{font-size:1.4rem;margin-right:.4em}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+  .card h4{margin:.1em 0 .4em;font-size:1rem}
+  .card.green{border-color:rgba(52,211,153,.5)}
+  .card.red{border-color:rgba(251,113,133,.5)}
+  .card.accent{border-color:var(--accent)}
+  .icon{font-size:1.6rem;display:block;margin-bottom:.3em}
+  .muted{color:var(--faint);font-size:.92rem}
+  .module{background:var(--panel2);border:1px solid var(--accent);border-radius:12px;
+    padding:4px 18px 14px;margin:18px 0;box-shadow:0 0 24px rgba(96,165,250,.08)}
+  .tree{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;
+    padding:16px 18px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.85rem;
+    color:var(--muted);white-space:pre;overflow:auto}
+  .cl{color:var(--accent)}
+  .cl2{color:var(--accent2)}
+  .cg{color:var(--good)}
+  .cw{color:var(--warn)}
+  .badge{display:inline-block;font-size:.72rem;font-weight:600;padding:.12em .5em;border-radius:999px;
+    border:1px solid var(--border);color:var(--muted);vertical-align:middle}
+  .badge.abstract{color:var(--accent2);border-color:rgba(167,139,250,.5)}
+  .badge.concrete{color:var(--good);border-color:rgba(52,211,153,.5)}
+  ol.rules{counter-reset:r;list-style:none;padding-left:0}
+  ol.rules li{position:relative;padding:8px 0 8px 44px;border-bottom:1px solid var(--border)}
+  ol.rules li:before{counter-increment:r;content:counter(r);position:absolute;left:0;top:8px;
+    width:28px;height:28px;border-radius:8px;background:var(--accent);color:#04121f;
+    font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border)}
+  th{color:var(--faint);font-weight:600}
+  td code{font-size:.85em}
+  .gridviz{display:inline-grid;gap:3px;margin:6px 12px 6px 0;vertical-align:top}
+  .gridviz .c{width:22px;height:22px;border-radius:4px;background:var(--panel);border:1px solid var(--border)}
+  .gridviz .c.in{background:rgba(96,165,250,.35);border-color:var(--accent)}
+  .gridviz .c.ct{background:var(--accent2);border-color:#c4b5fd}
+  .vizrow{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;margin:10px 0}
+  .vizcap{font-size:.8rem;color:var(--faint);text-align:center;margin-top:4px}
+  footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);
+    color:var(--faint);font-size:.85rem}
+  @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1) HERO -->
+  <span class="tag">f_ds · grids · cluster · i_0_base</span>
+  <h1>What is a Grid&nbsp;Cluster?</h1>
+  <p class="lead">A named blob of cells that belong together on a grid —
+  the abstract <em>contract</em> every shape must fill.</p>
+
+  <!-- 2) THE IDEA -->
+  <h2>The Idea</h2>
+
+  <div class="analogy">
+    <span class="emoji">🏘️</span>
+    A grid cluster is a <strong>neighborhood</strong>. Pick a spot on a
+    city map, draw a boundary around the blocks that belong together, give
+    it a name. The boundary's <em>shape</em> can vary — a circle, a
+    diamond, a zip-code blob — but every neighborhood is the same kind of
+    thing: a labeled set of cells. <code>ClusterGrid</code> is the word
+    "neighborhood"; the shapes are the actual zones.
+  </div>
+
+  <p><code>ClusterGrid</code> is <strong>abstract</strong>. It never
+  decides which cells are in. It only guarantees what <em>any</em>
+  cluster-of-cells can do, then hands the shape question to subclasses.</p>
+
+  <div class="grid2">
+    <div class="card red">
+      <span class="icon">🧩</span>
+      <h4>Without the base</h4>
+      <p class="muted">Every shape re-implements <code>len</code>,
+      membership, iteration, naming, the "which grid did I come from?"
+      bookkeeping, and the representative slot. Five shapes → five copies
+      of the same plumbing, drifting apart.</p>
+    </div>
+    <div class="card green">
+      <span class="icon">✅</span>
+      <h4>With <code>ClusterGrid</code></h4>
+      <p class="muted">The plumbing lives once in the base. A new shape
+      writes <em>only</em> its <code>_build</code> + how it fills
+      <code>_cells</code>. <code>len</code>/<code>in</code>/<code>iter</code>/<code>bool</code>,
+      <code>name</code>, <code>map</code>, <code>cells</code> all come
+      for free.</p>
+    </div>
+  </div>
+
+  <h3>Five properties of a grid cluster</h3>
+  <ol class="rules">
+    <li><strong>Its members are cells.</strong> Specifically
+      <code>CellMap</code>s — valid (non-wall) squares of a
+      <code>GridMap</code>.</li>
+    <li><strong>It is light.</strong> It stores the grid's
+      <em>name</em> (<code>map: str</code>), never the grid object. Pickle
+      small; outlive the in-memory grid.</li>
+    <li><strong>It is named.</strong> Identity / label via the
+      <code>HasName</code> mixin.</li>
+    <li><strong>It may have a representative.</strong> One distinguished
+      cell (a center / seed). Optional — default <code>None</code>.</li>
+    <li><strong>It is shape-agnostic.</strong> The base says nothing about
+      <em>which</em> cells. Subclasses answer that with
+      <code>to_iterable()</code>.</li>
+  </ol>
+
+  <!-- 3) HOW THEY CONNECT -->
+  <h2>Where It Sits</h2>
+  <p><code>ClusterGrid</code> is the <strong>root</strong> of the cluster
+  hierarchy. It composes two mixins — collection behaviour and a name —
+  then leaves the shape to its subclasses.</p>
+
+  <div class="tree"><span class="cg">Collectionable[CellMap]</span>   <span class="cg">HasName</span>        <span class="muted"># mixins (f_ds / f_core)</span>
+          └────────┬────────┘
+              <span class="cl">ClusterGrid</span>  <span class="badge abstract">abstract</span>      <span class="muted"># ← THIS FILE — root of the hierarchy</span>
+                ├── <span class="cg">ClusterDiamond</span>  <span class="badge concrete">concrete</span>   <span class="muted"># Manhattan ball (one shape)</span>
+                └── <span class="muted">ClusterSquare? ClusterDisk? …  (future shapes plug in here)</span>
+  </div>
+
+  <!-- THE DIFF: base vs concrete (the core ask) -->
+  <h2>This Layer's Two Classes</h2>
+  <p>This package ships an <strong>abstract base</strong> and one
+  <strong>concrete shape</strong>. They are not rivals — one defines the
+  contract, the other fills it. Knowing which is which is the whole point.</p>
+
+  <div class="grid2">
+    <div class="card accent">
+      <h4><span class="cl">ClusterGrid</span> <span class="badge abstract">abstract · i_0_base</span></h4>
+      <p class="muted"><strong>The contract.</strong> "A named, light set of
+      cells on a grid, with an optional representative." Cannot be
+      instantiated. Knows the <em>what</em>, not the <em>which</em>.</p>
+      <p class="muted">Use it as a <strong>type</strong> (<code>cluster: ClusterGrid</code>)
+      and as the thing you <strong>subclass</strong> to invent a new shape.</p>
+    </div>
+    <div class="card green">
+      <h4><span class="cg">ClusterDiamond</span> <span class="badge concrete">concrete · i_1_diamond</span></h4>
+      <p class="muted"><strong>One filling of the contract.</strong> "All
+      cells within <code>steps</code> Manhattan moves of a center." BFS
+      from a seed; walls dent it. Can be instantiated and used.</p>
+      <p class="muted">It answers the <em>which</em> the base left open — see
+      its own <code>ABOUT.html</code>.</p>
+    </div>
+  </div>
+
+  <table>
+    <tr><th></th><th><span class="cl">ClusterGrid</span> (base)</th><th><span class="cg">ClusterDiamond</span> (shape)</th></tr>
+    <tr><td>Role</td><td>defines the contract</td><td>fills the contract</td></tr>
+    <tr><td>Instantiable?</td><td>no — <code>ABC</code></td><td>yes</td></tr>
+    <tr><td>Picks which cells?</td><td>no</td><td>yes — BFS to <code>steps</code></td></tr>
+    <tr><td>Has a <code>Factory</code>?</td><td>no</td><td>yes (<code>at_center</code>, <code>random</code>)</td></tr>
+    <tr><td><code>representative</code></td><td><code>None</code> (slot only)</td><td>the center cell</td></tr>
+    <tr><td>Identity</td><td><code>name</code> + <code>map</code></td><td><code>+ Hashable</code> on <code>(map, center, steps)</code></td></tr>
+  </table>
+
+  <!-- 4) THIS MODULE'S CONTRIBUTION -->
+  <h2>What This Module Adds</h2>
+  <p>Beyond the two mixins it composes, <code>ClusterGrid</code> contributes
+  two grid-specific ideas:</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>🪶 Grid provenance, not the grid</h4>
+      <p class="muted">It snapshots <code>grid.name</code> into
+      <code>map: str</code> and <em>drops the grid</em>. A cluster can be
+      pickled, cached, or shipped without dragging a whole
+      <code>GridMap</code> along.</p>
+    </div>
+    <div class="card">
+      <h4>🔲 A cells-flavored view</h4>
+      <p class="muted">It exposes the members as <code>cells</code> (a
+      grid-named alias for <code>members</code>) and implements
+      <code>to_iterable()</code> over a <code>list[CellMap]</code> that
+      subclasses fill.</p>
+    </div>
+  </div>
+
+  <div class="module">
+<pre><span class="cl2">class</span> <span class="cl">ClusterGrid</span>(Collectionable[CellMap], HasName, ABC):
+    <span class="muted">"""Abstract: a set of valid CellMaps on a GridMap.
+       Holds only the grid's NAME, not the grid object."""</span>
+
+    <span class="cl2">def</span> __init__(self, grid: GridMap) -> None:
+        HasName.__init__(self, name=type(self).__name__)
+        self._map: str = grid.name        <span class="muted"># provenance, not the grid</span>
+        self._cells: list[CellMap] = []   <span class="muted"># subclass fills via _build()</span>
+
+    <span class="cw">@property</span>
+    <span class="cl2">def</span> map(self) -> str:  <span class="muted"># the grid's name — the only identity kept</span>
+        return self._map
+
+    <span class="cl2">def</span> to_iterable(self) -> list[CellMap]:  <span class="muted"># drives len/in/iter/bool</span>
+        return self._cells</pre>
+  </div>
+
+  <p class="muted">Notice what's <em>absent</em>: no <code>_build</code>, no
+  geometry, no <code>steps</code>. Those belong to a shape. The base stays
+  empty on purpose — that emptiness is the contract.</p>
+
+  <!-- 5) GALLERY -->
+  <h2>The Shape Catalog</h2>
+  <p>One shape ships today; the base was built so the rest cost almost
+  nothing. Each is a subclass that only writes its <code>_build</code>.</p>
+
+  <div class="grid3">
+    <div class="card green">
+      <span class="icon">🔷</span>
+      <h4>ClusterDiamond <span class="badge concrete">shipped</span></h4>
+      <p class="muted">Manhattan ball: <code>|Δr|+|Δc| ≤ steps</code>.
+      4-connected BFS. <code>2s²+2s+1</code> cells (wall-free).</p>
+    </div>
+    <div class="card">
+      <span class="icon">🟦</span>
+      <h4>ClusterSquare <span class="badge">idea</span></h4>
+      <p class="muted">Chebyshev ball: <code>max(|Δr|,|Δc|) ≤ steps</code>.
+      8-connected BFS. A flat-sided sibling.</p>
+    </div>
+    <div class="card">
+      <span class="icon">⚪</span>
+      <h4>ClusterDisk <span class="badge">idea</span></h4>
+      <p class="muted">Euclidean ball: <code>Δr²+Δc² ≤ r²</code>. The
+      roundest neighborhood the grid can approximate.</p>
+    </div>
+  </div>
+
+  <p class="muted">All three would share <em>everything</em> in this base —
+  the only difference is the predicate inside <code>_build</code>. That is
+  the payoff of an abstract base done right.</p>
+
+  <!-- 6) FUN FACTS -->
+  <h2>Fun Facts &amp; History</h2>
+  <div class="grid2">
+    <div class="card">
+      <h4>🧬 "Cluster" is older than computers</h4>
+      <p class="muted">The word traces to Old English <em>clyster</em> — a
+      bunch of grapes. Statistical cluster analysis dates to the 1930s
+      (Driver &amp; Kroeber, anthropology), long before k-means (1957).</p>
+    </div>
+    <div class="card">
+      <h4>🪶 The flyweight trick</h4>
+      <p class="muted">Storing the grid's <em>name</em> instead of the grid
+      is the <strong>Flyweight</strong> pattern: keep a cheap handle to
+      heavy shared state. Thousands of clusters, one grid in memory.</p>
+    </div>
+    <div class="card">
+      <h4>🚫 An abstract class is a promise</h4>
+      <p class="muted">Python's <code>ABC</code> + <code>@abstractmethod</code>
+      makes <code>ClusterGrid()</code> raise <code>TypeError</code> at
+      construction. The compiler-enforced "you must pick a shape."</p>
+    </div>
+    <div class="card">
+      <h4>🧱 Walls make clusters topological</h4>
+      <p class="muted">Because membership is decided by BFS over real grid
+      neighbors, a cluster is a <strong>connected component</strong>, not a
+      paint-by-coordinates region. Geometry proposes; the grid disposes.</p>
+    </div>
+  </div>
+
+  <footer>
+    <strong>f_ds/grids/cluster/i_0_base/</strong> — abstract
+    <code>ClusterGrid</code>: the root of the cluster hierarchy
+    (<code>Collectionable[CellMap]</code> + <code>HasName</code>). Concrete
+    shapes live in sibling <code>i_1_*</code> folders. · Generated 2026-06-20.
+  </footer>
+
+</div>
+</body>
+</html>

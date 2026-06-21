@@ -1,8 +1,8 @@
 from typing import Generic, TypeVar
-from f_ds.grids.cluster.i_0_base.main import Cluster
+from f_ds.grids.cluster.i_0_base.main import ClusterGrid
 
 
-T = TypeVar('T', bound=Cluster)
+T = TypeVar('T', bound=ClusterGrid)
 
 
 class PairCluster(Generic[T]):

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Pair of `Cluster`s (A, B) on a `GridMap` with a Manhattan
+Pair of `ClusterGrid`s (A, B) on a `GridMap` with a Manhattan
 distance between their centers. Designed for CC-MMSPP experimental
 instance generation: sample two disjoint clusters that are a known
 distance apart.
@@ -13,7 +13,7 @@ distance apart.
 
 ```python
 class PairCluster(Generic[T])
-# where T: TypeVar(bound=Cluster)
+# where T: TypeVar(bound=ClusterGrid)
 ```
 
 Parameterised over the cluster type, so
@@ -32,8 +32,8 @@ def __init__(self,
 
 | Property | Type | Meaning |
 |----------|------|---------|
-| `a` | `T` (Cluster) | first cluster |
-| `b` | `T` (Cluster) | second cluster |
+| `a` | `T` (ClusterGrid) | first cluster |
+| `b` | `T` (ClusterGrid) | second cluster |
 | `name` | `str` | pair label |
 | `distance` | `int` | Manhattan distance `a.center` ↔ `b.center` |
 
@@ -66,10 +66,10 @@ PairCluster.Factory.a() -> PairCluster[ClusterDiamond]
 - `a()` — canonical 8×8 grid, centres `(1,1)` and `(6,6)`,
   `steps_a = steps_b = 1`; distance = 10.
 
-## Contract on `Cluster.center`
+## Contract on `ClusterGrid.center`
 
 `PairCluster.distance` calls `self._a.center.distance(other=self._b.center)`.
-`Cluster.center` is `None` by default (no abstract requirement); concrete
+`ClusterGrid` exposes no `center` by default (no abstract requirement); concrete
 shapes that have a natural center (e.g. `ClusterDiamond`) override.
 **Both** clusters in a pair must have non-`None` centers — pairing a
 shape-free cluster will raise `AttributeError` at `distance` time.

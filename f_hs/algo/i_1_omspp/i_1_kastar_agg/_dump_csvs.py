@@ -22,7 +22,7 @@
  Schema (per row): `order, event, state, phase` where:
    - `order` — 1-based row index within this CSV.
    - `event` — the counter name (e.g. 'cnt_h_search').
-   - `state` — `state.event_key()` (e.g. `(0,0)` for cells).
+   - `state` — `canonize(state)` (e.g. `(0,0)` for cells).
    - `phase` — `'search'` or `'update'`. Matches the
      structural phase axis (the same one `elapsed_search` /
      `elapsed_update` use): rows inside the eager

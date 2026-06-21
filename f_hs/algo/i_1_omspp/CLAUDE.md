@@ -53,13 +53,15 @@ from f_hs.algo import KAStarInc
 
 Recording-test normalization is shared framework-wide via
 `f_hs.algo.u_event_normalize.normalize(event)` — drops
-`duration` and unwraps any `StateBase`-typed value through
-`state.event_key()` (recursively for tuples / lists). The
-polymorphism that used to live in a per-package `_utils.py`
-(unwrapping `CellMap → (row, col)` for grid states,
-pass-through for graph states) is now a method on `StateBase`
-itself: `StateBase.event_key()` (default: `self.key`),
-overridden on `StateCell` to return the `(row, col)` tuple.
+`duration` and renders any keyed value to its canonical
+primitive identity through `f_core.canonize.canonize`
+(recursively for tuples / lists). The unwrap polymorphism
+that used to live in a per-package `_utils.py`, then in
+`StateBase.event_key()`, is now the single free function
+`canonize` (descends `HasKey` / `HasRowCol` → `.key`):
+`StateCell → (row, col)`, graph state → its key, primitives
+pass through. The per-State `event_key()` methods were
+deleted.
 
 ## Design Principles
 

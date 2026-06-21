@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is Canonicalization? — f_core/canonize</title>
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+    --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+    --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+    --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+    --code-bg:#0a1220;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:0 20px 80px}
+  code,pre{font-family:"SF Mono",Menlo,Consolas,"Roboto Mono",monospace}
+  code{background:var(--code-bg); padding:2px 6px; border-radius:5px; color:#e2e8f0; font-size:.92em}
+  pre{background:var(--code-bg); border:1px solid var(--border); border-radius:12px;
+      padding:18px 20px; overflow:auto; font-size:.9em}
+
+  /* Hero */
+  .hero{padding:72px 20px 40px; text-align:center;
+        background:radial-gradient(1200px 400px at 50% -120px,rgba(96,165,250,.18),transparent)}
+  .hero h1{font-size:2.7rem; margin:0 0 .3em; letter-spacing:-.02em}
+  .hero .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));
+              -webkit-background-clip:text; background-clip:text; color:transparent}
+  .hero p{font-size:1.2rem; color:var(--muted); max-width:680px; margin:0 auto}
+  .chip{display:inline-block; margin-top:18px; font-size:.8rem; color:var(--faint);
+        border:1px solid var(--border); border-radius:999px; padding:5px 14px}
+
+  h2{font-size:1.6rem; margin:56px 0 18px; padding-bottom:8px;
+     border-bottom:1px solid var(--border)}
+  h3{font-size:1.15rem; margin:28px 0 10px; color:var(--muted)}
+
+  .analogy{border-left:4px solid var(--accent2); background:var(--panel);
+           border-radius:0 12px 12px 0; padding:18px 22px; margin:20px 0; font-size:1.05rem}
+  .analogy .emoji{font-size:1.5rem; margin-right:8px}
+
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:20px}
+  .card.bad{border-color:rgba(251,113,133,.5)}
+  .card.good{border-color:rgba(52,211,153,.5)}
+  .card h4{margin:0 0 10px; font-size:1rem}
+  .card.bad h4{color:var(--bad)} .card.good h4{color:var(--good)}
+
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:22px 0}
+  .cell{background:var(--panel); border:1px solid var(--border); border-radius:14px;
+        padding:18px; text-align:center}
+  .cell .ic{font-size:1.8rem}
+  .cell .t{font-weight:600; margin:8px 0 4px}
+  .cell .d{font-size:.88rem; color:var(--faint)}
+
+  ol.rules{counter-reset:r; list-style:none; padding:0}
+  ol.rules li{position:relative; padding:10px 0 10px 44px; border-bottom:1px solid var(--border)}
+  ol.rules li:before{counter-increment:r; content:counter(r);
+    position:absolute; left:0; top:8px; width:28px; height:28px; border-radius:8px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#0b0f14; font-weight:700; display:flex; align-items:center; justify-content:center}
+
+  .module{border:1px solid var(--accent); background:linear-gradient(180deg,rgba(96,165,250,.08),transparent);
+          border-radius:14px; padding:6px 20px 18px; margin:22px 0}
+  .module .tag{display:inline-block; margin:14px 0 6px; font-size:.72rem; letter-spacing:.08em;
+               text-transform:uppercase; color:var(--accent)}
+
+  .tree{background:var(--code-bg); border:1px solid var(--border); border-radius:12px;
+        padding:20px; font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.9rem; overflow:auto}
+  .kw{color:var(--accent2)} .cls{color:var(--accent)} .lit{color:var(--good)}
+  .cm{color:var(--faint)} .arr{color:var(--warn)}
+
+  .facts{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0}
+  .fact{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:18px}
+  .fact .ic{font-size:1.4rem}
+  .fact b{display:block; margin:6px 0 4px}
+  .fact p{margin:0; font-size:.9rem; color:var(--faint)}
+
+  .badge{display:inline-block; font-size:.72rem; padding:2px 9px; border-radius:999px;
+         border:1px solid var(--border)}
+  .badge.core{color:var(--accent); border-color:rgba(96,165,250,.5)}
+  .badge.ds{color:var(--good); border-color:rgba(52,211,153,.5)}
+  .badge.hs{color:var(--accent2); border-color:rgba(167,139,250,.5)}
+
+  footer{margin-top:60px; padding-top:20px; border-top:1px solid var(--border);
+         color:var(--faint); font-size:.85rem}
+
+  @media(max-width:680px){
+    .cards,.grid3,.facts{grid-template-columns:1fr}
+    .hero h1{font-size:2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>What is <span class="grad">Canonicalization</span>?</h1>
+  <p>Turning a tangle of nested objects into one clean, comparable primitive — the same identity, every time.</p>
+  <div class="chip">f_core/canonize · <code>canonize(v)</code></div>
+</div>
+
+<div class="wrap">
+
+  <h2>The Idea</h2>
+
+  <div class="analogy">
+    <span class="emoji">🪆</span>
+    <b>A matryoshka doll.</b> You keep opening it — doll inside doll inside doll —
+    until you reach the small solid core that can't open any further. <code>canonize</code>
+    does exactly this with identity: it keeps descending <code>.key</code> until it hits
+    a plain primitive — a tuple, an int, a string — the irreducible core of "who is this?".
+  </div>
+
+  <p>
+    In the framework, identity is layered. A <code>StateCell</code> is identified by a
+    <code>CellMap</code>, which is identified by its <code>(row, col)</code>. That nesting is
+    great for <em>code</em> — but useless for a <em>test</em> or a <em>chart</em>, which need a
+    flat literal like <code>(0, 0)</code> they can print and compare with <code>==</code>.
+    Canonicalization is the bridge between the two worlds.
+  </p>
+
+  <div class="cards">
+    <div class="card bad">
+      <h4>✗ Without canonize</h4>
+      <p style="color:var(--faint); margin-top:0">Every State subclass re-hand-rolls its own unwrap:</p>
+<pre><span class="kw">class</span> <span class="cls">StateCell</span>:
+    <span class="kw">def</span> event_key(self):
+        <span class="kw">return</span> self.rc          <span class="cm"># (row,col)</span>
+
+<span class="kw">class</span> <span class="cls">StateRC</span>:                <span class="cm"># next subclass…</span>
+    <span class="kw">def</span> event_key(self):        <span class="cm"># …copies the</span>
+        <span class="kw">return</span> (self.rc, self.b)  <span class="cm"># same idea again</span></pre>
+    </div>
+    <div class="card good">
+      <h4>✓ With canonize</h4>
+      <p style="color:var(--faint); margin-top:0">One function descends <code>.key</code> for <em>any</em> keyed object:</p>
+<pre><span class="cm"># StateCell, StateRC, graph states…</span>
+<span class="cm"># all just work — zero per-class code</span>
+canonize(state_cell)  <span class="arr">→</span> <span class="lit">(0, 0)</span>
+canonize(state_rc)    <span class="arr">→</span> <span class="lit">((0, 0), 5)</span>
+canonize(graph_state) <span class="arr">→</span> <span class="lit">'A'</span>
+canonize(<span class="lit">42</span>)          <span class="arr">→</span> <span class="lit">42</span></pre>
+    </div>
+  </div>
+
+  <h3>Three rules — that's the whole function</h3>
+  <ol class="rules">
+    <li><b>Keyed object</b> (<code>HasKey</code> / <code>HasRowCol</code>) → descend into its <code>.key</code> and canonize that.</li>
+    <li><b>Container</b> (<code>tuple</code> / <code>list</code>) → canonize each element, keep the container type.</li>
+    <li><b>Anything else</b> (<code>int</code>, <code>str</code>, <code>None</code>, …) → it's already primitive, return it unchanged.</li>
+  </ol>
+
+  <h2>How It Descends</h2>
+  <p>One call unwinds the whole identity stack, layer by layer, until only primitives remain:</p>
+  <div class="tree">
+canonize(<span class="cls">StateCell</span>)            <span class="cm">// HasKey  → descend .key</span>
+   <span class="arr">└─</span> canonize(<span class="cls">CellMap</span>)        <span class="cm">// HasRowCol → descend .key</span>
+        <span class="arr">└─</span> canonize(<span class="lit">(0, 0)</span>)    <span class="cm">// tuple → element-wise</span>
+             <span class="arr">├─</span> canonize(<span class="lit">0</span>) <span class="arr">→</span> <span class="lit">0</span>  <span class="cm">// primitive</span>
+             <span class="arr">└─</span> canonize(<span class="lit">0</span>) <span class="arr">→</span> <span class="lit">0</span>  <span class="cm">// primitive</span>
+                  <span class="arr">▼</span>
+                <span class="lit">(0, 0)</span>             <span class="cm">// flat, comparable, printable</span>
+  </div>
+
+  <h2>This Module's Contribution</h2>
+  <div class="module">
+    <span class="tag">f_core/canonize/u_canonize.py — the entire implementation</span>
+<pre><span class="kw">def</span> <span class="cls">canonize</span>(v: object) -> object:
+    <span class="cm"># Keyed object → descend into its key</span>
+    <span class="kw">if</span> isinstance(v, (<span class="cls">HasKey</span>, <span class="cls">HasRowCol</span>)):
+        <span class="kw">return</span> canonize(v.key)
+    <span class="cm"># Container → canonize element-wise, preserving type</span>
+    <span class="kw">if</span> isinstance(v, (tuple, list)):
+        <span class="kw">return</span> type(v)(canonize(x) <span class="kw">for</span> x <span class="kw">in</span> v)
+    <span class="cm"># Primitive / None → unchanged</span>
+    <span class="kw">return</span> v</pre>
+  </div>
+
+  <h3>Why a free function, not a method or mixin?</h3>
+  <div class="grid3">
+    <div class="cell">
+      <div class="ic">🍃</div>
+      <div class="t">Leaf types aren't yours</div>
+      <div class="d">It must handle <code>tuple</code>, <code>int</code>, <code>None</code> — you can't add <code>(0,0).canonize()</code> to a built-in. A free function can.</div>
+    </div>
+    <div class="cell">
+      <div class="ic">👯</div>
+      <div class="t">Two sibling mixins</div>
+      <div class="d"><code>HasRowCol</code> does <em>not</em> inherit <code>HasKey</code>. A single method couldn't cover both; the function's <code>isinstance</code> covers both in one line.</div>
+    </div>
+    <div class="cell">
+      <div class="ic">🧬</div>
+      <div class="t">No per-type variation</div>
+      <div class="d">The descent rule is universal — zero overrides. Variation is by <em>shape</em>, which one function expresses better than scattered methods.</div>
+    </div>
+  </div>
+
+  <h3>Why it lives in f_core — the layer-floor rule</h3>
+  <p>
+    A utility must sit at or below the lowest layer of the types it touches. <code>canonize</code>
+    descends mixins from <code>f_core</code>, and must flatten a <code>CellMap</code> (an
+    <span class="badge ds">f_ds</span> type) and States (<span class="badge hs">f_hs</span> types).
+    Only <span class="badge core">f_core</span> sits below all of them — so every consumer reaches it
+    <em>downward</em>, never creating a backward import.
+  </p>
+  <div class="tree">
+<span class="badge core">f_core</span>  <span class="cm"># HasKey, HasRowCol, canonize live here — the floor</span>
+   <span class="arr">▲</span>
+<span class="badge ds">f_ds</span>    <span class="cm"># CellMap (HasRowCol) — canonize flattens it</span>
+   <span class="arr">▲</span>
+<span class="badge hs">f_hs</span>    <span class="cm"># StateCell, StateRC — canonize flattens them too</span>
+
+<span class="cm"># Put canonize in f_hs instead → f_ds would import UP to reach it. Illegal.</span>
+  </div>
+
+  <h2>Where It Earns Its Keep</h2>
+  <div class="cards">
+    <div class="card">
+      <h4>🧪 Recording-test goldens</h4>
+      <p style="color:var(--faint)">Golden references are hand-authored Python literals compared with <code>==</code>.
+      A live <code>StateCell</code> object can't appear in a literal — <code>canonize</code> turns it into
+      the <code>(0, 0)</code> the golden expects. Used by every algo's <code>_tester_recording.py</code> via
+      <code>u_event_normalize.normalize</code>.</p>
+    </div>
+    <div class="card">
+      <h4>📊 Visualization traces</h4>
+      <p style="color:var(--faint)">KAStarAgg's <code>_trace</code> records counter events for the per-counter
+      CSVs / <code>COUNTERS.html</code>. The <code>state</code> column needs a readable <code>(row,col)</code>,
+      not a <code>CellMap</code> repr — <code>canonize(state)</code> at record time.</p>
+    </div>
+  </div>
+
+  <h2>Fun Facts &amp; History</h2>
+  <div class="facts">
+    <div class="fact">
+      <div class="ic">📐</div>
+      <b>"Canonical" comes from canon law</b>
+      <p>A <em>canon</em> was the official, authoritative list. In math &amp; CS a "canonical form" is the one
+      official representative of a whole equivalence class — pick it, and equal things look equal.</p>
+    </div>
+    <div class="fact">
+      <div class="ic">♻️</div>
+      <b>Idempotence is the safety net</b>
+      <p><code>canonize(canonize(v)) == canonize(v)</code>. Once you've reached the primitive core, running it
+      again changes nothing — so it's always safe to canonize "just in case."</p>
+    </div>
+    <div class="fact">
+      <div class="ic">🔑</div>
+      <b>Unicode does this billions of times a day</b>
+      <p>Unicode <em>normalization</em> (NFC/NFD) canonicalizes accented characters so "é" typed two
+      different ways compares equal — the exact same problem, on text instead of search states.</p>
+    </div>
+    <div class="fact">
+      <div class="ic">✂️</div>
+      <b>It replaced a method that bred copies</b>
+      <p>Before, each State carried an <code>event_key()</code>. The moment a second subclass arrived, it
+      copied the unwrap. <code>canonize</code> killed the method and the copies in one move — written once.</p>
+    </div>
+  </div>
+
+  <footer>
+    <b>f_core/canonize</b> — canonical identity projection for keyed framework objects.<br>
+    Scope: one free function (<code>canonize</code>) + tester + study + this page. No class, no factory.<br>
+    Generated 2026-06-20.
+  </footer>
+
+</div>
+</body>
+</html>

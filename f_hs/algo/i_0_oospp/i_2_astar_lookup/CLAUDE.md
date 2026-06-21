@@ -170,8 +170,8 @@ and `i_1_astar/_tester_search_state.py`.
 
 Shared `normalize(event)` helper for golden-reference event-
 stream comparisons lives at
-`f_hs/algo/u_event_normalize.py` (uses `state.event_key()`
-polymorphism on `StateBase`).
+`f_hs/algo/u_event_normalize.py` (uses `f_core.canonize.canonize`
+to render keyed values to primitive identities).
 
 ## Counters
 

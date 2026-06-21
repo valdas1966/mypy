@@ -5,26 +5,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_1_list/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_1_list/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_1_list/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_1_list/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_ds/clusters/i_1_list/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/canonize/ABOUT.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/canonize/CLAUDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/canonize/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/canonize/_study.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/canonize/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_core/canonize/u_canonize.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/ABOUT.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/ABOUT.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_claude/instructions/for_new_class.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_claude/instructions/for_new_class.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/clusters/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/clusters/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/clusters/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/clusters/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/clusters/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_0_base/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/clusters/i_0_base/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_0_base/_tester.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/clusters/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/CLAUDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_0_base/CLAUDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_0_base/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_0_base/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_1_list/CLAUDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_1_list/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_1_list/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_1_list/_tester.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/clusters/i_1_list/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_0_base/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/pair/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/pair/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/pair/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/pair/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_recording.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_dump_csvs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_dump_csvs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/algo/u_event_normalize.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/u_event_normalize.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_0_base/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_cell/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_cell/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,12 +71,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;0f4621b9-87f9-4a4a-9ceb-401ed7593bcc&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/subprocess.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
@@ -1174,7 +1197,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1197,7 +1219,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/style/stroke/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1220,7 +1241,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1243,7 +1263,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1266,7 +1285,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/mospp/s_4_aggregate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1289,7 +1307,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_gui/render/html/s_text.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1320,7 +1337,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>

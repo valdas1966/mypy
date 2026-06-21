@@ -19,9 +19,11 @@ def __init__(self, key: Key) -> None
 | `__str__` | `str(key)` |
 
 ### Methods
-| Method | Description |
-|--------|-------------|
-| `event_key() -> object` | Canonical comparable representation for recording-test normalizers. Default returns `self.key`. Override when the key isn't trivially comparable / readable in test output (see `StateCell.event_key()`). Consumed by `f_hs.algo.u_event_normalize.normalize(event)`. |
+No own methods beyond the `HasKey` surface. Canonical
+identity-rendering for recording tests / visualization is no
+longer a per-State method: it is the free function
+`f_core.canonize.canonize`, which descends `HasKey` → `.key`
+automatically (the old `event_key()` was deleted 2026-06-20).
 
 ## Factory
 | Method | Returns | Description |

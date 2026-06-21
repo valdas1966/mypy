@@ -20,7 +20,12 @@ def __init__(self, key: CellMap) -> None
 | Method | Signature | Description |
 |--------|-----------|-------------|
 | `distance` | `(other: StateCell) -> int` | Manhattan distance |
-| `event_key` | `() -> tuple[int, int]` | Override of `StateBase.event_key()` — returns `self.rc` so recording-test normalizers see a `(row, col)` tuple instead of a `CellMap` repr. |
+
+Canonical `(row, col)` identity for recording tests is now
+produced by `f_core.canonize.canonize` (descends
+`StateCell → CellMap → (row, col)` via the `HasKey` /
+`HasRowCol` chain). The old `event_key()` override was
+deleted 2026-06-20.
 
 ## Factory
 | Method | Returns | Description |

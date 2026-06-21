@@ -6,7 +6,7 @@
  One test method per param config (18 total): 1 cache (Group A),
  4 propagation depths (Group B), 13 BPMX rule x depth (Group C).
  Each asserts the COMPLETE normalized event list (`duration`
- stripped, StateBase unwrapped via `event_key()`).
+ stripped, keyed values canonized via `f_core.canonize`).
 
  Event schema:
    - push / pop / decrease_g          — inner AStarBPMX (with

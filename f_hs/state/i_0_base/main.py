@@ -18,19 +18,3 @@ class StateBase(Generic[Key], HasKey[Key]):
         ========================================================================
         """
         HasKey.__init__(self, key=key)
-
-    def event_key(self) -> object:
-        """
-        ========================================================================
-         Canonical comparable representation of this State's
-         identity, used by recording-test normalizers to produce
-         schema-stable event dicts (golden-reference
-         comparisons).
-
-         Default returns `self.key`. Override when the key isn't
-         trivially comparable / readable in test output (e.g.,
-         `StateCell` wraps a `CellMap` → unwraps to a
-         `(row, col)` tuple).
-        ========================================================================
-        """
-        return self.key

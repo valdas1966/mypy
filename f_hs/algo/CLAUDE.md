@@ -142,6 +142,14 @@ deterministic when `(f, -g)` ties — crucial for recording tests.
 Dijkstra overrides `_enrich_event` to drop `h` and `f` (constant
 and derivable, respectively) so its events schema-match BFS.
 
+## Recording normalization
+`u_event_normalize.normalize(event)` is the shared golden-
+reference normalizer (drops `duration`, renders any keyed value
+to its primitive identity, recursively over tuples / lists). The
+identity rendering is delegated to `f_core.canonize.canonize`
+(descends `HasKey` / `HasRowCol` → `.key`); the old per-State
+`event_key()` methods were deleted 2026-06-20.
+
 ## Edge Costs
 `problem.w(parent, child)` returns the edge cost. Default 1.0.
 Subclasses of `ProblemSPP` override for weighted graphs.

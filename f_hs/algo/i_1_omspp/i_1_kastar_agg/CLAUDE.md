@@ -264,7 +264,10 @@ For each of the 8 param configs there is a folder
 counter (`cnt_h_search`, `cnt_h_update`, `cnt_phi_search`,
 `cnt_phi_update`, `cnt_push`, `cnt_pop` = 6 files). Each
 CSV lists every state that contributed to that counter in
-process order. Schema: `order, event, state, phase`.
+process order. Schema: `order, event, state, phase` (the
+`state` column is the primitive identity from
+`f_core.canonize.canonize`, e.g. `(0,0)` for cells — `_trace`
+canonizes at record time, 2026-06-20).
 
 The `phase` column is `'search'` or `'update'` — mirrors
 the structural `self.phase` axis (the same one

@@ -1,10 +1,10 @@
 from f_core.mixins.hashable.main import Hashable
-from f_ds.grids.cluster.i_0_base.main import Cluster
+from f_ds.grids.cluster.i_0_base.main import ClusterGrid
 from f_ds.grids.cell.i_1_map.main import CellMap
 from f_ds.grids.grid.map.main import GridMap
 
 
-class ClusterDiamond(Cluster, Hashable):
+class ClusterDiamond(ClusterGrid, Hashable):
     """
     ============================================================================
      Diamond-shaped (Manhattan-ball) Cluster on a GridMap.
@@ -30,7 +30,7 @@ class ClusterDiamond(Cluster, Hashable):
          is consumed by `_build` and not retained on `self`.
         ========================================================================
         """
-        Cluster.__init__(self, grid=grid)
+        ClusterGrid.__init__(self, grid=grid)
         self._center: CellMap = center
         self._steps: int = steps
         self._cells = self._build(grid=grid)

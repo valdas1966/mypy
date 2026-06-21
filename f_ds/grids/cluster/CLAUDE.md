@@ -2,7 +2,7 @@
 
 ## Purpose
 Reusable cell-set clusters on a `GridMap`. The package houses an abstract
-`Cluster` and one concrete shape so far (`ClusterDiamond` — Manhattan ball).
+`ClusterGrid` and one concrete shape so far (`ClusterDiamond` — Manhattan ball).
 Designed so new shapes (rect, disk, BFS-from-seed, custom) plug in without
 refactor.
 
@@ -10,13 +10,13 @@ refactor.
 
 ```python
 from f_ds.grids.cluster import (
-    Cluster, ClusterDiamond, PairCluster)
+    ClusterGrid, ClusterDiamond, PairCluster)
 ```
 
 Also re-exported from `f_ds.grids` for convenience:
 
 ```python
-from f_ds.grids import Cluster, ClusterDiamond, PairCluster
+from f_ds.grids import ClusterGrid, ClusterDiamond, PairCluster
 ```
 
 ## Module Hierarchy
@@ -24,7 +24,7 @@ from f_ds.grids import Cluster, ClusterDiamond, PairCluster
 ```
 f_ds/grids/cluster/
 ├── __init__.py          lazy re-exports
-├── i_0_base/            abstract Cluster
+├── i_0_base/            abstract ClusterGrid
 │   ├── main.py
 │   └── __init__.py
 ├── i_1_diamond/         ClusterDiamond (Manhattan ball)
@@ -41,19 +41,20 @@ f_ds/grids/cluster/
 
 ## Design Notes
 
-- The grid `Cluster` is the **grid specialisation** of the general
-  `f_ds.clusters.ClusterBase[Item]` abstract base (`Item = CellMap`).
-  Identity (`name`), the `members` accessor, and the `representative`
-  slot come from that base.
+- `ClusterGrid` is the abstract root of the hierarchy. It composes
+  `Collectionable[CellMap]` (collection behaviour) and `HasName`
+  (identity), and adds the `members`/`cells` accessors and the
+  `representative` slot. (It was once a specialisation of a separate
+  generic `f_ds.clusters.ClusterBase`; that layer was removed and folded
+  in — no non-grid consumer existed.)
 - `map: str` (the grid's NAME) is grid-local provenance — the grid
   object is never retained. It is part of `ClusterDiamond.key`.
-- Clusters compose `Collectionable[CellMap]` (via the general base), so
-  `len()`, `in`, iteration, `bool()` all come for free from
-  `to_iterable()`.
+- Clusters compose `Collectionable[CellMap]`, so `len()`, `in`,
+  iteration, `bool()` all come for free from `to_iterable()`.
 - `ClusterDiamond` is built via BFS from the center (connected-component
   semantics): walls split the geometric ball into disconnected regions; only
   the component containing the center is retained.
-- `Cluster` is abstract and has no `Factory`; concrete subclasses have their
+- `ClusterGrid` is abstract and has no `Factory`; concrete subclasses have their
   own.
 
 ## Quick Usage

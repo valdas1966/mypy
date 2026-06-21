@@ -4,8 +4,9 @@
 
  `normalize(event)` returns a copy of an Event dict with:
    - `duration` removed (non-deterministic timing field).
-   - Any `StateBase`-typed value unwrapped via `state.event_key()`,
-     recursively for tuples / lists.
+   - Any keyed value (State, Cell, ...) rendered to its canonical
+     primitive identity via `f_core.canonize.canonize`, recursively
+     for tuples / lists.
 
  The isinstance-based dispatch avoids per-test enumeration of state-
  shaped field names (`state`, `parent`, `goal`, `responsible`,
@@ -14,22 +15,24 @@
 
  Used by every algo's `_tester_recording.py` (oospp + omspp) and
  by future variants. The previous per-package `_utils.py` files
- (each redefining the same logic) have been deleted.
+ (each redefining the same logic) have been deleted. The unwrap
+ itself is now `f_core.canonize.canonize`, which subsumes the old
+ local `_unwrap` + the per-State `event_key()` methods.
 ============================================================================
 """
-from f_hs.state.i_0_base.main import StateBase
+from f_core.canonize import canonize
 
 
 def normalize(event: dict) -> dict:
     """
     ========================================================================
      Return a comparable copy of an Event for golden-reference
-     test assertions: `duration` stripped, any `StateBase` value
-     unwrapped via `state.event_key()`. Non-state fields pass
+     test assertions: `duration` stripped, any keyed value
+     canonized to its primitive identity. Non-keyed fields pass
      through unchanged.
 
      Tuples and lists are walked recursively so collections of
-     states (e.g. `via_children: tuple[State, ...]`) unwrap
+     states (e.g. `via_children: tuple[State, ...]`) canonize
      element-wise.
     ========================================================================
     """
@@ -37,21 +40,5 @@ def normalize(event: dict) -> dict:
     for k, v in event.items():
         if k == 'duration':
             continue
-        out[k] = _unwrap(v)
+        out[k] = canonize(v)
     return out
-
-
-def _unwrap(v: object) -> object:
-    """
-    ========================================================================
-     If `v` is a `StateBase`, return its `event_key()`; if it's a
-     tuple or list, recurse element-wise; otherwise pass through.
-    ========================================================================
-    """
-    if isinstance(v, StateBase):
-        return v.event_key()
-    if isinstance(v, tuple):
-        return tuple(_unwrap(x) for x in v)
-    if isinstance(v, list):
-        return [_unwrap(x) for x in v]
-    return v

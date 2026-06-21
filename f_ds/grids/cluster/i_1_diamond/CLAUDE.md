@@ -5,7 +5,7 @@ Diamond-shaped (Manhattan-ball) cluster of valid cells on a `GridMap`.
 Built via BFS from a center cell to depth `steps`, skipping walls —
 returns only the connected component containing the center.
 
-Inherits `Cluster` (light: holds `map: str`, not the grid) and
+Inherits `ClusterGrid` (light: holds `map: str`, not the grid) and
 `Hashable` (eq + hash via `key`).
 
 ## Public API
@@ -29,7 +29,7 @@ The `grid` is consumed by `_build` and **not** retained on `self`.
 | `representative` | `CellMap` | same as `center` (overrides the base `None`) |
 | `steps` | `int` | Manhattan radius |
 | `key` | `tuple[str, tuple[int,int], int]` | `(map, center.key, steps)` — drives `__eq__` / `__hash__` |
-| `map`, `name`, `members`, `cells` | — | inherited from the grid / general `ClusterBase` |
+| `map`, `name`, `members`, `cells` | — | inherited from `ClusterGrid` |
 
 ### String forms
 - `__str__` → `ClusterDiamond(center=(r,c), steps=s, cells=n)`

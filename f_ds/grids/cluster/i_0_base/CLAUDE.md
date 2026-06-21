@@ -1,12 +1,12 @@
-# Cluster (Grid Abstract Base)
+# ClusterGrid (Abstract Base)
 
 ## Purpose
-Grid specialisation of the general `f_ds.clusters.ClusterBase[Item]` abstract
-base (`Item = CellMap`). Represents a set of valid `CellMap`s on a
+Root of the cluster hierarchy: a named set of valid `CellMap`s on a
 `GridMap`. Subclasses define the shape (Manhattan ball, rectangle, disk,
-arbitrary seed-BFS, …) by implementing `to_iterable()`. Identity
-(`name`), the `members` accessor, and the `representative` slot are
-inherited from the general base.
+arbitrary seed-BFS, …) by filling `_cells` and exposing them through
+`to_iterable()`. Composes `Collectionable[CellMap]` (collection behaviour)
+and `HasName` (identity); adds the `members`/`cells` accessors and the
+`representative` slot.
 
 **Holds only the grid's NAME (`map: str`), not the grid object.** The
 grid is required at construction time by the subclass `_build()` (BFS,
@@ -21,38 +21,38 @@ and don't pin large grids in caller scopes that have already moved on.
 ```python
 def __init__(self, grid: GridMap) -> None
 ```
-Snapshots `grid.name` into `self._map`, sets the base `name` to the
-concrete class name, and discards the grid reference.
-Concrete subclasses must consume `grid` inside their own `__init__`
-(typically by passing it to `_build(grid=grid)`); the base does not
-retain it.
+Snapshots `grid.name` into `self._map`, sets `name` to the concrete
+class name, and discards the grid reference. Concrete subclasses must
+consume `grid` inside their own `__init__` (typically by passing it to
+`_build(grid=grid)`); the base does not retain it.
 
 ### Properties
 
 | Property | Type | Source |
 |----------|------|--------|
 | `map` | `str` | this class — the grid's name (grid-local provenance) |
-| `name` | `str` | general base (`HasName`) |
-| `members` | `list[Item]` | general base — `list(to_iterable())` |
-| `cells` | `list[CellMap]` | this class — grid-named view of the members |
-| `representative` | `Item \| None` | general base — default `None`; shapes with a natural center override (e.g. `ClusterDiamond` → center) |
+| `name` | `str` | `HasName` |
+| `cells` | `list[CellMap]` | this class — a list copy of the members |
+| `members` | `list[CellMap]` | this class — `list(to_iterable())` |
+| `representative` | `CellMap \| None` | this class — default `None`; shapes with a natural center override (e.g. `ClusterDiamond` → center) |
 
-### Abstract
+### `to_iterable`
 
 ```python
 def to_iterable(self) -> list[CellMap]
 ```
-Inherited (abstract) from `Collectionable`. Subclasses must implement —
-returns the cells that make up the cluster.
+Returns the underlying `_cells`. Drives `len()`, `in`, `iter()`,
+`bool()` via `Collectionable`. Subclasses fill `_cells` in their own
+`__init__`.
 
-### Free from `Collectionable`
-
-`len()`, `in`, `iter()`, `bool()`, default `__str__` — all dispatched
-through `to_iterable()`.
+### String forms
+- `__str__` → `'name(size=n)'`, plus `', rep=…'` when `representative`
+  is not `None`.
+- `__repr__` → `<ClusterGrid: map=X, cells=N>`; concrete shapes override.
 
 ## `representative` is optional, not abstract
 Not every shape has a meaningful center (rectangle, multi-seed BFS,
-arbitrary cell-set). The general base's `representative` returns `None`;
+arbitrary cell-set). `representative` returns `None` by default;
 concrete shapes with a natural center (e.g. `ClusterDiamond`) expose it
 as both `center` and `representative`. `PairCluster.distance` requires
 both sides to expose a non-None `center`.
@@ -60,15 +60,19 @@ both sides to expose a non-None `center`.
 ## Inheritance
 
 ```
-f_ds.clusters.ClusterBase[Item]   (general abstract base)
- └── Cluster[CellMap]         (this class — grid abstract base)
-      └── ClusterDiamond, …
+Collectionable[CellMap]   HasName
+        └────────┬────────┘
+            ClusterGrid (abstract)        ← this class — root of the hierarchy
+              └── ClusterDiamond, …       (concrete shapes)
 ```
 
+`ClusterGrid` was previously a grid specialisation of a separate generic
+`f_ds.clusters.ClusterBase`; that generic layer was removed (no non-grid
+consumer) and its machinery folded in here.
+
 ## Notes
-- `Cluster` itself has no `Factory`; concrete shapes provide their own.
-- `__repr__` is `<Cluster: map=X, name=Y, cells=N>`; concrete shapes
-  override.
+- `ClusterGrid` is abstract by intent (lives in `i_0_base/`, declared
+  `ABC`) and has no `Factory`; concrete shapes provide their own.
 - No `to_analytics()` — for structured CSV export, callers build the
   row dict from cluster + grid attributes inline (the script that owns
   the grid already has it in scope).

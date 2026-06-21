@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is a Diamond Cluster?</title>
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#111827; --panel2:#0f172a;
+    --text:#f8fafc; --muted:#cbd5e1; --faint:#94a3b8;
+    --border:#334155; --accent:#60a5fa; --accent2:#a78bfa;
+    --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+    --code-bg:#0a1220;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:2.4rem;margin:.2em 0 .1em;letter-spacing:-.02em}
+  h2{font-size:1.5rem;margin:2.2em 0 .6em;border-bottom:1px solid var(--border);padding-bottom:.3em}
+  h3{font-size:1.1rem;margin:1.4em 0 .4em;color:var(--muted)}
+  p{color:var(--muted)}
+  code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+  code{background:var(--code-bg);padding:.1em .35em;border-radius:4px;color:#e2e8f0;font-size:.92em}
+  pre{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;
+    padding:16px 18px;overflow:auto;font-size:.86rem;line-height:1.5}
+  .tag{display:inline-block;font-size:.95rem;color:var(--faint)}
+  .lead{font-size:1.15rem;color:var(--faint);margin-top:.2em}
+  .analogy{background:linear-gradient(90deg,rgba(167,139,250,.12),transparent);
+    border-left:4px solid var(--accent2);border-radius:8px;padding:14px 18px;margin:18px 0}
+  .analogy .emoji{font-size:1.4rem;margin-right:.4em}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+  .card h4{margin:.1em 0 .4em;font-size:1rem}
+  .card.green{border-color:rgba(52,211,153,.5)}
+  .card.red{border-color:rgba(251,113,133,.5)}
+  .card.accent{border-color:var(--accent)}
+  .icon{font-size:1.6rem;display:block;margin-bottom:.3em}
+  .muted{color:var(--faint);font-size:.92rem}
+  .module{background:var(--panel2);border:1px solid var(--accent);border-radius:12px;
+    padding:4px 18px 14px;margin:18px 0;box-shadow:0 0 24px rgba(96,165,250,.08)}
+  .tree{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;
+    padding:16px 18px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.85rem;
+    color:var(--muted);white-space:pre;overflow:auto}
+  .cl{color:var(--accent)}
+  .cl2{color:var(--accent2)}
+  .cg{color:var(--good)}
+  .cw{color:var(--warn)}
+  .cb{color:var(--bad)}
+  .badge{display:inline-block;font-size:.72rem;font-weight:600;padding:.12em .5em;border-radius:999px;
+    border:1px solid var(--border);color:var(--muted);vertical-align:middle}
+  .badge.abstract{color:var(--accent2);border-color:rgba(167,139,250,.5)}
+  .badge.concrete{color:var(--good);border-color:rgba(52,211,153,.5)}
+  ol.rules{counter-reset:r;list-style:none;padding-left:0}
+  ol.rules li{position:relative;padding:8px 0 8px 44px;border-bottom:1px solid var(--border)}
+  ol.rules li:before{counter-increment:r;content:counter(r);position:absolute;left:0;top:8px;
+    width:28px;height:28px;border-radius:8px;background:var(--accent2);color:#120a1f;
+    font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border)}
+  th{color:var(--faint);font-weight:600}
+  td code{font-size:.85em}
+  .vizrow{display:flex;flex-wrap:wrap;align-items:flex-start;gap:18px;margin:14px 0}
+  .vizcell{text-align:center}
+  .gridviz{display:inline-grid;gap:3px}
+  .gridviz .c{width:22px;height:22px;border-radius:4px;background:var(--panel);border:1px solid var(--border)}
+  .gridviz .c.in{background:rgba(96,165,250,.32);border-color:var(--accent)}
+  .gridviz .c.ct{background:var(--accent2);border-color:#c4b5fd}
+  .gridviz .c.wl{background:rgba(251,113,133,.30);border-color:var(--bad);
+    position:relative}
+  .gridviz .c.wl:after{content:"×";position:absolute;inset:0;display:flex;align-items:center;
+    justify-content:center;color:var(--bad);font-size:.8rem;font-weight:700}
+  .vizcap{font-size:.8rem;color:var(--faint);margin-top:6px}
+  footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);
+    color:var(--faint);font-size:.85rem}
+  @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1) HERO -->
+  <span class="tag">f_ds · grids · cluster · i_1_diamond</span>
+  <h1>What is a Diamond&nbsp;Cluster?</h1>
+  <p class="lead">Every cell within <code>steps</code> Manhattan moves of a
+  center — a BFS ball, shaped like a diamond, that walls can dent.</p>
+
+  <!-- 2) THE IDEA -->
+  <h2>The Idea</h2>
+
+  <div class="analogy">
+    <span class="emoji">💧</span>
+    Drop a stone in a pond. The ripple spreads one ring per tick. After
+    <code>steps</code> ticks, every cell the ripple has reached is in the
+    cluster. On a 4-direction grid the ripple isn't a circle — it's a
+    <strong>diamond</strong>. And if a rock (a wall) blocks the water, the
+    ripple flows <em>around</em> it, never through.
+  </div>
+
+  <p>Why a diamond? Because the grid only lets you step
+  up/down/left/right. "Distance" is then <strong>Manhattan distance</strong>
+  — <code>|Δrow| + |Δcol|</code> — and the set of points at distance
+  ≤ <code>s</code> is a 45°-rotated square: a diamond.</p>
+
+  <h3>The diamond grows one ring per step</h3>
+  <div class="vizrow">
+    <div class="vizcell">
+      <div class="gridviz" style="grid-template-columns:repeat(1,22px)">
+        <div class="c ct"></div>
+      </div>
+      <div class="vizcap">steps=0 → 1 cell</div>
+    </div>
+    <div class="vizcell">
+      <div class="gridviz" style="grid-template-columns:repeat(3,22px)">
+        <div class="c"></div><div class="c in"></div><div class="c"></div>
+        <div class="c in"></div><div class="c ct"></div><div class="c in"></div>
+        <div class="c"></div><div class="c in"></div><div class="c"></div>
+      </div>
+      <div class="vizcap">steps=1 → 5 cells</div>
+    </div>
+    <div class="vizcell">
+      <div class="gridviz" style="grid-template-columns:repeat(5,22px)">
+        <div class="c"></div><div class="c"></div><div class="c in"></div><div class="c"></div><div class="c"></div>
+        <div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c"></div>
+        <div class="c in"></div><div class="c in"></div><div class="c ct"></div><div class="c in"></div><div class="c in"></div>
+        <div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c"></div>
+        <div class="c"></div><div class="c"></div><div class="c in"></div><div class="c"></div><div class="c"></div>
+      </div>
+      <div class="vizcap">steps=2 → 13 cells</div>
+    </div>
+    <div class="vizcell">
+      <div class="gridviz" style="grid-template-columns:repeat(7,22px)">
+        <div class="c"></div><div class="c"></div><div class="c"></div><div class="c in"></div><div class="c"></div><div class="c"></div><div class="c"></div>
+        <div class="c"></div><div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c"></div><div class="c"></div>
+        <div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c"></div>
+        <div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c ct"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div>
+        <div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c"></div>
+        <div class="c"></div><div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c"></div><div class="c"></div>
+        <div class="c"></div><div class="c"></div><div class="c"></div><div class="c in"></div><div class="c"></div><div class="c"></div><div class="c"></div>
+      </div>
+      <div class="vizcap">steps=3 → 25 cells</div>
+    </div>
+  </div>
+
+  <p class="muted">The counts follow a clean closed form:
+  <code>|D(s)| = 2s² + 2s + 1</code> → 1, 5, 13, 25, 41, 61, … — the
+  <strong>centered square numbers</strong>.</p>
+
+  <h3>Four rules of the diamond</h3>
+  <ol class="rules">
+    <li><strong>Metric is Manhattan.</strong> Membership = <code>|Δr|+|Δc| ≤ steps</code>,
+      because the grid is 4-connected.</li>
+    <li><strong>Built by BFS, not by formula.</strong> It floods outward
+      through real neighbors — so it returns the <em>connected component</em>
+      containing the center.</li>
+    <li><strong>Walls dent it.</strong> A wall that bisects the geometric
+      ball truncates the cluster to just the center's side. Geometry ≤ BFS.</li>
+    <li><strong>The center is the representative.</strong> The seed cell is
+      the cluster's distinguished member — both <code>center</code> and
+      <code>representative</code>.</li>
+  </ol>
+
+  <h3>What a wall does</h3>
+  <div class="vizrow">
+    <div class="vizcell">
+      <div class="gridviz" style="grid-template-columns:repeat(5,22px)">
+        <div class="c"></div><div class="c"></div><div class="c in"></div><div class="c"></div><div class="c"></div>
+        <div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c"></div>
+        <div class="c in"></div><div class="c in"></div><div class="c ct"></div><div class="c in"></div><div class="c in"></div>
+        <div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c in"></div><div class="c"></div>
+        <div class="c"></div><div class="c"></div><div class="c in"></div><div class="c"></div><div class="c"></div>
+      </div>
+      <div class="vizcap">open grid → 13</div>
+    </div>
+    <div class="vizcell">
+      <div class="gridviz" style="grid-template-columns:repeat(5,22px)">
+        <div class="c"></div><div class="c"></div><div class="c in"></div><div class="c"></div><div class="c"></div>
+        <div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c wl"></div><div class="c"></div>
+        <div class="c in"></div><div class="c in"></div><div class="c ct"></div><div class="c wl"></div><div class="c"></div>
+        <div class="c"></div><div class="c in"></div><div class="c in"></div><div class="c wl"></div><div class="c"></div>
+        <div class="c"></div><div class="c"></div><div class="c in"></div><div class="c"></div><div class="c"></div>
+      </div>
+      <div class="vizcap">wall column → 10 (right lobe unreachable)</div>
+    </div>
+  </div>
+
+  <!-- 3) HOW THEY CONNECT -->
+  <h2>How It's Built</h2>
+  <p><code>ClusterDiamond</code> is one <span class="cg">concrete</span> shape
+  under the abstract <span class="cl">ClusterGrid</span>. It inherits all the
+  plumbing and adds two things: a BFS <code>_build</code> and a
+  <code>Hashable</code> identity.</p>
+
+  <div class="tree"><span class="cl">ClusterGrid</span>  <span class="badge abstract">abstract</span>   <span class="muted"># root: name, members, representative, map, cells (light)</span>
+   └── <span class="cg">ClusterDiamond</span>(<span class="cl">ClusterGrid</span>, <span class="cw">Hashable</span>)  <span class="badge concrete">concrete</span>
+             │
+             ├─ _build()  <span class="muted"># BFS ripple to depth=steps</span>
+             ├─ center == representative
+             └─ key = (map, center.key, steps)  <span class="muted"># eq + hash</span>
+  </div>
+
+  <div class="module">
+<pre><span class="cl2">def</span> _build(self, grid: GridMap) -> list[CellMap]:
+    <span class="muted">"""BFS from center to depth ≤ steps; walls skipped via grid.neighbors."""</span>
+    visited = {self._center.key}
+    frontier = [self._center]
+    cells    = [self._center]
+    <span class="cl2">for</span> _ <span class="cl2">in</span> range(self._steps):           <span class="muted"># one ring per step</span>
+        next_frontier = []
+        <span class="cl2">for</span> cell <span class="cl2">in</span> frontier:
+            <span class="cl2">for</span> nbr <span class="cl2">in</span> grid.neighbors(cell=cell):  <span class="muted"># walls already filtered</span>
+                <span class="cl2">if</span> nbr.key <span class="cl2">in</span> visited: <span class="cl2">continue</span>
+                visited.add(nbr.key); cells.append(nbr); next_frontier.append(nbr)
+        frontier = next_frontier
+    <span class="cl2">return</span> cells</pre>
+  </div>
+
+  <!-- 4) IDENTITY + FACTORY -->
+  <h2>Identity &amp; Construction</h2>
+  <div class="grid2">
+    <div class="card accent">
+      <h4>🔑 Hashable by spec, not by contents</h4>
+      <p class="muted">Two diamonds are equal iff their
+      <code>(map, center.key, steps)</code> match — no member-list
+      comparison. So a diamond drops straight into a <code>set</code> or
+      <code>dict</code> key.</p>
+<pre>c1 = ...at_center(g, g[5][5], steps=2)
+c2 = ...at_center(g, g[5][5], steps=2)
+c1 == c2          <span class="muted"># True</span>
+{c1, c2} == {c1}  <span class="muted"># True</span></pre>
+    </div>
+    <div class="card">
+      <h4>🏭 Factory holds the recipes</h4>
+      <p class="muted">The constructor takes the raw
+      <code>grid, center, steps</code>. Construction <em>variants</em> live
+      in the <code>Factory</code>, keeping the ctor single-purpose.</p>
+<pre><span class="cg">at_center</span>(grid, center, steps)  <span class="muted"># deterministic</span>
+<span class="cg">random</span>(grid, min_cells, steps)   <span class="muted"># sample a seed,
+                                # retry to size floor</span>
+<span class="cg">a</span>()  <span class="muted"># canonical 5-cell test instance</span></pre>
+    </div>
+  </div>
+
+  <!-- THE DIFF: shape vs base (core ask, mirrored) -->
+  <h2>Diamond vs. the Abstract Base</h2>
+  <p>This shape only makes sense against its base. The base is the
+  <em>noun</em> ("a cluster of cells"); the diamond is the
+  <em>adjective made real</em> ("the Manhattan-ball one").</p>
+
+  <div class="grid2">
+    <div class="card accent">
+      <h4><span class="cl">ClusterGrid</span> <span class="badge abstract">abstract · i_0_base</span></h4>
+      <p class="muted"><strong>The contract.</strong> Names a light set of
+      cells on a grid and leaves a <code>representative</code> slot — but
+      refuses to say <em>which</em> cells. Cannot be built. See its
+      <code>ABOUT.html</code>.</p>
+    </div>
+    <div class="card green">
+      <h4><span class="cg">ClusterDiamond</span> <span class="badge concrete">concrete · i_1_diamond</span></h4>
+      <p class="muted"><strong>This file.</strong> Answers "which cells" with
+      a BFS ripple to <code>steps</code>, makes the center the
+      representative, and adds hashable identity. Instantiate and use.</p>
+    </div>
+  </div>
+
+  <table>
+    <tr><th></th><th><span class="cl">ClusterGrid</span> (base)</th><th><span class="cg">ClusterDiamond</span> (this)</th></tr>
+    <tr><td>Decides membership?</td><td>no — abstract</td><td>yes — BFS to <code>steps</code></td></tr>
+    <tr><td>Extra inputs</td><td><code>grid</code></td><td><code>+ center, steps</code></td></tr>
+    <tr><td><code>representative</code></td><td><code>None</code></td><td>the <code>center</code> cell</td></tr>
+    <tr><td>In a <code>set</code>/<code>dict</code>?</td><td>n/a</td><td>yes — <code>Hashable</code></td></tr>
+    <tr><td>Has a <code>Factory</code>?</td><td>no</td><td>yes</td></tr>
+  </table>
+
+  <!-- 5) GALLERY -->
+  <h2>Where Diamonds Show Up</h2>
+  <div class="grid3">
+    <div class="card">
+      <span class="icon">🧭</span>
+      <h4>A* heuristic</h4>
+      <p class="muted">On a 4-connected grid, Manhattan distance is the
+      classic admissible heuristic. A diamond is exactly "all cells with
+      <code>h ≤ steps</code>."</p>
+    </div>
+    <div class="card">
+      <span class="icon">♟️</span>
+      <h4>Movement range</h4>
+      <p class="muted">Tactics games (Fire Emblem, Advance Wars) paint a
+      unit's reachable tiles as a diamond — same BFS, same metric.</p>
+    </div>
+    <div class="card">
+      <span class="icon">🧪</span>
+      <h4>CC-MMSPP instances</h4>
+      <p class="muted">Paired with <code>PairCluster</code> to generate two
+      disjoint diamonds a known distance apart for shortest-path
+      experiments.</p>
+    </div>
+  </div>
+
+  <!-- 6) FUN FACTS -->
+  <h2>Fun Facts &amp; History</h2>
+  <div class="grid2">
+    <div class="card">
+      <h4>🚕 Why "Manhattan"</h4>
+      <p class="muted">In a city laid out on a grid, a taxi can't cut
+      diagonally through buildings — it drives the blocks. So
+      <code>|Δx|+|Δy|</code> is the real travel distance. Hermann Minkowski
+      formalized it (1900s) as the <strong>L¹ norm</strong>; the diamond is
+      its unit ball.</p>
+    </div>
+    <div class="card">
+      <h4>🔷 A circle that thinks it's a square</h4>
+      <p class="muted">Every shape here is a "ball" — the set of points
+      within radius <code>r</code>. Change the metric and the ball changes
+      shape: L¹ → diamond, L∞ → square, L² → circle. Same idea, three
+      silhouettes.</p>
+    </div>
+    <div class="card">
+      <h4>🌊 BFS = Dijkstra with equal weights</h4>
+      <p class="muted">The ring-by-ring flood is breadth-first search,
+      which is just Dijkstra when every step costs 1. The frontier <em>is</em>
+      the diamond's perimeter at each radius.</p>
+    </div>
+    <div class="card">
+      <h4>🔢 Centered square numbers</h4>
+      <p class="muted"><code>2s²+2s+1</code> (1, 5, 13, 25, 41…) are the
+      centered square numbers — the count of points in an L¹ ball, and the
+      cells of a diamond board in Aztec-diamond combinatorics.</p>
+    </div>
+  </div>
+
+  <footer>
+    <strong>f_ds/grids/cluster/i_1_diamond/</strong> —
+    <code>ClusterDiamond</code>: one concrete shape of the abstract
+    <code>ClusterGrid</code>. Manhattan-ball via BFS, walls honored,
+    hashable on <code>(map, center, steps)</code>. · Generated 2026-06-20.
+  </footer>
+
+</div>
+</body>
+</html>

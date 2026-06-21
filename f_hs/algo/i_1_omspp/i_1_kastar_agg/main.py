@@ -1,5 +1,6 @@
 import sys
 
+from f_core.canonize import canonize
 from f_hs.algo.i_1_omspp.i_1_kastar_agg._aggregations import resolve_agg
 from f_hs.algo.i_1_omspp.i_0_base.main import (
     AlgoOMSPP, PHASE_SEARCH, PHASE_UPDATE,
@@ -265,8 +266,8 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
          `self.traces` (no-op when `is_tracing=False`).
 
          Event schema: `{counter, state, n, phase}` where
-           - `state` is `state.event_key()` (the visualization-
-             friendly identity; falls back to `state.key`).
+           - `state` is `canonize(state)` (the visualization-
+             friendly primitive identity).
            - `n` is the increment amount (≥1 for counters; 0
              for `on_goal`). Retained in-memory for programmatic
              sanity checks; the CSV view drops it in favor of
@@ -282,10 +283,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         """
         if not self._is_tracing:
             return
-        if hasattr(state, 'event_key'):
-            key = state.event_key()
-        else:
-            key = getattr(state, 'key', state)
+        key = canonize(state)
         self.traces.append({
             'counter': counter,
             'state': key,
