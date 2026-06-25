@@ -19,7 +19,7 @@ def __init__(self, row: int, col: int, widget: Component) -> None
 | `widget` | `Component` | The displayed widget |
 
 ### Inherited from `CellBase`
-`key` (`(row, col)`), `row`, `col`, `rc`, `distance`, `name`,
+`key` (`(row, col)`), `row`, `col`, `to_tuple()`, `distance`, `name`,
 `__str__`, `__repr__`, and the `HasRowCol`/`HasName` surface.
 
 ## Inheritance

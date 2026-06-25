@@ -19,7 +19,7 @@ def __init__(self,
 | Member | Description |
 |--------|-------------|
 | `key` | `(row, col)` — equality/ordering/hash |
-| `row`, `col`, `rc` | Position |
+| `row`, `col`, `to_tuple()` | Position |
 | `distance`, `neighbors`, `is_within` | Grid geometry |
 | `name`, `__str__`, `__repr__` | Naming / rendering |
 

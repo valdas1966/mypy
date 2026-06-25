@@ -1,16 +1,19 @@
+from f_core.mixins import Tupleable
 from typing import Generic, TypeVar
 
-from f_core.mixins import Hashable
+First = TypeVar('First')
+Second = TypeVar('Second')
 
-Item = TypeVar('Item')
 
-
-class Pair(Hashable, Generic[Item]):
+class Pair(Tupleable, Generic[First, Second]):
     """
     ============================================================================
-     Pair of two items — ordered or unordered. Identity (eq + hash, via
-     Hashable) keys on (a, b) when ordered, else on the sorted items, so
-     (a, b) and (b, a) match. Unordered mode needs sortable items.
+     Ordered pair of two items — identity is (first, second), via Tupleable.
+    ============================================================================
+     Heterogeneous: the two slots may differ in type. Equality, ordering,
+     hashing, iteration and indexing all derive from the (first, second)
+     tuple. Items must be hashable; comparing pairs with `<` additionally
+     requires them to be comparable.
     ============================================================================
     """
 
@@ -18,69 +21,39 @@ class Pair(Hashable, Generic[Item]):
     Factory: type = None
 
     def __init__(self,
-                 a: Item,
-                 b: Item,
-                 is_ordered: bool = False) -> None:
+                 first: First,
+                 second: Second) -> None:
         """
         ========================================================================
          Init private Attributes.
         ========================================================================
         """
-        self._a = a
-        self._b = b
-        self._is_ordered = is_ordered
+        self._first = first
+        self._second = second
 
     @property
-    def a(self) -> Item:
+    def first(self) -> First:
         """
         ========================================================================
          Get the first item of the pair.
         ========================================================================
         """
-        return self._a
+        return self._first
 
     @property
-    def b(self) -> Item:
+    def second(self) -> Second:
         """
         ========================================================================
          Get the second item of the pair.
         ========================================================================
         """
-        return self._b
+        return self._second
 
-    @property
-    def is_ordered(self) -> bool:
+    def to_tuple(self) -> tuple[First, Second]:
         """
         ========================================================================
-         Get the order of the pair.
+         Return the Pair as a (first, second) tuple — the single Tupleable
+         method; everything else (eq / order / hash / iter) derives from it.
         ========================================================================
         """
-        return self._is_ordered
-
-    @property
-    def key(self) -> tuple[Item, Item]:
-        """
-        ========================================================================
-         Identity key (drives __eq__ / __hash__): (a, b) when ordered,
-         else the sorted items so (a, b) and (b, a) match.
-        ========================================================================
-        """
-        if self._is_ordered:
-            return self._a, self._b
-        return tuple(sorted((self._a, self._b)))
-    
-    def __str__(self) -> str:
-        """
-        ========================================================================
-         Get the string representation of the pair.
-        ========================================================================
-        """
-        return f"({self._a}, {self._b})"
-    
-    def __repr__(self) -> str:
-        """
-        ========================================================================
-         Get the repr representation of the pair.
-        ========================================================================
-        """
-        return f"<Pair: {str(self)}>"
+        return self._first, self._second

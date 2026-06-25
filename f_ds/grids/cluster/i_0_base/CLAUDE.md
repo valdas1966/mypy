@@ -50,8 +50,7 @@ Returns the underlying `_cells`. Drives `len()`, `in`, `iter()`,
 ## The distinguished cell lives on the shape, not the base
 The base is just a named cell collection; it defines no
 center/representative. Shapes that have a natural distinguished cell
-expose it themselves (e.g. `ClusterDiamond.center`). `PairCluster.distance`
-requires both sides to expose a `center`.
+expose it themselves (e.g. `ClusterDiamond.center`).
 
 ## Inheritance
 

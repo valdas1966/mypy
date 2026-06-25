@@ -11,14 +11,10 @@ Adds Manhattan distance calculation.
 def __init__(self, key: CellMap) -> None
 ```
 
-### Properties
-| Property | Type | Description |
-|----------|------|-------------|
-| `rc` | `tuple[int, int]` | (row, col) of the underlying cell |
-
 ### Methods
 | Method | Signature | Description |
 |--------|-----------|-------------|
+| `to_tuple` | `() -> tuple[int, int]` | (row, col) of the underlying cell |
 | `distance` | `(other: Self) -> int` | Manhattan distance |
 
 `__str__` / `__repr__` / `__eq__` / `__lt__` / `__hash__` come from

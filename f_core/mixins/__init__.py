@@ -4,6 +4,7 @@ from f_core.imports import ULazy
 if TYPE_CHECKING:
     from f_core.mixins.sizable import Sizable
     from f_core.mixins.dictable import Dictable
+    from f_core.mixins.tupleable import Tupleable
     from f_core.mixins.hashable import Hashable
     from f_core.mixins.equatable import Equatable
     from f_core.mixins.comparable import Comparable
@@ -17,6 +18,7 @@ if TYPE_CHECKING:
 ULazy.install(globals(), {
     'Sizable': 'f_core.mixins.sizable:Sizable',
     'Dictable': 'f_core.mixins.dictable:Dictable',
+    'Tupleable': 'f_core.mixins.tupleable:Tupleable',
     'Equatable': 'f_core.mixins.equatable:Equatable',
     'Comparable': 'f_core.mixins.comparable:Comparable',
     'Hashable': 'f_core.mixins.hashable:Hashable',

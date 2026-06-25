@@ -27,7 +27,7 @@ def __init__(self, row: int, col: int, name: str = 'CellBase') -> None
 | Member | Description |
 |--------|-------------|
 | `row`, `col` | Position components |
-| `rc` | `(row, col)` tuple |
+| `to_tuple()` | `(row, col)` tuple |
 | `distance` | `(other: Self) -> int` — Manhattan distance |
 | `neighbors` | `() -> list[Self]` — adjacent cells |
 | `is_within` | bounds check |

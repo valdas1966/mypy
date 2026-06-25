@@ -1,4 +1,6 @@
-from f_core.mixins.equatable import Equatable
+from f_core.protocols import SupportsEquality
+from f_core.mixins import Equatable
+from abc import abstractmethod
 
 
 class Hashable(Equatable):
@@ -11,6 +13,16 @@ class Hashable(Equatable):
 
     # Factory
     Factory: type | None = None
+
+    @property
+    @abstractmethod
+    def key(self) -> SupportsEquality:
+        """
+        ========================================================================
+         Return an object that supports equality checks.
+        ========================================================================
+        """
+        raise NotImplementedError
 
     def __hash__(self) -> int:
         """

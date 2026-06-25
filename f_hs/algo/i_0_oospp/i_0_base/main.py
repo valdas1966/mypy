@@ -1,5 +1,3 @@
-import sys
-
 from f_core.counters.main import Counters
 from f_cs.algo import Algo
 from f_hs.algo.i_0_oospp.i_0_base._search_state import SearchStateSPP
@@ -88,11 +86,12 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         # - memory group (mem_open / mem_closed) is snapshotted
         #   in `_run_post()` AFTER the timer closes (outside the
         #   runtime budget).
-        # `mem_open` includes per-state g/parent share for states
-        # currently in OPEN; `mem_closed` includes the same share
-        # for states NOT in OPEN (closed + popped-but-not-closed
-        # goal). The two split exactly the search-state
-        # bookkeeping memory by membership.
+        # `mem_open` is the peak node count of OPEN
+        # (frontier.max_size); `mem_closed` is the node count of
+        # CLOSED at end. Counts, not bytes — reproducible across
+        # machines and runs (`sys.getsizeof` byte accounting was
+        # dropped 2026-06-25 in favour of node counts, unifying
+        # OOSPP with the MOSPP node-count metric).
         self._counters: Counters = Counters(names=(
             ('cnt_push', 'cnt_pop', 'cnt_decrease'),
             ('cnt_expanded', 'cnt_generated'),
@@ -119,18 +118,19 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
     def counters(self) -> Counters:
         """
         ====================================================================
-         6-name scaffold (3 op-counters + 3 mem-snapshots).
+         8-name scaffold: 3 heap-op + 2 search-semantic + 3
+         memory (`mem_open` / `mem_closed` / `mem_total`).
 
          Heap-op counters are mirrored from the injected
          frontier on every access (`cnt_push`, `cnt_pop`,
-         `cnt_decrease`). Memory snapshots (`mem_open`,
-         `mem_closed`, `mem_g_parent`) are populated in
-         `_run_post()` AFTER the timer closes — they are NOT
-         in the runtime budget.
+         `cnt_decrease`). Memory node-counts (`mem_open`,
+         `mem_closed`, `mem_total`) are populated in
+         `_run_post()` after the timer closes — they are NOT in
+         the runtime budget.
 
-         Subclasses can extend the snapshot via the
+         Subclasses extend the snapshot via the
          `_memory_snapshot()` hook (`super()._memory_snapshot()`
-         + add fields).
+         + add `mem_*` fields).
         ====================================================================
         """
         fc = self._search.frontier.counters
@@ -148,109 +148,43 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
     def _memory_snapshot(self) -> dict[str, int]:
         """
         ====================================================================
-         Return per-class memory snapshot (bytes) at the
-         current `self._search` state. Called from
-         `_run_post()` AFTER the elapsed timer has been
-         recorded by the inherited `_run_post`, so the cost of
+         Node-count memory snapshot: how many States are stored
+         in each search structure, in NODES (reproducible
+         integers — not `sys.getsizeof` bytes). Called from
+         `_run_post()` AFTER the elapsed timer is recorded, so
          this measurement is structurally OUT of `_elapsed`.
 
-         Subclasses that hold additional persistent state
-         (HCached / HBounded dicts, etc.) extend this via
+           - `mem_open`   : peak |OPEN| over the run
+                            (`frontier.max_size`). A single
+                            search drains its frontier, so the
+                            lifetime high-water mark — not the
+                            end size — is the honest OPEN
+                            occupancy (rule-2).
+           - `mem_closed` : |CLOSED| at end. The closed set
+                            grows monotonically, so its end
+                            size is its peak.
+
+         g / parent are NOT counted as separate regions: every
+         stored node already shows up via its OPEN or CLOSED
+         membership; the dicts are attribute storage keyed by
+         those same nodes, not independent node storage.
+
+         Peak-OPEN and end-CLOSED are non-coincident for a
+         single search, so `mem_total = Σ mem_*` (finalized in
+         `_run_post`) is an upper bound — same convention as
+         before, now in honest node units (EXACT for the
+         accumulative OMSPP / MOSPP orchestrators).
+
+         Subclasses that hold additional node tables (HCached /
+         HBounded, etc.) extend via
          `snap = super()._memory_snapshot(); snap[...] = ...`
-         and then return the augmented dict — the base will
-         NOT have called `finalize_mem_total` yet; subclasses
-         add their `mem_*` keys and the LEAF override is
-         responsible for the final `finalize_mem_total(snap)`
-         call (see `AStarLookup._memory_snapshot`).
-
-         Universal fields (every OOSPP algo):
-           - `mem_open`   : frontier internal structures
-                            (FrontierPriority: heap + index +
-                            tuples; FrontierFIFO: deque) +
-                            g/parent slot share for OPEN.
-                            **Rule-2:** the OPEN region is
-                            non-monotone (states enter via
-                            push, leave via pop), so we use
-                            `frontier.max_size` (peak |OPEN|
-                            over the whole run) for the
-                            count input — `len(frontier)` at
-                            end-of-run understates the peak
-                            when the loop exits on goal-pop
-                            with a still-populated frontier
-                            (close enough; never coincident-
-                            peak-honest) and dramatically
-                            understates when the frontier
-                            drained.
-           - `mem_closed` : closed-set bucket array + g/parent
-                            slot share for states NOT in OPEN
-                            (closed states + the
-                            popped-but-not-closed goal). Uses
-                            `n_g - n_open_peak` (clamped at 0)
-                            so the pro-rate share is the
-                            complement of the OPEN-peak share.
-
-         The `n_open_peak / n_g` pro-rate is an upper-bound
-         approximation: at the moment of peak-OPEN the g dict
-         may have been smaller (some states not yet discovered).
-         Acceptable bias — `mem_total` is conservatively-summed
-         by the same principle (see `u_mem.finalize_mem_total`).
-
-         g/parent dicts hold one slot per discovered state.
-         `sys.getsizeof()` reports the dict-wide size; we
-         pro-rate it by membership: per-entry = total / |g|,
-         then multiply by `n_open_peak` (charged to mem_open)
-         and `n_g - n_open_peak` (charged to mem_closed). This
-         matches CPython's uniform per-entry slot cost within
-         a single dict — the pro-rate is exact for slot
-         accounting.
-
-         All numbers come from `sys.getsizeof()` — CPython's
-         own accounting. Shared State objects are NOT
-         double-counted (parent dict's State values are shared
-         with closed/frontier and not summed).
-
-         The base does NOT add `mem_total` — that is added by
-         the leaf algo's snapshot (`AStarLookup` /
-         `AStarBPMX` / direct callers via
-         `finalize_mem_total`), so subclasses extending this
-         method can freely add their `mem_*` keys and have
-         them auto-summed.
+         and return the augmented dict; the LEAF override calls
+         `finalize_mem_total` (see `AStarLookup._memory_snapshot`).
         ====================================================================
         """
-        fr = self._search.frontier
-        queue = getattr(fr, '_queue', None)
-        if queue is not None and hasattr(queue, '_heap'):
-            frontier_struct = (sys.getsizeof(queue._heap)
-                               + sys.getsizeof(queue._index)
-                               + sum(sys.getsizeof(t)
-                                     for t in queue._heap))
-        else:
-            frontier_struct = sys.getsizeof(
-                queue if queue is not None else fr)
-        closed = self._search.closed
-        g = self._search.g
-        parent = self._search.parent
-        n_g = len(g)
-        # Rule-2 fix: peak |OPEN| over the whole run, not the
-        # post-loop snapshot. Clamp at n_g for safety (max_size
-        # cannot exceed |g| since every pushed state has a g
-        # entry, but the clamp shields the pro-rate from edge
-        # cases where g is mutated outside of push).
-        n_open_peak = min(fr.max_size, n_g)
-        if n_g > 0:
-            g_parent_total = (sys.getsizeof(g)
-                              + sum(sys.getsizeof(v)
-                                    for v in g.values())
-                              + sys.getsizeof(parent))
-            per_entry = g_parent_total / n_g
-            g_parent_open = round(per_entry * n_open_peak)
-            g_parent_closed = round(per_entry * (n_g - n_open_peak))
-        else:
-            g_parent_open = 0
-            g_parent_closed = 0
         return {
-            'mem_open':   frontier_struct + g_parent_open,
-            'mem_closed': sys.getsizeof(closed) + g_parent_closed,
+            'mem_open':   self._search.frontier.max_size,
+            'mem_closed': len(self._search.closed),
         }
 
     def _run_post(self) -> None:

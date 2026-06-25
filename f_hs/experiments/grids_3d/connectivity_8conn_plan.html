@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8-Connectivity · Design Plan</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#161a20; --panel2:#1b212b; --line:#272e39;
+    --ink:#e8eaed; --mut:#9aa4b2; --dim:#6b7480;
+    --orange:#fb923c; --deep:#E65100; --blue:#60a5fa;
+    --green:#34d399; --red:#f87171;
+    --mono:'SF Mono',ui-monospace,'Cascadia Code',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font:15px/1.55 ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;padding:0 0 80px}
+  code,.m{font-family:var(--mono);font-size:.86em}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* hero */
+  header{padding:54px 0 30px;border-bottom:1px solid var(--line)}
+  .kick{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+    color:var(--orange);text-transform:uppercase}
+  h1{font-size:38px;font-weight:750;letter-spacing:-.02em;margin:10px 0 6px}
+  h1 b{color:var(--orange)}
+  .lead{color:var(--mut);font-size:16px;max-width:760px}
+  .lead .pop{color:var(--green);font-weight:600}
+
+  /* slides */
+  section{padding:34px 0;border-bottom:1px solid var(--line)}
+  .head{display:flex;align-items:baseline;gap:14px;margin-bottom:20px}
+  .no{font-family:var(--mono);font-size:13px;color:var(--deep);
+    border:1px solid var(--line);border-radius:7px;padding:3px 9px}
+  h2{font-size:21px;font-weight:680;letter-spacing:-.01em}
+  h2 .sub{color:var(--dim);font-weight:400;font-size:14px;margin-left:8px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+
+  .card{background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:18px}
+  .card.glow{border-color:#3a2a16;background:linear-gradient(180deg,#1c150d,#161a20)}
+  .cap{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .svgbox{display:flex;justify-content:center;align-items:center;padding:6px 0}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);font-weight:600}
+  td:first-child{font-family:var(--mono);color:var(--mut)}
+  .c4{color:var(--green)}.c8{color:var(--blue)}
+
+  .flow{font-family:var(--mono);font-size:13.5px;line-height:1.85}
+  .flow .src{color:var(--orange)}
+  .flow .ar{color:var(--dim)}
+  .flow .ok{color:var(--green)}
+  .flow .no{border:0;padding:0;color:var(--red);font-family:var(--mono)}
+  .pill{display:inline-block;font-family:var(--mono);font-size:11px;
+    padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--mut)}
+  .pill.bc{color:var(--green);border-color:#1f4034}
+
+  .steps{display:flex;flex-direction:column;gap:8px}
+  .step{display:flex;gap:12px;align-items:center;background:var(--panel);
+    border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+  .step .n{font-family:var(--mono);color:var(--deep);font-size:13px;width:18px}
+  .step .t{flex:1}
+  .step .t b{color:var(--ink);font-weight:600}
+  .step .t span{color:var(--mut)}
+
+  .note{color:var(--mut);font-size:13.5px}
+  .key{color:var(--orange);font-weight:600}
+  .big{font-size:26px;font-family:var(--mono);color:var(--blue);font-weight:600}
+  .muted-mono{font-family:var(--mono);font-size:12.5px;color:var(--dim)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:8px}
+  .legend i{font-style:normal}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kick">f_ds/grids · design plan</div>
+  <h1>2D Grids: add <b>8-connectivity</b> as an option</h1>
+  <p class="lead">One swappable <span class="m">Connectivity</span> policy carries
+  <i>offsets · cost · heuristic · corner-cutting</i>. Default stays 4-conn —
+  <span class="pop">zero <span class="m">f_core</span> change</span>, fully backward-compatible.</p>
+</header>
+
+<!-- 1 -->
+<section>
+  <div class="head"><span class="no">01</span><h2>4-conn vs 8-conn <span class="sub">the edge set <i>is</i> the metric</span></h2></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="cap">Connectivity4 — today · L1</div>
+      <div class="svgbox">
+        <svg width="220" height="170" viewBox="0 0 220 170">
+          <g stroke="#272e39" fill="#161a20">
+            <rect x="30" y="10" width="50" height="50"/><rect x="85" y="10" width="50" height="50"/><rect x="140" y="10" width="50" height="50"/>
+            <rect x="30" y="65" width="50" height="50"/><rect x="85" y="65" width="50" height="50"/><rect x="140" y="65" width="50" height="50"/>
+            <rect x="30" y="120" width="50" height="50"/><rect x="85" y="120" width="50" height="50"/><rect x="140" y="120" width="50" height="50"/>
+          </g>
+          <rect x="85" y="65" width="50" height="50" fill="#2a1c0e" stroke="#fb923c"/>
+          <g fill="#1f3b30" stroke="#34d399">
+            <rect x="85" y="10" width="50" height="50"/><rect x="30" y="65" width="50" height="50"/>
+            <rect x="140" y="65" width="50" height="50"/><rect x="85" y="120" width="50" height="50"/>
+          </g>
+          <g stroke="#34d399" stroke-width="2" marker-end="url(#a4)">
+            <line x1="110" y1="90" x2="110" y2="48"/><line x1="110" y1="90" x2="152" y2="90"/>
+            <line x1="110" y1="90" x2="110" y2="132"/><line x1="110" y1="90" x2="68" y2="90"/>
+          </g>
+          <g fill="#34d399" font-family="monospace" font-size="11" text-anchor="middle">
+            <text x="110" y="38">1</text><text x="163" y="84">1</text><text x="110" y="150">1</text><text x="57" y="84">1</text></g>
+          <defs><marker id="a4" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L6,3.5 L0,7 Z" fill="#34d399"/></marker></defs>
+        </svg>
+      </div>
+      <div class="muted-mono">4 moves · cost 1 · Manhattan h</div>
+    </div>
+    <div class="card">
+      <div class="cap">Connectivity8 — new · octile</div>
+      <div class="svgbox">
+        <svg width="220" height="170" viewBox="0 0 220 170">
+          <g stroke="#272e39" fill="#161a20">
+            <rect x="30" y="10" width="50" height="50"/><rect x="85" y="10" width="50" height="50"/><rect x="140" y="10" width="50" height="50"/>
+            <rect x="30" y="65" width="50" height="50"/><rect x="85" y="65" width="50" height="50"/><rect x="140" y="65" width="50" height="50"/>
+            <rect x="30" y="120" width="50" height="50"/><rect x="85" y="120" width="50" height="50"/><rect x="140" y="120" width="50" height="50"/>
+          </g>
+          <rect x="85" y="65" width="50" height="50" fill="#2a1c0e" stroke="#fb923c"/>
+          <g fill="#1f3b30" stroke="#34d399">
+            <rect x="85" y="10" width="50" height="50"/><rect x="30" y="65" width="50" height="50"/>
+            <rect x="140" y="65" width="50" height="50"/><rect x="85" y="120" width="50" height="50"/></g>
+          <g fill="#16304d" stroke="#60a5fa">
+            <rect x="30" y="10" width="50" height="50"/><rect x="140" y="10" width="50" height="50"/>
+            <rect x="30" y="120" width="50" height="50"/><rect x="140" y="120" width="50" height="50"/></g>
+          <g stroke="#34d399" stroke-width="2" marker-end="url(#a8)">
+            <line x1="110" y1="90" x2="110" y2="48"/><line x1="110" y1="90" x2="152" y2="90"/>
+            <line x1="110" y1="90" x2="110" y2="132"/><line x1="110" y1="90" x2="68" y2="90"/></g>
+          <g stroke="#60a5fa" stroke-width="2" marker-end="url(#a8b)">
+            <line x1="110" y1="90" x2="72" y2="52"/><line x1="110" y1="90" x2="148" y2="52"/>
+            <line x1="110" y1="90" x2="72" y2="128"/><line x1="110" y1="90" x2="148" y2="128"/></g>
+          <g font-family="monospace" font-size="11" text-anchor="middle">
+            <text x="54" y="40" fill="#60a5fa">√2</text><text x="166" y="40" fill="#60a5fa">√2</text>
+            <text x="54" y="140" fill="#60a5fa">√2</text><text x="166" y="140" fill="#60a5fa">√2</text></g>
+          <defs>
+            <marker id="a8" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L6,3.5 L0,7 Z" fill="#34d399"/></marker>
+            <marker id="a8b" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L6,3.5 L0,7 Z" fill="#60a5fa"/></marker></defs>
+        </svg>
+      </div>
+      <div class="muted-mono">8 moves · diag √2 · octile h</div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:14px">Drop diagonals and the graph metric collapses to L1 — overstating the diagonal by <span class="key">+41%</span>. Diagonals aren't redundant: they <i>are</i> the √2 hypotenuse.</p>
+</section>
+
+<!-- 2 -->
+<section>
+  <div class="head"><span class="no">02</span><h2>The key move <span class="sub">policy in <span class="m">f_ds/grids</span>, not the mixin</span></h2></div>
+  <div class="grid2">
+    <div class="card glow">
+      <div class="cap">Single source of truth · on the grid</div>
+      <div class="flow">
+        <span class="src">GridMap.connectivity</span><br>
+        <span class="ar"> ├─</span> neighbors() <span class="ar">→</span> offsets · bounds · valid · legal<br>
+        <span class="ar"> ├─</span> <span class="src">ProblemGrid.w()</span> <span class="ar">→</span> connectivity.<b>cost</b><br>
+        <span class="ar"> └─</span> A* <span class="m">h</span> <span class="ar">→</span> connectivity.<b>heuristic</b><br>
+        <br>
+        <span class="no">✗ HasRowCol — untouched</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cap">Why it's low-risk</div>
+      <table>
+        <tr><td>scope</td><td><span class="c4">f_ds/grids</span> + 2 small <span class="m">f_hs</span> overrides</td></tr>
+        <tr><td>f_core</td><td>none — mixin stays identity-only</td></tr>
+        <tr><td>default</td><td><span class="pill bc">Connectivity4 = byte-for-byte today</span></td></tr>
+        <tr><td>opt-in</td><td><span class="m">GridMap(..., connectivity=Connectivity8())</span></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section>
+  <div class="head"><span class="no">03</span><h2>The policy <span class="sub">one base, four methods</span></h2></div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="flow" style="font-size:13px">
+<span class="src">ConnectivityBase</span>            offsets · cost · heuristic · is_legal_move · unit
+ <span class="ar">├─</span> <span class="c4">Connectivity4</span>   = today   <span class="ar">(4 · 1 · Manhattan · always)</span>
+ <span class="ar">└─</span> <span class="c8">Connectivity8</span>   new     <span class="ar">(8 · CARD/DIAG · octile · both-flanks-free)</span>
+       <span class="muted-mono">⋯ 3D later: Connectivity6 / 18 / 26 — same base, new offsets</span>
+    </div>
+  </div>
+  <table>
+    <tr><th>method</th><th class="c4">Connectivity4</th><th class="c8">Connectivity8</th></tr>
+    <tr><td>offsets</td><td>4 cardinals</td><td>+ 4 diagonals</td></tr>
+    <tr><td>cost(a,b)</td><td>1</td><td>CARD · / · DIAG</td></tr>
+    <tr><td>heuristic(a,b)</td><td>Manhattan dx+dy</td><td>octile</td></tr>
+    <tr><td>is_legal_move</td><td>True</td><td>diagonal ⇔ both flanks free</td></tr>
+  </table>
+</section>
+
+<!-- 4 -->
+<section>
+  <div class="head"><span class="no">04</span><h2>Corner-cutting <span class="sub">benchmark-faithful: strict no-cut</span></h2></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="svgbox">
+        <svg width="240" height="160" viewBox="0 0 240 160">
+          <rect x="40" y="20" width="60" height="60" fill="#3a1518" stroke="#f87171"/>
+          <rect x="100" y="20" width="60" height="60" fill="#1f3b30" stroke="#34d399"/>
+          <rect x="40" y="80" width="60" height="60" fill="#1f3b30" stroke="#34d399"/>
+          <rect x="100" y="80" width="60" height="60" fill="#1f3b30" stroke="#34d399"/>
+          <g font-family="monospace" font-size="10" fill="#9aa4b2" text-anchor="middle">
+            <text x="70" y="54">(0,0)</text><text x="130" y="54">(0,1)</text>
+            <text x="70" y="114">(1,0)</text><text x="130" y="114">(1,1)</text></g>
+          <text x="70" y="44" font-family="monospace" font-size="9" fill="#f87171" text-anchor="middle">BLOCKED</text>
+          <line x1="70" y1="110" x2="130" y2="50" stroke="#f87171" stroke-width="2.5" marker-end="url(#xa)"/>
+          <g stroke="#f87171" stroke-width="2.5"><line x1="92" y1="72" x2="108" y2="88"/><line x1="108" y1="72" x2="92" y2="88"/></g>
+          <defs><marker id="xa" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L7,4 L0,8 Z" fill="#f87171"/></marker></defs>
+        </svg>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cap">Rule</div>
+      <p class="note">Move <span class="m">(1,0)→(0,1)</span>. Flanks = <span class="m">(0,0)</span> and <span class="m">(1,1)</span>.
+      One flank blocked ⇒ <span style="color:var(--red);font-weight:600">illegal</span> — the path would clip the obstacle's corner.</p>
+      <div class="flow" style="margin-top:12px;font-size:13px">
+        <span class="ok">both flanks free</span> <span class="ar">→</span> legal<br>
+        <span style="color:var(--red)">either blocked</span> <span class="ar">→</span> illegal
+      </div>
+      <p class="muted-mono" style="margin-top:12px">Matches MovingAI / GPPC / JPS released optimal costs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section>
+  <div class="head"><span class="no">05</span><h2>√2 cost model <span class="sub">scaled-int, not float</span></h2></div>
+  <div class="grid2">
+    <div class="card glow">
+      <div class="cap">Recommended</div>
+      <div class="big">CARD 10000 · DIAG 14142</div>
+      <p class="note" style="margin-top:8px">octile <span class="m">= 10000·(dx+dy) − 5858·min(dx,dy)</span><br>
+      same constants in cost <i>and</i> h ⇒ admissible &amp; consistent. Report true dist = <span class="m">cost / unit</span>.</p>
+    </div>
+    <div class="card">
+      <div class="cap">Why not float √2</div>
+      <p class="note">OMSPP / kA* needs <span class="key">exact co-optimal ties</span> (k-shortest, INC-vs-AGG degeneracy). Float rounding makes equal-cost paths compare unequal — silently corrupting tie counts. Int keeps every compare exact and preserves the int hot-path invariant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section>
+  <div class="head"><span class="no">06</span><h2>Migration <span class="sub">7 steps · each backward-compatible</span></h2></div>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><span class="t"><b>Build</b> <span class="m">connectivity/</span> <span>— Base + Connectivity4/8 + testers</span></span></div>
+    <div class="step"><span class="n">2</span><span class="t"><b>Add</b> <span class="m">connectivity=</span> param to GridMap <span>— default Connectivity4</span></span></div>
+    <div class="step"><span class="n">3</span><span class="t"><b>Rewrite</b> <span class="m">GridMap.neighbors</span> via offsets <span>— existing tests stay green (4-conn net)</span></span></div>
+    <div class="step"><span class="n">4</span><span class="t"><b>Override</b> <span class="m">ProblemGrid.w</span> → connectivity.cost</span></div>
+    <div class="step"><span class="n">5</span><span class="t"><b>Route</b> grid A* <span class="m">h</span> → connectivity.heuristic</span></div>
+    <div class="step"><span class="n">6</span><span class="t"><b>Add</b> 8-conn fixtures + corner-cut illegal test</span></div>
+    <div class="step"><span class="n">7</span><span class="t"><b>Update</b> CLAUDE.md in touched folders</span></div>
+  </div>
+  <p class="muted-mono" style="margin-top:14px">watch: <span class="m">_tester_recording.py</span> pins h/f — int Manhattan renders identically via <span class="m">_as_int_if_whole</span>. Re-run first.</p>
+</section>
+
+<footer style="padding-top:26px;color:var(--dim);font-size:12.5px;font-family:var(--mono)">
+  f_hs/experiments/grids_3d/connectivity_8conn_plan.html · proposal — awaits green-light
+</footer>
+
+</div>
+</body>
+</html>

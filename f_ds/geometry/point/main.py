@@ -1,14 +1,14 @@
-from f_core.mixins.hashable import Hashable
+from f_core.mixins.tupleable import Tupleable
 
 
-class Point(Hashable):
+class Point(Tupleable):
     """
     ============================================================================
      2-D Point (x, y) in a normalized 0-100 coordinate space.
     ============================================================================
      x is the horizontal axis (maps to CSS left / SVG x), y is the vertical
-     axis (maps to CSS top / SVG y). Equality and hashing come from Hashable
-     via the (x, y) key.
+     axis (maps to CSS top / SVG y). Equality, ordering, hashing and
+     unpacking come from Tupleable via the (x, y) to_tuple().
     ============================================================================
     """
 
@@ -43,15 +43,6 @@ class Point(Hashable):
         ========================================================================
         """
         return self._y
-
-    @property
-    def key(self) -> tuple[float, float]:
-        """
-        ========================================================================
-         Return (x, y) — used for equality and hashing.
-        ========================================================================
-        """
-        return self._x, self._y
 
     def to_tuple(self) -> tuple[float, float]:
         """

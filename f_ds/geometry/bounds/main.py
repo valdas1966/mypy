@@ -1,15 +1,19 @@
 from typing import Generic, TypeVar
 
+from f_core.mixins import Tupleable
 from f_ds.geometry.point import Point
 from f_ds.geometry.side import Side
 
 T = TypeVar('T', int, float)
 
 
-class Bounds(Generic[T]): 
+class Bounds(Tupleable, Generic[T]):
     """
     ========================================================================
      A named tuple representing the bounds of an object.
+    ========================================================================
+     Identity, ordering and hashing come from Tupleable via the
+     (top, left, bottom, right) to_tuple().
     ========================================================================
      Properties:
     ------------------------------------------------------------------------

@@ -14,7 +14,10 @@ f_hs/experiments/
 ├── u_cluster_pool_ABOUT.html  visual overview (human reading)
 ├── mospp/                     MOSPP pipeline (s_0 … )
 └── omspp/                     OMSPP pipeline (s_0 … s_8) + goal_distance/
-                               + goal_removal/  (quota / early-stop plan)
+                               + early_stop/    (mission-cancellation: run
+                                 k=200, cancel at r reached goals, price cost)
+                               + goal_removal/  (broader quota + online-removal
+                                 plan; early_stop supersedes its quota half)
 ```
 
 ## u_cluster_pool — candidate-location pool sampler

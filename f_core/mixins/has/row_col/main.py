@@ -1,14 +1,16 @@
 from __future__ import annotations
-from f_core.mixins.comparable import Comparable
-from f_core.mixins.hashable import Hashable
+from f_core.mixins.tupleable import Tupleable
 from f_core.protocols.rect_like import RectLike
 from typing import Self
 
 
-class HasRowCol(Comparable, Hashable):
+class HasRowCol(Tupleable):
     """
     ============================================================================
      Mixin for classes with Row and Col properties.
+    ============================================================================
+     A value-record identified by its (row, col) tuple — equality, ordering,
+     hashing, iteration and indexing all come from Tupleable via to_tuple().
     ============================================================================
     """
 
@@ -93,23 +95,13 @@ class HasRowCol(Comparable, Hashable):
         col_valid: bool = col_min <= self.col <= col_max
         return row_valid and col_valid
 
-    @property
-    def rc(self) -> tuple[int, int]:
+    def to_tuple(self) -> tuple[int, int]:
         """
         ========================================================================
          Return (Row, Col) as a Tuple.
         ========================================================================
         """
         return self.row, self.col
-
-    @property
-    def key(self) -> tuple[int, int]:
-        """
-        ========================================================================
-         Prioritize Row over the Col in Comparisons (Clock-Wise Order).
-        ========================================================================
-        """
-        return self.rc
 
     def __str__(self) -> str:
         """

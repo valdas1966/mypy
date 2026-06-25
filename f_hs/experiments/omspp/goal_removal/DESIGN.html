@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OMSPP · Early-Stop — Architecture Decision</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#30363d;
+    --ink:#e6edf3; --mut:#9aa7b4; --dim:#6e7b8a;
+    --inc:#f0f0f0; --eager:#4c9aff; --lazy:#ff5c5c;
+    --acc:#ffb454; --acc2:#7ee787; --acc3:#d2a8ff; --bad:#ff7b72; --ok:#3fb950;
+    --warn:#e3b341;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+       line-height:1.5;font-size:15px}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 22px 80px}
+  code,.mono{font-family:var(--mono);font-size:.88em}
+  code{background:#0b0f14;border:1px solid var(--line);border-radius:5px;
+       padding:1px 6px;color:#cdd9e5}
+
+  header{padding:42px 0 22px;border-bottom:1px solid var(--line);margin-bottom:26px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+          text-transform:uppercase;color:var(--acc)}
+  h1{font-size:31px;line-height:1.12;margin:12px 0 8px;font-weight:800}
+  h1 .sub{color:var(--acc3)}
+  .lead{color:var(--mut);font-size:15.5px;max-width:820px}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{font-family:var(--mono);font-size:11.5px;color:var(--mut);
+        background:var(--panel);border:1px solid var(--line);
+        border-radius:999px;padding:4px 11px}
+  .pill b{color:var(--ink)}
+
+  h2{font-size:19px;margin:40px 0 8px;font-weight:750}
+  h2 .n{font-family:var(--mono);color:var(--acc);font-size:14px;margin-right:10px}
+  p{margin:8px 0}
+  .muted{color:var(--mut)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);
+        border-radius:12px;padding:15px 17px}
+  .card h4{margin:0 0 6px;font-size:13.5px;font-family:var(--mono)}
+  .card.q{border-left:3px solid var(--eager)}
+  .card.q h4{color:var(--eager)}
+
+  .box{border-radius:10px;padding:13px 16px;margin:14px 0;border:1px solid var(--line);
+       background:var(--panel)}
+  .box .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+            text-transform:uppercase;display:block;margin-bottom:5px}
+  .box.verdict{border-left:4px solid var(--acc2);background:#0f1a12}
+  .box.verdict .tag{color:var(--acc2)}
+  .box.warn{border-left:4px solid var(--warn);background:#1c190f}
+  .box.warn .tag{color:var(--warn)}
+
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--ink);font-weight:650;
+     font-family:var(--mono);font-size:11.5px}
+  td.c,th.c{text-align:center}
+  tbody tr:nth-child(odd){background:#11161d}
+  tr.win td{background:#0f1a12}
+  .yes{color:var(--ok);font-weight:700}
+  .no{color:var(--bad);font-weight:700}
+  .may{color:var(--warn);font-weight:700}
+
+  pre.snip{background:#0b0f14;border:1px solid var(--line);border-left:3px solid var(--acc2);
+           border-radius:8px;padding:12px 14px;margin:10px 0;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;line-height:1.5;color:#cdd9e5}
+  pre.snip .c{color:var(--dim)}
+  pre.snip .k{color:var(--acc3)}
+  pre.snip .g{color:var(--acc2)}
+  .lbl{font-family:var(--mono);font-size:11.5px;color:var(--acc);margin:4px 0 0}
+
+  figure{margin:18px 0;text-align:center}
+  figcaption{color:var(--dim);font-size:12.5px;margin-top:8px;font-family:var(--mono)}
+  svg{max-width:100%;height:auto}
+  footer{margin-top:54px;padding-top:16px;border-top:1px solid var(--line);
+         color:var(--dim);font-size:12.5px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">f_hs · omspp · early-stop · architecture</div>
+  <h1>Early-Stop — Architecture<br><span class="sub">one cold-path hook, not a class per algorithm</span></h1>
+  <p class="lead">How to add "stop after reaching <b>r</b> of <b>k</b> goals" to the four OMSPP
+  algorithms — without slowing the millions of normal runs, and without a parallel class tree.</p>
+  <div class="meta">
+    <span class="pill"><b>touches</b> AlgoOMSPP · i_0_base</span>
+    <span class="pill"><b>new types</b> 0</span>
+    <span class="pill"><b>hot-path Δ</b> none</span>
+    <span class="pill"><b>status</b> DESIGN — awaiting OK</span>
+  </div>
+</header>
+
+<!-- VERDICT -->
+<div class="box verdict">
+  <span class="tag">Verdict</span>
+  <b>No dedicated early-stop classes.</b> Add <b>one overridable hook</b> on the base, called at the
+  <b>cold goal-record site</b> (~k×/run). Early-stop fires each algorithm's <i>existing</i> done-condition
+  early — so the per-node hot loop gains <b>zero</b> code. A quota is a <b>param</b>, not a type.
+</div>
+
+<!-- 1 · THE TWO QUESTIONS -->
+<h2><span class="n">1</span>Your two questions, answered</h2>
+<div class="grid2">
+  <div class="card q">
+    <h4>Q1 · don't tax non-early-stop runs</h4>
+    <p class="muted">Granted — and it's the deciding constraint. The fix: the stop decision rides the
+    <b class="mono" style="color:var(--ok)">cold</b> goal site (~k×), never the
+    <b class="mono" style="color:var(--bad)">hot</b> loop header (10⁵–10⁶×). Normal runs execute the
+    identical loop they do today.</p>
+  </div>
+  <div class="card q">
+    <h4>Q2 · inheritance with hooks (<code>on_goal</code>, <code>can_terminate</code>)</h4>
+    <p class="muted">Right instinct, one caveat. <b>Yes</b> to a base hook (Template-Method — the project
+    convention). <b>No</b> to a per-algo subclass tree. And put the hook at the goal site — a virtual
+    <code>can_terminate()</code> <i>in the loop header</i> is the one shape that breaks Q1.</p>
+  </div>
+</div>
+
+<!-- 2 · HOT vs COLD -->
+<h2><span class="n">2</span>Where the check lives — and where it must not</h2>
+<figure>
+<svg viewBox="0 0 760 300" role="img" aria-label="Hot path versus cold path in the OMSPP search loop">
+  <rect x="0" y="0" width="760" height="300" fill="#11161d" rx="10"/>
+  <text x="40" y="30" fill="#9aa7b4" font-size="12.5" font-family="monospace">kA*-AGG search loop &nbsp;(INC: per-goal outer loop, inner A* untouched)</text>
+
+  <!-- HOT band -->
+  <rect x="40" y="44" width="680" height="96" rx="10" fill="#1a1012" stroke="#ff7b72" stroke-width="1.4"/>
+  <text x="58" y="66" fill="#ff7b72" font-size="12" font-family="monospace" font-weight="bold">HOT · per node · 10⁵–10⁶ ×/run</text>
+  <g font-family="monospace" font-size="11.5">
+    <rect x="58" y="84" width="250" height="30" rx="6" fill="#0b0f14" stroke="#30363d"/>
+    <text x="183" y="104" fill="#cdd9e5" text-anchor="middle">while frontier and active_goals:</text>
+    <rect x="322" y="84" width="64" height="30" rx="6" fill="#0b0f14" stroke="#30363d"/>
+    <text x="354" y="104" fill="#cdd9e5" text-anchor="middle">pop</text>
+    <rect x="400" y="84" width="300" height="30" rx="6" fill="#0b0f14" stroke="#30363d"/>
+    <text x="550" y="104" fill="#cdd9e5" text-anchor="middle">successors → _handle_child</text>
+  </g>
+  <text x="58" y="131" fill="#ff7b72" font-size="11.5" font-family="monospace">✗ no early-stop code added here</text>
+
+  <!-- arrow -->
+  <line x1="183" y1="140" x2="183" y2="168" stroke="#6e7b8a" stroke-width="1.4" marker-end="url(#a)"/>
+  <text x="196" y="160" fill="#6e7b8a" font-size="11" font-family="monospace">goal popped</text>
+  <defs><marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6e7b8a"/></marker></defs>
+
+  <!-- COLD band -->
+  <rect x="40" y="170" width="680" height="96" rx="10" fill="#0f1a12" stroke="#3fb950" stroke-width="1.4"/>
+  <text x="58" y="192" fill="#3fb950" font-size="12" font-family="monospace" font-weight="bold">COLD · per goal · ~k ×/run</text>
+  <g font-family="monospace" font-size="11.5">
+    <rect x="58" y="210" width="150" height="30" rx="6" fill="#0b0f14" stroke="#30363d"/>
+    <text x="133" y="230" fill="#cdd9e5" text-anchor="middle">record sol</text>
+    <rect x="222" y="210" width="252" height="30" rx="6" fill="#0b0f14" stroke="#3fb950"/>
+    <text x="348" y="230" fill="#7ee787" text-anchor="middle">_on_goal_reached()  ← hook</text>
+    <rect x="488" y="210" width="212" height="30" rx="6" fill="#0b0f14" stroke="#30363d"/>
+    <text x="594" y="230" fill="#cdd9e5" text-anchor="middle">clear() / break  → existing exit</text>
+  </g>
+  <text x="58" y="258" fill="#3fb950" font-size="11.5" font-family="monospace">✓ the entire early-stop mechanism lives here</text>
+</svg>
+<figcaption>The header runs per node (hot); the goal-record block runs per goal (cold). Put the hook in
+the cold band → normal runs are byte-for-byte unchanged.</figcaption>
+</figure>
+
+<div class="box warn">
+  <span class="tag">The anti-pattern</span>
+  A virtual <code>while not self.can_terminate():</code> adds a <b>method call per pop</b> (frame +
+  MRO lookup), paid by every run — the one design that violates Q1. If you want a loop-level gate, set a
+  plain <b>boolean flag</b> at the cold site and read it inline; never dispatch in the header.
+</div>
+
+<!-- 3 · THE SEAM -->
+<h2><span class="n">3</span>The seam — three small edits, no new files</h2>
+<pre class="snip"><span class="c"># AlgoOMSPP base (i_0_base) — cold path, ~k calls/run. Default: never stop.</span>
+<span class="k">def</span> _on_goal_reached(self, goal, cost, n: int) -> bool:
+    <span class="k">return</span> self._stop <span class="k">is</span> None <span class="k">or</span> <span class="k">not</span> self._stop(n, goal, cost)</pre>
+<div class="grid2">
+  <div>
+    <p class="lbl">KAStarInc · main.py:351</p>
+    <pre class="snip">self._solutions[goal] = sol
+<span class="k">if not</span> self._on_goal_reached(goal, sol.cost, <span class="g">len</span>(self._solutions)):
+    <span class="k">break</span>   <span class="c"># exit per-goal loop</span></pre>
+  </div>
+  <div>
+    <p class="lbl">KAStarAgg · main.py:355</p>
+    <pre class="snip">self._solutions[state] = sol
+<span class="k">if not</span> self._on_goal_reached(state, g_state, <span class="g">len</span>(self._solutions)):
+    self._active_goals.clear()  <span class="c"># header halts next iter</span>
+    <span class="k">continue</span></pre>
+  </div>
+</div>
+<p class="muted"><code>stop: Callable | None = None</code> on <code>AlgoOMSPP.__init__</code>; a quota is just
+<code>stop = lambda n, *_: n &gt;= r</code>. Default <code>None</code> → both algorithms behave exactly as today.
+The hook seam stays open for richer behavioral variants (study B).</p>
+
+<!-- 4 · DECISION MATRIX -->
+<h2><span class="n">4</span>Why this beats the alternatives</h2>
+<table>
+<thead><tr>
+  <th>Approach</th><th class="c">hot-path Δ<br>(normal runs)</th><th class="c">new<br>types</th>
+  <th class="c">loop<br>dup</th><th class="c">explodes ×<br>4 algos × orders</th>
+  <th class="c">earns a<br>type?</th><th class="c"></th></tr></thead>
+<tbody>
+  <tr><td>Subclass overrides <code>_run()</code></td><td class="c">0</td><td class="c">+1 / algo</td>
+      <td class="c"><span class="no">full copy</span></td><td class="c"><span class="no">yes</span></td>
+      <td class="c"><span class="no">no asym.</span></td><td class="c"><span class="no">✗</span></td></tr>
+  <tr><td>Thin subclass overrides hook only</td><td class="c">0</td><td class="c">+1 / algo</td>
+      <td class="c"><span class="yes">none</span></td><td class="c"><span class="no">yes</span></td>
+      <td class="c"><span class="no">no asym.</span></td><td class="c"><span class="may">✗ type bloat</span></td></tr>
+  <tr><td><code>Stoppable</code> mixin</td><td class="c">0</td><td class="c">+1 mixin</td>
+      <td class="c"><span class="yes">none</span></td><td class="c"><span class="yes">no</span></td>
+      <td class="c"><span class="no">no asym.</span></td><td class="c"><span class="may">~ rejected 06-21</span></td></tr>
+  <tr class="win"><td><b>Hook + <code>stop</code> param on base</b></td><td class="c"><b>0</b></td>
+      <td class="c"><b>0</b></td><td class="c"><span class="yes">none</span></td>
+      <td class="c"><span class="yes">no</span></td><td class="c">n/a</td><td class="c"><span class="yes">✓</span></td></tr>
+  <tr><td><code>can_terminate()</code> in loop header</td><td class="c"><span class="no">+1 call/pop</span></td>
+      <td class="c">—</td><td class="c">—</td><td class="c">—</td><td class="c">—</td>
+      <td class="c"><span class="no">✗ breaks Q1</span></td></tr>
+</tbody>
+</table>
+<p class="muted">A subclass only avoids duplication <i>because</i> the base exposes the hook — so the base
+changes either way. Given that, a quota (orthogonal, identical across all algos, <b>no asymmetry</b>) is a
+param, not a type. <code>ExtendableOMSPP</code> earned a mixin because AGG genuinely opts out; nothing opts
+out of stopping.</p>
+
+<!-- 5 · DIVIDING LINE -->
+<h2><span class="n">5</span>The dividing line — predicate vs behavior</h2>
+<figure>
+<svg viewBox="0 0 760 250" role="img" aria-label="Predicate features use a param; behavioral features use a mixin">
+  <rect x="0" y="0" width="760" height="250" fill="#11161d" rx="10"/>
+  <line x1="380" y1="24" x2="380" y2="226" stroke="#30363d" stroke-width="1.2" stroke-dasharray="3 5"/>
+
+  <!-- LEFT: predicate -->
+  <text x="200" y="44" fill="#3fb950" font-size="13" font-family="monospace" font-weight="bold" text-anchor="middle">PREDICATE — WHEN to halt</text>
+  <g font-family="monospace" font-size="12" fill="#cdd9e5" text-anchor="middle">
+    <text x="200" y="78">quota r  (need any r of k)</text>
+    <text x="200" y="102">any-of-subset S</text>
+    <text x="200" y="126">cost / time cap</text>
+  </g>
+  <rect x="46" y="150" width="308" height="56" rx="9" fill="#0f1a12" stroke="#3fb950"/>
+  <text x="200" y="175" fill="#7ee787" font-size="12" font-family="monospace" text-anchor="middle">→ one param `stop` through the base hook</text>
+  <text x="200" y="194" fill="#9aa7b4" font-size="11.5" font-family="monospace" text-anchor="middle">zero new types · all 4 algos uniformly</text>
+
+  <!-- RIGHT: behavior -->
+  <text x="562" y="44" fill="#d2a8ff" font-size="13" font-family="monospace" font-weight="bold" text-anchor="middle">BEHAVIOR — WHAT it does</text>
+  <g font-family="monospace" font-size="12" fill="#cdd9e5" text-anchor="middle">
+    <text x="562" y="78">online goal removal  (cancel active)</text>
+    <text x="562" y="102">reorder  (nearest-first / online-min)</text>
+    <text x="562" y="126">re-Φ over the shrunk active set</text>
+  </g>
+  <rect x="406" y="150" width="308" height="56" rx="9" fill="#171320" stroke="#d2a8ff"/>
+  <text x="562" y="175" fill="#d2a8ff" font-size="12" font-family="monospace" text-anchor="middle">→ mixin / subclass overriding hooks</text>
+  <text x="562" y="194" fill="#9aa7b4" font-size="11.5" font-family="monospace" text-anchor="middle">study B · a real new capability</text>
+
+  <text x="200" y="232" fill="#ffb454" font-size="11.5" font-family="monospace" text-anchor="middle">◄ quota / early-stop lives here</text>
+</svg>
+<figcaption>Quota-stop changes <i>when</i> the search halts → a predicate. Online removal / reordering
+change <i>what</i> the search does → a real behavioral fork (the place a subclass/mixin is warranted).</figcaption>
+</figure>
+
+<footer>
+  f_hs/experiments/omspp/goal_removal · DESIGN.html · 2026-06-25 ·
+  early-stop = cold-site hook + optional `stop` param on AlgoOMSPP · no new algo classes ·
+  companion to PLAN.html (§8 decision #3) · status: awaiting OK to scaffold
+</footer>
+
+</div>
+</body>
+</html>

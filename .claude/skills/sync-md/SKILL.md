@@ -39,7 +39,7 @@ changes" = find where the code and its `CLAUDE.md` diverge.
    the code.
 
 3. **Update each divergent folder's `CLAUDE.md`** to match the current
-   code, following `f_claude/instructions/for_claude_md.md` (5 mandatory
+   code, following `.claude/instructions/docs/for_claude_md.md` (5 mandatory
    sections: Purpose, Public API, Inheritance, Dependencies, Usage
    example). Create it if missing. Fix only what diverged; stay accurate
    to the code — never invent. Remove or repoint stale (renamed/deleted)

@@ -18,14 +18,13 @@ class StateCell(StateBase[Cell]):
         """
         StateBase.__init__(self, key=key)
 
-    @property
-    def rc(self) -> tuple[int, int]:
+    def to_tuple(self) -> tuple[int, int]:
         """
         ====================================================================
          Return (Row, Col) of the underlying Cell.
         ====================================================================
         """
-        return self.key.rc
+        return self.key.to_tuple()
 
     def distance(self, other: Self) -> int:
         """

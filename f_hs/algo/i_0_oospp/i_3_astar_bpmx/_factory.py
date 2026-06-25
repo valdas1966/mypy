@@ -133,7 +133,7 @@ class Factory:
         beacon = None
         while q:
             s = q.popleft()
-            if s.rc == (0, 1):
+            if s.to_tuple() == (0, 1):
                 beacon = s
                 break
             for succ in problem.successors(s):
@@ -213,7 +213,7 @@ class Factory:
         beacon = None
         while q:
             s = q.popleft()
-            if s.rc == (1, 0):
+            if s.to_tuple() == (1, 0):
                 beacon = s
                 break
             for succ in problem.successors(s):

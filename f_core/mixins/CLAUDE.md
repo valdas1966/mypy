@@ -9,7 +9,7 @@ size/validity, and property injection (name, key, position).
 
 ```python
 from f_core.mixins import (
-    Sizable, Dictable, Equatable, Comparable, Hashable,
+    Sizable, Dictable, Tupleable, Equatable, Comparable, Hashable,
     Validatable, ValidatableMutable,
     HasKey, HasName, HasRowCol, HasRowsCols
 )
@@ -25,6 +25,7 @@ f_core/mixins/
 ├── hashable/                   Hashable — __hash__ via key
 ├── sizable/                    Sizable — __len__ + __bool__
 ├── dictable/                   Dictable[K, V] — dict-like wrapper
+├── tupleable/                  Tupleable — value-record (eq/order/hash/iter via to_tuple)
 ├── validatable/                Validatable — immutable __bool__
 ├── validatable_mutable/        ValidatableMutable — mutable validity
 └── has/                        Has* property mixins (6 submodules)
@@ -45,12 +46,13 @@ f_core/mixins/
 | `hashable` | `Hashable` | `Equatable` | `__hash__` via `key` |
 | `sizable` | `Sizable` | `Sized` | Abstract `__len__`, concrete `__bool__` |
 | `dictable` | `Dictable[K, V]` | `Sizable`, `Generic[K, V]` | Dict-like wrapper with `__getitem__`, iteration |
+| `tupleable` | `Tupleable` | `Comparable`, `Hashable`, `HasRepr` | Value-record: `==`/`<`/`hash`/`iter`/`[]`/`len` all via abstract `to_tuple()`; immutable by contract |
 | `validatable` | `Validatable` | (none) | Immutable `__bool__` from constructor |
 | `validatable_mutable` | `ValidatableMutable` | `Validatable` | `set_valid()`, `set_invalid()` |
 | `has/key` | `HasKey[Key]` | `Comparable`, `Hashable`, `HasRepr` | Generic typed key identity |
 | `has/name` | `HasName` | (none) | String name + `str()`/`repr()` |
-| `has/row_col` | `HasRowCol` | `Comparable`, `Hashable` | Position, neighbors, distance |
-| `has/rows_cols` | `HasRowsCols` | `Comparable`, `Hashable` | Dimensions, shape, `len()` |
+| `has/row_col` | `HasRowCol` | `Tupleable` | Position, neighbors, distance |
+| `has/rows_cols` | `HasRowsCols` | (none) | Dimensions, shape, `len()` — standalone, no identity |
 | `has/children` | `HasChildren` | (none) | Children list, `add_child()` |
 | `has/parent` | `HasParent` | (none) | Parent ref, `path_from_root()` |
 
@@ -61,8 +63,8 @@ SupportsEquality (Protocol)
  └── Equatable ─── __eq__ via key
       ├── Comparable (+ SupportsComparison) ─── __lt__, __le__, __gt__, __ge__
       │    ├── HasKey[Key](+ Hashable, HasRepr) ─── generic key identity
-      │    ├── HasRowCol(+ Hashable) ─── (row, col) position
-      │    └── HasRowsCols(+ Hashable) ─── (rows, cols) dimensions
+      │    └── Tupleable(+ Hashable, HasRepr) ─── value-record; key = to_tuple()
+      │         └── HasRowCol ─── (row, col) position
       └── Hashable ─── __hash__ via key
 
 Sized (collections.abc)
@@ -75,6 +77,7 @@ Validatable ─── immutable __bool__
 HasChildren ─── standalone
 HasName ─── standalone
 HasParent ─── standalone
+HasRowsCols ─── standalone (dimensions: rows/cols/shape/len; no identity)
 ```
 
 ## Composition Patterns

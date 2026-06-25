@@ -58,6 +58,16 @@ def test_key() -> None:
     assert twelve.key == (1, 2)
     
     
+def test_to_tuple() -> None:
+    """
+    ========================================================================
+     Test the to_tuple() method.
+    ========================================================================
+    """
+    twelve = HasRowCol.Factory.twelve()
+    assert twelve.to_tuple() == (1, 2)
+
+
 def test_neighbors() -> None:
     """
     ========================================================================

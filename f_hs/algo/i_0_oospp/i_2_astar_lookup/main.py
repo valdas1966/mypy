@@ -160,40 +160,28 @@ class AStarLookup(Generic[State], AStar[State]):
         """
         ====================================================================
          Extends `AlgoSPP._memory_snapshot()` with two
-         AStarLookup-specific contributors that walk the
-         heuristic chain at end-of-search:
+         AStarLookup-specific node tables, counted in NODES by
+         walking the heuristic chain at end-of-search:
 
-           - `mem_cache`  : HCached `_cache` dict + per-entry
-                            CacheEntry overhead + the
-                            `h_perfect` float in each entry.
-                            (CacheEntry's `suffix_next` is a
-                            shared State ref — NOT counted.)
-           - `mem_bounds` : HBounded `_bounds` dict + per-value
-                            float overhead. (Keys are shared
-                            State refs — NOT counted.)
+           - `mem_cache`  : |HCached table| — number of cached
+                            States (`len` of the cache dict).
+           - `mem_bounds` : |HBounded table| — number of
+                            bounded States.
 
          Reports 0 for layers not present in the chain — e.g.,
          a no-cache run still has `mem_cache=0` so the schema
          stays uniform across all AStarLookup instances.
         ====================================================================
         """
-        import sys
         snap = super()._memory_snapshot()
         snap['mem_cache'] = 0
         snap['mem_bounds'] = 0
         cur = self._h
         while cur is not None:
             if isinstance(cur, HCached):
-                m = sys.getsizeof(cur._cache)
-                for entry in cur._cache.values():
-                    m += sys.getsizeof(entry)
-                    m += sys.getsizeof(entry.h_perfect)
-                snap['mem_cache'] = m
+                snap['mem_cache'] = len(cur._cache)
             if isinstance(cur, HBounded):
-                m = sys.getsizeof(cur._bounds)
-                m += sum(sys.getsizeof(v)
-                         for v in cur._bounds.values())
-                snap['mem_bounds'] = m
+                snap['mem_bounds'] = len(cur._bounds)
             cur = getattr(cur, '_base', None)
         return snap
 

@@ -2,7 +2,12 @@
 
 ## Purpose
 
-Immutable generic container for rectangular bounds defined by four coordinates `(top, left, bottom, right)`. Generic over `int` or `float`. Validates that `top <= bottom` and `left <= right` at construction time. Used as the fundamental coordinate primitive for 2D positioning throughout the framework.
+Immutable generic container for rectangular bounds defined by four coordinates `(top, left, bottom, right)`. Generic over `int` or `float`. Used as the fundamental coordinate primitive for 2D positioning throughout the framework.
+
+Inherits `Tupleable`, so identity, ordering, hashing and unpacking all
+derive from `(top, left, bottom, right)` — two `Bounds` with the same
+four coordinates are equal and hash-equal, usable as set members / dict
+keys, and unpack as `t, l, b, r = bounds`.
 
 ## Public API
 
@@ -63,7 +68,8 @@ rectangle. `TOP`/`BOTTOM` → horizontal center on that edge; `LEFT`/`RIGHT`
 ```python
 def to_tuple(self) -> tuple[T, T, T, T]
 ```
-Returns `(top, left, bottom, right)` as a tuple.
+Returns `(top, left, bottom, right)` as a tuple — the single `Tupleable`
+method; also drives `key`, identity, ordering and iteration.
 
 ### Dunder Methods
 
@@ -75,25 +81,34 @@ Returns `'(top, left, bottom, right)'` — e.g. `'(0, 0, 100, 100)'`.
 ```python
 def __repr__(self) -> str
 ```
-Returns `'<Bounds: Top=0, Left=0, Bottom=100, Right=100>'`.
+Returns `'<Bounds: Top=0, Left=0, Bottom=100, Right=100>'` — a richer
+override kept in place of `Tupleable`/`HasRepr`'s default.
+
+```python
+def __eq__ / __lt__ / __hash__          # via Tupleable, on the 4-tuple
+def __iter__ / __getitem__ / __len__    # via Tupleable: t,l,b,r = bounds; bounds[0]; len==4
+```
 
 ## Inheritance (Hierarchy)
 
 ```
-Generic[T]
- └── Bounds[T]  # T: int | float
+Tupleable (eq + order + hash + iter via to_tuple)   Generic[T]
+        └─────────────────────┬──────────────────────┘
+                          Bounds[T]   # T: int | float
 ```
 
 | Base | Responsibility |
 |------|----------------|
+| `Tupleable` | Identity, ordering, hashing, iteration via `to_tuple()` |
 | `Generic[T]` | Type parameterization — constrains `T` to `int` or `float` |
 
-No mixins. Pure immutable data container.
+Immutable value-record (the `Tupleable` immutability contract holds).
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
+| `f_core.mixins.Tupleable` | Identity / ordering / hashing / iteration via `to_tuple()` |
 | `typing.Generic` | Generic type parameterization |
 | `typing.TypeVar` | Defines `T` constrained to `int`, `float` |
 | `f_ds.geometry.point.Point` | Return type of `anchor()` |

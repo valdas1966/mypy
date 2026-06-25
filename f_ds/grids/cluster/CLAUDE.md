@@ -9,14 +9,13 @@ refactor.
 ## Package Exports
 
 ```python
-from f_ds.grids.cluster import (
-    ClusterGrid, ClusterDiamond, PairCluster)
+from f_ds.grids.cluster import ClusterGrid, ClusterDiamond
 ```
 
 Also re-exported from `f_ds.grids` for convenience:
 
 ```python
-from f_ds.grids import ClusterGrid, ClusterDiamond, PairCluster
+from f_ds.grids import ClusterGrid, ClusterDiamond
 ```
 
 ## Module Hierarchy
@@ -27,12 +26,7 @@ f_ds/grids/cluster/
 ├── i_0_base/            abstract ClusterGrid
 │   ├── main.py
 │   └── __init__.py
-├── i_1_diamond/         ClusterDiamond (Manhattan ball)
-│   ├── main.py
-│   ├── _factory.py
-│   ├── _tester.py
-│   └── __init__.py
-└── pair/                PairCluster[T]
+└── i_1_diamond/         ClusterDiamond (Manhattan ball)
     ├── main.py
     ├── _factory.py
     ├── _tester.py

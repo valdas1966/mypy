@@ -182,11 +182,16 @@ free-on-close + region-attribution --- so there is no separate
 `mem_aux` key; like the rest of `mem_open` it is read at its
 end-of-search size, 2026-06-12.)
 
-For the **single-search OOSPP** byte algos the OPEN-region
-count comes from `FrontierBase.max_size` (lifetime high-water
-mark, updated by `_track_max_size()` on every push), because a
-single search drains its frontier and the end snapshot would
-understate the peak. The **OMSPP orchestrators**
+For the **single-search OOSPP** algos (**node counts** since
+2026-06-25 — `sys.getsizeof` byte accounting dropped as
+non-reproducible CPython noise, unifying OOSPP with the MOSPP
+metric below) the OPEN-region count comes from
+`FrontierBase.max_size` (lifetime high-water mark, updated by
+`_track_max_size()` on every push), because a single search
+drains its frontier and the end snapshot would understate the
+peak; `mem_closed = len(closed)` at end. g / parent are not
+counted as separate regions — a stored node is represented by
+its OPEN / CLOSED membership. The **OMSPP orchestrators**
 (`AlgoOMSPP._sync_memory_snapshot`: KAStarInc / KAStarAgg /
 KBFS / KDijkstra) instead read OPEN at **end of search**
 (`len(frontier)`, 2026-06-12): their shared frontier is never
@@ -221,6 +226,7 @@ by structure:
   `len(closed)` from `_inner.search_state` at completion.
 
 The `max_size` peak rule now governs only the single-search
-OOSPP byte algos; the OMSPP orchestrators
-(`AlgoOMSPP._sync_memory_snapshot`) use the end-of-search byte
-snapshot (2026-06-12), aligning them with this MOSPP rule.
+OOSPP node-count algos; the OMSPP orchestrators
+(`AlgoOMSPP._sync_memory_snapshot`) still use the end-of-search
+**byte** snapshot (2026-06-12) — the remaining byte holdout,
+pending the same node-count migration OOSPP received 2026-06-25.

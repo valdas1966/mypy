@@ -139,7 +139,7 @@ def test_counters_cached() -> None:
     sol = algo.run()
     assert sol.cost == 7
     assert algo.search_state.cache_hit is not None
-    assert algo.search_state.cache_hit.rc == (1, 1)
+    assert algo.search_state.cache_hit.to_tuple() == (1, 1)
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
     assert counters == {
@@ -286,7 +286,7 @@ def test_counters_bounded_propagated_depth_1() -> None:
 
     # depth=1 — wave 0 only; cap stops before wave 1.
     updates = algo.propagate_pathmax(depth=1)
-    assert {s.rc: int(v) for s, v in updates.items()} == {
+    assert {s.to_tuple(): int(v) for s, v in updates.items()} == {
         (0, 1): 6,
         (1, 0): 6,
     }
@@ -345,7 +345,7 @@ def test_counters_bounded_propagated_depth_2() -> None:
 
     # depth=2 — waves 0 + 1; cap stops before wave 2.
     updates = algo.propagate_pathmax(depth=2)
-    assert {s.rc: int(v) for s, v in updates.items()} == {
+    assert {s.to_tuple(): int(v) for s, v in updates.items()} == {
         (0, 1): 6,
         (1, 0): 6,
         (1, 1): 5,
@@ -416,7 +416,7 @@ def test_counters_bounded_propagated_depth_3() -> None:
     # depth=3 — waves 0 + 1 + 2; loop exits via empty
     # sources (NOT the depth cap) before iter=3.
     updates = algo.propagate_pathmax(depth=3)
-    assert {s.rc: int(v) for s, v in updates.items()} == {
+    assert {s.to_tuple(): int(v) for s, v in updates.items()} == {
         (0, 1): 6,
         (1, 0): 6,
         (1, 1): 5,

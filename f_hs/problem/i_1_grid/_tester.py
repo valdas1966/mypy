@@ -9,7 +9,7 @@ def test_start() -> None:
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_3x3()
-    assert problem.start.rc == (0, 0)
+    assert problem.start.to_tuple() == (0, 0)
 
 
 def test_goal() -> None:
@@ -19,7 +19,7 @@ def test_goal() -> None:
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_3x3()
-    assert problem.goal.rc == (2, 2)
+    assert problem.goal.to_tuple() == (2, 2)
 
 
 def test_successors() -> None:
@@ -30,7 +30,7 @@ def test_successors() -> None:
     """
     problem = ProblemGrid.Factory.grid_3x3()
     children = problem.successors(problem.start)
-    keys = {s.rc for s in children}
+    keys = {s.to_tuple() for s in children}
     assert keys == {(0, 1), (1, 0)}
 
 

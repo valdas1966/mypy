@@ -24,18 +24,20 @@ def row(self) -> int
 
 @property
 def col(self) -> int
-
-@property
-def rc(self) -> tuple[int, int]
-
-@property
-def key(self) -> tuple[int, int]
 ```
-`rc` returns `(row, col)` as a tuple. `key` delegates to `rc` —
-row-major order. Satisfies the abstract `key` contract from
-`Comparable` and `Hashable`.
+`key` is **not** defined here — it is inherited from `Tupleable`
+(`key == to_tuple()`, row-major order), which drives equality, ordering
+and hashing.
 
 ### Methods
+```python
+def to_tuple(self) -> tuple[int, int]
+```
+Returns `(row, col)` as a tuple — the data-tuple accessor shared with
+`Point.to_tuple()` / `Pair.to_tuple()` (renamed from the old `rc`
+property 2026-06-24). Note the order is `(row, col)`, i.e. the
+constructor args — *not* `(x, y)`.
+
 ```python
 def neighbors(self) -> list[Self]
 ```
@@ -66,40 +68,31 @@ def __str__(self) -> str       # '(row,col)'
 def __repr__(self) -> str      # '<HasRowCol: Row=1, Col=2>'
 ```
 
-### Inherited
+### Inherited from `Tupleable`
 ```python
-def __eq__(self, other: object) -> bool   # from Equatable
-def __lt__(self, other: object) -> bool   # from Comparable
-def __le__(self, other: object) -> bool   # from Comparable
-def __gt__(self, other: object) -> bool   # from Comparable
-def __ge__(self, other: object) -> bool   # from Comparable
-def __hash__(self) -> int                 # from Hashable
+def __eq__ / __lt__ / __le__ / __gt__ / __ge__   # compare the (row, col) tuple
+def __hash__(self) -> int                         # hash the (row, col) tuple
+def __iter__ / __getitem__ / __len__              # r, c = cell; cell[0]; len == 2
 ```
-All delegate to `self.key` — the `(row, col)` tuple.
+All delegate to `self.key` (= `to_tuple()`) — the `(row, col)` tuple.
 
 ## Inheritance (Hierarchy)
 
 ```
-SupportsEquality (Protocol)
- └── Equatable ─── __eq__ via key
-      ├── Comparable (+ SupportsComparison) ─── __lt__, __le__, __gt__, __ge__
-      └── Hashable ─── __hash__ via key
-           └── HasRowCol(Comparable, Hashable)
-                └── key = (row, col)
+Tupleable (Comparable, Hashable, HasRepr) ─── key = to_tuple()
+ └── HasRowCol(Tupleable)
+      └── to_tuple() = (row, col)
 ```
 
 | Base | Responsibility |
 |------|----------------|
-| `Equatable` | Abstract `key` property, concrete `__eq__` |
-| `Comparable` | Comparison operators via `key` |
-| `Hashable` | `__hash__` via `hash(self.key)` |
+| `Tupleable` | Equality, ordering, hashing, iteration, indexing — all via `to_tuple()` |
 
 ## Dependencies
 
 | Import | Purpose |
 |--------|---------|
-| `f_core.mixins.comparable.Comparable` | Base — ordering operators |
-| `f_core.mixins.hashable.Hashable` | Base — hashing |
+| `f_core.mixins.tupleable.Tupleable` | Identity / ordering / hashing / iteration via `to_tuple()` |
 | `f_core.protocols.rect_like.RectLike` | Protocol for `is_within()` rect param |
 | `typing.Self` | Self-type for `neighbors()`, `distance()` |
 

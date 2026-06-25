@@ -8,7 +8,6 @@ if TYPE_CHECKING:
     from f_ds.grids.cell import CellMap
     from f_ds.grids.cluster import ClusterGrid
     from f_ds.grids.cluster import ClusterDiamond
-    from f_ds.grids.cluster import PairCluster
 
 ULazy.install(globals(), {
     'GridBase': 'f_ds.grids.grid:GridBase',
@@ -16,5 +15,4 @@ ULazy.install(globals(), {
     'CellMap': 'f_ds.grids.cell:CellMap',
     'ClusterGrid': 'f_ds.grids.cluster:ClusterGrid',
     'ClusterDiamond': 'f_ds.grids.cluster:ClusterDiamond',
-    'PairCluster': 'f_ds.grids.cluster:PairCluster',
 })

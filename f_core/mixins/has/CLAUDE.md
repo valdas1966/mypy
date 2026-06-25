@@ -42,24 +42,29 @@ f_core/mixins/has/
 | `key` | `HasKey[Key]` | `Comparable`, `Hashable`, `HasRepr`, `Generic[Key]` | Typed key as identity |
 | `name` | `HasName` | (none) | String name as identity |
 | `parent` | `HasParent` | (none) | Parent ref, `path_from_root()` |
-| `row_col` | `HasRowCol` | `Comparable`, `Hashable` | Cell position, neighbors, distance |
-| `rows_cols` | `HasRowsCols` | `Comparable`, `Hashable` | Shape dimensions, `is_within()`, `len()` |
+| `row_col` | `HasRowCol` | `Tupleable` | Cell position, neighbors, distance |
+| `rows_cols` | `HasRowsCols` | (none) | Shape dimensions, `is_within()`, `len()` — standalone, **no identity** |
 
 ## Inheritance Patterns
 
-### Identity Mixins (HasKey, HasRowCol, HasRowsCols)
+### Identity Mixins (HasKey, HasRowCol)
 ```
 Equatable (abstract key, __eq__)
- ├── Comparable (@total_ordering, __lt__)
+ ├── Comparable (__lt__ … via key)
  └── Hashable (__hash__ via key)
-      └── HasKey / HasRowCol / HasRowsCols
+      ├── HasKey(+ HasRepr)
+      └── Tupleable(+ HasRepr) ── key = to_tuple()
+           └── HasRowCol
 ```
 
-### Standalone Mixins (HasChildren, HasName, HasParent)
+### Standalone Mixins (HasChildren, HasName, HasParent, HasRowsCols)
 ```
 HasChildren  — no bases
 HasName      — no bases
 HasParent    — no bases
+HasRowsCols  — no bases (dimensions: rows/cols/shape/len; no identity —
+               its consumers Grid/Container/Range hold contents and must
+               keep object identity, so it is NOT a Tupleable)
 ```
 
 ## Dependencies

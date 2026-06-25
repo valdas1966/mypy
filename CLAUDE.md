@@ -1,34 +1,48 @@
 # MyPy Framework — Coding Conventions
 
 This file is the **hub**: the always-loaded introduction and conventions
-index. Detailed, task-specific procedures live in `f_claude/instructions/`
+index. Detailed, task-specific procedures live in `.claude/instructions/`
 — read the relevant guide **before** starting that task.
 
 ## Task-Specific Guides
 
-When you are about to do one of these tasks, read its guide in
-`f_claude/instructions/` first (this index is the map; each section below
-also links its guide inline):
+When you are about to do one of these tasks, read its guide under
+`.claude/instructions/` first (this index is the map; each section below
+also links its guide inline). Guides live in three folders — `code/`
+(how to write MyPy code), `docs/` (generating CLAUDE/ABOUT docs), and
+`meta/` (external tools, formats, reference):
 
-| About to… | Read (`f_claude/instructions/`) |
+**`code/` — writing code**
+
+| About to… | Read |
 |---|---|
-| Add or update a `CLAUDE.md` | `for_claude_md.md` |
-| Generate `CLAUDE.html` | `for_claude_html.md` |
-| Generate `CLAUDE_REVIEW.html` | `for_claude_review.md` |
-| Generate `ABOUT.html` | `for_about_html.md` |
-| Write or edit a skill | `for_skill.md` |
-| Write new code (reuse-first check) / build a class | `for_new_class.md` |
-| Name a folder / file / class / var (prefixes, case) | `for_naming.md` |
-| Write a docstring / inline comment (`=`-separator) | `for_docstrings.md` |
-| Format code / annotate types / clean-code statements | `for_code_style.md` |
-| Apply a design pattern | `for_patterns.md` |
-| Write tests (`_tester.py`) | `for_testing.md` |
-| Write imports / an `__init__.py` | `for_imports.md` |
-| Lay out a module (folders, file roles) | `for_structure.md` |
-| Add logging to a module | `for_logging.md` |
-| Look up a domain abbreviation | `for_glossary.md` |
-| Do any Google Drive operation | `for_drive.md` |
-| Write or edit LaTeX (`.tex`) | `for_tex.md` |
+| Write new code (reuse-first check) / build a class | `code/for_new_class.md` |
+| Name a folder / file / class / var (prefixes, case) | `code/for_naming.md` |
+| Write a docstring / inline comment (`=`-separator) | `code/for_docstrings.md` |
+| Format code / annotate types / clean-code statements | `code/for_code_style.md` |
+| Apply a design pattern | `code/for_patterns.md` |
+| Write tests (`_tester.py`) | `code/for_testing.md` |
+| Write imports / an `__init__.py` | `code/for_imports.md` |
+| Lay out a module (folders, file roles) | `code/for_structure.md` |
+| Add logging to a module | `code/for_logging.md` |
+
+**`docs/` — CLAUDE & ABOUT documentation**
+
+| About to… | Read |
+|---|---|
+| Add or update a `CLAUDE.md` | `docs/for_claude_md.md` |
+| Generate `CLAUDE.html` | `docs/for_claude_html.md` |
+| Generate `CLAUDE_REVIEW.html` | `docs/for_claude_review.md` |
+| Generate `ABOUT.html` | `docs/for_about_html.md` |
+
+**`meta/` — tools, formats, reference**
+
+| About to… | Read |
+|---|---|
+| Write or edit a skill | `meta/for_skill.md` |
+| Do any Google Drive operation | `meta/for_drive.md` |
+| Write or edit LaTeX (`.tex`) | `meta/for_tex.md` |
+| Look up a domain abbreviation | `meta/for_glossary.md` |
 
 ---
 
@@ -47,14 +61,14 @@ depth (`i_0_` = abstract base). Each class module holds a subset of a
 standard file set (`main.py`, `__init__.py`, `_factory.py`, `_tester.py`,
 `_from.py`, `_to.py`, `CLAUDE.md`, …; `_`-prefixed = private). Full
 hierarchy diagram + file-role table:
-`f_claude/instructions/for_structure.md`.
+`.claude/instructions/code/for_structure.md`.
 
 ---
 
 ## Naming Conventions
 
 Full prefix tables + finer rules:
-`f_claude/instructions/for_naming.md`. Essentials:
+`.claude/instructions/code/for_naming.md`. Essentials:
 
 - **Folders**: `f_` framework module, `i_X_` inheritance level
   (`i_0_` = abstract base), `_internal/` private helpers, (none) =
@@ -75,7 +89,7 @@ Full prefix tables + finer rules:
 ## Docstring Conventions
 
 Width table + worked examples:
-`f_claude/instructions/for_docstrings.md`. Essentials:
+`.claude/instructions/code/for_docstrings.md`. Essentials:
 
 - `=`-separator docstrings; the `=` count keeps total width at 80, so it
   shrinks with indentation: module 80 / class 76 / method 72.
@@ -86,7 +100,7 @@ Width table + worked examples:
 ## Code Style
 
 Worked examples, class-definition order, full clean-code rule:
-`f_claude/instructions/for_code_style.md`. Essentials:
+`.claude/instructions/code/for_code_style.md`. Essentials:
 
 ### Type Annotations
 - Annotate all params and returns; `-> None` when returning nothing.
@@ -112,7 +126,7 @@ Worked examples, class-definition order, full clean-code rule:
 
 ## Design Patterns
 
-Full examples: `f_claude/instructions/for_patterns.md` — read it before
+Full examples: `.claude/instructions/code/for_patterns.md` — read it before
 applying one. The canonical patterns:
 
 - **Factory** — class declares `Factory: type = None`; the real Factory
@@ -137,7 +151,7 @@ applying one. The canonical patterns:
 Before writing **any** new code, run this 3-tier check in order. It is a
 pre-coding gate, same category as *Clarify Before Acting*. Full procedure
 for classes (tables, rule-of-three, decision cheat-sheet):
-`f_claude/instructions/for_new_class.md`.
+`.claude/instructions/code/for_new_class.md`.
 
 1. **Reuse first** — if the capability already exists in the codebase
    (`f_core/mixins/`, `f_core/recorder/`, `f_ds/`, `f_psl/`, or any
@@ -160,7 +174,7 @@ for classes (tables, rule-of-three, decision cheat-sheet):
 ## Testing Conventions
 
 Tests live in `_tester.py` alongside `main.py` (pytest). Full
-conventions and examples: `f_claude/instructions/for_testing.md`.
+conventions and examples: `.claude/instructions/code/for_testing.md`.
 Essentials:
 
 - Test functions `test_<method_name>()`; each has a `=`-separator
@@ -174,7 +188,7 @@ Essentials:
 ## Import Conventions
 
 Full guide (aggregator vs direct, `ULazy`, `__init__.py` patterns):
-`f_claude/instructions/for_imports.md`. Essentials:
+`.claude/instructions/code/for_imports.md`. Essentials:
 
 - **Import order (PEP 8):** stdlib → third-party → framework, groups
   blank-line separated; absolute imports throughout.
@@ -187,7 +201,7 @@ Full guide (aggregator vs direct, `ULazy`, `__init__.py` patterns):
 ## Domain Abbreviations
 
 Domain abbreviations (SPP, OMSPP, MMSPP, BFS, HS, DS, CS, PSL, GUI) are
-defined in `f_claude/instructions/for_glossary.md`.
+defined in `.claude/instructions/meta/for_glossary.md`.
 
 ---
 
@@ -196,7 +210,7 @@ defined in `f_claude/instructions/for_glossary.md`.
 - Python 3.13+ (Conda)
 - Testing: pytest
 - Logging: `f_log` — module-level `_log = get_log(__name__)`; full
-  convention: `f_claude/instructions/for_logging.md`
+  convention: `.claude/instructions/code/for_logging.md`
 - No linter config — follows PEP 8 by convention
 - Package name: `MyPy`
 
@@ -205,10 +219,10 @@ defined in `f_claude/instructions/for_glossary.md`.
 ## CLAUDE Documentation Rule
 
 ### Auto-update: CLAUDE.md
-Every code change MUST update the `CLAUDE.md` file in each folder that contains at least one changed file. Follow `f_claude/instructions/for_claude_md.md`. If `CLAUDE.md` does not exist in the folder, create it.
+Every code change MUST update the `CLAUDE.md` file in each folder that contains at least one changed file. Follow `.claude/instructions/docs/for_claude_md.md`. If `CLAUDE.md` does not exist in the folder, create it.
 
 ### On demand: CLAUDE.html and CLAUDE_REVIEW.html
-`CLAUDE.html` and `CLAUDE_REVIEW.html` are generated **only when the user explicitly requests** them. These files are for human reading — Claude reads only `CLAUDE.md`. Follow `for_claude_html.md` / `for_claude_review.md` (and `for_about_html.md` for `ABOUT.html`); those guides cover the visual style and the AI-generated-image workflow.
+`CLAUDE.html` and `CLAUDE_REVIEW.html` are generated **only when the user explicitly requests** them. These files are for human reading — Claude reads only `CLAUDE.md`. Follow `docs/for_claude_html.md` / `docs/for_claude_review.md` (and `docs/for_about_html.md` for `ABOUT.html`); those guides cover the visual style and the AI-generated-image workflow.
 
 ### Scope: Which folders get CLAUDE files
 CLAUDE files are required **only** for folders containing class modules or utility modules:
@@ -228,7 +242,7 @@ Suggestions from `CLAUDE_REVIEW.html` must be presented as a plan first. Only ap
 
 ## Google Drive
 
-Full operations guide: `f_claude/instructions/for_drive.md`. Open with
+Full operations guide: `.claude/instructions/meta/for_drive.md`. Open with
 `Drive.Factory.valdas()` (VALDAS OAuth). Non-negotiable rules:
 
 - **Read Drive `Instructions/` first** — before ANY Drive op, read the
@@ -243,7 +257,7 @@ Full operations guide: `f_claude/instructions/for_drive.md`. Open with
 
 ## LaTeX Files
 
-Full conventions: `f_claude/instructions/for_tex.md` (local) and Drive
+Full conventions: `.claude/instructions/meta/for_tex.md` (local) and Drive
 `Instructions/For_Tex.md` (authoritative — read first; Drive wins).
 
 Hard requirement: every `.tex` created or edited under this project
@@ -267,7 +281,7 @@ skills are the authoritative workflows — triggers and steps live in their
 ## Writing Skills
 
 Before creating or editing **any** skill (`.claude/skills/<name>/SKILL.md`),
-read `f_claude/instructions/for_skill.md` first. It is the authoritative
+read `.claude/instructions/meta/for_skill.md` first. It is the authoritative
 guide for skill content.
 
 Core rule: a `SKILL.md` must be the **most minimal text that still passes

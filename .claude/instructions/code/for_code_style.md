@@ -1,20 +1,15 @@
 # Instruction to AI Agent: Code Style
 
 ## Type Annotations
-- Annotate all function parameters and return types.
-- Use `-> None` for methods that return nothing.
-- Use modern union syntax: `type | None` (not `Optional`).
-- Use lowercase generics: `dict[str, Any]`, `tuple[int, int]`,
-  `list[str]`.
-- Prefer `typing.Self` (PEP 673) over the literal class name when
-  annotating the enclosing class's own instances:
-  - **Returns** of fluent/`copy`/`classmethod`-constructor methods —
-    `-> Self`.
-  - **Same-type params** of domain/relationship methods — `other: Self`
-    in `distance(self, other: Self) -> int`, `child: Self` in
-    `add_child`, `parent: Self | None` in `__init__`.
-  - **Exception**: comparison/equality dunders (`__lt__` … `__eq__`)
-    keep `other: object`, not `Self` — they delegate to `key`.
+Prefer `typing.Self` (PEP 673) over the literal class name when
+annotating the enclosing class's own instances:
+- **Returns** of fluent/`copy`/`classmethod`-constructor methods —
+  `-> Self`.
+- **Same-type params** of domain/relationship methods — `other: Self`
+  in `distance(self, other: Self) -> int`, `child: Self` in
+  `add_child`, `parent: Self | None` in `__init__`.
+- **Exception**: comparison/equality dunders (`__lt__` … `__eq__`)
+  keep `other: object`, not `Self` — they delegate to `key`.
 
 ```python
 def __init__(self,
@@ -41,12 +36,6 @@ state = State(cell=cell)
 state = State(cell=Cell(row=0, col=0))
 ```
 
-**Why:**
-- Readable top-to-bottom; no inside-out parsing.
-- Debuggable — print or breakpoint on `cell` before it is used;
-  tracebacks point at the specific failing step.
-- Named intermediates document intent and are easy to reuse/extend.
-
 **Scope (do not over-apply):**
 - The trigger is *nesting / complexity*, not single-use. Introducing a
   one-use local like `cell` above is correct because it un-nests a
@@ -64,10 +53,6 @@ state = State(cell=Cell(row=0, col=0))
 - **Multi-line params**: align with opening parenthesis.
 - **Blank lines**: 2 between top-level definitions, 1 between methods,
   none inside short methods.
-- **Strings**: f-strings preferred —
-  `f'{self.name}({self.row},{self.col})'`.
-- **Named arguments** in calls:
-  `data.set_best_to_be_parent_of(state=state)`.
 
 ## Class Definition Order
 1. Class docstring
