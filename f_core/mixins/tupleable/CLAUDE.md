@@ -94,9 +94,13 @@ Value objects whose identity *is* their full tuple:
 | `f_ds.pair.Pair[First, Second]` | `(first, second)` |
 | `f_ds.geometry.Bounds[T]` | `(top, left, bottom, right)` |
 
-`HasRowCol` / `HasRowsCols` are strong future candidates (they already
-key off their tuple) but are inherited bases with downstream subclasses,
-so they are migrated deliberately, not implicitly.
+`HasRowCol` was migrated too — it is a positional value-record
+(identity = `(row, col)`), so `class HasRowCol(Tupleable)`.
+
+`HasRowsCols` is **deliberately not** a `Tupleable`: its consumers
+(`Grid`, `Container`, `Range`) hold contents and must keep object
+identity — value-equality by `(rows, cols)` would make different
+same-shape objects equal/hash-equal. It stays a plain dimensions mixin.
 
 ## Usage Example
 
