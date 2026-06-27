@@ -2,7 +2,7 @@
 
 ## Purpose
 4-connectivity (von Neumann): the 4 cardinal neighbors, uniform edge
-cost `1`, Manhattan heuristic. Reproduces the legacy 2D-grid behavior —
+cost `1`, Manhattan distance. Reproduces the legacy 2D-grid behavior —
 the default policy, so existing grids are byte-for-byte unchanged.
 
 ## Public API
@@ -17,7 +17,7 @@ the default policy, so existing grids are byte-for-byte unchanged.
 | Method | Returns | Description |
 |--------|---------|-------------|
 | `cost(a, b)` | `1` | Uniform edge cost |
-| `heuristic(a, b)` | `int` | Manhattan distance (delegates to `HasRowCol.distance`) |
+| `distance(a, b)` | `int` | Manhattan distance (delegates to `HasRowCol.distance`); admissible 4-conn heuristic |
 | `is_legal_move(a, b, grid)` | `True` | Inherited — cardinals never cut a corner |
 
 ## Internal Constants
@@ -41,5 +41,5 @@ from f_ds.grids.connectivity import Connectivity_4
 
 c = Connectivity_4()
 c.cost(a=cell_0, b=cell_1)        # 1
-c.heuristic(a=cell_0, b=cell_1)   # Manhattan
+c.distance(a=cell_0, b=cell_1)    # Manhattan
 ```

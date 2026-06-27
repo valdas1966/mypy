@@ -171,7 +171,7 @@ def test_kbfs_mospp_counter_scaffold() -> None:
      BFSFlipMOSPP uses the base AlgoMOSPP scaffold unchanged —
      no heuristic, no Φ, so no `cnt_h_*` / `cnt_phi_*` /
      `cnt_pop_stale` counters on the scaffold. `cnt_decrease`
-     is 0 (FIFO no-op).
+     is 0 (FIFO has no decrease op → synthesized at algo level).
     ========================================================================
     """
     algo = BFSFlipMOSPP.Factory.graph_abc_two_starts()
@@ -240,7 +240,7 @@ def test_kbfs_mospp_costs_match_kxastar() -> None:
     a = BFSFlipMOSPP(problem=p1)
     b = AStarRepMOSPP(
         problem=p2,
-        h=lambda s, g: float(s.distance(g)),
+        h=lambda s, g: float(s.key.distance(g.key)),
     )
     a_costs = {(s.key.row, s.key.col): v.cost
                for s, v in a.run().items()}

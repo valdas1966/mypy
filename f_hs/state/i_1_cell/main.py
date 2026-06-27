@@ -1,6 +1,5 @@
 from f_hs.state import StateBase
 from f_ds.grids import CellMap as Cell
-from typing import Self
 
 
 class StateCell(StateBase[Cell]):
@@ -25,11 +24,3 @@ class StateCell(StateBase[Cell]):
         ====================================================================
         """
         return self.key.to_tuple()
-
-    def distance(self, other: Self) -> int:
-        """
-        ====================================================================
-         Return the Manhattan Distance to another StateCell.
-        ====================================================================
-        """
-        return self.key.distance(other.key)

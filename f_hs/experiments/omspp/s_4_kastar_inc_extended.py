@@ -111,7 +111,7 @@ def _h(s, g) -> float:
      idiom inside the algo).
     ============================================================================
     """
-    return float(s.distance(g))
+    return float(s.key.distance(g.key))
 
 
 # ── Snapshot helper ─────────────────────────────────────────────────────────

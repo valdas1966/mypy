@@ -24,13 +24,13 @@ def test_cost() -> None:
     assert connectivity.cost(a=a, b=b) == 1
 
 
-def test_heuristic() -> None:
+def test_distance() -> None:
     """
     ========================================================================
-     Test the Manhattan heuristic.
+     Test the Manhattan distance (admissible 4-conn heuristic).
     ========================================================================
     """
     connectivity = Connectivity_4()
     a = CellMap(row=0, col=0)
     b = CellMap(row=2, col=3)
-    assert connectivity.heuristic(a=a, b=b) == 5
+    assert connectivity.distance(a=a, b=b) == 5

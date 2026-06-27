@@ -12,9 +12,11 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
      Each State appears at most once. O(log n) push, pop, decrease.
      Used by A* and Dijkstra.
 
-     Inherits the 3-counter scaffold (`cnt_push`, `cnt_pop`,
-     `cnt_decrease`) from `FrontierBase`; increments here on
-     every call to the corresponding method. Counts are
+     Inherits the 2-name scaffold (`cnt_push`, `cnt_pop`) from
+     `FrontierBase` and extends it with `cnt_decrease` via a
+     `_COUNTER_NAMES` override — `decrease` is a priority-only
+     op, so the counter lives only where the op does. Increments
+     here on every call to the corresponding method. Counts are
      **by call-site**, not by underlying heap op: a `push` whose
      internal `QueueIndexed.push` falls through to `decrease_key`
      still increments `cnt_push` (the algorithm called `push`,
@@ -34,6 +36,12 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
 
     # Factory
     Factory: type = None
+
+    # Extends the base scaffold with the priority-only
+    # `decrease` op counter.
+    _COUNTER_NAMES: tuple[str, ...] = (
+        'cnt_push', 'cnt_pop', 'cnt_decrease',
+    )
 
     def __init__(self) -> None:
         """
@@ -94,14 +102,6 @@ class FrontierPriority(Generic[State], FrontierBase[State]):
         ========================================================================
         """
         return state in self._queue
-
-    def __bool__(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Frontier is not empty.
-        ========================================================================
-        """
-        return bool(self._queue)
 
     def __len__(self) -> int:
         """

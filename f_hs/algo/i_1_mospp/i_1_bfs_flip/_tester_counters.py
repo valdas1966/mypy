@@ -24,8 +24,8 @@ def test_counters_canonical_mospp() -> None:
 
      Single inner BFS pass from the shared goal (0,0). 14
      push / 14 pop in BFS layer order; six counters all 0 by
-     construction (no h, no Φ, no lazy stale-pop, FIFO
-     decrease is a no-op). `cnt_expanded = 13` (one pop is
+     construction (no h, no Φ, no lazy stale-pop, FIFO has no
+     decrease op → synthesized 0). `cnt_expanded = 13` (one pop is
      the final start-pop that terminates the inner search).
     ========================================================================
     """

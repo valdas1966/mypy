@@ -28,7 +28,7 @@ def test_counters_canonical_oospp() -> None:
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = p.goal
-    algo = AStar(problem=p, h=lambda s: float(s.distance(goal)))
+    algo = AStar(problem=p, h=lambda s: float(s.key.distance(goal.key)))
     algo.run()
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}

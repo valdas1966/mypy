@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corner Cutting — Connectivity_8</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --line:#30363d;
+    --txt:#c9d1d9; --mut:#8b949e;
+    --card:#38bdf8;   /* cardinal / straight  = always legal   */
+    --diag:#fbbf24;   /* diagonal             = the question   */
+    --acc:#818cf8; --good:#3fb950; --goal:#58a6ff;
+    --bad:#f85149;    /* wall / blocked / illegal              */
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--txt);
+    font:15px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    padding:34px 18px 70px;
+  }
+  .wrap{max-width:840px; margin:0 auto}
+  h1{font-size:26px; margin:0 0 4px; letter-spacing:.2px}
+  h1 small{color:var(--acc); font-size:15px; font-weight:600}
+  .sub{color:var(--mut); margin:0 0 26px}
+  h2{font-size:18px; margin:30px 0 12px;
+     border-left:3px solid var(--acc); padding-left:10px}
+  .panel{background:var(--panel); border:1px solid var(--line);
+         border-radius:11px; padding:18px 20px; margin:14px 0}
+  .row{display:flex; gap:20px; flex-wrap:wrap; align-items:center}
+  .row .grow{flex:1; min-width:240px}
+  .note{border-left:3px solid var(--diag);
+        background:rgba(251,191,36,.07); border-radius:0 8px 8px 0;
+        padding:11px 14px; margin:14px 0; color:#e8d9b5; font-size:14px}
+  .note.bad{border-left-color:var(--bad);
+        background:rgba(248,81,73,.07); color:#f1c3bf}
+  .note.acc{border-left-color:var(--acc);
+        background:rgba(129,140,248,.08); color:#cdd3f5}
+  .k{color:var(--card); font-weight:700}
+  .d{color:var(--diag); font-weight:700}
+  .x{color:var(--bad); font-weight:700}
+  .g{color:var(--good); font-weight:700}
+  code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  pre.code{font-family:ui-monospace,monospace; font-size:13.5px;
+           background:#0b0e13; border:1px solid var(--line);
+           border-radius:8px; padding:14px 16px; margin:12px 0;
+           overflow-x:auto; line-height:1.55}
+  pre.code .cm{color:var(--mut)}
+  pre.code .kw{color:#ff7b72}
+  pre.code .hl{background:rgba(251,191,36,.10);
+               display:inline-block; width:100%}
+  .formula{font-family:ui-monospace,monospace; font-size:15px;
+           background:#0b0e13; border:1px solid var(--line);
+           border-radius:8px; padding:13px 15px; margin:10px 0;
+           overflow-x:auto; white-space:nowrap}
+  table{border-collapse:collapse; width:100%; margin-top:6px; font-size:14px}
+  th,td{border:1px solid var(--line); padding:7px 10px; text-align:left}
+  th{color:var(--mut); font-weight:600; background:#0b0e13}
+  td.mid,th.mid{text-align:center}
+  .cap{color:var(--mut); font-size:13px; text-align:center; margin-top:6px}
+  .cases{display:flex; gap:14px; flex-wrap:wrap; justify-content:center;
+         margin-top:4px}
+  .case{background:#0b0e13; border:1px solid var(--line);
+        border-radius:9px; padding:12px 12px 10px; text-align:center;
+        min-width:140px}
+  .verdict{font-size:13px; font-weight:700; margin-top:6px}
+  .verdict small{display:block; font-weight:400; color:var(--mut);
+                 font-size:11.5px; margin-top:2px}
+  .lg{display:flex; gap:18px; flex-wrap:wrap; margin:4px 0 12px; font-size:13px;
+      color:var(--mut)}
+  .sw{display:inline-block; width:12px; height:12px; border-radius:3px;
+      vertical-align:-1px; margin-right:5px}
+</style>
+</head>
+<body>
+
+<!-- ===== shared SVG defs (patterns + arrow markers) ============== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="wall" width="7" height="7" patternUnits="userSpaceOnUse"
+             patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="rgba(248,81,73,.13)"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="rgba(248,81,73,.6)"
+            stroke-width="2"/>
+    </pattern>
+    <marker id="aGreen" markerWidth="8" markerHeight="8" refX="6" refY="3.2"
+            orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#3fb950"/></marker>
+    <marker id="aRed" markerWidth="8" markerHeight="8" refX="6" refY="3.2"
+            orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#f85149"/></marker>
+    <marker id="aAmber" markerWidth="8" markerHeight="8" refX="6" refY="3.2"
+            orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#fbbf24"/></marker>
+    <marker id="aCyan" markerWidth="8" markerHeight="8" refX="6" refY="3.2"
+            orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#38bdf8"/></marker>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <h1>Corner Cutting <small>&nbsp;·&nbsp; Connectivity_8</small></h1>
+  <p class="sub">Why a diagonal step can be <span class="x">illegal</span>
+     even when its destination cell is perfectly free —
+     and the exact rule <code>is_legal_move</code> enforces.</p>
+
+  <!-- ===== 1. EDGE vs CORNER ================================== -->
+  <h2>1 · Cardinals enter through an edge; diagonals pivot on a corner</h2>
+  <div class="panel">
+    <div class="row">
+      <div>
+        <svg width="208" height="150" viewBox="0 0 208 150"
+             aria-label="cardinal move shares an edge">
+          <g fill="none" stroke="#30363d">
+            <rect x="36" y="40" width="68" height="68"/>
+            <rect x="104" y="40" width="68" height="68"/>
+          </g>
+          <rect x="36" y="40" width="68" height="68" fill="rgba(63,185,80,.14)"/>
+          <rect x="104" y="40" width="68" height="68" fill="rgba(88,166,255,.16)"/>
+          <!-- shared edge -->
+          <line x1="104" y1="40" x2="104" y2="108" stroke="#38bdf8"
+                stroke-width="5" stroke-linecap="round"/>
+          <line x1="70" y1="74" x2="150" y2="74" stroke="#38bdf8"
+                stroke-width="2.6" marker-end="url(#aCyan)"/>
+          <g font-family="ui-monospace,monospace" font-size="13" font-weight="700">
+            <text x="62" y="79" fill="#3fb950" text-anchor="middle">A</text>
+            <text x="146" y="79" fill="#58a6ff" text-anchor="middle">B</text>
+          </g>
+          <text x="104" y="130" fill="#38bdf8" font-size="12"
+                text-anchor="middle" font-family="ui-monospace,monospace">shared EDGE</text>
+        </svg>
+        <div class="cap">Cardinal — slides in through an open side</div>
+      </div>
+      <div>
+        <svg width="200" height="186" viewBox="0 0 200 186"
+             aria-label="diagonal move shares a corner point">
+          <g fill="none" stroke="#30363d">
+            <rect x="40" y="20" width="60" height="60"/>
+            <rect x="100" y="20" width="60" height="60"/>
+            <rect x="40" y="80" width="60" height="60"/>
+            <rect x="100" y="80" width="60" height="60"/>
+          </g>
+          <rect x="40" y="80" width="60" height="60" fill="rgba(63,185,80,.14)"/>
+          <rect x="100" y="20" width="60" height="60" fill="rgba(88,166,255,.16)"/>
+          <!-- diagonal arrow A(bottom-left) -> B(top-right) -->
+          <line x1="78" y1="118" x2="132" y2="62" stroke="#fbbf24"
+                stroke-width="2.6" marker-end="url(#aAmber)"/>
+          <!-- shared corner point -->
+          <circle cx="100" cy="80" r="5.5" fill="#fbbf24"/>
+          <g font-family="ui-monospace,monospace" font-size="13" font-weight="700">
+            <text x="70" y="115" fill="#3fb950" text-anchor="middle">A</text>
+            <text x="130" y="55" fill="#58a6ff" text-anchor="middle">B</text>
+          </g>
+          <text x="100" y="166" fill="#fbbf24" font-size="12"
+                text-anchor="middle" font-family="ui-monospace,monospace">shared CORNER</text>
+        </svg>
+        <div class="cap">Diagonal — squeezes past a single point</div>
+      </div>
+      <div class="grow">
+        <p style="margin:0 0 10px">A <span class="k">cardinal</span> step
+           crosses a whole shared <i>edge</i> into the target — nothing else
+           is in the way, so only the target's own freeness matters. Cardinals
+           are therefore <span class="g">always legal</span>.</p>
+        <p style="margin:0">A <span class="d">diagonal</span> step instead
+           rounds a single <i>corner point</i> shared by <b>four</b> cells. An
+           agent with real width brushes whatever sits beside that corner — so
+           the diagonal needs a second look.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 2. THE TWO FLANKS ================================== -->
+  <h2>2 · What a diagonal brushes — the two flank cells</h2>
+  <div class="panel">
+    <div class="row">
+      <div>
+        <svg width="232" height="186" viewBox="0 0 232 186"
+             aria-label="the two flank cells of a diagonal move">
+          <g fill="none" stroke="#30363d">
+            <rect x="30" y="20" width="76" height="76"/>
+            <rect x="106" y="20" width="76" height="76"/>
+            <rect x="30" y="96" width="76" height="76"/>
+            <rect x="106" y="96" width="76" height="76"/>
+          </g>
+          <!-- flanks (top-left + bottom-right) -->
+          <rect x="30" y="20" width="76" height="76" fill="rgba(251,191,36,.13)"/>
+          <rect x="106" y="96" width="76" height="76" fill="rgba(251,191,36,.13)"/>
+          <!-- A (bottom-left) + B (top-right) -->
+          <rect x="30" y="96" width="76" height="76" fill="rgba(63,185,80,.15)"/>
+          <rect x="106" y="20" width="76" height="76" fill="rgba(88,166,255,.16)"/>
+          <!-- diagonal arrow A -> B -->
+          <line x1="80" y1="146" x2="140" y2="72" stroke="#fbbf24"
+                stroke-width="2.8" marker-end="url(#aAmber)"/>
+          <circle cx="106" cy="96" r="5" fill="none" stroke="#fbbf24"
+                  stroke-width="2"/>
+          <g font-family="ui-monospace,monospace" font-weight="700">
+            <text x="68" y="142" font-size="14" fill="#3fb950" text-anchor="middle">A</text>
+            <text x="144" y="64" font-size="14" fill="#58a6ff" text-anchor="middle">B</text>
+            <text x="68" y="62" font-size="11" fill="#fbbf24" text-anchor="middle">flank</text>
+            <text x="144" y="138" font-size="11" fill="#fbbf24" text-anchor="middle">flank</text>
+          </g>
+        </svg>
+      </div>
+      <div class="grow">
+        <p style="margin:0 0 8px">The diagonal <span class="g">A</span> →
+           <span class="goal" style="color:var(--goal);font-weight:700">B</span>
+           clips the corner shared by four cells. Two of them — the
+           <span class="d">flanks</span> — sit on either side of that corner:
+           the cell in <b>A's row, B's column</b> and the cell in
+           <b>B's row, A's column</b>.</p>
+        <p style="margin:0">As the agent rounds the corner it grazes
+           <i>both</i> flanks. So the move is legal only when
+           <b class="d">both flank cells are free</b>:</p>
+        <div class="formula" style="margin-top:10px">
+          flank₁ = <b class="d">is_free(a.row, b.col)</b><br>
+          flank₂ = <b class="d">is_free(b.row, a.col)</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3. THE FOUR CASES ================================== -->
+  <h2>3 · The four corner cases</h2>
+  <div class="panel">
+    <div class="lg">
+      <span><span class="sw" style="background:rgba(251,191,36,.5)"></span>flank (free)</span>
+      <span><span class="sw" style="background:#f85149"></span>flank (wall)</span>
+      <span><span class="sw" style="background:rgba(63,185,80,.5)"></span>A&nbsp;/&nbsp;B (free)</span>
+    </div>
+    <p style="margin:0 0 12px">A diagonal is legal in <b>exactly one</b> of the
+       four flank configurations — the one where both are open.</p>
+    <div class="cases">
+
+      <!-- CASE 1: both free -> LEGAL -->
+      <div class="case">
+        <svg width="124" height="124" viewBox="0 0 124 124" aria-label="both flanks free">
+          <g fill="none" stroke="#30363d">
+            <rect x="16" y="12" width="46" height="46"/>
+            <rect x="62" y="12" width="46" height="46"/>
+            <rect x="16" y="58" width="46" height="46"/>
+            <rect x="62" y="58" width="46" height="46"/>
+          </g>
+          <rect x="16" y="12" width="46" height="46" fill="rgba(251,191,36,.13)"/>
+          <rect x="62" y="58" width="46" height="46" fill="rgba(251,191,36,.13)"/>
+          <rect x="16" y="58" width="46" height="46" fill="rgba(63,185,80,.15)"/>
+          <rect x="62" y="12" width="46" height="46" fill="rgba(88,166,255,.16)"/>
+          <line x1="48" y1="90" x2="80" y2="34" stroke="#3fb950"
+                stroke-width="3" marker-end="url(#aGreen)"/>
+          <g font-family="ui-monospace,monospace" font-size="12" font-weight="700">
+            <text x="39" y="86" fill="#3fb950" text-anchor="middle">A</text>
+            <text x="85" y="40" fill="#58a6ff" text-anchor="middle">B</text>
+          </g>
+        </svg>
+        <div class="verdict g">✓ LEGAL<small>both flanks free</small></div>
+      </div>
+
+      <!-- CASE 2: one wall -> ILLEGAL -->
+      <div class="case">
+        <svg width="124" height="124" viewBox="0 0 124 124" aria-label="top-left flank blocked">
+          <g fill="none" stroke="#30363d">
+            <rect x="16" y="12" width="46" height="46"/>
+            <rect x="62" y="12" width="46" height="46"/>
+            <rect x="16" y="58" width="46" height="46"/>
+            <rect x="62" y="58" width="46" height="46"/>
+          </g>
+          <rect x="16" y="12" width="46" height="46" fill="url(#wall)"/>
+          <rect x="16" y="12" width="46" height="46" fill="none" stroke="#f85149"/>
+          <rect x="62" y="58" width="46" height="46" fill="rgba(251,191,36,.13)"/>
+          <rect x="16" y="58" width="46" height="46" fill="rgba(63,185,80,.15)"/>
+          <rect x="62" y="12" width="46" height="46" fill="rgba(88,166,255,.16)"/>
+          <line x1="48" y1="90" x2="80" y2="34" stroke="#f85149" stroke-width="3"
+                stroke-dasharray="5 4" marker-end="url(#aRed)"/>
+          <g font-family="ui-monospace,monospace" font-size="12" font-weight="700">
+            <text x="39" y="86" fill="#3fb950" text-anchor="middle">A</text>
+            <text x="85" y="40" fill="#58a6ff" text-anchor="middle">B</text>
+          </g>
+        </svg>
+        <div class="verdict x">✗ ILLEGAL<small>clips the wall corner</small></div>
+      </div>
+
+      <!-- CASE 3: other wall -> ILLEGAL -->
+      <div class="case">
+        <svg width="124" height="124" viewBox="0 0 124 124" aria-label="bottom-right flank blocked">
+          <g fill="none" stroke="#30363d">
+            <rect x="16" y="12" width="46" height="46"/>
+            <rect x="62" y="12" width="46" height="46"/>
+            <rect x="16" y="58" width="46" height="46"/>
+            <rect x="62" y="58" width="46" height="46"/>
+          </g>
+          <rect x="16" y="12" width="46" height="46" fill="rgba(251,191,36,.13)"/>
+          <rect x="62" y="58" width="46" height="46" fill="url(#wall)"/>
+          <rect x="62" y="58" width="46" height="46" fill="none" stroke="#f85149"/>
+          <rect x="16" y="58" width="46" height="46" fill="rgba(63,185,80,.15)"/>
+          <rect x="62" y="12" width="46" height="46" fill="rgba(88,166,255,.16)"/>
+          <line x1="48" y1="90" x2="80" y2="34" stroke="#f85149" stroke-width="3"
+                stroke-dasharray="5 4" marker-end="url(#aRed)"/>
+          <g font-family="ui-monospace,monospace" font-size="12" font-weight="700">
+            <text x="39" y="86" fill="#3fb950" text-anchor="middle">A</text>
+            <text x="85" y="40" fill="#58a6ff" text-anchor="middle">B</text>
+          </g>
+        </svg>
+        <div class="verdict x">✗ ILLEGAL<small>clips the wall corner</small></div>
+      </div>
+
+      <!-- CASE 4: both walls -> ILLEGAL -->
+      <div class="case">
+        <svg width="124" height="124" viewBox="0 0 124 124" aria-label="both flanks blocked">
+          <g fill="none" stroke="#30363d">
+            <rect x="16" y="12" width="46" height="46"/>
+            <rect x="62" y="12" width="46" height="46"/>
+            <rect x="16" y="58" width="46" height="46"/>
+            <rect x="62" y="58" width="46" height="46"/>
+          </g>
+          <rect x="16" y="12" width="46" height="46" fill="url(#wall)"/>
+          <rect x="16" y="12" width="46" height="46" fill="none" stroke="#f85149"/>
+          <rect x="62" y="58" width="46" height="46" fill="url(#wall)"/>
+          <rect x="62" y="58" width="46" height="46" fill="none" stroke="#f85149"/>
+          <rect x="16" y="58" width="46" height="46" fill="rgba(63,185,80,.15)"/>
+          <rect x="62" y="12" width="46" height="46" fill="rgba(88,166,255,.16)"/>
+          <line x1="48" y1="90" x2="80" y2="34" stroke="#f85149" stroke-width="3"
+                stroke-dasharray="5 4" marker-end="url(#aRed)"/>
+          <!-- the touching corner -->
+          <circle cx="62" cy="58" r="4.5" fill="#f85149"/>
+          <g font-family="ui-monospace,monospace" font-size="12" font-weight="700">
+            <text x="39" y="86" fill="#3fb950" text-anchor="middle">A</text>
+            <text x="85" y="40" fill="#58a6ff" text-anchor="middle">B</text>
+          </g>
+        </svg>
+        <div class="verdict x">✗ ILLEGAL<small>walls touch — no gap</small></div>
+      </div>
+
+    </div>
+    <div class="note bad">
+      <b>Case 4 is the decisive one.</b> A and B are free, yet the two walls
+      meet at <i>exactly</i> the corner point the diagonal passes through.
+      There is no real gap to slip through — they touch. Allowing this move
+      would let the path travel <i>through</i> solid wall.
+    </div>
+  </div>
+
+  <!-- ===== 4. THE RULE IN CODE ================================= -->
+  <h2>4 · The rule, in code</h2>
+  <div class="panel">
+    <pre class="code"><span class="kw">def</span> is_legal_move(self, a, b, is_free) -> bool:
+    d_row = b.row - a.row
+    d_col = b.col - a.col
+    is_cardinal = d_row == <span class="k">0</span> <span class="kw">or</span> d_col == <span class="k">0</span>
+    <span class="kw">if</span> is_cardinal:
+        <span class="kw">return</span> True                <span class="cm"># edge entry — always legal</span>
+<span class="hl">    flank_row_free = is_free(a.row, b.col)  <span class="cm"># A's row, B's col</span></span>
+<span class="hl">    flank_col_free = is_free(b.row, a.col)  <span class="cm"># B's row, A's col</span></span>
+    <span class="kw">return</span> flank_row_free <span class="kw">and</span> flank_col_free</pre>
+    <p style="margin-bottom:0">Note what is <b>not</b> here: the destination
+       <code>b</code> itself. The grid already verified <code>b</code> is free
+       when it enumerated the neighbor; this policy adds only the
+       <i>extra</i> corner constraint that a diagonal — and only a diagonal —
+       must satisfy.</p>
+  </div>
+
+  <!-- ===== 5. WHY STRICT ====================================== -->
+  <h2>5 · Why “both”, not “either”?</h2>
+  <div class="panel">
+    <p style="margin-top:0">There are three corner-cutting conventions.
+       <code>Connectivity_8</code> takes the <b>strict</b> one:</p>
+    <table>
+      <tr><th>Convention</th><th>Diagonal allowed when…</th>
+          <th class="mid">Case 4?</th></tr>
+      <tr>
+        <td><span class="x">Crossing</span></td>
+        <td>always (corner never checked)</td>
+        <td class="mid x">passes ✗</td>
+      </tr>
+      <tr>
+        <td><span class="d">Lenient</span></td>
+        <td><b>either</b> flank free (≥ 1 open)</td>
+        <td class="mid x">passes ✗</td>
+      </tr>
+      <tr>
+        <td><span class="g">Strict</span> &nbsp;<small class="mono">(ours)</small></td>
+        <td><b>both</b> flanks free</td>
+        <td class="mid g">blocked ✓</td>
+      </tr>
+    </table>
+    <div class="note acc">
+      <b>Strict is the benchmark standard.</b> MovingAI, GPPC and JPS publish
+      optimal path costs under strict no-corner-cutting. Matching it means our
+      solver's costs are directly comparable to those reference optima — and it
+      keeps the octile heuristic an honest lower bound, since forbidding
+      corner-cuts only ever makes the <i>real</i> path longer, never shorter.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

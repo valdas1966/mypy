@@ -46,7 +46,7 @@ def _events(**kwargs) -> list:
     """
     p = ProblemGrid.Factory.grid_6x6_zigzag_mospp()
     algo = AStarIncMOSPP(problem=p,
-                         h=lambda s, g: float(s.distance(g)),
+                         h=lambda s, g: float(s.key.distance(g.key)),
                          is_recording=True,
                          **kwargs)
     algo.run()

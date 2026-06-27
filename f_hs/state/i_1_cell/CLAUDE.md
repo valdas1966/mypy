@@ -2,7 +2,11 @@
 
 ## Purpose
 Search state wrapping a CellMap for 2D grid-based pathfinding.
-Adds Manhattan distance calculation.
+Pure identity over the cell key, plus a `to_tuple()` convenience.
+State-to-state **distance is not here** — it lives on `ProblemGrid`
+(`ProblemGrid.distance`, the move-model-aware home), built on the
+`CellMap` geometric primitive (`cell.distance`). A `StateCell` carries
+no metric.
 
 ## Public API
 
@@ -15,7 +19,10 @@ def __init__(self, key: CellMap) -> None
 | Method | Signature | Description |
 |--------|-----------|-------------|
 | `to_tuple` | `() -> tuple[int, int]` | (row, col) of the underlying cell |
-| `distance` | `(other: Self) -> int` | Manhattan distance |
+
+State-to-state distance moved to `ProblemGrid.distance(a, b)`
+(2026-06-27) — the space owns the metric choice; `StateCell` is pure
+identity.
 
 `__str__` / `__repr__` / `__eq__` / `__lt__` / `__hash__` come from
 `HasKey` (all delegate to `key`); `StateCell` adds no overrides.

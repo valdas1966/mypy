@@ -3,7 +3,7 @@
 ## Purpose
 Swappable **connectivity policy** for a 2D grid. One object carries the
 four things that change with connectivity: neighbor **offsets**, edge
-**cost**, admissible **heuristic**, and corner-cutting **legality**. The
+**cost**, admissible **distance**, and corner-cutting **legality**. The
 grid holds a policy and delegates to it, so 4-conn ↔ 8-conn becomes a
 constructor choice instead of a code fork (and the same base extends to
 3D 6/18/26-conn later).
@@ -39,17 +39,18 @@ ConnectivityBase
 ## Policy Surface
 | Member | Connectivity_4 | Connectivity_8 |
 |--------|---------------|---------------|
+| `is_cardinal(a,b)` | shared (base) — `True` iff `d_row == 0 or d_col == 0` | shared (base) — drives `cost` / `is_legal_move` |
 | `offsets` | 4 cardinals (N,E,S,W) | + 4 diagonals (8 total) |
 | `cost(a,b)` | `1` | `10000` cardinal / `14142` diagonal |
-| `heuristic(a,b)` | Manhattan | scaled-int octile |
+| `distance(a,b)` | Manhattan | scaled-int octile |
 | `is_legal_move(a,b,is_free)` | `True` | diagonal ⇔ both flanks free |
 | `unit` | `1` | `10000` (true dist = `cost / unit`) |
 
 ## Design Decisions
 - **Scaled-int octile, not float √2.** Cardinal `10000`, diagonal
-  `14142` keep every cost/heuristic comparison exact — required for
+  `14142` keep every cost/distance comparison exact — required for
   OMSPP / kA* co-optimal tie detection, which float rounding corrupts.
-  Same constants in `cost` and `heuristic` ⇒ admissible and consistent.
+  Same constants in `cost` and `distance` ⇒ admissible and consistent.
 - **Strict no-corner-cutting.** A diagonal is legal only when BOTH
   flank cells are free — matches MovingAI / GPPC / JPS released
   optimal costs.

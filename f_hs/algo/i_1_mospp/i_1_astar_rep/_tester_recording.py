@@ -56,7 +56,7 @@ def test_recording_canonical_mospp() -> None:
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
     algo = AStarRepMOSPP(problem=p,
-                        h=lambda s, g: float(s.distance(g)),
+                        h=lambda s, g: float(s.key.distance(g.key)),
                         is_recording=True)
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -136,7 +136,7 @@ def test_recording_grid_4x4_obstacle_2starts() -> None:
     """
     p = _grid_4x4_obstacle_2starts()
     algo = AStarRepMOSPP(problem=p,
-                        h=lambda s, g: float(s.distance(g)),
+                        h=lambda s, g: float(s.key.distance(g.key)),
                         is_recording=True)
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]

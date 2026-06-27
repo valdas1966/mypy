@@ -5,8 +5,10 @@
 octile** costs, and **strict no-corner-cutting**. The 2D twin of the
 planned 3D 26-connectivity.
 
-> Visual explainer of the octile heuristic: `octile_distance.html`
-> (self-contained, open in a browser).
+> Visual explainers (self-contained, open in a browser):
+> - `octile_distance.html` — the octile distance.
+> - `corner_cutting.html` — why a diagonal can be illegal even when its
+>   destination is free (the strict both-flanks-free rule).
 
 ## Public API
 
@@ -19,8 +21,9 @@ planned 3D 26-connectivity.
 ### Methods
 | Method | Returns | Description |
 |--------|---------|-------------|
-| `cost(a, b)` | `int` | `COST_DIAGONAL` if diagonal else `COST_CARDINAL` |
-| `heuristic(a, b)` | `int` | Scaled-integer octile: `DIAG·d_min + CARD·(d_max − d_min)` |
+| `is_cardinal(a, b)` | `bool` | Inherited from base; classifies a move as cardinal vs diagonal — `cost` and `is_legal_move` both branch on it |
+| `cost(a, b)` | `int` | `COST_DIAGONAL` if diagonal else `COST_CARDINAL` (via `is_cardinal`) |
+| `distance(a, b)` | `int` | Scaled-integer octile: `DIAG·d_min + CARD·(d_max − d_min)`; admissible 8-conn heuristic (≠ `HasRowCol.distance` Manhattan, which is inadmissible here) |
 | `is_legal_move(a, b, is_free)` | `bool` | Cardinal → always; diagonal → BOTH flanks free (via `is_free(row, col)`) |
 
 ## Constants
@@ -31,9 +34,9 @@ planned 3D 26-connectivity.
 | `_COST_DIAGONAL` | class (private) | `14142` | Diagonal-move cost; `round(√2 · 10000)` |
 
 ## Design Decisions
-- **Scaled-int, not float √2** — keeps cost/heuristic comparisons exact
+- **Scaled-int, not float √2** — keeps cost/distance comparisons exact
   (co-optimal ties for OMSPP / kA*). Same constants in `cost` and
-  `heuristic` ⇒ admissible & consistent; exact on an obstacle-free grid.
+  `distance` ⇒ admissible & consistent; exact on an obstacle-free grid.
 - **Strict no-corner-cutting** — a diagonal `a → b` is illegal if either
   flank `(a.row, b.col)` / `(b.row, a.col)` is blocked (queried via the
   `is_free` predicate). Matches MovingAI / GPPC / JPS optimal costs.
@@ -55,7 +58,7 @@ from f_ds.grids.connectivity import Connectivity_8
 
 c = Connectivity_8()
 c.cost(a=cell_0_0, b=cell_1_1)         # 14142  (diagonal)
-c.heuristic(a=cell_0_0, b=cell_2_3)    # 38284
+c.distance(a=cell_0_0, b=cell_2_3)     # 38284
 is_free = lambda row, col: (row, col) not in {(0, 0)}
 c.is_legal_move(a=cell_1_0, b=cell_0_1, is_free=is_free)  # False: (0,0) blocked
 ```

@@ -102,6 +102,40 @@ Only `h` and `f`, cast to int when integer-valued. No
 responsibility. No propagate-event handling either (propagate
 is a Pro-only event).
 
+## Frontier Relaxation (priority-only)
+
+`decrease` is a priority-frontier-only operation, so both the
+relaxation hook and the decrease op live here on `AStar`, not on
+the base (`AlgoSPP`'s `_relax_frontier_child` default is a
+no-op, since FIFO / BFS frontiers never relax).
+
+```python
+def _relax_frontier_child(self, parent, child, new_g) -> None:
+    if new_g < self._search.g[child]:
+        self._search.g[child] = new_g
+        self._search.parent[child] = parent
+        self._decrease_g(state=child)
+
+def _decrease_g(self, state) -> None:
+    self._search.frontier.decrease(
+        state=state, priority=self._priority(state=state))
+    self._record_event(type='decrease_g', state=state)
+```
+
+- `_relax_frontier_child` overrides the `AlgoSPP` no-op. When a
+  child is re-encountered already on the frontier via a cheaper
+  path, it adopts the better `g` + `parent` and decreases the
+  frontier key.
+- `_decrease_g` calls `frontier.decrease(...)` and records the
+  `decrease_g` event (the `g` / `parent` auto-fill comes from
+  the base `_record_event`).
+- **Type-narrowing invariant.** `self._search.frontier` is
+  statically typed `FrontierBase`, which no longer declares
+  `decrease`. The AStar family always injects a
+  `FrontierPriority` at construction, so `frontier.decrease` is
+  present at runtime — the call is sound. Documented as an
+  invariant comment in the code.
+
 ## Factory
 | Method | Description |
 |--------|-------------|

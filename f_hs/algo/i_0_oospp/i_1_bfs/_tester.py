@@ -75,10 +75,10 @@ def test_elapsed() -> None:
 def test_counters_surface() -> None:
     """
     ========================================================================
-     Test BFS exposes the inherited 3-counter surface
-     (cnt_push, cnt_pop, cnt_decrease) and that the FIFO
-     invariant holds — `decrease` is a no-op so cnt_decrease
-     stays at 0 even when `_decrease_g` would be called.
+     Test BFS exposes the algo-level counter surface incl.
+     cnt_decrease, and that the FIFO invariant holds — FIFO has
+     no decrease op, so cnt_decrease is the synthesized
+     structural 0 on every BFS run.
     ========================================================================
     """
     algo = BFS.Factory.graph_abc()
@@ -89,7 +89,7 @@ def test_counters_surface() -> None:
                       'mem_open', 'mem_closed', 'mem_total'}
     assert c['cnt_pop'] <= c['cnt_push']
     assert c['cnt_pop'] >= 1
-    assert c['cnt_decrease'] == 0  # FIFO no-op
+    assert c['cnt_decrease'] == 0  # synthesized (FIFO has no decrease op)
     assert c['cnt_generated'] >= 1
     assert c['cnt_expanded'] <= c['cnt_pop']
     # Same counter survives a re-run on a fresh algo:

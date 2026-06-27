@@ -146,6 +146,19 @@
 </div>
 </section>
 
+<div class="box dec">
+  <span class="tag">Substrate ready · 2026-06-27</span>
+  Both axes are now backed by shared <code>f_ds</code> infra built this session, so the two
+  knobs ride existing classes rather than ad-hoc code. <b>P1 — inter-cluster distance</b>
+  (<code>min_dist</code>) is <code>PairCluster.distance()</code> (an ordered start↔goal
+  <code>PairCluster(Tupleable)</code>; center-to-center Manhattan). <b>P2 — goal dispersion</b>
+  (<code>max_steps</code>) is the realized <b>mean pairwise goal distance</b> inside the region.
+  <code>s_3</code> builds the two <code>ClusterDiamond</code>s, wraps them in a
+  <code>PairCluster</code>, and logs <code>pair.distance()</code> as <code>dist_start</code> —
+  discharging the "wire PairCluster into OMSPP" item (no fresh inline
+  <code>_manhattan</code> / <code>_Cluster</code> tuple).
+</div>
+
 <!-- ───────────────────────── 0 VERDICT ───────────────────────── -->
 <h2 id="verdict"><span class="n">0</span>What I think of the 2-parameter design</h2>
 
@@ -380,7 +393,7 @@ artifacts are never touched.</p>
   <tr><td><code>s_0_clusters_start</code></td><td>start pool</td><td><span class="reuse">REUSE</span> <code>../i_0_clusters_start.csv</code></td><td>—</td></tr>
   <tr><td><code>s_1_clusters_goals</code></td><td>goal centers</td><td><span class="reuse">REUSE</span> <code>../i_1_clusters_goals.csv</code> (centers feasible at radius ≥20)</td><td>—</td></tr>
   <tr><td><code>s_2_pairs_banded</code></td><td>pair start↔goal</td><td><span class="new">NEW</span> — sample pairs into <b>5 min_dist bands</b> [d±δ] (not one floor); one sub-CSV per band</td><td><code>i_2_pairs_banded.csv</code></td></tr>
-  <tr><td><code>s_3_problems_grid</code></td><td>build problems</td><td><span class="new">NEW</span> — cross-join: per (banded pair) × <b>max_steps</b>, rebuild ClusterDiamond at that radius, draw k=200; <b>mask</b> degenerate cells; log realized <code>dist_start</code>, <code>dist_goals</code>, <code>region_cells</code></td><td><code>i_3_problems_grid.{pkl,csv}</code></td></tr>
+  <tr><td><code>s_3_problems_grid</code></td><td>build problems</td><td><span class="new">NEW</span> — cross-join: per (banded pair) × <b>max_steps</b>, rebuild ClusterDiamond at that radius, draw k=200; <b>mask</b> degenerate cells; wrap (start, goal) in a <code>PairCluster</code> and log realized <code>dist_start = pair.distance()</code> (P1), <code>dist_goals</code> = mean pairwise goal distance (P2), <code>region_cells</code></td><td><code>i_3_problems_grid.{pkl,csv}</code></td></tr>
   <tr><td><code>s_4_kastar_inc</code></td><td>run INC</td><td><span class="new">NEW</span> thin — INC @ k=200, one <code>run()</code>/problem (no extend chain); parent <code>s_4</code> body + Runner</td><td><code>kastar_inc_grid.csv</code></td></tr>
   <tr><td><code>s_5_kastar_agg</code></td><td>run AGG</td><td><span class="new">NEW</span> thin — AGG eager+lazy, Φ=MIN; parent <code>s_5</code> body verbatim</td><td><code>kastar_agg_grid.csv</code></td></tr>
   <tr><td><code>s_6_plot_heatmaps</code></td><td>plot</td><td><span class="new">NEW</span> — per metric: <b>5×5 ratio heatmap</b> (masked corner) + 2 marginal line plots (collapse each axis); reuse parent <code>s_6</code> table/overlay helpers</td><td><code>inc_vs_agg_phase.pdf</code></td></tr>
@@ -467,9 +480,10 @@ artifacts are never touched.</p>
 </div>
 
 <footer>
-  f_hs/experiments/omspp/goal_distance · PLAN.html · revised 2026-06-15 ·
+  f_hs/experiments/omspp/goal_distance · PLAN.html · revised 2026-06-27 ·
   2-param phase diagram (max_steps × min_dist) · symmetric to parent s_0…s_8 ·
-  status: plan only · ties to OMSPP strategy direction #4 (goal-distribution / phase diagram)
+  distance axis via PairCluster.distance() · status: plan only ·
+  ties to OMSPP strategy direction #4 (goal-distribution / phase diagram)
 </footer>
 
 </div>

@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from f_cs.problem import ProblemAlgo
 from f_hs.state import StateBase
 from typing import Generic, TypeVar
@@ -77,6 +78,7 @@ class ProblemSPP(ProblemAlgo, Generic[State]):
         """
         return 1
 
+    @abstractmethod
     def successors(self, state: State) -> list[State]:
         """
         ========================================================================

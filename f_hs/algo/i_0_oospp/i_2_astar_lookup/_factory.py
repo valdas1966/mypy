@@ -80,5 +80,5 @@ class Factory:
         goal = problem.goal
         return AStarLookup(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
         )

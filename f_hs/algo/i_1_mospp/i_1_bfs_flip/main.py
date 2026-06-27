@@ -65,13 +65,14 @@ class BFSFlipMOSPP(Generic[State], AlgoMOSPP[State]):
          restarts — single inner pass).
        - `update_frontier` — NOT emitted (no between-sub-
          search transition).
-       - `decrease_g` — NOT emitted (FIFO; `decrease` is a no-
+       - `decrease_g` — NOT emitted (FIFO has no `decrease`
          op on the inner BFS frontier).
 
      **Counters** (mirrors the inner OMSPP `KBFS`):
 
        - `cnt_push`, `cnt_pop` — frontier-sourced.
-       - `cnt_decrease` — 0 (FIFO no-op).
+       - `cnt_decrease` — 0 (FIFO has no decrease op;
+         synthesized at the algo level).
        - `cnt_expanded`, `cnt_generated` — search-semantic.
        - `mem_open`, `mem_closed` — NODE COUNTS via
          `AlgoMOSPP._sync_memory_snapshot`: `len(frontier)` +

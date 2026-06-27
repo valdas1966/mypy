@@ -10,7 +10,23 @@ can plug in without touching AStar's loop.
 
 ### `__call__(state) -> float`
 Return h(state). Base raises `NotImplementedError` — subclasses
-(`HCallable`, `HCached`) override.
+(`HCallable`, `HCached`) override. This is an override-or-raise
+trap on an otherwise-usable concrete base, **NOT** an
+`@abstractmethod` — see "Why HBase is not an ABC" below.
+
+### Why HBase is not an ABC
+HBase was DELIBERATELY excluded from the f_hs `@abstractmethod`
+sweep — it stays a plain `raise NotImplementedError` on
+`__call__`, and the class remains a plain `Generic[State]`
+(no `ABCMeta`), hence INSTANTIABLE on purpose. `HBase.Factory.
+base()` constructs a plain `HBase[...]()` as a "defaults test
+subject", and four `_tester.py` tests rely on instantiating it
+to verify the default `is_perfect` / `suffix_next` / `is_bounded`
+and that `__call__` raises. Making `__call__` an
+`@abstractmethod` would make `HBase()` non-instantiable and
+break the factory + those tests. This note documents the
+deliberate exclusion so a future "abstractmethod sweep" leaves
+HBase alone.
 
 ### `is_perfect(state) -> bool`
 Default `False`. `HCached` overrides to True on cached states;

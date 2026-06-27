@@ -44,7 +44,7 @@ def test_counters_canonical_mospp() -> None:
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
     algo = AStarRepMOSPP(problem=p,
-                        h=lambda s, g: float(s.distance(g)))
+                        h=lambda s, g: float(s.key.distance(g.key)))
     algo.run()
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
@@ -69,7 +69,7 @@ def test_per_start_costs_canonical_mospp() -> None:
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_mospp()
     algo = AStarRepMOSPP(problem=p,
-                        h=lambda s, g: float(s.distance(g)))
+                        h=lambda s, g: float(s.key.distance(g.key)))
     sol = algo.run()
     costs = {(s.key.row, s.key.col): v.cost
              for s, v in sol.per_start.items()}

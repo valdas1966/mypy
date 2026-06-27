@@ -22,7 +22,7 @@ def test_recording_canonical_oospp() -> None:
     p = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = p.goal
     algo = AStar(problem=p,
-                 h=lambda s: float(s.distance(goal)),
+                 h=lambda s: float(s.key.distance(goal.key)),
                  is_recording=True)
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -139,7 +139,7 @@ def test_recording_grid_3x3() -> None:
     problem = ProblemGrid.Factory.grid_3x3()
     goal = problem.goal
     algo = AStar(problem=problem,
-                 h=lambda s: float(s.distance(goal)),
+                 h=lambda s: float(s.key.distance(goal.key)),
                  is_recording=True)
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -171,7 +171,7 @@ def test_recording_grid_3x3_obstacle() -> None:
     problem = ProblemGrid.Factory.grid_3x3_obstacle()
     goal = problem.goal
     algo = AStar(problem=problem,
-                 h=lambda s: float(s.distance(goal)),
+                 h=lambda s: float(s.key.distance(goal.key)),
                  is_recording=True)
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]

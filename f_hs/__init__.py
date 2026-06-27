@@ -5,6 +5,8 @@ from f_core.imports import ULazy
 if TYPE_CHECKING:
     from f_hs.state import StateBase
     from f_hs.state import StateCell
+    from f_hs.state import StateResource
+    from f_hs.state import NodeResource
     from f_hs.problem import ProblemSPP
     from f_hs.problem import ProblemGrid
     from f_hs.solution import SolutionSPP
@@ -30,6 +32,8 @@ if TYPE_CHECKING:
 ULazy.install(globals(), {
     'StateBase': 'f_hs.state:StateBase',
     'StateCell': 'f_hs.state:StateCell',
+    'StateResource': 'f_hs.state:StateResource',
+    'NodeResource': 'f_hs.state:NodeResource',
     'ProblemSPP': 'f_hs.problem:ProblemSPP',
     'ProblemGrid': 'f_hs.problem:ProblemGrid',
     'SolutionSPP': 'f_hs.solution:SolutionSPP',

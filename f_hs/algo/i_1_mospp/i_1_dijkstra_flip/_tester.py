@@ -233,7 +233,7 @@ def test_kdijkstra_mospp_costs_match_kxastar() -> None:
     a = DijkstraFlipMOSPP(problem=p1)
     b = AStarRepMOSPP(
         problem=p2,
-        h=lambda s, g: float(s.distance(g)),
+        h=lambda s, g: float(s.key.distance(g.key)),
     )
     a_costs = {(s.key.row, s.key.col): v.cost
                for s, v in a.run().items()}

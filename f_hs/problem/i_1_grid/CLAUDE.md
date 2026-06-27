@@ -50,6 +50,7 @@ stable rc lists, so `__repr__` works detached and after pickle.
 | Method | Description |
 |--------|-------------|
 | `successors(state)` | Valid grid neighbors |
+| `distance(a, b)` | Manhattan distance between two states — the grid's admissible heuristic metric (4-connected). The move-model-aware home for state-to-state distance; delegates to the `CellMap` geometric primitive. Heuristics consume this; `StateCell` carries no distance. |
 | `attach(grid, states=None)` | Rehydrate with a grid; optional shared `dict[CellMap, StateCell]` cache |
 | `detach()` | Drop grid and state cache (for light persistence) |
 

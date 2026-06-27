@@ -180,6 +180,20 @@ class ProblemGrid(ProblemSPP[StateCell]):
         return [self._states[n]
                 for n in self.grid.neighbors(state.key)]
 
+    def distance(self, a: StateCell, b: StateCell) -> int:
+        """
+        ========================================================================
+         Return the Manhattan Distance between two States — the grid's
+         admissible heuristic metric (4-connected).
+
+         The move-model-aware home for state-to-state distance: the Problem
+         owns the metric choice (Manhattan here; an 8-connected variant would
+         override to octile), delegating the raw geometry to the CellMap
+         primitive. Heuristics consume this; the State carries no distance.
+        ========================================================================
+        """
+        return a.key.distance(b.key)
+
     @property
     def key(self) -> tuple:
         """

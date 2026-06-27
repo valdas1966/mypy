@@ -100,3 +100,40 @@ class AStar(Generic[State], AlgoSPP[State]):
             h = int(self._h(event['state']))
             event['h'] = h
             event['f'] = event['g'] + h
+
+    # ──────────────────────────────────────────────────
+    #  Frontier Relaxation (priority-only)
+    # ──────────────────────────────────────────────────
+
+    def _relax_frontier_child(self,
+                              parent: State,
+                              child: State,
+                              new_g: int) -> None:
+        """
+        ====================================================================
+         Relax a Child already on the (priority) Frontier: if the
+         new path is cheaper, adopt it (g + parent) and decrease
+         the frontier key. Overrides the AlgoSPP no-op — only
+         priority frontiers support `decrease`.
+        ====================================================================
+        """
+        if new_g < self._search.g[child]:
+            self._search.g[child] = new_g
+            self._search.parent[child] = parent
+            self._decrease_g(state=child)
+
+    def _decrease_g(self, state: State) -> None:
+        """
+        ====================================================================
+         Update Priority in the Frontier and record. Invariant:
+         the AStar family always injects a `FrontierPriority`, so
+         `frontier.decrease` is present at runtime even though the
+         static type is `FrontierBase` (which no longer declares
+         it).
+        ====================================================================
+        """
+        self._search.frontier.decrease(
+            state=state,
+            priority=self._priority(state=state),
+        )
+        self._record_event(type='decrease_g', state=state)

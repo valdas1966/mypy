@@ -120,12 +120,19 @@ deleted.
    `algo.counters[name]` or `name in algo.counters` keep
    working — they just see a smaller, honest key set per
    algorithm.
-   **Heap-op counters** (`cnt_push` / `cnt_pop` /
-   `cnt_decrease`) are owned by `FrontierPriority` (single
-   source of truth), not duplicated on the algos.
+   **Heap-op counters** are owned by the frontier, not
+   duplicated on the algos. The 2-name `FrontierBase`
+   scaffold owns only `cnt_push` / `cnt_pop`; `cnt_decrease`
+   is owned solely by `FrontierPriority` (via its
+   `_COUNTER_NAMES` override) — the single source of truth.
    `AlgoOMSPP._run_post` calls a `_sync_frontier_counters`
    hook on each subclass that mirrors the frontier's tally
-   into the algo's scaffold via `Counters.assign`.
+   into the algo's scaffold via `Counters.assign`. The
+   FIFO-backed `KBFS` reads `cnt_push` / `cnt_pop` from its
+   inner `FrontierFIFO` and synthesizes the structural
+   `cnt_decrease=0` at the algo level (its FIFO has no
+   decrease op / no `cnt_decrease` counter), keeping the
+   cross-algo comparison grid rectangular.
 6. **`SolutionOMSPP` Mapping return.** `run()` returns a
    `SolutionOMSPP` (a `Mapping[State, SolutionSPP]` plus
    `SolutionAlgo` validity), not a plain dict. Indexing,
@@ -191,7 +198,9 @@ else:
   `algo.counters` as a delegation property to its frontier)
 - `f_hs.frontier.i_1_priority.FrontierPriority` (owns
   `cnt_push` / `cnt_pop` / `cnt_decrease`; mirrored into the
-  8-counter scaffold at end-of-run)
+  8-counter scaffold at end-of-run). FIFO-backed frontiers
+  (KBFS's `FrontierFIFO`) own only `cnt_push` / `cnt_pop`;
+  `cnt_decrease=0` is synthesized at the algo level.
 - `f_hs.algo.i_0_base.SearchStateSPP` (shared bundle)
 - `f_hs.problem.i_0_base.ProblemSPP` (problem with multiple goals)
 - `f_hs.solution.SolutionOMSPP` (per-goal solution wrapper)

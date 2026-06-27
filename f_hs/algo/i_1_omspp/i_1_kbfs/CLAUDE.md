@@ -50,14 +50,14 @@ mechanisms appear on `algo.counters`.
 |---|:---:|
 | `cnt_push` | ✓ (frontier-sourced) |
 | `cnt_pop` | ✓ (frontier-sourced) |
-| `cnt_decrease` | 0 (FIFO's decrease is a no-op) |
+| `cnt_decrease` | 0 (synthesized at algo level; FIFO has no decrease op / no `cnt_decrease` counter) |
 | `mem_open` / `mem_closed` | ✓ (post-run snapshot) |
 
 Mechanism-irrelevant counters (`cnt_h_*`, `cnt_phi_*`,
 `cnt_pop_stale`) are **absent** from KBFS's scaffold by
 design — `'cnt_h_search' in algo.counters` returns `False`.
 
-Sourced from the inner `_MultiGoalBFS`'s `FrontierFIFO` via `_sync_frontier_counters()` at end-of-run.
+Sourced from the inner `_MultiGoalBFS`'s `FrontierFIFO` via `_sync_frontier_counters()` at end-of-run. The FIFO frontier owns only `cnt_push` / `cnt_pop` (no `cnt_decrease`); the guarded sync (`fc['cnt_decrease'] if 'cnt_decrease' in fc else 0`) synthesizes the structural `cnt_decrease=0` at the algo level so the cross-algo comparison grid stays rectangular.
 
 ### Within/between elapsed split
 
@@ -71,7 +71,7 @@ In addition to the standard `BFS` events (`push`, `pop`):
 |---|---|
 | `on_goal` | per goal-pop (during search) or per unreachable-goal at end. `reason ∈ {expanded, unreachable}`. The `'already_closed'` reason is unused — KBFS observes each goal exactly once at its pop, so the "noticed too late" branch doesn't exist. |
 
-NO `update_heuristic` (no h), NO `update_frontier` (no per-goal sub-search restarts), NO `decrease_g` (FIFO no-op).
+NO `update_heuristic` (no h), NO `update_frontier` (no per-goal sub-search restarts), NO `decrease_g` (FIFO has no decrease op).
 
 ## Algorithm
 

@@ -2,12 +2,13 @@ from f_hs.algo.i_1_mospp.i_0_base.main import PHASE_SEARCH
 from f_hs.solution.main import SolutionMOSPP
 from f_hs.state.i_0_base.main import StateBase
 from time import perf_counter
+from abc import ABC, abstractmethod
 from typing import Callable, Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 
 
-class ExtendableMOSPP(Generic[State]):
+class ExtendableMOSPP(Generic[State], ABC):
     """
     ============================================================================
      Capability mixin: MOSPP orchestrator supports
@@ -60,6 +61,7 @@ class ExtendableMOSPP(Generic[State]):
     _last_reached_start: object | None
     _last_algo: object | None
 
+    @abstractmethod
     def _handle_start(self, start: State, idx: int) -> None:
         """
         ========================================================================
@@ -83,6 +85,7 @@ class ExtendableMOSPP(Generic[State]):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def _repush_last_reached_start(self) -> None:
         """
         ========================================================================

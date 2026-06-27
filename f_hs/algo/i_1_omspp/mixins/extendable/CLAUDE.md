@@ -8,6 +8,11 @@ loop. Composes with `AlgoOMSPP`; the orchestrator's
 existing per-iteration goal-handling becomes a shared
 `_handle_goal()` driven by both `_run()` and `extend()`.
 
+**True ABC** (bases: `Generic[State], ABC`) — the two hooks
+`_handle_goal` and `_repush_last_reached_goal` are
+`@abstractmethod`, so a composing class that omits either fails
+at CONSTRUCTION (not at first call).
+
 ## Public API
 
 ### `extend(new_goals: list[State]) -> SolutionOMSPP`
@@ -42,14 +47,17 @@ forks.
 A subclass MUST:
 
 1. Inherit `AlgoOMSPP` AND `ExtendableOMSPP`.
-2. Implement `_handle_goal(goal, idx)`: the per-goal
-   sub-search body. `idx` is the position in
+2. Implement `_handle_goal(goal, idx)` (**`@abstractmethod`**):
+   the per-goal sub-search body. `idx` is the position in
    `self._all_goals` at call time; the subclass uses `idx <
    len(self._all_goals) - 1` for the lazy-re-push decision.
-3. Implement `_repush_last_reached_goal()`: push
-   `self._last_reached_goal` onto OPEN via
-   `self._last_algo._push(...)`, then clear both fields.
-   No-op when `_last_reached_goal is None`.
+3. Implement `_repush_last_reached_goal()`
+   (**`@abstractmethod`**): push `self._last_reached_goal` onto
+   OPEN via `self._last_algo._push(...)`, then clear both
+   fields. No-op when `_last_reached_goal is None`.
+
+Both hooks are `@abstractmethod`, so a composing class that
+omits either cannot be instantiated (fails at construction).
 4. Initialize `self._all_goals: list[State] = []`,
    `self._last_reached_goal: State | None = None`,
    `self._last_algo: object | None = None` in `__init__`.

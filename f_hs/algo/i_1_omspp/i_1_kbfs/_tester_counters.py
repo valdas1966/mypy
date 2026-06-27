@@ -7,7 +7,8 @@
  KBFS runs a SINGLE inner BFS pass with multi-goal early-exit
  (no per-goal sub-search restarts). Five of the eight counters
  are structurally zero (cnt_h_*, cnt_phi_*, cnt_pop_stale);
- cnt_decrease is also zero (FIFO's `decrease` is a no-op).
+ cnt_decrease is also zero (FIFO has no decrease op →
+ synthesized at the algo level).
 ============================================================================
 """
 
@@ -21,7 +22,7 @@ def test_counters_canonical_omspp() -> None:
      Pin KBFS counters on the canonical OMSPP problem. 14
      push / 14 pop in a single inner BFS pass; remaining 6
      counters all 0 by construction (no h, no Φ, no lazy
-     stale-pop, FIFO decrease is a no-op).
+     stale-pop, FIFO has no decrease op → synthesized 0).
     ========================================================================
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()

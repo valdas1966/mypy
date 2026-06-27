@@ -76,39 +76,35 @@ def test_priority_ignored() -> None:
     assert f.pop() == 'Y'
 
 
-def test_decrease_is_noop() -> None:
+def test_no_decrease_op() -> None:
     """
     ========================================================================
-     Test that decrease is a no-op on FrontierFIFO.
+     Test FrontierFIFO has no `decrease` operation at all — it
+     is a priority-only op, absent on an insertion-order queue.
     ========================================================================
     """
     f = FrontierFIFO.Factory.abc()
-    f.decrease(state='C', priority=0)
-    assert f.pop() == 'A'
-    assert f.pop() == 'B'
-    assert f.pop() == 'C'
+    assert not hasattr(f, 'decrease')
 
 
 def test_counters_inherited_from_base() -> None:
     """
     ========================================================================
-     Test FrontierFIFO inherits the 3-counter scaffold from
-     FrontierBase. Push and pop increment; decrease is a no-op
-     and does NOT increment cnt_decrease.
+     Test FrontierFIFO inherits the 2-counter scaffold
+     (cnt_push, cnt_pop) from FrontierBase. It carries no
+     cnt_decrease — FIFO has no decrease op.
     ========================================================================
     """
     f = FrontierFIFO[str]()
-    assert dict(f.counters) == {
-        'cnt_push': 0, 'cnt_pop': 0, 'cnt_decrease': 0}
+    assert dict(f.counters) == {'cnt_push': 0, 'cnt_pop': 0}
+    assert 'cnt_decrease' not in dict(f.counters)
     f.push(state='A')
     f.push(state='B')
     f.push(state='C')
     f.pop()
     f.pop()
-    f.decrease(state='C', priority=0)
     assert f.counters['cnt_push'] == 3
     assert f.counters['cnt_pop'] == 2
-    assert f.counters['cnt_decrease'] == 0
 
 
 def test_counters_survive_clear() -> None:

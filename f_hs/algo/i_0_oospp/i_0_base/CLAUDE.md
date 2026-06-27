@@ -5,7 +5,11 @@ Abstract base class for SPP search algorithms. Implements the
 classical search loop with eager deletion. Composes a
 `FrontierBase` via constructor injection — subclasses inject
 the appropriate frontier (FIFO for BFS, Priority for A*).
-Recording is automatic inside `_push`, `_pop`, and `_decrease_g`.
+Recording is automatic inside `_push` and `_pop` (push / pop
+events). The `decrease_g` op and its recording live on `AStar`
+(`_decrease_g` is a priority-frontier-only operation), but the
+generic `decrease_g` auto-fill (`g` + `parent`) stays in this
+base's `_record_event`.
 
 The dynamic per-search state (frontier + g + parent + closed +
 goal_reached) lives in a single `SearchStateSPP` dataclass on
@@ -68,7 +72,7 @@ also clears the flag.
 | Property | Type | Description |
 |----------|------|-------------|
 | `search_state` | `SearchStateSPP[State]` | Dynamic per-search bundle |
-| `counters` | `Counters` | 5-counter scaffold + 3 memory snapshots (`mem_open`, `mem_closed`, `mem_total`). Heap-op group (`cnt_push`, `cnt_pop`, `cnt_decrease`) is mirrored from the injected frontier on every access — single source of truth. Search-semantic group (`cnt_expanded`, `cnt_generated`) is incremented inline by the search loop and `_handle_child` (Stern-style "expanded" = popped state whose successors are generated; "generated" = first-time push, including the start seed). Memory group is reported in **node counts** (not `sys.getsizeof` bytes; switched 2026-06-25 for reproducibility), populated by `_run_post()` after the timer closes; `mem_open = frontier.max_size` (peak |OPEN|, rule-2 — see `f_hs/frontier/i_0_base/CLAUDE.md`), `mem_closed = len(closed)` at end (g / parent are not separate regions — a stored node is counted via its OPEN / CLOSED membership); `mem_total = Σ mem_*` is finalized last via `f_hs.algo.u_mem.finalize_mem_total` so subclass-added `mem_*` keys auto-absorb. Inherited unchanged by every concrete SPP algorithm (BFS, AStar, AStarLookup, AStarBPMX, Dijkstra); `AStarLookup` widens the scaffold to 13 names via per-class `_COUNTER_NAMES`, and `AStarBPMX` widens further to 16 via the same mechanism. FIFO frontiers report `cnt_decrease=0` since `decrease` is a no-op on FIFO. |
+| `counters` | `Counters` | 5-counter scaffold + 3 memory snapshots (`mem_open`, `mem_closed`, `mem_total`). Heap-op group (`cnt_push`, `cnt_pop`, `cnt_decrease`) is read from the injected frontier on every access — single source of truth. `cnt_push` / `cnt_pop` are always present on the frontier; `cnt_decrease` is **guarded** (`fc['cnt_decrease'] if 'cnt_decrease' in fc else 0`) — `FrontierPriority` reports the real count, while FIFO frontiers carry **no** `cnt_decrease` counter at all (decrease is not part of the FIFO interface), so a structural `0` is **synthesized at the algo level**. The algo-level scaffold still declares `cnt_decrease` for every algo, so the cross-algo comparison grid stays rectangular. Search-semantic group (`cnt_expanded`, `cnt_generated`) is incremented inline by the search loop and `_handle_child` (Stern-style "expanded" = popped state whose successors are generated; "generated" = first-time push, including the start seed). Memory group is reported in **node counts** (not `sys.getsizeof` bytes; switched 2026-06-25 for reproducibility), populated by `_run_post()` after the timer closes; `mem_open = frontier.max_size` (peak |OPEN|, rule-2 — see `f_hs/frontier/i_0_base/CLAUDE.md`), `mem_closed = len(closed)` at end (g / parent are not separate regions — a stored node is counted via its OPEN / CLOSED membership); `mem_total = Σ mem_*` is finalized last via `f_hs.algo.u_mem.finalize_mem_total` so subclass-added `mem_*` keys auto-absorb. Inherited unchanged by every concrete SPP algorithm (BFS, AStar, AStarLookup, AStarBPMX, Dijkstra); `AStarLookup` widens the scaffold to 13 names via per-class `_COUNTER_NAMES`, and `AStarBPMX` widens further to 16 via the same mechanism. |
 
 ### Inherited from Algo / ProcessBase
 | Property / Method | Description |
@@ -160,12 +164,21 @@ while FRONTIER:                # _search_loop (run() and resume())
         if child in CLOSED: skip
         w ← problem.w(n, child)
         if child not in FRONTIER: insert
-        else if new_g < g(child): decrease
+        else: _relax_frontier_child(n, child, new_g)
 ```
 
+The final `else` branch routes through the
+`_relax_frontier_child` hook. The base default is a **no-op**
+(insertion-order FIFO / BFS frontiers never relax). `AStar`
+overrides it: `if new_g < g(child): adopt (g + parent); decrease`
+— `decrease` is a priority-frontier-only op and lives on `AStar`.
+
 ## Event Recording
-Recording is automatic inside `_push`, `_pop`, `_decrease_g`.
-Three event types, duration in nanoseconds:
+Recording is automatic inside `_push` and `_pop` (push / pop);
+`AStar._decrease_g` records the `decrease_g` event. The
+`decrease_g` field auto-fill (`g` + `parent`) lives in this
+base's `_record_event`. Three event types, duration in
+nanoseconds:
 
 | Event | Fields |
 |-------|--------|
@@ -265,6 +278,7 @@ overrides (e.g. AStar's `_priority`) reference them through
 | Hook | Default | Purpose |
 |------|---------|---------|
 | `_priority(state)` | `None` | Priority for frontier push/decrease |
+| `_relax_frontier_child(parent, child, new_g)` | no-op | Re-encountered a child already on the frontier. Base default: no-op (insertion-order FIFO / BFS never relax). `AStar` overrides — `if new_g < g(child)`: adopt `g` + `parent` and `_decrease_g(child)` (priority-frontier-only). |
 | `_enrich_event(event)` | no-op | Add fields to recorded events |
 | `_is_goal(state)` | `state in _goals_set` | Goal check |
 | `_init_search()` | clears `_search`, rebuilds `_goals_set`, pushes starts | Override for OMSPP-style multi-pump init |
@@ -272,8 +286,10 @@ overrides (e.g. AStar's `_priority`) reference them through
 | `_early_exit(state)` | returns `None` | Return `SolutionSPP` to short-circuit the loop after pop; AStar uses this for `HCached` perfect-h termination |
 | `_PRESEARCH_COUNTER_NAMES` (class attr) | `()` | Names of counters that describe work done OUTSIDE the search loop. Preserved across `_init_search`'s `_counters.reset()` so post-`run()` snapshots reflect both pre-search and search work — same retention principle as the recorder (which is also not cleared by `_init_search`). `AStarLookup` overrides with the propagate group (`cnt_prop_waves` / `cnt_prop_attempts` / `cnt_prop_lifts`); `AStarBPMX` inherits unchanged because its `cnt_bpmx_*` group is in-search and is correctly subject to reset. |
 
-Event types recorded by this base class: `push`, `pop`,
-`decrease_g`. Subclasses may emit additional types:
+Event types recorded by this base class: `push`, `pop` (the
+`decrease_g` event is emitted by `AStar._decrease_g`, though
+its `g` / `parent` auto-fill lives in this base's
+`_record_event`). Subclasses may emit additional types:
 
 - **AStarLookup** adds two pre-search pathmax event types:
   - `propagate_wave` — state-less meta-event at the start of

@@ -115,7 +115,8 @@ class KBFS(Generic[State], AlgoOMSPP[State]):
 
      Counters (subset of the AlgoOMSPP 8-counter scaffold):
        cnt_push / cnt_pop — frontier-sourced (FrontierFIFO).
-       cnt_decrease       — always 0 (FIFO no-op).
+       cnt_decrease       — always 0 (FIFO has no decrease op;
+                            synthesized at the algo level).
        cnt_h_*            — always 0 (no heuristic).
        cnt_phi_*          — always 0 (no Φ aggregation).
        cnt_pop_stale      — always 0 (no lazy stale-pop).
@@ -229,8 +230,9 @@ class KBFS(Generic[State], AlgoOMSPP[State]):
         ====================================================================
          Mirror the inner BFS's frontier and search-semantic
          counts into the algo's scaffold. Called by
-         `AlgoOMSPP._run_post`. `cnt_decrease` is always 0
-         (FIFO's `decrease` is a no-op and does not increment).
+         `AlgoOMSPP._run_post`. The inner FIFO frontier has no
+         `cnt_decrease` counter (no decrease op), so the
+         structural 0 is synthesized for the algo-level scaffold.
         ====================================================================
         """
         if self._inner is None:
@@ -238,7 +240,9 @@ class KBFS(Generic[State], AlgoOMSPP[State]):
         fc = self._inner.search_state.frontier.counters
         self._counters.assign('cnt_push', fc['cnt_push'])
         self._counters.assign('cnt_pop', fc['cnt_pop'])
-        self._counters.assign('cnt_decrease', fc['cnt_decrease'])
+        cnt_decrease = (fc['cnt_decrease']
+                        if 'cnt_decrease' in fc else 0)
+        self._counters.assign('cnt_decrease', cnt_decrease)
         # Search-semantic counters live on the inner algo's
         # _counters (incremented by AlgoSPP's loop and
         # _handle_child); mirror them through.

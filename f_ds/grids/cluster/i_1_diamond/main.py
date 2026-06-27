@@ -1,8 +1,8 @@
-from f_core.mixins import Hashable
+from f_core.mixins import Comparable, Hashable
 from f_ds.grids import GridMap as Grid, CellMap as Cell, ClusterGrid
 
 
-class ClusterDiamond(ClusterGrid, Hashable):
+class ClusterDiamond(ClusterGrid, Comparable, Hashable):
     """
     ============================================================================
      Diamond-shaped (Manhattan-ball) Cluster on a GridMap.

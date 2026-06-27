@@ -37,15 +37,19 @@ property. `AlgoSPP.resume()` continues the loop without
 reinitializing the bundle — the foundation for OMSPP-iterative
 multi-goal pumping and bidirectional search.
 
-**Counters** — `AlgoSPP.counters` is a delegation property
-returning `self._search.frontier.counters`. The injected
-frontier (FIFO or Priority) owns the 3-name `Counters`
-scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) inherited
-from `FrontierBase`. Every concrete SPP algorithm (BFS,
-AStar, AStarLookup, AStarBPMX, Dijkstra) inherits the same
+**Counters** — `AlgoSPP.counters` mirrors the injected
+frontier's heap-op counts. `FrontierBase` owns only the 2-name
+scaffold (`cnt_push`, `cnt_pop`); `FrontierPriority` adds
+`cnt_decrease` via a `_COUNTER_NAMES` override (the `decrease`
+op is priority-only, so its counter lives only where the op
+does). FIFO frontiers have **no** `decrease` op and **no**
+`cnt_decrease` counter — so `AlgoSPP.counters` guards the read
+and synthesizes a structural `cnt_decrease=0` for FIFO-backed
+algos (BFS) at the algo level, keeping the cross-algo
+comparison grid rectangular. Every concrete SPP algorithm
+(BFS, AStar, AStarLookup, AStarBPMX, Dijkstra) exposes the same
 `counters` surface — single declaration on `AlgoSPP`, single
-source of truth on the frontier. FIFO frontiers report
-`cnt_decrease=0` since `decrease` is a no-op on FIFO.
+source of truth on the frontier.
 
 ## Module Structure
 ```
@@ -124,8 +128,12 @@ while FRONTIER:
         if child in CLOSED: skip
         w ← problem.w(n, child)
         if child not in FRONTIER: insert
-        else if new_g < g(child): decrease
+        else: _relax_frontier_child(n, child, new_g)
 ```
+The final `else` routes through the `_relax_frontier_child`
+hook — a no-op on the base (FIFO / BFS never relax); `AStar`
+overrides it to `if new_g < g(child): adopt + decrease`
+(priority-frontier-only).
 
 ## Subclass Differences
 | | BFS | AStar | AStarLookup | AStarBPMX | Dijkstra |

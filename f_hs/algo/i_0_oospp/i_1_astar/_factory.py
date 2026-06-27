@@ -74,7 +74,7 @@ class Factory:
         goal = problem.goal
         return AStar(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
         )
 
     @staticmethod
@@ -88,7 +88,7 @@ class Factory:
         goal = problem.goal
         return AStar(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
         )
 
     @staticmethod
@@ -102,7 +102,7 @@ class Factory:
         goal = problem.goal
         return AStar(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
         )
 
     @staticmethod
@@ -116,7 +116,7 @@ class Factory:
         goal = problem.goal
         return AStar(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
         )
 
     @staticmethod
@@ -132,7 +132,7 @@ class Factory:
         goal = problem.goal
         return AStar(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
         )
 
     @staticmethod

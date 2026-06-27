@@ -8,7 +8,7 @@
  Scenarios:
    - canonical OOSPP grid (`grid_4x4_obstacle`).
    - graph_abc (toy 3-state linear).
-   - graph_decrease (weighted with `decrease_g`).
+   - graph_decrease (weighted; FIFO re-encounter, no relax).
    - grid_3x3 (open 3x3, BFS-layer expansion).
 ============================================================================
 """
@@ -89,8 +89,11 @@ def test_recording_graph_decrease() -> None:
     ========================================================================
      Pin the FULL event stream for BFS on the weighted
      decrease-graph (S → A/B → X with w(B,X) = 0). FIFO pops
-     A before B; A pushes X with g=2; B pops next and
-     re-parents X via `decrease_g` (new_g = 1 + 0 = 1 < 2).
+     A before B; A pushes X with g=2; B re-encounters X with
+     new_g = 1 + 0 = 1 < 2, but FIFO has NO decrease op, so the
+     better path is NOT adopted — no `decrease_g` event, and X
+     pops with its original g=2 (BFS is non-optimal on weighted
+     graphs; relaxation is A*'s job, not FIFO's).
     ========================================================================
     """
     algo = BFS.Factory.graph_decrease()
@@ -105,8 +108,7 @@ def test_recording_graph_decrease() -> None:
         {'type': 'pop',  'state': 'A', 'g': 1},
         {'type': 'push', 'state': 'X', 'g': 2, 'parent': 'A'},
         {'type': 'pop',  'state': 'B', 'g': 1},
-        {'type': 'decrease_g', 'state': 'X', 'g': 1, 'parent': 'B'},
-        {'type': 'pop',  'state': 'X', 'g': 1},
+        {'type': 'pop',  'state': 'X', 'g': 2},
     ]
     assert actual == expected
 

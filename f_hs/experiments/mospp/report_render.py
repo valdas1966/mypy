@@ -139,7 +139,7 @@ def run_toy_example() -> dict:
 
     # Seed: full optimal-path cache for (0,0) -> (5,0).
     p_seed = ProblemGrid(grid=grid, start=grid[0][0], goal=goal_cell)
-    h = lambda s: float(s.distance(p_seed.goals[0]))
+    h = lambda s: float(s.key.distance(p_seed.goals[0].key))
     seed_algo = AStarLookup(problem=p_seed, h=h, goal=p_seed.goals[0])
     seed_algo.run()
     full_cache = seed_algo.to_cache()
@@ -206,7 +206,7 @@ def run_toy_example() -> dict:
                           start=grid[TOY_START[0]][TOY_START[1]],
                           goal=cell)
         a_g = AStarLookup(problem=p_g,
-                          h=lambda s: float(s.distance(p_g.goals[0])),
+                          h=lambda s: float(s.key.distance(p_g.goals[0].key)),
                           goal=p_g.goals[0])
         g_saved = float(a_g.run().cost)
         h_base = float(cell.distance(goal_cell))

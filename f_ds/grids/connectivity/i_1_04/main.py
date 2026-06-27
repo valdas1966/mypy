@@ -29,11 +29,13 @@ class Connectivity_4(ConnectivityBase):
         """
         return 1
 
-    def heuristic(self, a: HasRowCol, b: HasRowCol) -> int:
+    def distance(self, a: HasRowCol, b: HasRowCol) -> int:
         """
         ========================================================================
-         Return the Manhattan distance from a to b (admissible and
-         exact on an obstacle-free grid).
+         Return the Manhattan distance from a to b: the minimum
+         4-conn path cost, exact on an obstacle-free grid (an
+         admissible, consistent heuristic). Here it coincides with
+         HasRowCol.distance, since 4-conn cost is uniform L1.
         ========================================================================
         """
         return a.distance(other=b)

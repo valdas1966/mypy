@@ -45,16 +45,17 @@ class Connectivity_8(ConnectivityBase):
          costs _COST_DIAGONAL, a cardinal move costs _COST_CARDINAL.
         ========================================================================
         """
-        d_row = abs(a.row - b.row)
-        d_col = abs(a.col - b.col)
-        is_diagonal = d_row == 1 and d_col == 1
-        return self._COST_DIAGONAL if is_diagonal else self._COST_CARDINAL
+        is_cardinal = self.is_cardinal(a=a, b=b)
+        return self._COST_CARDINAL if is_cardinal else self._COST_DIAGONAL
 
-    def heuristic(self, a: HasRowCol, b: HasRowCol) -> int:
+    def distance(self, a: HasRowCol, b: HasRowCol) -> int:
         """
         ========================================================================
-         Return the scaled-integer Octile distance from a to b
-         (admissible and consistent with the octile cost).
+         Return the scaled-integer Octile distance from a to b: the
+         minimum 8-conn path cost, exact on an obstacle-free grid
+         (admissible and consistent with the octile edge cost).
+         WARNING: differs from HasRowCol.distance (Manhattan), which
+         over-estimates here and would be an inadmissible heuristic.
         ========================================================================
         """
         d_row = abs(a.row - b.row)
@@ -78,10 +79,7 @@ class Connectivity_8(ConnectivityBase):
          whether a cell is passable.
         ========================================================================
         """
-        d_row = b.row - a.row
-        d_col = b.col - a.col
-        is_cardinal = d_row == 0 or d_col == 0
-        if is_cardinal:
+        if self.is_cardinal(a=a, b=b):
             return True
         # Flank Cells sharing the clipped corner
         flank_row_free = is_free(a.row, b.col)

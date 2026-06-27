@@ -36,17 +36,17 @@ def test_cost_diagonal() -> None:
     assert connectivity.cost(a=a, b=b) == 14_142
 
 
-def test_heuristic() -> None:
+def test_distance() -> None:
     """
     ========================================================================
-     Test the scaled-integer octile heuristic
+     Test the scaled-integer octile distance
      (d_min=2, d_max=3 -> 14142*2 + 10000*1).
     ========================================================================
     """
     connectivity = Connectivity_8()
     a = CellMap(row=0, col=0)
     b = CellMap(row=2, col=3)
-    assert connectivity.heuristic(a=a, b=b) == 38_284
+    assert connectivity.distance(a=a, b=b) == 38_284
 
 
 def test_is_legal_move_diagonal_free() -> None:

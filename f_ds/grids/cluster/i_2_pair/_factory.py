@@ -1,5 +1,5 @@
 from f_ds.grids import GridMap as Grid, ClusterDiamond as Cluster
-from f_ds.grids.cluster.pair.main import PairCluster
+from f_ds.grids.cluster.i_2_pair.main import PairCluster
 
 
 class Factory:
@@ -10,7 +10,7 @@ class Factory:
     """
 
     @staticmethod
-    def diamonds() -> PairCluster[Cluster]:
+    def diamonds() -> PairCluster:
         """
         ========================================================================
          Return a PairCluster of two deterministic ClusterDiamonds on a

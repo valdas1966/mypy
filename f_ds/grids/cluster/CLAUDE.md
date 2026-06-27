@@ -31,16 +31,19 @@ f_ds/grids/cluster/
 │   ├── _factory.py
 │   ├── _tester.py
 │   └── __init__.py
-└── pair/                PairCluster (ordered, hashable pair of clusters)
+└── i_2_pair/            PairCluster (ordered value-record of 2 diamonds)
     ├── main.py
     ├── _factory.py
     ├── _tester.py
     └── __init__.py
 ```
 
-`pair/` is **not** part of the `ClusterGrid` inheritance hierarchy (so
-not an `i_X_` folder) — it *composes* two clusters into a single
-hashable component (`PairCluster(Hashable, Generic[Cluster])`).
+`i_2_pair/` holds `PairCluster(Tupleable)` (`to_tuple() = (a, b)`).
+**Caveat on the prefix:** unlike `i_0_`/`i_1_`, which mark *inheritance
+depth* in the `ClusterGrid` hierarchy, `PairCluster` does **not** inherit
+`ClusterGrid` — it *composes* two `ClusterDiamond`s. The `i_2_` prefix
+is used (by project choice) to mark it as the layer built directly on top
+of `i_1_diamond`, not as a `ClusterGrid` subclass.
 
 ## Design Notes
 

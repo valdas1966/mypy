@@ -48,7 +48,7 @@ def test_eq() -> None:
     assert coord_12 != coord_34
 
 
-def test_repr() -> None:
+def test_str_repr() -> None:
     """
     ========================================================================
      Test __repr__() / __str__() — standardized via HasRepr.

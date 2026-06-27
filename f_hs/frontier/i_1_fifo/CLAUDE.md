@@ -4,7 +4,11 @@
 FIFO (First-In-First-Out) frontier. Used by BFS. Backed by a
 `deque` for order and an auxiliary `set` for O(1) membership
 check. Priority is accepted on `push` (for interface symmetry)
-but ignored. `decrease` is a no-op inherited from `FrontierBase`.
+but ignored — order is insertion-only. FIFO has **no `decrease`
+method and no `cnt_decrease` counter**; it carries only the
+base 2-counter scaffold. The algo-level comparison surface
+synthesizes the structural `cnt_decrease=0` for FIFO-backed
+algos (e.g. BFS) so cross-algo benchmark tables stay rectangular.
 
 ## Public API
 
@@ -12,25 +16,28 @@ but ignored. `decrease` is a no-op inherited from `FrontierBase`.
 ```python
 def __init__(self) -> None
 ```
-Calls `FrontierBase.__init__(self)` to wire the 3-counter
-scaffold, then sets up the `deque` and membership `set`.
+Calls `FrontierBase.__init__(self)` to wire the 2-counter
+scaffold (`cnt_push`, `cnt_pop`), then sets up the `deque`
+and membership `set`.
 
 ### Methods (from FrontierBase)
 | Method | Complexity | Counter |
 |--------|------------|---------|
 | `push(state, priority=None)` | O(1) | `cnt_push` |
 | `pop()` | O(1) | `cnt_pop` |
-| `decrease(state, priority=None)` | no-op | none (counter does NOT increment) |
 | `__contains__(state)` | O(1) | — |
-| `__bool__()` | O(1) | — |
+| `__bool__()` | O(1) | — (inherited from `Sizable`, via `__len__`) |
 | `__len__()` | O(1) | — |
 | `clear()` | O(n) | counters preserved |
 
 ### Counters
-Inherited from `FrontierBase`. `cnt_push` and `cnt_pop`
-increment on the corresponding methods; `cnt_decrease` stays
-at 0 because `decrease` is the inherited no-op (counts reflect
-what the frontier actually did, not what was called).
+Inherited from `FrontierBase` — the base 2-counter scaffold
+(`cnt_push`, `cnt_pop`), incremented on the corresponding
+methods. FIFO has no `decrease` op, so there is no
+`cnt_decrease` counter on the frontier at all. The algo-level
+comparison surface synthesizes the structural `cnt_decrease=0`
+for FIFO-backed algos (e.g. BFS) to keep benchmark tables
+rectangular.
 
 ## Factory
 | Method | Description |

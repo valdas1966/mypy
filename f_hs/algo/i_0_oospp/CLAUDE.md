@@ -84,12 +84,18 @@ problem variant; class names keep the conventional stem.
 
 ## Counters
 
-`AlgoSPP.counters` is a delegation property returning
-`self._search.frontier.counters` — the 3-name heap-op
-scaffold (`cnt_push`, `cnt_pop`, `cnt_decrease`) owned by
-`FrontierBase`. Every concrete OOSPP algo (BFS, AStar,
-AStarLookup, AStarBPMX, Dijkstra) inherits the same
-`counters` surface.
+`AlgoSPP.counters` mirrors the injected frontier's heap-op
+counts. `FrontierBase` owns only the 2-name scaffold
+(`cnt_push`, `cnt_pop`); `FrontierPriority` adds `cnt_decrease`
+via a `_COUNTER_NAMES` override (the decrease op and its
+counter live only where the op does). FIFO frontiers have no
+decrease op and no `cnt_decrease` counter — `AlgoSPP.counters`
+**guards** the read and synthesizes a structural `0` for
+FIFO-backed BFS, so the algo-level scaffold still exposes
+`cnt_decrease` for every algo and the comparison grid stays
+rectangular. Every concrete OOSPP algo (BFS, AStar,
+AStarLookup, AStarBPMX, Dijkstra) exposes the same `counters`
+surface.
 
 Per-class scaffold overrides via `_COUNTER_NAMES`:
 
@@ -98,6 +104,13 @@ Per-class scaffold overrides via `_COUNTER_NAMES`:
 | `AlgoSPP` (default) | 8 | frontier 3 + search 2 + memory 3 (incl. `mem_total`) |
 | `AStarLookup` | 13 | propagate 3 + frontier 3 + search 2 + memory 5 (`mem_open` / `mem_closed` / `mem_cache` / `mem_bounds` / `mem_total`) |
 | `AStarBPMX` | 16 | propagate 3 + bpmx 3 + frontier 3 + search 2 + memory 5 |
+
+The "frontier 3" group (`cnt_push`, `cnt_pop`, `cnt_decrease`)
+is declared at the **algo level** for every algo, so the
+cross-algo grid is rectangular. The frontier object itself
+carries only the names for ops it has (FIFO: 2; Priority: 3);
+`AlgoSPP.counters` synthesizes the missing `cnt_decrease=0` for
+FIFO-backed BFS.
 
 ## Dependencies
 

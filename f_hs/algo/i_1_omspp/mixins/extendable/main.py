@@ -2,12 +2,13 @@ from f_hs.algo.i_1_omspp.i_0_base.main import PHASE_SEARCH
 from f_hs.solution.main import SolutionOMSPP
 from f_hs.state.i_0_base.main import StateBase
 from time import perf_counter
+from abc import ABC, abstractmethod
 from typing import Callable, Generic, TypeVar
 
 State = TypeVar('State', bound=StateBase)
 
 
-class ExtendableOMSPP(Generic[State]):
+class ExtendableOMSPP(Generic[State], ABC):
     """
     ============================================================================
      Capability mixin: OMSPP orchestrator supports
@@ -82,6 +83,7 @@ class ExtendableOMSPP(Generic[State]):
     _last_reached_goal: object | None
     _last_algo: object | None
 
+    @abstractmethod
     def _handle_goal(self, goal: State, idx: int) -> None:
         """
         ========================================================================
@@ -105,6 +107,7 @@ class ExtendableOMSPP(Generic[State]):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def _repush_last_reached_goal(self) -> None:
         """
         ========================================================================

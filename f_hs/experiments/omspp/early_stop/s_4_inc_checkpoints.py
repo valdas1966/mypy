@@ -42,9 +42,9 @@
  Output  (Drive)
    Experiments/OMSPP/early_stop/inc_checkpoints.csv
 
- Row schema (8 cols)
-   domain, map, algo, config, r, cnt_expanded, mem_total, elapsed_total
-   algo='inc', config='inc' (no config axis for INC).
+ Row schema (7 cols)
+   domain, map, algo, r, cnt_expanded, mem_total, elapsed_total
+   algo='inc' (the only INC config; no config column).
 -------------------------------------------------------------------------------
  Toy mode
    `n_problems` (None = all 500) slices the pickle BEFORE the k=200
@@ -74,7 +74,6 @@ _CSV_COLUMNS = [
     'domain',
     'map',
     'algo',
-    'config',
     'r',
     'cnt_expanded',
     'mem_total',
@@ -102,7 +101,7 @@ def _h(s, g) -> float:
      idiom inside the algo).
     ============================================================================
     """
-    return float(s.distance(g))
+    return float(s.key.distance(g.key))
 
 
 # ── Chain driver ─────────────────────────────────────────────────────────────
@@ -189,7 +188,6 @@ def _experiment_inc_checkpoints(problem: ProblemGrid) -> list[dict]:
         'domain':        domain,
         'map':           map_name,
         'algo':          'inc',
-        'config':        'inc',
         'r':             r,
         'cnt_expanded':  cnt[r],
         'mem_total':     mem[r],

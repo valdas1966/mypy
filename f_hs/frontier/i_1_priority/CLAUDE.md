@@ -21,16 +21,19 @@ def __init__(self) -> None
 | `pop()` | O(log n) | Returns min-priority State. Increments `counters['cnt_pop']`. |
 | `decrease(state, priority)` | O(log n) | No-op if new priority not better. Increments `counters['cnt_decrease']`. |
 | `__contains__(state)` | O(1) | dict-backed |
-| `__bool__()` | O(1) | |
+| `__bool__()` | O(1) | inherited from `Sizable` (via `__len__`) |
 | `__len__()` | O(1) | |
 | `clear()` | O(n) | Does NOT reset counters. |
 
 ### Counters
 
-Inherited from `FrontierBase` — the `_counters` instance and
-the `counters` read-only property both live on the base. Three
-names: `cnt_push`, `cnt_pop`, `cnt_decrease`, incremented here
-on every call to the matching method.
+The `_counters` instance and the `counters` read-only property
+live on `FrontierBase`. `FrontierPriority` inherits the base
+2-name scaffold (`cnt_push`, `cnt_pop`) and **extends it with
+`cnt_decrease` via a `_COUNTER_NAMES` override** — it owns the
+`decrease` op, so it owns the counter. All three names
+(`cnt_push`, `cnt_pop`, `cnt_decrease`) are incremented here on
+every call to the matching method.
 
 - **By call-site, not internal op.** A `push` whose internal
   `QueueIndexed.push` falls through to `decrease_key`
@@ -65,5 +68,6 @@ FrontierBase[State]
 
 ## Dependencies
 - `f_ds.queues.i_1_indexed.QueueIndexed`
-- `f_hs.frontier.i_0_base.FrontierBase` — provides the
-  `Counters` scaffold via composition.
+- `f_hs.frontier.i_0_base.FrontierBase` — provides the base
+  2-name `Counters` scaffold via composition; `FrontierPriority`
+  extends it with `cnt_decrease`.

@@ -12,11 +12,12 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
      Deque for order + auxiliary set for O(1) membership check.
      Priority is accepted for interface symmetry but ignored.
 
-     Inherits the 3-counter scaffold from `FrontierBase`. Only
-     `cnt_push` and `cnt_pop` are incremented — `decrease` is a
-     no-op on FIFO and does not increment `cnt_decrease`
-     (counts reflect what the frontier actually did, not what
-     was called).
+     Inherits the 2-counter scaffold (`cnt_push`, `cnt_pop`)
+     from `FrontierBase`. FIFO has no `decrease` operation —
+     order is insertion-only — so it carries neither a
+     `decrease` method nor a `cnt_decrease` counter. The
+     algo-level comparison surface synthesizes the structural
+     `cnt_decrease=0` for FIFO-backed algos (e.g. BFS).
     ============================================================================
     """
 
@@ -74,14 +75,6 @@ class FrontierFIFO(Generic[State], FrontierBase[State]):
         ========================================================================
         """
         return state in self._members
-
-    def __bool__(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Frontier is not empty.
-        ========================================================================
-        """
-        return len(self._queue) > 0
 
     def __len__(self) -> int:
         """

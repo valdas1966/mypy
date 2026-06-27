@@ -25,7 +25,7 @@ class Factory:
         p = ProblemGrid.Factory.grid_6x6_zigzag_mospp()
         return AStarIncMOSPP(
             problem=p,
-            h=lambda s, g: float(s.distance(g)),
+            h=lambda s, g: float(s.key.distance(g.key)),
             **kwargs,
         )
 

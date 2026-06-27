@@ -120,7 +120,7 @@ def test_recording_grid_4x4_reuse_state_from_prior_goal_2_1(
     goal_first = problem_first.goal
     algo_first = AStar(
         problem=problem_first,
-        h=lambda s: s.distance(goal_first),
+        h=lambda s: s.key.distance(goal_first.key),
     )
     sol_first = algo_first.run()
     assert sol_first.cost == 3
@@ -130,7 +130,7 @@ def test_recording_grid_4x4_reuse_state_from_prior_goal_2_1(
     goal_second = problem_second.goal
     algo_second = AStar(
         problem=problem_second,
-        h=lambda s: s.distance(goal_second),
+        h=lambda s: s.key.distance(goal_second.key),
         is_recording=True,
         search_state=algo_first.search_state,
     )

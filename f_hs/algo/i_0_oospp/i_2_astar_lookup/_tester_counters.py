@@ -93,7 +93,7 @@ def test_counters_baseline() -> None:
     goal = problem.goal
     algo = AStarLookup(
         problem=problem,
-        h=lambda s: float(s.distance(goal)),
+        h=lambda s: float(s.key.distance(goal.key)),
     )
     sol = algo.run()
     assert sol.cost == 7
@@ -132,7 +132,7 @@ def test_counters_cached() -> None:
     cache = {s11: CacheEntry(h_perfect=5, suffix_next=None)}
     algo = AStarLookup(
         problem=problem,
-        h=lambda s: float(s.distance(goal)),
+        h=lambda s: float(s.key.distance(goal.key)),
         cache=cache,
         goal=goal,
     )
@@ -174,7 +174,7 @@ def test_counters_bounded() -> None:
     bounds = {s10: 6}
     algo = AStarLookup(
         problem=problem,
-        h=lambda s: float(s.distance(goal)),
+        h=lambda s: float(s.key.distance(goal.key)),
         bounds=bounds,
     )
     sol = algo.run()
@@ -222,7 +222,7 @@ def test_counters_bounded_propagated_depth_0() -> None:
     bounds = {s00: 7}
     algo = AStarLookup(
         problem=problem,
-        h=lambda s: float(s.distance(goal)),
+        h=lambda s: float(s.key.distance(goal.key)),
         bounds=bounds,
     )
 
@@ -280,7 +280,7 @@ def test_counters_bounded_propagated_depth_1() -> None:
     bounds = {s00: 7}
     algo = AStarLookup(
         problem=problem,
-        h=lambda s: float(s.distance(goal)),
+        h=lambda s: float(s.key.distance(goal.key)),
         bounds=bounds,
     )
 
@@ -339,7 +339,7 @@ def test_counters_bounded_propagated_depth_2() -> None:
     bounds = {s00: 7}
     algo = AStarLookup(
         problem=problem,
-        h=lambda s: float(s.distance(goal)),
+        h=lambda s: float(s.key.distance(goal.key)),
         bounds=bounds,
     )
 
@@ -409,7 +409,7 @@ def test_counters_bounded_propagated_depth_3() -> None:
     bounds = {s00: 7}
     algo = AStarLookup(
         problem=problem,
-        h=lambda s: float(s.distance(goal)),
+        h=lambda s: float(s.key.distance(goal.key)),
         bounds=bounds,
     )
 

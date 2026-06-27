@@ -7,6 +7,11 @@ orchestrators whose `_run()` body is a per-start sub-search
 loop. Sibling of `ExtendableOMSPP`; same orchestration
 shape with axis-specific naming.
 
+**True ABC** (bases: `Generic[State], ABC`) — the two hooks
+`_handle_start` and `_repush_last_reached_start` are
+`@abstractmethod`, so a composing class that omits either fails
+at CONSTRUCTION (not at first call).
+
 ## Public API
 
 ### `extend(new_starts: list[State]) -> SolutionMOSPP`
@@ -39,10 +44,14 @@ Free function — `isinstance(algo, ExtendableMOSPP)`.
 A subclass MUST:
 
 1. Inherit `AlgoMOSPP` AND `ExtendableMOSPP`.
-2. Implement `_handle_start(start, idx)`: the per-start
-   sub-search body.
-3. Implement `_repush_last_reached_start()`: push or no-op
-   per the algo's frontier-sharing semantics.
+2. Implement `_handle_start(start, idx)` (**`@abstractmethod`**):
+   the per-start sub-search body.
+3. Implement `_repush_last_reached_start()`
+   (**`@abstractmethod`**): push or no-op per the algo's
+   frontier-sharing semantics.
+
+Both hooks are `@abstractmethod`, so a composing class that
+omits either cannot be instantiated (fails at construction).
 4. Initialize `self._all_starts: list[State] = []`,
    `self._last_reached_start: State | None = None`,
    `self._last_algo: object | None = None` in `__init__`.

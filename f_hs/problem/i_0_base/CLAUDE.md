@@ -5,6 +5,14 @@ Shortest-Path-Problem covering all four variants (OO, OM, MO, MM)
 via `starts` and `goals` lists. Domain subclasses implement
 `successors()` for their specific search space.
 
+**True ABC** — `successors` is `@abstractmethod`, and the class
+already carries an `ABCMeta`-derived metaclass (via
+`ProblemAlgo` → `Equatable`'s `_ProtocolMeta`), so `ProblemSPP`
+is NON-instantiable directly (`TypeError: Can't instantiate
+abstract class ...`) and a subclass that omits `successors`
+fails at CONSTRUCTION. The `_ProblemGraph` factory subclass and
+`ProblemGrid` supply `successors`.
+
 ## Public API
 
 ### Constructor
@@ -24,7 +32,7 @@ def __init__(self, starts: list[State], goals: list[State],
 ### Abstract Methods
 | Method | Description |
 |--------|-------------|
-| `successors(state)` | Domain-specific neighbors |
+| `successors(state)` | **`@abstractmethod`** — domain-specific neighbors. Construction-enforced: a subclass that omits it cannot be instantiated. Body still `raise NotImplementedError` (belt-and-suspenders). |
 
 ### Methods
 | Method | Description |

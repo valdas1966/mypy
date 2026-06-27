@@ -11,10 +11,17 @@ Returns `SolutionMOSPP` (Mapping over `{start: SolutionSPP}`).
 ## Inheritance
 
 ```
-f_cs.algo.Algo[ProblemSPP[State], SolutionMOSPP]
+f_cs.algo.Algo[ProblemSPP[State], SolutionMOSPP], abc.ABC
     └── AlgoMOSPP[State]
             └── AStarRepMOSPP
 ```
+
+Bases: `Generic[State], Algo[ProblemSPP[State], SolutionMOSPP],
+ABC`. **True ABC** — `_run` is `@abstractmethod`, so `AlgoMOSPP`
+is NON-instantiable (`TypeError: Can't instantiate abstract
+class ...`) and a subclass that omits `_run` fails at
+CONSTRUCTION, not at call time. The `_run` body still
+`raise NotImplementedError` (belt-and-suspenders).
 
 Mirrors `AlgoOMSPP` in body — counter scaffold, phase
 setter, lifecycle hooks, `_flush_phase_timer`,
@@ -71,7 +78,9 @@ A subclass MUST:
 1. Inherit `AlgoMOSPP[State]`.
 2. Call `AlgoMOSPP.__init__(self, problem=problem, h=h,
    name=..., is_recording=is_recording)`.
-3. Override `_run() -> SolutionMOSPP`.
+3. Override `_run() -> SolutionMOSPP` — it is `@abstractmethod`,
+   so omitting it makes the subclass non-instantiable (fails at
+   construction).
 4. Populate `self._solutions[start]` with a `SolutionSPP`
    for every start in `self.problem.starts` (cost=`inf`
    for unreachable).

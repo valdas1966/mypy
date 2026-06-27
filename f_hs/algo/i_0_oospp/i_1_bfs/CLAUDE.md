@@ -29,7 +29,7 @@ by FIFO), `_frontier.{push,pop,...}` are used directly.
 | `graph_no_path()` | `BFS` | No path to goal |
 | `graph_start_is_goal()` | `BFS` | Start == Goal |
 | `graph_diamond()` | `BFS` | Diamond graph |
-| `graph_decrease()` | `BFS` | Weighted graph (S→A/B→X, w(B,X)=0) — forces `decrease_g` |
+| `graph_decrease()` | `BFS` | Weighted graph (S→A/B→X, w(B,X)=0) — FIFO re-encounters X but cannot relax (no decrease op); pops X with g=2, no `decrease_g` |
 | `grid_3x3()` | `BFS` | Open 3x3 grid |
 | `grid_3x3_obstacle()` | `BFS` | Grid with obstacle |
 | `grid_3x3_no_path()` | `BFS` | Grid with wall |
@@ -38,12 +38,31 @@ by FIFO), `_frontier.{push,pop,...}` are used directly.
 
 ## Counters
 
-**Inherited from `AlgoSPP`** — `bfs.counters` returns
-`self._search.frontier.counters`, the 3-counter scaffold
-(`cnt_push`, `cnt_pop`, `cnt_decrease`) owned by
-`FrontierFIFO`. `cnt_decrease` is always 0 because `decrease`
-is the no-op default on FIFO and does not increment (counts
-reflect what the frontier actually did, not what was called).
+**Inherited from `AlgoSPP`.** `FrontierFIFO` owns only the
+2-counter scaffold (`cnt_push`, `cnt_pop`) — FIFO has **no**
+`decrease` op and therefore **no** `cnt_decrease` counter.
+`bfs.counters` still surfaces `cnt_decrease` because the
+algo-level scaffold declares it for every algo; the
+`AlgoSPP.counters` property **guards** the read
+(`fc['cnt_decrease'] if 'cnt_decrease' in fc else 0`) and
+**synthesizes a structural `0`** for FIFO-backed BFS, keeping
+the cross-algo comparison grid rectangular. The old framing
+("`cnt_decrease=0` because `decrease` is a no-op on FIFO") is
+obsolete — there is no decrease op and no counter on FIFO; the
+0 is fabricated at the algo level.
+
+## Frontier Relaxation
+
+BFS does **not** relax frontier nodes. When a node already on
+the FIFO is re-encountered via a different parent, `AlgoSPP`'s
+`_relax_frontier_child` no-op default fires (FIFO cannot
+decrease a key — it has no `decrease` op), so BFS keeps the
+first-seen `g` / `parent`. On the synthetic weighted
+`graph_decrease` fixture BFS therefore pops X with `g=2` (the
+first FIFO path), does **not** adopt the cheaper `w(B,X)=0`
+path, and emits **no** `decrease_g` event. BFS is non-optimal
+on weighted graphs regardless — this is the honest FIFO
+behavior.
 
 ## Inheritance
 ```
@@ -60,7 +79,7 @@ rule).
 |------|-------|-------|
 | `_tester.py` | Graph problems + lifecycle | 5 |
 | `_tester_grid.py` | Grid problems | 4 |
-| `_tester_recording.py` | Full event-stream pins (one per scenario; each is a single `actual == expected` assertion). Scenarios: canonical `grid_4x4_obstacle`, graph_abc, graph_decrease (decrease_g), grid_3x3 | 4 |
+| `_tester_recording.py` | Full event-stream pins (one per scenario; each is a single `actual == expected` assertion). Scenarios: canonical `grid_4x4_obstacle`, graph_abc, graph_decrease (weighted; FIFO re-encounter, no relax — no `decrease_g`), grid_3x3 | 4 |
 
 Run all three explicitly:
 ```

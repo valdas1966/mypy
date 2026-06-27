@@ -27,6 +27,17 @@ class ConnectivityBase:
         """
         return 1
 
+    def is_cardinal(self, a: HasRowCol, b: HasRowCol) -> bool:
+        """
+        ========================================================================
+         Return True if the move a -> b is cardinal (axis-aligned: one
+         of N/E/S/W), False if diagonal. Assumes a, b are adjacent.
+        ========================================================================
+        """
+        d_row = a.row - b.row
+        d_col = a.col - b.col
+        return d_row == 0 or d_col == 0
+
     def cost(self, a: HasRowCol, b: HasRowCol) -> int:
         """
         ========================================================================
@@ -35,10 +46,14 @@ class ConnectivityBase:
         """
         raise NotImplementedError
 
-    def heuristic(self, a: HasRowCol, b: HasRowCol) -> int:
+    def distance(self, a: HasRowCol, b: HasRowCol) -> int:
         """
         ========================================================================
-         Return an admissible lower-bound cost from a to b (override).
+         Return the minimum cost of any a -> b path on the
+         obstacle-free grid (override). A lower bound on the real
+         path cost: admissible and consistent as a search heuristic.
+         NOTE: not HasRowCol.distance (always Manhattan) -- this is
+         the movement-model distance and tracks the cost function.
         ========================================================================
         """
         raise NotImplementedError

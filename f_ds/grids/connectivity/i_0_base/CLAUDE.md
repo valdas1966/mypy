@@ -3,7 +3,7 @@
 ## Purpose
 Abstract connectivity policy for a 2D grid. Defines the surface every
 connectivity implements: neighbor `offsets`, edge `cost`, admissible
-`heuristic`, corner-cutting `is_legal_move`, and the `unit` scale.
+`distance`, corner-cutting `is_legal_move`, and the `unit` scale.
 Concrete subclasses are `Connectivity_4` / `Connectivity_8`.
 
 ## Public API
@@ -17,8 +17,9 @@ Concrete subclasses are `Connectivity_4` / `Connectivity_8`.
 ### Methods
 | Method | Signature | Description |
 |--------|-----------|-------------|
+| `is_cardinal` | `(a, b) -> bool` | `True` if `a → b` is axis-aligned (`d_row == 0 or d_col == 0`), `False` if diagonal — concrete geometric helper, assumes `a, b` adjacent |
 | `cost` | `(a, b) -> int` | Edge cost between adjacent cells (override) |
-| `heuristic` | `(a, b) -> int` | Admissible lower-bound cost `a → b` (override) |
+| `distance` | `(a, b) -> int` | Min obstacle-free path cost `a → b`; admissible/consistent heuristic. NOT `HasRowCol.distance` (always Manhattan) — tracks the cost model (override) |
 | `is_legal_move` | `(a, b, is_free) -> bool` | Move legality; default `True` (cardinals never cut a corner) |
 
 `a` / `b` are any `HasRowCol`; `is_free(row, col) -> bool` reports cell

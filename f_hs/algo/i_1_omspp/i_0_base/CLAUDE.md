@@ -15,13 +15,20 @@ the algorithm actually tracks appear on `algo.counters`.
 ## Inheritance
 
 ```
-f_cs.algo.Algo[ProblemSPP[State], SolutionOMSPP]
+f_cs.algo.Algo[ProblemSPP[State], SolutionOMSPP], abc.ABC
     └── AlgoOMSPP[State]
             ├── KAStarInc
             ├── KAStarAgg
             ├── KBFS
             └── KDijkstra
 ```
+
+Bases: `Generic[State], Algo[ProblemSPP[State], SolutionOMSPP],
+ABC`. **True ABC** — `_run` is `@abstractmethod`, so `AlgoOMSPP`
+is NON-instantiable (`TypeError: Can't instantiate abstract
+class ...`) and a subclass that omits `_run` fails at
+CONSTRUCTION, not at call time (`_run`'s body still
+`raise NotImplementedError` as belt-and-suspenders).
 
 `AlgoOMSPP` is a **sibling** of `AlgoSPP` under the same
 `Algo` parent — both adapt the f_cs lifecycle to their problem
@@ -66,7 +73,7 @@ at 0.0 when off.
 |---|---|
 | `run()` | Public entry. Calls `_run_pre()` → `_run()` → `_run_post()`; returns a `SolutionOMSPP` |
 | `_run_pre()` | Resets `_elapsed`, then resets the 8 counters and `_solutions` (overridden in this base) |
-| `_run()` | **Subclass override.** Execute the algorithm, populate `self._solutions`, return `SolutionOMSPP(self._solutions)` |
+| `_run()` | **Subclass override — `@abstractmethod` (construction-enforced).** Execute the algorithm, populate `self._solutions`, return `SolutionOMSPP(self._solutions)`. Omitting it makes the subclass non-instantiable. |
 | `_run_post()` | Records `_elapsed = time_finish - time_start` |
 
 ## Per-class counter scaffolds

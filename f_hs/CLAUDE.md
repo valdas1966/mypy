@@ -7,7 +7,7 @@ Framework for heuristic search algorithms on various domains
 
 ## Package Exports
 ```python
-from f_hs import StateBase, StateCell
+from f_hs import StateBase, StateCell, StateResource, NodeResource
 from f_hs import ProblemSPP, ProblemGrid
 from f_hs import SolutionSPP
 from f_hs import AlgoSPP, BFS, AStar, AStarLookup, AStarBPMX, Dijkstra
@@ -40,7 +40,10 @@ Algo[Problem, Sol]   ←──    AlgoSPP[State]         (holds a SearchState)
 SolutionAlgo         ←──    SolutionSPP (cost)
 
                             StateBase[Key]
-                              └── StateCell (Key=CellMap)
+                              ├── StateCell (Key=CellMap)
+                              └── StateResource (Key=NodeResource)
+                                    (V×R state for RCSPP; NodeResource
+                                     = (node, resource) Tupleable key)
 
                             FrontierBase[State]
                               ├── FrontierFIFO
@@ -63,7 +66,9 @@ f_hs/
 ├── __init__.py           All public exports
 ├── state/
 │   ├── i_0_base/         StateBase[Key] — generic base
-│   └── i_1_cell/         StateCell — CellMap for 2D grids
+│   ├── i_1_cell/         StateCell — CellMap for 2D grids
+│   └── i_1_resource/     StateResource — V×R state for RCSPP
+│                         (+ NodeResource (node, resource) key)
 ├── problem/
 │   ├── i_0_base/         ProblemSPP — abstract SPP base
 │   └── i_1_grid/         ProblemGrid — 2D grid domain

@@ -60,7 +60,7 @@ def test_recording_canonical_omspp() -> None:
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
     algo = KxAStarOMSPP(problem=p,
-                   h=lambda s, g: float(s.distance(g)),
+                   h=lambda s, g: float(s.key.distance(g.key)),
                    is_recording=True)
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]
@@ -139,7 +139,7 @@ def test_recording_grid_4x4_obstacle_2goals() -> None:
     """
     p = _grid_4x4_obstacle_2goals()
     algo = KxAStarOMSPP(problem=p,
-                   h=lambda s, g: float(s.distance(g)),
+                   h=lambda s, g: float(s.key.distance(g.key)),
                    is_recording=True)
     algo.run()
     actual = [normalize(e) for e in algo.recorder.events]

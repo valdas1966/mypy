@@ -59,7 +59,7 @@ Uses the base `AlgoMOSPP` scaffold unchanged. No heuristic, no
 |---|:---:|
 | `cnt_push` | ✓ (mirrored from inner OMSPP `KBFS`) |
 | `cnt_pop` | ✓ (mirrored) |
-| `cnt_decrease` | 0 (FIFO no-op) |
+| `cnt_decrease` | 0 (FIFO has no decrease op; synthesized at algo level) |
 | `cnt_expanded`, `cnt_generated` | ✓ (mirrored) |
 | `mem_open`, `mem_closed` | ✓ **node counts** via `AlgoMOSPP._sync_memory_snapshot`: `len(frontier)` + `len(closed)` from `_inner.search_state` at completion; `mem_total = \|OPEN\| + \|CLOSED\|` = exact peak (accumulative ⇒ monotone). Apples-to-apples with every MOSPP algo. |
 
@@ -77,7 +77,7 @@ to `PHASE_UPDATE`.
 
 NO `on_goal` (translated by `_OnGoalToOnStartShim`), NO
 `update_frontier`, NO `update_heuristic`, NO `decrease_g`
-(FIFO).
+(FIFO has no decrease op).
 
 ## Algorithm
 

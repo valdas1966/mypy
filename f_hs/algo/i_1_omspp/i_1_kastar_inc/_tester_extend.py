@@ -21,7 +21,7 @@ from f_hs.problem.i_1_grid import ProblemGrid
 
 
 def _h(s, g) -> float:
-    return float(s.distance(g))
+    return float(s.key.distance(g.key))
 
 
 def _strip_mem(counters) -> dict:

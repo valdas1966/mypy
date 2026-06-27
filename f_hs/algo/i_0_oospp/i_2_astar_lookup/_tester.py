@@ -225,7 +225,7 @@ def test_recording_on_grid_4x4_obstacle_with_cached_optimal_suffix(
         p03: CacheEntry(h_perfect=0, suffix_next=None),
     }
     h = HCached(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         cache=cache,
         goal=p03,
     )
@@ -344,7 +344,7 @@ def test_astar_with_hbounded_finds_optimal_cost() -> None:
     goal_b = problem_b.goal
     base_algo = AStar(
         problem=problem_b,
-        h=lambda s: s.distance(goal_b),
+        h=lambda s: s.key.distance(goal_b.key),
         is_recording=True,
     )
     base_algo.run()
@@ -355,7 +355,7 @@ def test_astar_with_hbounded_finds_optimal_cost() -> None:
     goal = problem.goal
     bounds = {sc(1, 0): 6, sc(2, 0): 5}
     h = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds=bounds,
     )
     algo = AStarLookup(problem=problem, h=h, is_recording=True)
@@ -384,7 +384,7 @@ def test_recording_hbounded_tightens_h_on_grid_4x4_obstacle(
     goal = problem.goal
     bounds = {sc(1, 0): 6}
     h = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds=bounds,
     )
     algo = AStarLookup(problem=problem, h=h, is_recording=True)
@@ -448,7 +448,7 @@ def test_recording_hbounded_popped_state_on_grid_4x4_obstacle(
     goal = problem.goal
     bounds = {sc(1, 1): 5}
     h = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds=bounds,
     )
     algo = AStarLookup(problem=problem, h=h, is_recording=True)
@@ -532,7 +532,7 @@ def test_propagate_pathmax_grid_4x4_depth_1_from_bounded_seed(
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     h = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds={sc(1, 1): 5},
     )
     algo = AStarLookup(problem=problem, h=h)
@@ -561,7 +561,7 @@ def test_propagate_pathmax_depth_none_runs_to_convergence(
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     h = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds={sc(0, 0): 7},
     )
     algo = AStarLookup(problem=problem, h=h)
@@ -595,7 +595,7 @@ def test_recording_propagate_wave_events_mark_wave_boundaries(
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     h = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds={sc(0, 0): 7},
     )
     algo = AStarLookup(problem=problem, h=h, is_recording=True)
@@ -626,7 +626,7 @@ def test_recording_propagate_wave_events_mark_wave_boundaries(
 
     # depth=0 → no wave events.
     h2 = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds={sc(0, 0): 7},
     )
     algo2 = AStarLookup(problem=problem, h=h2, is_recording=True)
@@ -648,7 +648,7 @@ def test_propagate_pathmax_depth_zero_is_noop() -> None:
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     h = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds={sc(0, 0): 7},
     )
     algo = AStarLookup(problem=problem, h=h)
@@ -670,7 +670,7 @@ def test_propagate_pathmax_grid_4x4_depth_2_compounds() -> None:
     problem = ProblemGrid.Factory.grid_4x4_obstacle()
     goal = problem.goal
     h = HBounded(
-        base=HCallable(fn=lambda s: s.distance(goal)),
+        base=HCallable(fn=lambda s: s.key.distance(goal.key)),
         bounds={sc(1, 1): 5},
     )
     algo = AStarLookup(problem=problem, h=h)

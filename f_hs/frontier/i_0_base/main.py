@@ -1,19 +1,21 @@
+from abc import abstractmethod
 from f_core.counters.main import Counters
+from f_core.mixins.sizable.main import Sizable
 from typing import Any, Generic, Iterator, TypeVar
 
 State = TypeVar('State')
 
 
-class FrontierBase(Generic[State]):
+class FrontierBase(Generic[State], Sizable):
     """
     ============================================================================
-     Abstract Base for a Search Frontier.
-     Holds candidate States awaiting expansion.
+     1. Abstract Base for a Search Frontier.
+     2. Holds candidate States awaiting expansion.
     ============================================================================
     """
 
     _COUNTER_NAMES: tuple[str, ...] = (
-        'cnt_push', 'cnt_pop', 'cnt_decrease',
+        'cnt_push', 'cnt_pop',
     )
 
     def __init__(self) -> None:
@@ -44,9 +46,10 @@ class FrontierBase(Generic[State]):
     def counters(self) -> Counters:
         """
         ========================================================================
-         Always-on heap-op counters (`cnt_push`, `cnt_pop`,
-         `cnt_decrease`). Survive `clear()`; reset only via a
-         fresh frontier instance. The frontier is the single
+         Always-on heap-op counters (`cnt_push`, `cnt_pop`).
+         Survive `clear()`; reset only via a fresh frontier
+         instance. Priority frontiers add `cnt_decrease` via a
+         `_COUNTER_NAMES` override. The frontier is the single
          source of truth — upstream algorithms read these at
          end-of-run and may mirror into a wider scaffold via
          `Counters.assign`.
@@ -80,8 +83,8 @@ class FrontierBase(Generic[State]):
          Bump `_max_size` to `len(self)` if it grew. Called by
          each subclass's `push` AFTER the actual insertion.
          O(1); does NOT call `getsizeof` (per-push hot path).
-         `pop` / `decrease` cannot increase the size, so they
-         do not call this hook.
+         `pop` cannot increase the size, so it does not call
+         this hook.
         ========================================================================
         """
         n = len(self)
@@ -92,6 +95,7 @@ class FrontierBase(Generic[State]):
     #  Interface
     # ──────────────────────────────────────────────────
 
+    @abstractmethod
     def push(self,
              state: State,
              priority: Any = None) -> None:
@@ -102,6 +106,7 @@ class FrontierBase(Generic[State]):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def pop(self) -> State:
         """
         ========================================================================
@@ -110,18 +115,7 @@ class FrontierBase(Generic[State]):
         """
         raise NotImplementedError
 
-    def decrease(self,
-                 state: State,
-                 priority: Any = None) -> None:
-        """
-        ========================================================================
-         Update the Priority of a State already in the Frontier.
-         Default: no-op (for unpriorityed frontiers — does NOT
-         increment `cnt_decrease`).
-        ========================================================================
-        """
-        pass
-
+    @abstractmethod
     def clear(self) -> None:
         """
         ========================================================================
@@ -131,6 +125,7 @@ class FrontierBase(Generic[State]):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def __contains__(self, state: State) -> bool:
         """
         ========================================================================
@@ -139,14 +134,7 @@ class FrontierBase(Generic[State]):
         """
         raise NotImplementedError
 
-    def __bool__(self) -> bool:
-        """
-        ========================================================================
-         Return True if the Frontier is not empty.
-        ========================================================================
-        """
-        raise NotImplementedError
-
+    @abstractmethod
     def __len__(self) -> int:
         """
         ========================================================================
@@ -155,6 +143,7 @@ class FrontierBase(Generic[State]):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def __iter__(self) -> Iterator[State]:
         """
         ========================================================================

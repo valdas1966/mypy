@@ -138,8 +138,8 @@ def test_kbfs_counters_h_zero_decrease_zero() -> None:
      KBFS has no heuristic and no Φ aggregation — its counter
      scaffold contains only frontier ops + memory snapshots.
      Heuristic / Φ / stale-pop counters are absent (declared
-     off the scaffold, not zero). Frontier `cnt_decrease` is
-     0 (FIFO no-op); `cnt_push` is real.
+     off the scaffold, not zero). `cnt_decrease` is 0
+     (FIFO has no decrease op → synthesized); `cnt_push` is real.
     ========================================================================
     """
     algo = KBFS.Factory.graph_abc_two_goals()

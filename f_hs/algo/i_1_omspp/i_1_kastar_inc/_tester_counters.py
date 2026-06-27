@@ -70,7 +70,7 @@ def test_counters_canonical_omspp() -> None:
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
     algo = KAStarInc(problem=p,
-                     h=lambda s, g: float(s.distance(g)))
+                     h=lambda s, g: float(s.key.distance(g.key)))
     algo.run()
     counters = {k: v for k, v in algo.counters.items()
                 if not k.startswith('mem_')}
@@ -94,7 +94,7 @@ def test_per_goal_costs_canonical_omspp() -> None:
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
     algo = KAStarInc(problem=p,
-                     h=lambda s, g: float(s.distance(g)))
+                     h=lambda s, g: float(s.key.distance(g.key)))
     sol = algo.run()
     costs = {(g.key.row, g.key.col): s.cost
              for g, s in sol.per_goal.items()}

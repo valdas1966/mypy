@@ -5,8 +5,9 @@ Diamond-shaped (Manhattan-ball) cluster of valid cells on a `GridMap`.
 Built via BFS from a center cell to depth `steps`, skipping walls —
 returns only the connected component containing the center.
 
-Inherits `ClusterGrid` (light: holds `map: str`, not the grid) and
-`Hashable` (eq + hash via `key`).
+Inherits `ClusterGrid` (light: holds `map: str`, not the grid),
+`Comparable` (total order via `key`) and `Hashable` (eq + hash via
+`key`).
 
 ## Public API
 
@@ -29,7 +30,7 @@ and feeds `__str__` / the inherited `HasName` string forms.
 |----------|------|---------|
 | `center` | `CellMap` | center of the diamond |
 | `steps` | `int` | Manhattan radius |
-| `key` | `tuple[str, tuple[int,int], int]` | `(map, center.key, steps)` — drives `__eq__` / `__hash__` |
+| `key` | `tuple[str, tuple[int,int], int]` | `(map, center.key, steps)` — drives `__eq__` / `__lt__…` / `__hash__` |
 | `map`, `name`, `cells` | — | inherited from `ClusterGrid` |
 
 ### String forms
@@ -38,12 +39,15 @@ and feeds `__str__` / the inherited `HasName` string forms.
 - `__repr__` → from `HasRepr`: `<ClusterDiamond: …>` wrapping the custom
   `__str__` (`ClusterGrid` no longer defines `__repr__`)
 
-### Identity (via `Hashable`)
-`__eq__` and `__hash__` come from `f_core.mixins.hashable.Hashable`,
-both delegating to `key = (map, center.key, steps)`. Two diamonds with
-the same `(map, center, steps)` are equal and hash the same; differing
-on any field (including map name) makes them distinct. Usable in
-`set` / `dict`.
+### Identity & ordering (via `Comparable` + `Hashable`)
+`__eq__` / `__hash__` and the ordering operators (`__lt__` / `__le__` /
+`__gt__` / `__ge__`) all come from `f_core.mixins` (`Comparable`,
+`Hashable`), every one delegating to `key = (map, center.key, steps)`.
+Two diamonds with the same `(map, center, steps)` are equal and hash the
+same; differing on any field (including map name) makes them distinct.
+`key` is a totally-ordered tuple, so diamonds **sort** (lexicographically
+by map name, then center, then steps). Usable in `set` / `dict` and as
+sort keys — which is what lets a `PairCluster` of diamonds order.
 
 ### Collection behavior (inherited from `Collectionable`)
 

@@ -53,8 +53,10 @@ class Factory:
         """
         ====================================================================
          BFS on the weighted decrease-graph (S -> A/B -> X with
-         w(B,X) = 0). FIFO pops A before B; X is then re-parented
-         from A to B via decrease_g. See ProblemSPP.Factory.graph_decrease.
+         w(B,X) = 0). FIFO pops A before B; X is re-encountered
+         via B with a better g, but FIFO has no decrease op so
+         the path is NOT adopted (no relaxation). See
+         ProblemSPP.Factory.graph_decrease.
         ====================================================================
         """
         return BFS(

@@ -129,7 +129,7 @@ def _make_algo(is_lazy: bool,
     """
     p = ProblemGrid.Factory.grid_4x4_obstacle_omspp()
     return KAStarAgg(problem=p,
-                     h=lambda s, g: float(s.distance(g)),
+                     h=lambda s, g: float(s.key.distance(g.key)),
                      agg='MIN',
                      is_lazy=is_lazy,
                      is_opt=is_opt,

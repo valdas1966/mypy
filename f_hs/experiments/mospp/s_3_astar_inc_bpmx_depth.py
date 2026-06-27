@@ -170,7 +170,7 @@ def _h(s, g) -> float:
      `h(state, goal)` expected by AStarIncMOSPP.
     ========================================================================
     """
-    return float(s.distance(g))
+    return float(s.key.distance(g.key))
 
 
 # ── Runner task-unit adapter — one map's nested k-chain ─────────────────────

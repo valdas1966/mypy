@@ -44,10 +44,9 @@
    Pass B  -- elapsed_total. is_mem_tracking=False (tracker OFF the
               clock), is_timing=True; rerun 3x, per-r MEDIAN taken.
 
- Configs (2) -- the canonical lazy comparator plus a memory contrast.
-   lazy_opt_sv    -- store_vector=True  (the established comparator).
-   lazy_opt_nosv  -- store_vector=False (memory contrast; smaller |A|
-                     tax per node).
+ AGG config -- the single canonical aggregative version: kA*-MIN,
+ lazy mode, is_opt=True, store_vector=True (the best from prior
+ experiments). Only one config, so the CSV carries no `config` column.
 -------------------------------------------------------------------------------
  Inputs  (Drive)
    Experiments/OMSPP/i_3_problems.pkl   -- 500 detached ProblemGrid
@@ -57,9 +56,9 @@
  Output  (Drive)
    Experiments/OMSPP/early_stop/agg_checkpoints.csv
 
- Row schema (8 cols)
-   domain, map, algo, config, r, cnt_expanded, mem_total, elapsed_total
-   algo='agg', config in {lazy_opt_sv, lazy_opt_nosv}.
+ Row schema (7 cols)
+   domain, map, algo, r, cnt_expanded, mem_total, elapsed_total
+   algo='agg' (the only AGG config; no config column).
 -------------------------------------------------------------------------------
  Toy mode
    `n_problems` (None = all 500) slices BEFORE the k=200 filter, as in
@@ -92,7 +91,6 @@ _CSV_COLUMNS = [
     'domain',
     'map',
     'algo',
-    'config',
     'r',
     'cnt_expanded',
     'mem_total',
@@ -108,12 +106,10 @@ _K_FINAL = 200
 # Timed repetitions for Pass B (per-r median of elapsed_total).
 _TIMED_REPS = 3
 
-# (is_lazy, is_opt, store_vector, config_label). Both lazy + opt; the
-# store_vector axis is the memory contrast.
-_CONFIGS: list[tuple[bool, bool, bool, str]] = [
-    (True, True, True,  'lazy_opt_sv'),
-    (True, True, False, 'lazy_opt_nosv'),
-]
+# The single canonical AGG: kA*-MIN, lazy, opt, stored vector.
+_IS_LAZY = True
+_IS_OPT = True
+_STORE_VECTOR = True
 
 
 # ── Heuristic (module-level so it's picklable for spawn workers) ────────────
@@ -125,7 +121,7 @@ def _h(s, g) -> float:
      KAStarAgg.
     ============================================================================
     """
-    return float(s.distance(g))
+    return float(s.key.distance(g.key))
 
 
 # ── Checkpoint extraction ────────────────────────────────────────────────────
@@ -169,58 +165,53 @@ def _pick(checkpoints: list[dict], field: str) -> dict[int, float]:
 def _experiment_agg_checkpoints(problem: ProblemGrid) -> list[dict]:
     """
     ============================================================================
-     Run both AGG configs on one k=200 problem; emit 5 checkpoint rows
-     per config (10 rows). Pass A (untimed, mem-tracked) gives
-     cnt_expanded + mem_total; Pass B (timed x3, no mem tracker) gives
-     the per-r median elapsed_total.
+     Run the AGG config on one k=200 problem; emit 5 checkpoint rows
+     (one per r). Pass A (untimed, mem-tracked) gives cnt_expanded +
+     mem_total; Pass B (timed x3, no mem tracker) gives the per-r
+     median elapsed_total.
     ============================================================================
     """
     domain = problem.grid.domain
     map_name = problem.grid_name
-    _log.info(f'start  ({domain}, {map_name}) '
-              f'{len(_CONFIGS)} configs, r={_RS}')
+    _log.info(f'start  ({domain}, {map_name}) r={_RS}')
 
-    rows: list[dict] = []
-    for is_lazy, is_opt, store_vector, cfg in _CONFIGS:
-        # ── Pass A: cnt_expanded + mem_total (untimed, mem-tracked) ──
-        algo = KAStarAgg(problem=problem, h=_h, agg=_AGG,
-                         is_lazy=is_lazy, is_opt=is_opt,
-                         store_vector=store_vector,
-                         is_checkpointing=True,
-                         is_mem_tracking=True,
-                         is_timing=False)
-        algo.run()
-        _require_hook(algo)
-        cnt = _pick(algo.checkpoints, 'cnt_expanded')
-        mem = _pick(algo.checkpoints, 'mem_peak')
+    # ── Pass A: cnt_expanded + mem_total (untimed, mem-tracked) ──
+    algo = KAStarAgg(problem=problem, h=_h, agg=_AGG,
+                     is_lazy=_IS_LAZY, is_opt=_IS_OPT,
+                     store_vector=_STORE_VECTOR,
+                     is_checkpointing=True,
+                     is_mem_tracking=True,
+                     is_timing=False)
+    algo.run()
+    _require_hook(algo)
+    cnt = _pick(algo.checkpoints, 'cnt_expanded')
+    mem = _pick(algo.checkpoints, 'mem_peak')
 
-        # ── Pass B: elapsed_total (timed x3, mem tracker OFF clock) ──
-        elapsed_reps: dict[int, list[float]] = {r: [] for r in _RS}
-        for _ in range(_TIMED_REPS):
-            a = KAStarAgg(problem=problem, h=_h, agg=_AGG,
-                          is_lazy=is_lazy, is_opt=is_opt,
-                          store_vector=store_vector,
-                          is_checkpointing=True,
-                          is_mem_tracking=False,
-                          is_timing=True)
-            a.run()
-            ela = _pick(a.checkpoints, 'elapsed')
-            for r in _RS:
-                elapsed_reps[r].append(ela[r])
+    # ── Pass B: elapsed_total (timed x3, mem tracker OFF clock) ──
+    elapsed_reps: dict[int, list[float]] = {r: [] for r in _RS}
+    for _ in range(_TIMED_REPS):
+        a = KAStarAgg(problem=problem, h=_h, agg=_AGG,
+                      is_lazy=_IS_LAZY, is_opt=_IS_OPT,
+                      store_vector=_STORE_VECTOR,
+                      is_checkpointing=True,
+                      is_mem_tracking=False,
+                      is_timing=True)
+        a.run()
+        ela = _pick(a.checkpoints, 'elapsed')
+        for r in _RS:
+            elapsed_reps[r].append(ela[r])
 
-        rows.extend({
-            'domain':        domain,
-            'map':           map_name,
-            'algo':          'agg',
-            'config':        cfg,
-            'r':             r,
-            'cnt_expanded':  cnt[r],
-            'mem_total':     mem[r],
-            'elapsed_total': round(statistics.median(elapsed_reps[r]), 6),
-        } for r in _RS)
+    rows = [{
+        'domain':        domain,
+        'map':           map_name,
+        'algo':          'agg',
+        'r':             r,
+        'cnt_expanded':  cnt[r],
+        'mem_total':     mem[r],
+        'elapsed_total': round(statistics.median(elapsed_reps[r]), 6),
+    } for r in _RS]
 
-    _log.info(f'done   ({domain}, {map_name}) '
-              f'{len(_CONFIGS)} configs')
+    _log.info(f'done   ({domain}, {map_name})')
     return rows
 
 
@@ -288,8 +279,7 @@ def run_agg_checkpoints(path_drive_pkl_in: str,
         effective_workers = min(workers, n_tasks)
         _log.info(f'spawning {effective_workers} workers '
                   f'(requested {workers}, n_tasks={n_tasks}); '
-                  f'each task = 1 problem x {len(_CONFIGS):,} configs '
-                  f'x (1 + {_TIMED_REPS}) passes')
+                  f'each task = 1 problem x (1 + {_TIMED_REPS}) passes')
         results = ProblemGrid.Runner.run(
             path_problems=path_filt,
             path_grids=path_grids,

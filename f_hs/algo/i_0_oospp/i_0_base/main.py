@@ -136,7 +136,13 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         fc = self._search.frontier.counters
         self._counters.assign('cnt_push', fc['cnt_push'])
         self._counters.assign('cnt_pop', fc['cnt_pop'])
-        self._counters.assign('cnt_decrease', fc['cnt_decrease'])
+        # FIFO frontiers carry no `cnt_decrease` (no decrease
+        # op); synthesize the structural 0 so the algo-level
+        # comparison grid stays rectangular. Priority frontiers
+        # report the real count.
+        cnt_decrease = (fc['cnt_decrease']
+                        if 'cnt_decrease' in fc else 0)
+        self._counters.assign('cnt_decrease', cnt_decrease)
         for k, v in self._mem.items():
             self._counters.assign(k, v)
         return self._counters
@@ -423,10 +429,25 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
             self._search.parent[child] = parent
             self._counters.inc('cnt_generated')
             self._push(state=child)
-        elif new_g < self._search.g[child]:
-            self._search.g[child] = new_g
-            self._search.parent[child] = parent
-            self._decrease_g(state=child)
+        else:
+            self._relax_frontier_child(parent=parent,
+                                       child=child,
+                                       new_g=new_g)
+
+    def _relax_frontier_child(self,
+                              parent: State,
+                              child: State,
+                              new_g: int) -> None:
+        """
+        ====================================================================
+         Relax a Child already on the Frontier (re-encountered
+         via a different parent). Default: no-op — insertion-
+         order frontiers (FIFO / BFS) never relax. Priority
+         frontiers (AStar) override to decrease the key when
+         `new_g` improves the stored g.
+        ====================================================================
+        """
+        pass
 
     # ──────────────────────────────────────────────────
     #  Frontier Wrappers (with recording)
@@ -453,18 +474,6 @@ class AlgoSPP(Generic[State], Algo[ProblemSPP[State], SolutionSPP]):
         state = self._search.frontier.pop()
         self._record_event(type='pop', state=state)
         return state
-
-    def _decrease_g(self, state: State) -> None:
-        """
-        ====================================================================
-         Update Priority in the Frontier and record.
-        ====================================================================
-        """
-        self._search.frontier.decrease(
-            state=state,
-            priority=self._priority(state=state),
-        )
-        self._record_event(type='decrease_g', state=state)
 
     # ──────────────────────────────────────────────────
     #  Priority (subclass override)

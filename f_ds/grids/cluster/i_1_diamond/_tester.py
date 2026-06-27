@@ -41,6 +41,19 @@ def test_key() -> None:
     assert cluster.key == ('test', (1, 1), 1)
 
 
+def test_order() -> None:
+    """
+    ============================================================================
+     ClusterDiamond is Comparable — `<` follows key order (map, center, steps).
+    ============================================================================
+    """
+    grid = Grid(rows=10)
+    a = Cluster(grid=grid, center=grid[2][2], steps=1)
+    b = Cluster(grid=grid, center=grid[7][7], steps=1)
+    assert (a < b) == (a.key < b.key)
+    assert sorted([b, a]) == [a, b]
+
+
 def test_random_many_distinct() -> None:
     """
     ============================================================================

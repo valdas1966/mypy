@@ -69,7 +69,7 @@ class Factory:
         goal = problem.goal
         return AStarBPMX(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
             rule_bpmx=rule_bpmx,
             depth_bpmx=depth_bpmx,
         )
@@ -143,7 +143,7 @@ class Factory:
         cache = {beacon: CacheEntry(h_perfect=6, suffix_next=None)}
         return AStarBPMX(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
             cache=cache,
             goal=goal,
             rule_bpmx=rule_bpmx,
@@ -223,7 +223,7 @@ class Factory:
         cache = {beacon: CacheEntry(h_perfect=14, suffix_next=None)}
         return AStarBPMX(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
             cache=cache,
             goal=goal,
             rule_bpmx=rule_bpmx,
@@ -246,7 +246,7 @@ class Factory:
         cache = {goal: CacheEntry(h_perfect=0, suffix_next=None)}
         return AStarBPMX(
             problem=problem,
-            h=lambda s: float(s.distance(goal)),
+            h=lambda s: float(s.key.distance(goal.key)),
             cache=cache,
             goal=goal,
             rule_bpmx='CASCADE',

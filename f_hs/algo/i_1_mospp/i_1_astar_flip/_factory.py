@@ -10,7 +10,7 @@ def _h_grid(s, g) -> float:
      `h(state, goal)`); symmetric, so valid under the flip.
     ============================================================================
     """
-    return float(s.distance(g))
+    return float(s.key.distance(g.key))
 
 
 class Factory:

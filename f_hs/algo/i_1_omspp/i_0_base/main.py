@@ -1,5 +1,6 @@
 import sys
 
+from abc import ABC, abstractmethod
 from f_core.counters.main import Counters
 from f_cs.algo import Algo
 from f_hs.problem.i_0_base.main import ProblemSPP
@@ -17,7 +18,8 @@ PHASE_UPDATE = 'update'
 
 
 class AlgoOMSPP(Generic[State],
-                Algo[ProblemSPP[State], SolutionOMSPP]):
+                Algo[ProblemSPP[State], SolutionOMSPP],
+                ABC):
     """
     ============================================================================
      Abstract base for One-to-Many Shortest Path Problem
@@ -223,6 +225,7 @@ class AlgoOMSPP(Generic[State],
         self._phase = PHASE_SEARCH
         self._t_phase_start = perf_counter()
 
+    @abstractmethod
     def _run(self) -> SolutionOMSPP:
         """
         ====================================================================
