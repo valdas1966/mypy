@@ -21,7 +21,7 @@ class IndexableKey(Collectionable[Item], Generic[Key]):
          Convert the Object's Items into key-value pairs.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     def __getitem__(self, key: Key) -> Item:
         """

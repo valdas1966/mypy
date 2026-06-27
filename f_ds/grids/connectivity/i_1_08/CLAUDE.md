@@ -23,7 +23,7 @@ planned 3D 26-connectivity.
 |--------|---------|-------------|
 | `is_cardinal(a, b)` | `bool` | Inherited from base; classifies a move as cardinal vs diagonal — `cost` and `is_legal_move` both branch on it |
 | `cost(a, b)` | `int` | `COST_DIAGONAL` if diagonal else `COST_CARDINAL` (via `is_cardinal`) |
-| `distance(a, b)` | `int` | Scaled-integer octile: `DIAG·d_min + CARD·(d_max − d_min)`; admissible 8-conn heuristic (≠ `HasRowCol.distance` Manhattan, which is inadmissible here) |
+| `distance(a, b)` | `int` | Scaled-integer octile: `DIAG·d_min + CARD·(d_max − d_min)`; admissible 8-conn heuristic (≠ Manhattan, which is inadmissible here) |
 | `is_legal_move(a, b, is_free)` | `bool` | Cardinal → always; diagonal → BOTH flanks free (via `is_free(row, col)`) |
 
 ## Constants
@@ -49,7 +49,7 @@ ConnectivityBase
 
 ## Dependencies
 - `f_ds.grids.connectivity.i_0_base.ConnectivityBase`
-- `f_core.mixins.has.row_col.HasRowCol`
+- `f_ds.geometry.point2d.Point2D`
 - `typing.Callable` — the `is_free` predicate (no grid type imported)
 
 ## Usage

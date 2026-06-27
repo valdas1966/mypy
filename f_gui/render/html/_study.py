@@ -2,7 +2,7 @@
 from f_gui.elements import Window, Container, Label, Line
 from f_gui.style import Stroke, DashPattern, Border
 from f_gui.render import RenderHtml
-from f_ds.geometry import Bounds, Point
+from f_ds.geometry import Bounds, PointXY
 from f_color import RGB
 
 
@@ -21,12 +21,12 @@ def create_con_right() -> Container:
 
 def create_arrow() -> Line:
     # Solid arrow bridging the two containers (left -> right).
-    return Line(p1=Point(x=40, y=50), p2=Point(x=60, y=50),
+    return Line(p1=PointXY(x=40, y=50), p2=PointXY(x=60, y=50),
                 stroke=Stroke(color=RGB('RED'), width=3), arrow=True)
 
 def create_diagonal() -> Line:
     # Dashed blue diagonal across the whole window.
-    return Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100),
+    return Line(p1=PointXY(x=0, y=0), p2=PointXY(x=100, y=100),
                 stroke=Stroke(color=RGB('BLUE'), width=2,
                               pattern=DashPattern.DASHED))
 

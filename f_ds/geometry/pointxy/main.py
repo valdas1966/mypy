@@ -1,10 +1,10 @@
 from f_core.mixins.tupleable import Tupleable
 
 
-class Point(Tupleable):
+class PointXY(Tupleable):
     """
     ============================================================================
-     2-D Point (x, y) in a normalized 0-100 coordinate space.
+     2-D PointXY (x, y) — a coordinate pair with no fixed frame.
     ============================================================================
     """
 
@@ -26,7 +26,7 @@ class Point(Tupleable):
     def x(self) -> float:
         """
         ========================================================================
-         Get the horizontal coordinate (0-100).
+         Get the horizontal (x-axis) coordinate.
         ========================================================================
         """
         return self._x
@@ -35,7 +35,7 @@ class Point(Tupleable):
     def y(self) -> float:
         """
         ========================================================================
-         Get the vertical coordinate (0-100).
+         Get the vertical (y-axis) coordinate.
         ========================================================================
         """
         return self._y
@@ -43,7 +43,7 @@ class Point(Tupleable):
     def to_tuple(self) -> tuple[float, float]:
         """
         ========================================================================
-         Return the Point as an (x, y) tuple.
+         Return the PointXY as an (x, y) tuple.
         ========================================================================
         """
         return self._x, self._y

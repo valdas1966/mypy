@@ -23,15 +23,36 @@ MyClass.Factory = Factory
 ```
 
 ## Mixin Composition
-Prefer mixins over deep single inheritance. Mixins are adjectives:
+Example compositions, base to derived:
 ```python
 class CellBase(HasRowCol, HasName):
 class CellMap(CellBase, ValidatableMutable):
 class ProblemSPP(ProblemSearch, HasStart, HasGoal):
 ```
 
+## Abstract Methods (ABCs)
+A genuinely-abstract method is decorated `@abstractmethod` and its body
+is `raise NotImplementedError` — **never `pass`**. The decorator blocks
+construction of any subclass that omits it; the `raise` is the call-time
+guard for the body that still runs on `super().method()` delegation or
+ABC-bypass (where a `pass` body would silently return a wrong `None`):
+```python
+from abc import abstractmethod
+
+class FrontierBase(Sizable):
+    @abstractmethod
+    def pop(self) -> State:
+        raise NotImplementedError
+```
+Reserve bare `pass` / `...` for the **optional** Template-Method hooks
+below — that keeps must-override and may-override visually distinct.
+Exception: `typing.Protocol` members use `...` (idiomatic, never
+instantiated); do not convert them to `raise`.
+
 ## Template Method (Lifecycle Hooks)
-Base classes define hooks; subclasses override:
+Base classes define **optional** hooks; subclasses override as needed.
+The hook body is a no-op (`pass` / `...`), not `raise` — its absence in
+a subclass is legal (unlike an `@abstractmethod`):
 ```python
 def _pre_run(self) -> None: ...
 def _post_run(self) -> None: ...
@@ -59,10 +80,6 @@ class Comparable(Equatable):
     def __ge__(self, other: object) -> bool:
         return self.key >= other.key
 ```
-Comparison/equality dunders keep `other: object` (they delegate to
-`key` and nominally accept any object) — do **not** narrow them to
-`Self`. `Self` is for same-type *domain* methods instead, e.g.
-`distance(self, other: Self) -> int`.
 
 ## Dataclasses vs Manual `__init__`
 Use `@dataclass` for **data-holder classes** with no business logic:
@@ -74,7 +91,7 @@ class ResultTest:
     failures: list[str] = field(default_factory=list)
 ```
 Use **manual `__init__`** for behavior-rich classes (mixins, algorithms,
-domain objects). Do not use `attrs`.
+domain objects).
 
 ## Error Handling
 No custom exception classes — use built-in exceptions (`ValueError`,
@@ -86,6 +103,3 @@ try:
 except Exception as e:
     exception = str(e)
 ```
-
-## Async
-Not used. The entire codebase is synchronous.

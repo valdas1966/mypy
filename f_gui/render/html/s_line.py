@@ -9,7 +9,7 @@ Run:  python -m f_gui.render.html.s_line   (then open line.html)
 from f_gui.elements import Window, Container, Label, Line
 from f_gui.style import Stroke, DashPattern, Border
 from f_gui.render import RenderHtml
-from f_ds.geometry import Bounds, Point
+from f_ds.geometry import Bounds, PointXY
 from f_color import RGB
 
 
@@ -31,7 +31,7 @@ def cell(i: int, text: str, line: Line) -> Container:
 
 def line(x1, y1, x2, y2, color, width=2,
          pattern=DashPattern.SOLID, arrow=False) -> Line:
-    return Line(p1=Point(x=x1, y=y1), p2=Point(x=x2, y=y2),
+    return Line(p1=PointXY(x=x1, y=y1), p2=PointXY(x=x2, y=y2),
                 stroke=Stroke(color=RGB(color), width=width, pattern=pattern),
                 arrow=arrow)
 

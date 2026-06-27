@@ -16,6 +16,7 @@ def __init__(self, row: int, col: int, name: str = 'CellBase') -> None
 | Property | Type | Description |
 |----------|------|-------------|
 | `key` | `tuple[int, int]` | `(row, col)` — drives equality/ordering/hash |
+| `point` | `Point2D` | `(row, col)` as a bare lattice coord — the footgun-free type the Connectivity policy consumes |
 
 ### Methods
 | Method | Signature | Description |
@@ -52,6 +53,7 @@ HasRowCol, HasName
 ## Dependencies
 - `f_core.mixins.has.row_col.HasRowCol`
 - `f_core.mixins.has.name.HasName`
+- `f_ds.geometry.point2d.Point2D` — the `point` accessor's return type
 
 ## Usage
 ```python

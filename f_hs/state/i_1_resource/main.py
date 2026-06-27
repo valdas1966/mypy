@@ -4,36 +4,9 @@ from typing import TypeVar
 
 Node = TypeVar('Node')
 
-
-class StateResource(StateBase[NodeResource[Node]]):
-    """
-    ============================================================================
-     Search State composing (Node, Resource) into the V×R space for RCSPP.
-    ============================================================================
-    """
-
-    def __init__(self, key: NodeResource[Node]) -> None:
-        """
-        ========================================================================
-         Init private Attributes.
-        ========================================================================
-        """
-        StateBase.__init__(self, key=key)
-
-    @property
-    def node(self) -> Node:
-        """
-        ========================================================================
-         Return the underlying Node identity (key.node).
-        ========================================================================
-        """
-        return self.key.node
-
-    @property
-    def resource(self) -> int:
-        """
-        ========================================================================
-         Return the Resource level (key.resource).
-        ========================================================================
-        """
-        return self.key.resource
+# StateResource is a pure (generic) type alias: a search state keyed on a
+# NodeResource (node, resource) pair — the V×R identity that runs RCSPP on
+# stock AStar / Dijkstra. Identity only via StateBase; the node / resource
+# components are read off the key (state.key.node / state.key.resource).
+# NodeResource holds the behavior; the state is pure identity.
+StateResource = StateBase[NodeResource[Node]]

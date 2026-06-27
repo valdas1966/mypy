@@ -16,7 +16,7 @@ class Sizable(Sized):
          Return the Object's Length.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     def __bool__(self) -> bool:
         """

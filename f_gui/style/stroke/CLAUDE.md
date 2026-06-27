@@ -54,7 +54,7 @@ def __str__(self) -> str    # '(2px dashed RED(255, 0, 0))' / '... default'
 ## Design Notes
 
 - **Plain value object** (manual `__init__` + properties + `=`-docstrings),
-  matching `Bounds` / `Point` / `RGB`. Not a dataclass, not `Equatable`
+  matching `Bounds` / `PointXY` / `RGB`. Not a dataclass, not `Equatable`
   (no current need).
 - **No rendering here.** `f_gui` stores appearance; `RenderHtml` turns a
   `Stroke` into CSS (`border-{side}: {width}px {style} {color}`) or an SVG

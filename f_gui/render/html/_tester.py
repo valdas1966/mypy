@@ -9,7 +9,7 @@ from f_gui.elements.i_1_line.main import Line
 from f_gui.style.stroke import Stroke, DashPattern
 from f_gui.style.border import Border
 from f_ds.geometry.bounds import Bounds
-from f_ds.geometry.point import Point
+from f_ds.geometry.pointxy import PointXY
 from f_color.rgb import RGB
 
 
@@ -117,8 +117,8 @@ def test_line_renders_svg() -> None:
      Test that a Line renders as an <svg> with a <line> at % endpoints.
     ========================================================================
     """
-    html = RenderHtml.element(elem=Line(p1=Point(x=10, y=20),
-                                        p2=Point(x=80, y=90)))
+    html = RenderHtml.element(elem=Line(p1=PointXY(x=10, y=20),
+                                        p2=PointXY(x=80, y=90)))
     assert html.startswith('<svg')
     assert '<line ' in html
     assert 'x1="10%"' in html
@@ -134,7 +134,7 @@ def test_line_color_renders_hex() -> None:
     ========================================================================
     """
     html = RenderHtml.element(elem=Line(
-        p1=Point(x=0, y=0), p2=Point(x=100, y=100),
+        p1=PointXY(x=0, y=0), p2=PointXY(x=100, y=100),
         stroke=Stroke(color=RGB(name='steelblue'))))
     assert 'stroke="#4682B4"' in html
 
@@ -146,7 +146,7 @@ def test_line_width() -> None:
     ========================================================================
     """
     html = RenderHtml.element(elem=Line(
-        p1=Point(x=0, y=0), p2=Point(x=100, y=100),
+        p1=PointXY(x=0, y=0), p2=PointXY(x=100, y=100),
         stroke=Stroke(width=4)))
     assert 'stroke-width="4"' in html
 
@@ -157,8 +157,8 @@ def test_line_solid_has_no_dasharray() -> None:
      Test that a solid Line emits no stroke-dasharray.
     ========================================================================
     """
-    html = RenderHtml.element(elem=Line(p1=Point(x=0, y=0),
-                                        p2=Point(x=100, y=100)))
+    html = RenderHtml.element(elem=Line(p1=PointXY(x=0, y=0),
+                                        p2=PointXY(x=100, y=100)))
     assert 'stroke-dasharray' not in html
 
 
@@ -169,7 +169,7 @@ def test_line_dashed_has_dasharray() -> None:
     ========================================================================
     """
     html = RenderHtml.element(elem=Line(
-        p1=Point(x=0, y=0), p2=Point(x=100, y=100),
+        p1=PointXY(x=0, y=0), p2=PointXY(x=100, y=100),
         stroke=Stroke(pattern=DashPattern.DASHED)))
     assert 'stroke-dasharray="8 6"' in html
 
@@ -180,8 +180,8 @@ def test_line_arrow_emits_marker() -> None:
      Test that an arrow Line emits a <marker> and references it.
     ========================================================================
     """
-    html = RenderHtml.element(elem=Line(p1=Point(x=0, y=0),
-                                        p2=Point(x=100, y=0), arrow=True))
+    html = RenderHtml.element(elem=Line(p1=PointXY(x=0, y=0),
+                                        p2=PointXY(x=100, y=0), arrow=True))
     assert '<marker ' in html
     assert 'marker-end="url(#arrow-' in html
 
@@ -192,8 +192,8 @@ def test_line_no_arrow_no_marker() -> None:
      Test that a Line without an arrow emits no <marker>.
     ========================================================================
     """
-    html = RenderHtml.element(elem=Line(p1=Point(x=0, y=0),
-                                        p2=Point(x=100, y=0)))
+    html = RenderHtml.element(elem=Line(p1=PointXY(x=0, y=0),
+                                        p2=PointXY(x=100, y=0)))
     assert '<marker' not in html
     assert 'marker-end' not in html
 
@@ -205,7 +205,7 @@ def test_line_in_tree() -> None:
     ========================================================================
     """
     win = Window.Factory.default()
-    win.add_child(child=Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100)))
+    win.add_child(child=Line(p1=PointXY(x=0, y=0), p2=PointXY(x=100, y=100)))
     html = RenderHtml.element(elem=win)
     assert '<svg' in html
     assert '<line ' in html

@@ -17,7 +17,7 @@ the default policy, so existing grids are byte-for-byte unchanged.
 | Method | Returns | Description |
 |--------|---------|-------------|
 | `cost(a, b)` | `1` | Uniform edge cost |
-| `distance(a, b)` | `int` | Manhattan distance (delegates to `HasRowCol.distance`); admissible 4-conn heuristic |
+| `distance(a, b)` | `int` | Manhattan (L1) distance, computed inline; admissible 4-conn heuristic |
 | `is_legal_move(a, b, grid)` | `True` | Inherited — cardinals never cut a corner |
 
 ## Internal Constants
@@ -33,7 +33,7 @@ ConnectivityBase
 
 ## Dependencies
 - `f_ds.grids.connectivity.i_0_base.ConnectivityBase`
-- `f_core.mixins.has.row_col.HasRowCol`
+- `f_ds.geometry.point2d.Point2D`
 
 ## Usage
 ```python

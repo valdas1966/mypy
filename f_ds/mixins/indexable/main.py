@@ -17,7 +17,7 @@ class Indexable(Collectionable[Item]):
          Convert the Object's Content into an Iterable of Items.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     def __getitem__(self, index: Union[int, slice]) -> Union[Item, list[Item]]:
         """

@@ -3,7 +3,7 @@ from f_core.mixins import HasName, HasParent
 from f_ds.geometry.bounds import Bounds
 from f_color.rgb import RGB
 from f_gui.style.border import Border
-from f_ds.geometry.point import Point
+from f_ds.geometry.pointxy import PointXY
 from f_ds.geometry.side import Side
 from abc import ABC
 
@@ -58,7 +58,7 @@ class Element(HasName, HasParent, ABC):
         """
         return self._border
 
-    def anchor(self, side: Side) -> Point:
+    def anchor(self, side: Side) -> PointXY:
         """
         ========================================================================
          A connection point of the Element — the mid-point of the given Side.

@@ -39,11 +39,12 @@ Algo[Problem, Sol]   ←──    AlgoSPP[State]         (holds a SearchState)
                                     └── Dijkstra   (h = 0)
 SolutionAlgo         ←──    SolutionSPP (cost)
 
-                            StateBase[Key]
-                              ├── StateCell (Key=CellMap)
-                              └── StateResource (Key=NodeResource)
+                            StateBase[Key]   (the only State class)
+                              StateCell     = StateBase[CellMap]  (alias)
+                              StateResource = StateBase[
+                                                NodeResource[Node]] (alias)
                                     (V×R state for RCSPP; NodeResource
-                                     = (node, resource) Tupleable key)
+                                     = (node, resource) Tupleable key class)
 
                             FrontierBase[State]
                               ├── FrontierFIFO
@@ -65,10 +66,10 @@ SolutionAlgo         ←──    SolutionSPP (cost)
 f_hs/
 ├── __init__.py           All public exports
 ├── state/
-│   ├── i_0_base/         StateBase[Key] — generic base
-│   ├── i_1_cell/         StateCell — CellMap for 2D grids
-│   └── i_1_resource/     StateResource — V×R state for RCSPP
-│                         (+ NodeResource (node, resource) key)
+│   ├── i_0_base/         StateBase[Key] — the only State class
+│   ├── i_1_cell/         StateCell = StateBase[CellMap]  (alias)
+│   └── i_1_resource/     StateResource = StateBase[NodeResource]  (alias)
+│                         (+ NodeResource (node, resource) key class)
 ├── problem/
 │   ├── i_0_base/         ProblemSPP — abstract SPP base
 │   └── i_1_grid/         ProblemGrid — 2D grid domain

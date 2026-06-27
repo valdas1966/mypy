@@ -3,7 +3,7 @@ from __future__ import annotations
 from f_gui.elements.i_0_element.main import Element
 from f_gui.style.stroke import Stroke
 from f_ds.geometry.bounds import Bounds
-from f_ds.geometry.point import Point
+from f_ds.geometry.pointxy import PointXY
 
 
 class Line(Element):
@@ -23,8 +23,8 @@ class Line(Element):
     Factory: type = None
 
     def __init__(self,
-                 p1: Point,
-                 p2: Point,
+                 p1: PointXY,
+                 p2: PointXY,
                  stroke: Stroke | None = None,
                  arrow: bool = False,
                  name: str = 'Line') -> None:
@@ -40,19 +40,19 @@ class Line(Element):
         self._arrow = arrow
 
     @property
-    def p1(self) -> Point:
+    def p1(self) -> PointXY:
         """
         ========================================================================
-         Get the start Point of the Line.
+         Get the start PointXY of the Line.
         ========================================================================
         """
         return self._p1
 
     @property
-    def p2(self) -> Point:
+    def p2(self) -> PointXY:
         """
         ========================================================================
-         Get the end Point of the Line (where the arrowhead sits, if any).
+         Get the end PointXY of the Line (where the arrowhead sits, if any).
         ========================================================================
         """
         return self._p2
@@ -70,13 +70,13 @@ class Line(Element):
     def arrow(self) -> bool:
         """
         ========================================================================
-         Whether an arrowhead is drawn at the end Point (p2).
+         Whether an arrowhead is drawn at the end PointXY (p2).
         ========================================================================
         """
         return self._arrow
 
     @staticmethod
-    def _bbox(p1: Point, p2: Point) -> Bounds[float]:
+    def _bbox(p1: PointXY, p2: PointXY) -> Bounds[float]:
         """
         ========================================================================
          Bounding box (Bounds) enclosing the two endpoints.

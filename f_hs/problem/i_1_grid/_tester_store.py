@@ -74,12 +74,12 @@ def test_attach_restores_successors() -> None:
     ========================================================================
     """
     p = _make_problem()
-    children_before = {s.to_tuple() for s in p.successors(p.start)}
+    children_before = {s.key.to_tuple() for s in p.successors(p.start)}
     p.detach()
     grid = GridMap(rows=4, cols=4, name='g1')
     grid[1][2].set_invalid()
     p.attach(grid=grid)
-    children_after = {s.to_tuple() for s in p.successors(p.start)}
+    children_after = {s.key.to_tuple() for s in p.successors(p.start)}
     assert children_before == children_after
 
 
@@ -121,8 +121,8 @@ def test_store_save_load_roundtrip() -> None:
         assert back.is_attached
         assert back.start_rc == orig.start_rc
         assert back.goal_rc == orig.goal_rc
-        orig_children = {s.to_tuple() for s in orig.successors(orig.start)}
-        back_children = {s.to_tuple() for s in back.successors(back.start)}
+        orig_children = {s.key.to_tuple() for s in orig.successors(orig.start)}
+        back_children = {s.key.to_tuple() for s in back.successors(back.start)}
         assert orig_children == back_children
 
 

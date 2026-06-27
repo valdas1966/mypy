@@ -170,6 +170,18 @@ class ProblemGrid(ProblemSPP[StateCell]):
         self._starts = []
         self._goals = []
 
+    def state_at(self, row: int, col: int) -> StateCell:
+        """
+        ========================================================================
+         Return the cached State at (row, col).
+
+         The home for "the state for this cell": the Problem owns the
+         one-state-per-cell cache, so state lookup belongs here, not on a
+         State factory. Raises KeyError for an invalid (e.g. obstacle) cell.
+        ========================================================================
+        """
+        return self._states[self.grid[row][col]]
+
     def successors(self,
                    state: StateCell) -> list[StateCell]:
         """

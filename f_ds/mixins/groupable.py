@@ -20,7 +20,7 @@ class Groupable(Generic[Item], Sizable):
          Convert the class content into a Group instance.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     def filter(self,
                predicate: Callable[[Item], bool],

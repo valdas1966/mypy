@@ -42,7 +42,7 @@ class FileHandler(ABC):
          Save the file (must be implemented by subclasses).
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def close(self) -> None:
@@ -51,7 +51,7 @@ class FileHandler(ABC):
          Close the file (must be implemented by subclasses).
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def _create(self) -> None:
@@ -60,7 +60,7 @@ class FileHandler(ABC):
          Create a new file (must be implemented by subclasses).
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def _open(self) -> None:
@@ -69,5 +69,5 @@ class FileHandler(ABC):
          Open the file (must be implemented by subclasses).
         ========================================================================
         """
-        pass
+        raise NotImplementedError
    

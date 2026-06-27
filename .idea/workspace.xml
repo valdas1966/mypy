@@ -5,30 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_08/corner_cutting.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_6_aggregate_checkpoints.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/_tester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/node_resource.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point2d/CLAUDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point2d/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point2d/_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point2d/_tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_ds/geometry/point2d/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_2_pairs_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_3_problems_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_4_kastar_inc_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_5_kastar_agg_grid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_6_plot_heatmaps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_8_robustness_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/instructions/code/design/for_new_class.md" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/instructions/code/design/for_new_class.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.claude/instructions/code/design/for_patterns.md" beforeDir="false" afterPath="$PROJECT_DIR$/.claude/instructions/code/design/for_patterns.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/mypy2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mypy2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/mixins/tupleable/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/tupleable/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_1_diamond/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/pair/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/pair/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/pair/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/pair/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/pair/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/has/row_col/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/has/row_col/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/sizable/claude.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/sizable/claude.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/sizable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/sizable/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_core/mixins/tupleable/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/mixins/tupleable/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/container.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/container.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/bounds/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/bounds/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/bounds/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/bounds/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/point/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/pointxy/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/point/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/pointxy/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/point/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/pointxy/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/point/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/pointxy/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/point/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/pointxy/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/geometry/side/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/geometry/side/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell/i_0_base/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cell/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cell/i_0_base/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/CLAUDE.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_0_base/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/i_0_base/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_0_base/_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_0_base/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_04/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_04/CLAUDE.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_04/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_04/_tester.py" afterDir="false" />
@@ -36,91 +50,55 @@
       <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_08/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_08/CLAUDE.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_08/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_08/_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_08/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/connectivity/i_1_08/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_ds/mixins/collectionable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/collectionable/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/dual_indexable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/dual_indexable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/groupable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/groupable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/indexable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/indexable/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/mixins/indexable_key/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/mixins/indexable_key/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/queues/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/queues/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_dv/i_0_chart.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_dv/i_0_chart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/abstracts/openable.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/abstracts/openable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_file/i_0_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_file/i_0_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_0_element/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_0_element/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_0_element/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_0_element/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_connector/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_connector/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_connector/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_line/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_line/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_line/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/elements/i_1_line/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/elements/i_1_line/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/_study.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/render/html/s_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/render/html/s_line.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_gui/style/stroke/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_gui/style/stroke/CLAUDE.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester_recording.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester_search_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/_tester_search_state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_astar/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_1_bfs/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_factory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_2_astar_lookup/_tester_recording.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_0_oospp/i_3_astar_bpmx/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_flip/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_flip/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_flip/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_flip/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/study/gen_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/study/gen_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/study/oracle.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_inc/study/oracle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_rep/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_rep/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_rep/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_astar_rep/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_bfs_flip/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_bfs_flip/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_bfs_flip/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_bfs_flip/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_bfs_flip/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_bfs_flip/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_bfs_flip/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_bfs_flip/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_dijkstra_flip/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/i_1_dijkstra_flip/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/mixins/extendable/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/mixins/extendable/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/mixins/extendable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_mospp/mixins/extendable/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_dump_csvs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_dump_csvs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_agg/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_extend.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_extend.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_survival.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kastar_inc/_tester_survival.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kbfs/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kxastar/_tester_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kxastar/_tester_counters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kxastar/_tester_recording.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/i_1_kxastar/_tester_recording.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/mixins/extendable/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/mixins/extendable/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/mixins/extendable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/algo/i_1_omspp/mixins/extendable/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/report_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/report_render.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/mospp/s_3_astar_inc_bpmx_depth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_4_inc_checkpoints.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_4_inc_checkpoints.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_5_agg_checkpoints.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_5_agg_checkpoints.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_6_plot_checkpoints.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/PLAN.html" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/PLAN.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_4_kastar_inc_extended.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_5_kastar_agg_all_configs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/s_7_inc_survival_histogram.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/s_7_inc_survival_histogram.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/frontier/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_0_base/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_1_fifo/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_1_fifo/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_1_fifo/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_1_fifo/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_1_fifo/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_1_fifo/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/frontier/i_1_priority/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/heuristic/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/heuristic/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problem/i_0_base/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_0_base/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/problem/i_0_base/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_0_base/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/PLAN.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_removal/DESIGN.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_removal/PLAN.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_removal/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/problem/i_1_grid/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_study.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_study.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_tester_store.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/_tester_store.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/problem/i_1_grid/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/problem/i_1_grid/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/state/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/state/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_cell/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_cell/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_cell/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_cell/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_cell/_tester.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_cell/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_cell/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_resource/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_resource/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_resource/_factory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_resource/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/state/i_1_resource/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/state/i_1_resource/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +125,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+    "accountId": "0f4621b9-87f9-4a4a-9ceb-401ed7593bcc"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -1083,6 +1061,7 @@
     "Python.s_5_gen_report.executor": "Run",
     "Python.s_5_kastar_agg_all_configs (1).executor": "Run",
     "Python.s_5_kastar_agg_all_configs.executor": "Run",
+    "Python.s_6_aggregate_checkpoints (1).executor": "Run",
     "Python.s_6_aggregate_checkpoints.executor": "Run",
     "Python.s_7_inc_survival_histogram.executor": "Run",
     "Python.s_8_sample_size_diagnosis.executor": "Run",
@@ -1263,7 +1242,7 @@
       <recent name="F:\mypy\f_log\_comparing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in _tester.py (2)">
+  <component name="RunManager" selected="Python.s_6_aggregate_checkpoints (1)">
     <configuration name="_study" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
@@ -1277,7 +1256,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_google/creds/oauth/_study.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1300,7 +1278,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_search/experiments/p_4_solutions.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1310,7 +1287,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="s_5_agg_checkpoints" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="s_6_aggregate_checkpoints (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mypy2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1323,8 +1300,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_5_agg_checkpoints.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_6_aggregate_checkpoints.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -1346,7 +1322,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/f_hs/experiments/omspp/early_stop/s_6_aggregate_checkpoints.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -1366,7 +1341,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1382,7 +1356,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/f_core/mixins/tupleable/_tester.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -1390,26 +1363,26 @@
     </configuration>
     <list>
       <item itemvalue="Python.p_4_solutions" />
+      <item itemvalue="Python.s_6_aggregate_checkpoints (1)" />
       <item itemvalue="Python._study" />
       <item itemvalue="Python.s_6_aggregate_checkpoints" />
-      <item itemvalue="Python.s_5_agg_checkpoints" />
       <item itemvalue="Python tests.Python tests in _tester.py (2)" />
       <item itemvalue="Python tests.Python tests in _tester.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.s_6_aggregate_checkpoints (1)" />
         <item itemvalue="Python tests.Python tests in _tester.py (2)" />
         <item itemvalue="Python tests.Python tests in _tester.py" />
         <item itemvalue="Python.s_6_aggregate_checkpoints" />
         <item itemvalue="Python._study" />
-        <item itemvalue="Python.s_5_agg_checkpoints" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>

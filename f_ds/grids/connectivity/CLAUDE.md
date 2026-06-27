@@ -54,8 +54,11 @@ ConnectivityBase
 - **Strict no-corner-cutting.** A diagonal is legal only when BOTH
   flank cells are free — matches MovingAI / GPPC / JPS released
   optimal costs.
-- **No `f_core` change.** The policy lives in `f_ds/grids` and operates
-  on any `HasRowCol`; the `HasRowCol` mixin stays identity-only.
+- **`Point2D` coords, not `HasRowCol`.** The policy lives in `f_ds/grids`
+  and operates on `Point2D` (bare `(row, col)` value, no grid behavior),
+  so a method can never reach a stored Manhattan distance that is
+  inadmissible on 8-conn. `HasRowCol` stays a grid-cell identity mixin;
+  `Cell` exposes `.point -> Point2D` for the policy boundary.
 - **Imports no grid type.** `is_legal_move` takes an `is_free(row, col)`
   predicate (supplied by the grid), instead of a `GridMap`. Corner-cutting
   is the only validity-dependent method — and validity is a `GridMap`
@@ -63,6 +66,6 @@ ConnectivityBase
   in the dependency order and grid-agnostic (2D maps ↔ 3D voxels alike).
 
 ## Dependencies
-- `f_core.mixins.has.row_col.HasRowCol` — cell row/col accessor
+- `f_ds.geometry.point2d.Point2D` — lattice coordinate (`a`, `b` params)
 - `f_core.imports.ULazy` — lazy aggregator
 - `typing.Callable` — the `is_free` predicate (no grid type imported)

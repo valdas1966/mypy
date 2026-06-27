@@ -20,7 +20,7 @@ class DualIndexable(Collectionable[Item], Generic[Key]):
          Convert the Object's Items into key-value pairs.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     @overload
     def __getitem__(self, index: int) -> Item: ...

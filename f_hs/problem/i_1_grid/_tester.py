@@ -1,5 +1,4 @@
 from f_hs.problem.i_1_grid import ProblemGrid
-from f_hs.state.i_1_cell import StateCell
 
 
 def test_start() -> None:
@@ -9,7 +8,7 @@ def test_start() -> None:
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_3x3()
-    assert problem.start.to_tuple() == (0, 0)
+    assert problem.start.key.to_tuple() == (0, 0)
 
 
 def test_goal() -> None:
@@ -19,7 +18,7 @@ def test_goal() -> None:
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_3x3()
-    assert problem.goal.to_tuple() == (2, 2)
+    assert problem.goal.key.to_tuple() == (2, 2)
 
 
 def test_successors() -> None:
@@ -30,7 +29,7 @@ def test_successors() -> None:
     """
     problem = ProblemGrid.Factory.grid_3x3()
     children = problem.successors(problem.start)
-    keys = {s.to_tuple() for s in children}
+    keys = {s.key.to_tuple() for s in children}
     assert keys == {(0, 1), (1, 0)}
 
 
@@ -41,7 +40,7 @@ def test_successors_center() -> None:
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_3x3()
-    center = StateCell.Factory.at(row=1, col=1)
+    center = problem.state_at(row=1, col=1)
     children = problem.successors(center)
     assert len(children) == 4
 
@@ -53,6 +52,6 @@ def test_successors_obstacle() -> None:
     ========================================================================
     """
     problem = ProblemGrid.Factory.grid_3x3_obstacle()
-    cell_01 = StateCell.Factory.at(row=0, col=1)
+    cell_01 = problem.state_at(row=0, col=1)
     children = problem.successors(cell_01)
     assert len(children) == 2

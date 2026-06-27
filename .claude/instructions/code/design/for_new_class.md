@@ -3,37 +3,10 @@
 The hub (`CLAUDE.md` § *Writing New Code — Reuse-First Check*) states the
 three tiers; this is the per-step procedure.
 
-## Step 1 — Reuse existing `f_core` / `f_ds` infrastructure
+## Step 1 — Reuse existing infrastructure in our codebase
 
 Before hand-rolling a cross-cutting capability, check whether it already
 exists.
-
-**Where to look:**
-
-`f_core/mixins/` — capability mixins (adjectives):
-
-| Capability | Mixin |
-|---|---|
-| equality | `Equatable` |
-| ordering (all 4 operators, `key`-based) | `Comparable` |
-| name + `__str__` / `__repr__` | `Printable`, `HasName` |
-| dict ↔ obj serialization | `Dictable` |
-| validation (immutable / mutable) | `Validatable` / `ValidatableMutable` |
-| 2-D grid row/col identity | `HasRowCol` |
-| generic keyed identity | `HasKey` |
-
-`f_core/recorder/` — `Recorder` (list-of-dict event capture with
-`is_active` on/off).
-
-`f_ds/` — reusable data structures: grids, cells, queues (FIFO/LIFO),
-priority queues, maps.
-
-**How to look quickly:**
-```
-Glob: f_core/mixins/**/__init__.py
-Glob: f_ds/**/main.py
-Grep: "class <Capability>" in f_core/ f_ds/
-```
 
 ## Step 2 — Exists but not good enough → **propose to improve it**
 
@@ -54,30 +27,10 @@ path must wait for confirmation.
 ## Step 3 — Missing but broadly useful → **SUGGEST, don't silently build**
 
 If nothing matches and you're about to hand-roll the capability, apply
-the **rule of three + future use**. **Suggest** shared infrastructure
-when ANY holds:
+the **rule of three + future use**. **Suggest** shared infrastructure.
 
-1. **≥3 existing classes** already hand-roll the same pattern, OR
-2. the capability is **foundational** (a cross-cutting concern like those
-   in the Step 1 table) and will be reused by **≥2 concrete classes**
-   current-or-imminent, OR
-3. a **clean extraction point** exists in an adjacent module (e.g. the new
-   class wants heap ops that belong in `f_ds`, not the domain module).
-
-**Do NOT create shared infrastructure when:**
-- Only one class needs it AND the use case is narrow (YAGNI).
-- The "infrastructure" is domain logic in disguise (it belongs in the
-  domain module, not `f_core` / `f_ds`).
-
-**How to suggest:** pause before writing the new class, using concrete
-file paths and at least two naming examples:
-
-> "I'm about to implement `<capability>` in `<new_class>`.
-> `<existing_class_A>` and `<existing_class_B>` already hand-roll this.
-> Propose extracting it into `f_core/<folder>/<name>.py` (or
-> `f_ds/<folder>/<name>.py`) as a shared mixin/utility first. Proceed?"
-
-Wait for explicit confirmation — never silently extract.
+**How to suggest:** 
+Wait for explicit confirmation — never silently.
 
 ## Decision cheat-sheet
 
@@ -92,7 +45,7 @@ new code needed
     │                                           │      (wait for OK; no silent fork)
     │                                           NO
     │                                           ▼
-    ├── ≥3 hand-rolled duplicates OR foundational + ≥2 reusers?
+    ├── foundational and reusable ?
     │       │
     │       ├── YES → PROPOSE new shared infra (wait for user OK)
     │       │

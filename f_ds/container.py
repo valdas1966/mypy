@@ -36,4 +36,4 @@ class ContainerBase(Generic[T], HasRowsCols):
          Add an Item at the specified Position with the given Spans.
         ========================================================================
         """
-        pass
+        raise NotImplementedError

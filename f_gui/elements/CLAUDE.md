@@ -10,7 +10,7 @@ Aggregator package holding the four GUI element classes. Organized with
 | `i_0_element/`   | `Element`   | 0     | **Abstract** base: bounds+name+parent; `anchor(side)`|
 | `i_1_container/` | `Container` | 1     | Element + `HasChildren`             |
 | `i_1_label/`     | `Label`     | 1     | Element + text (leaf)               |
-| `i_1_line/`      | `Line`      | 1     | Element + two `Point`s + `Stroke` (leaf, SVG)|
+| `i_1_line/`      | `Line`      | 1     | Element + two `PointXY`s + `Stroke` (leaf, SVG)|
 | `i_1_connector/` | `Connector` | 1     | Element + two element refs + routing (leaf, SVG)|
 | `i_2_window/`    | `Window`    | 2     | Container with implicit full bounds |
 

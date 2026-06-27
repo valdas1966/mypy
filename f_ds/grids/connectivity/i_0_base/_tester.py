@@ -1,5 +1,5 @@
 from f_ds.grids.connectivity.i_0_base.main import ConnectivityBase
-from f_ds.grids.cell import CellMap
+from f_ds.geometry.point2d import Point2D
 
 
 def test_unit() -> None:
@@ -19,7 +19,7 @@ def test_is_legal_move() -> None:
     ========================================================================
     """
     connectivity = ConnectivityBase()
-    a = CellMap(row=0, col=0)
-    b = CellMap(row=1, col=1)
+    a = Point2D(row=0, col=0)
+    b = Point2D(row=1, col=1)
     is_free = lambda row, col: True
     assert connectivity.is_legal_move(a=a, b=b, is_free=is_free) is True

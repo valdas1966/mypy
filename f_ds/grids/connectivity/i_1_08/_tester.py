@@ -1,5 +1,5 @@
 from f_ds.grids.connectivity.i_1_08.main import Connectivity_8
-from f_ds.grids.cell import CellMap
+from f_ds.geometry.point2d import Point2D
 
 
 def test_offsets() -> None:
@@ -19,8 +19,8 @@ def test_cost_cardinal() -> None:
     ========================================================================
     """
     connectivity = Connectivity_8()
-    a = CellMap(row=0, col=0)
-    b = CellMap(row=0, col=1)
+    a = Point2D(row=0, col=0)
+    b = Point2D(row=0, col=1)
     assert connectivity.cost(a=a, b=b) == 10_000
 
 
@@ -31,8 +31,8 @@ def test_cost_diagonal() -> None:
     ========================================================================
     """
     connectivity = Connectivity_8()
-    a = CellMap(row=0, col=0)
-    b = CellMap(row=1, col=1)
+    a = Point2D(row=0, col=0)
+    b = Point2D(row=1, col=1)
     assert connectivity.cost(a=a, b=b) == 14_142
 
 
@@ -44,8 +44,8 @@ def test_distance() -> None:
     ========================================================================
     """
     connectivity = Connectivity_8()
-    a = CellMap(row=0, col=0)
-    b = CellMap(row=2, col=3)
+    a = Point2D(row=0, col=0)
+    b = Point2D(row=2, col=3)
     assert connectivity.distance(a=a, b=b) == 38_284
 
 
@@ -56,8 +56,8 @@ def test_is_legal_move_diagonal_free() -> None:
     ========================================================================
     """
     connectivity = Connectivity_8()
-    a = CellMap(row=1, col=0)
-    b = CellMap(row=0, col=1)
+    a = Point2D(row=1, col=0)
+    b = Point2D(row=0, col=1)
     is_free = lambda row, col: True
     assert connectivity.is_legal_move(a=a, b=b, is_free=is_free) is True
 
@@ -70,8 +70,8 @@ def test_is_legal_move_corner_cut() -> None:
     ========================================================================
     """
     connectivity = Connectivity_8()
-    a = CellMap(row=1, col=0)
-    b = CellMap(row=0, col=1)
+    a = Point2D(row=1, col=0)
+    b = Point2D(row=0, col=1)
     # (0, 0) is blocked -> the diagonal clips its corner
     blocked = {(0, 0)}
     is_free = lambda row, col: (row, col) not in blocked

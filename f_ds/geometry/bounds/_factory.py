@@ -6,14 +6,17 @@ class Factory:
     ========================================================================
      Generator for Bounds objects.
     ========================================================================
+     The presets below use the f_gui 0-100 canvas frame; Bounds itself is
+     frame-agnostic (Generic over int | float).
+    ========================================================================
     """
 
     @staticmethod
     def full() -> Bounds[float]:
         """
         ========================================================================
-         1. Generate a full bounds object.
-         2. Assume that the bounds are in the range of 0 to 100.
+         Full-canvas Bounds (0, 0, 100, 100) — a preset in the f_gui
+         0-100 frame (not an intrinsic Bounds limit).
         ========================================================================
         """
         return Bounds(top=0, left=0, bottom=100, right=100)

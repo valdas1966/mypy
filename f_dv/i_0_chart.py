@@ -88,4 +88,4 @@ class Chart(HasName):
          Set Chart.
         ========================================================================
         """
-        pass
+        raise NotImplementedError

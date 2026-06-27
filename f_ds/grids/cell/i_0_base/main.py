@@ -1,5 +1,6 @@
 from f_core.mixins.has.row_col import HasRowCol
 from f_core.mixins.has.name import HasName
+from f_ds.geometry.point2d import Point2D
 
 
 class CellBase(HasRowCol, HasName):
@@ -35,6 +36,16 @@ class CellBase(HasRowCol, HasName):
         ========================================================================
         """
         return HasRowCol.key.fget(self)
+
+    @property
+    def point(self) -> Point2D:
+        """
+        ========================================================================
+         Return the Cell's (row, col) as a Point2D — the footgun-free
+         coordinate the Connectivity policy consumes.
+        ========================================================================
+        """
+        return Point2D(row=self.row, col=self.col)
 
     def __str__(self) -> str:
         """

@@ -145,8 +145,11 @@ applying one. The canonical patterns:
   lives in `_factory.py` and is wired in `__init__.py`.
 - **Mixin Composition** — prefer mixins (adjectives) over deep
   inheritance: `class CellBase(HasRowCol, HasName)`.
-- **Template Method** — base defines lifecycle hooks (`_pre_run`,
-  `_post_run`, `_init_add_atts`); subclasses override.
+- **Abstract Methods (ABCs)** — `@abstractmethod` body is `raise
+  NotImplementedError`, never `pass` (`pass`/`...` is reserved for
+  optional Template-Method hooks; Protocol members keep `...`).
+- **Template Method** — base defines optional lifecycle hooks
+  (`_pre_run`, `_post_run`, `_init_add_atts`); subclasses override.
 - **Generics** — parameterize with `Generic[...]`.
 - **Comparison Operators** — implement all four explicitly, delegating to
   `key` (no `@total_ordering` overhead).

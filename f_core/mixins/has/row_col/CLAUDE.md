@@ -34,7 +34,7 @@ and hashing.
 def to_tuple(self) -> tuple[int, int]
 ```
 Returns `(row, col)` as a tuple — the data-tuple accessor shared with
-`Point.to_tuple()` / `Pair.to_tuple()` (renamed from the old `rc`
+`PointXY.to_tuple()` / `Pair.to_tuple()` (renamed from the old `rc`
 property 2026-06-24). Note the order is `(row, col)`, i.e. the
 constructor args — *not* `(x, y)`.
 

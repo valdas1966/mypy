@@ -5,7 +5,7 @@
 Lightweight GUI **scene-graph** primitives for the MyPy framework. Provides
 composable classes (`Element`, `Container`, `Label`, `Line`, `Connector`,
 `Window`) that model a tree of regions in a normalized `0-100` coordinate
-space — mostly rectangles, plus `Line` (a two-`Point` directed segment) and
+space — mostly rectangles, plus `Line` (a two-`PointXY` directed segment) and
 `Connector` (an auto-routing line/arrow between two elements). This package
 is a *data model* — it does **not** perform rendering.
 
@@ -23,7 +23,7 @@ from f_gui import Element, Container, Label, Window
 | `Element`   | `f_gui.elements.i_0_element`        | Abstract base: bounds+name+parent; `anchor(side)`|
 | `Container` | `f_gui.elements.i_1_container`      | Holds children              |
 | `Label`     | `f_gui.elements.i_1_label`          | Leaf with text              |
-| `Line`      | `f_gui.elements.i_1_line`           | Leaf: two `Point`s + `Stroke`; SVG|
+| `Line`      | `f_gui.elements.i_1_line`           | Leaf: two `PointXY`s + `Stroke`; SVG|
 | `Connector` | `f_gui.elements.i_1_connector`      | Leaf: two element refs, auto-routed; SVG|
 | `Window`    | `f_gui.elements.i_2_window`         | Root container (full bounds)|
 
@@ -117,7 +117,7 @@ Runs every `_tester.py` under `f_gui/` (currently 78 tests, 9 files).
 | `f_core.mixins.has.parent.HasParent`     | Parent-pointer + `_set_parent`|
 | `f_core.mixins.has.children.HasChildren` | Children list + add/remove   |
 | `f_ds.geometry.bounds.Bounds`            | Rectangular bounds primitive |
-| `f_ds.geometry.point.Point`              | Line endpoint primitive      |
+| `f_ds.geometry.pointxy.PointXY`              | Line endpoint primitive      |
 | `f_test.TestRunner`                      | Batch test runner            |
 
 ## Scope

@@ -76,8 +76,8 @@ def demo_single_pickle_roundtrip() -> None:
     loaded.attach(grid=grid)
     children = loaded.successors(loaded.start)
     print(f'after attach(grid):     is_attached={loaded.is_attached}, '
-          f'successors({loaded.start.to_tuple()})='
-          f'{sorted(s.to_tuple() for s in children)}')
+          f'successors({loaded.start.key.to_tuple()})='
+          f'{sorted(s.key.to_tuple() for s in children)}')
 
 
 def demo_store_roundtrip() -> None:

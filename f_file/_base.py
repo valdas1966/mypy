@@ -39,7 +39,7 @@ class File(ABC):
          Close the file (must be implemented by subclasses).
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def _open(self) -> None:
@@ -48,5 +48,5 @@ class File(ABC):
          Open the file (must be implemented by subclasses).
         ========================================================================
         """
-        pass
+        raise NotImplementedError
    

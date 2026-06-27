@@ -1,26 +1,8 @@
 from f_hs.state import StateBase
-from f_ds.grids import CellMap as Cell
+from f_ds.grids import CellMap
 
-
-class StateCell(StateBase[Cell]):
-    """
-    ========================================================================
-     Search State wrapping a CellMap for Grid-Based Pathfinding.
-    ========================================================================
-    """
-
-    def __init__(self, key: Cell) -> None:
-        """
-        ====================================================================
-         Init private Attributes.
-        ====================================================================
-        """
-        StateBase.__init__(self, key=key)
-
-    def to_tuple(self) -> tuple[int, int]:
-        """
-        ====================================================================
-         Return (Row, Col) of the underlying Cell.
-        ====================================================================
-        """
-        return self.key.to_tuple()
+# StateCell is a pure type alias: a search state keyed on a CellMap.
+# Identity only — equality / hash / order / str come from StateBase via
+# HasKey; it carries no behavior of its own. State-to-state distance is
+# ProblemGrid.distance; (row, col) extraction is state.key.to_tuple().
+StateCell = StateBase[CellMap]

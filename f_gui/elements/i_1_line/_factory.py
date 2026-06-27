@@ -1,6 +1,6 @@
 from f_gui.elements.i_1_line.main import Line
 from f_gui.style.stroke import Stroke, DashPattern
-from f_ds.geometry.point import Point
+from f_ds.geometry.pointxy import PointXY
 
 
 class Factory:
@@ -17,7 +17,7 @@ class Factory:
          Generate a solid diagonal Line from top-left to bottom-right.
         ========================================================================
         """
-        return Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100))
+        return Line(p1=PointXY(x=0, y=0), p2=PointXY(x=100, y=100))
 
     @staticmethod
     def arrow() -> Line:
@@ -26,8 +26,8 @@ class Factory:
          Generate a centered horizontal arrow pointing right.
         ========================================================================
         """
-        return Line(p1=Point(x=10, y=50),
-                    p2=Point(x=90, y=50),
+        return Line(p1=PointXY(x=10, y=50),
+                    p2=PointXY(x=90, y=50),
                     arrow=True)
 
     @staticmethod
@@ -37,6 +37,6 @@ class Factory:
          Generate a dashed diagonal Line.
         ========================================================================
         """
-        return Line(p1=Point(x=0, y=0),
-                    p2=Point(x=100, y=100),
+        return Line(p1=PointXY(x=0, y=0),
+                    p2=PointXY(x=100, y=100),
                     stroke=Stroke(pattern=DashPattern.DASHED))

@@ -4,6 +4,11 @@
 
 Immutable generic container for rectangular bounds defined by four coordinates `(top, left, bottom, right)`. Generic over `int` or `float`. Used as the fundamental coordinate primitive for 2D positioning throughout the framework.
 
+`Bounds` is **frame-agnostic** — the `Generic[int | float]` parameter
+exists precisely so it can span integer grids and float canvases alike.
+The `0-100` values in the `Factory` presets (`full`/`half`/`quarter`) are
+an **`f_gui` canvas convention**, not a property of the `Bounds` type.
+
 Inherits `Tupleable`, so identity, ordering, hashing and unpacking all
 derive from `(top, left, bottom, right)` — two `Bounds` with the same
 four coordinates are equal and hash-equal, usable as set members / dict
@@ -27,7 +32,9 @@ def __init__(self,
              bottom: T,
              right: T) -> None
 ```
-Stores four coordinates as private attributes. Asserts `top <= bottom` and `left <= right`.
+Stores four coordinates as private attributes. **No validation** — any
+four `int`/`float` values are accepted (the `top <= bottom` /
+`left <= right` asserts are intentionally disabled in the code).
 
 ### Properties
 
@@ -58,7 +65,7 @@ Returns the right coordinate.
 ### Methods
 
 ```python
-def anchor(self, side: Side) -> Point
+def anchor(self, side: Side) -> PointXY
 ```
 Returns the **mid-point of the named edge** — a connection point of the
 rectangle. `TOP`/`BOTTOM` → horizontal center on that edge; `LEFT`/`RIGHT`
@@ -111,10 +118,10 @@ Immutable value-record (the `Tupleable` immutability contract holds).
 | `f_core.mixins.Tupleable` | Identity / ordering / hashing / iteration via `to_tuple()` |
 | `typing.Generic` | Generic type parameterization |
 | `typing.TypeVar` | Defines `T` constrained to `int`, `float` |
-| `f_ds.geometry.point.Point` | Return type of `anchor()` |
+| `f_ds.geometry.pointxy.PointXY` | Return type of `anchor()` |
 | `f_ds.geometry.side.Side` | Edge selector for `anchor()` |
 
-`Point` and `Side` are sibling geometry primitives (neither imports
+`PointXY` and `Side` are sibling geometry primitives (neither imports
 `Bounds`, so there is no cycle).
 
 ## Usage Example
@@ -142,9 +149,7 @@ print(str(full))                 # (0, 0, 100, 100)
 
 ### Validation
 
-```python
-from f_ds.geometry.bounds import Bounds
-
-# This raises AssertionError: top must be <= bottom
-b = Bounds(top=50, left=0, bottom=10, right=100)
-```
+`Bounds` performs **no validation**: inverted or off-frame rectangles are
+legal (`Bounds(top=50, left=0, bottom=10, right=100)` constructs fine).
+The ordering asserts in `__init__` are commented out by design — callers
+own any frame/ordering invariants.

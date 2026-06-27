@@ -268,11 +268,11 @@ def test_recording_on_grid_4x4_obstacle_with_cached_optimal_suffix(
     assert actual[-1]['type'] == 'pop'
     assert actual[-1].get('is_cached') is True
     assert algo.search_state.cache_hit is not None
-    assert algo.search_state.cache_hit.to_tuple() == (1, 1)
+    assert algo.search_state.cache_hit.key.to_tuple() == (1, 1)
     assert algo.search_state.goal_reached is None
 
     path = algo.reconstruct_path()
-    assert [s.to_tuple() for s in path] == [
+    assert [s.key.to_tuple() for s in path] == [
         (0, 0), (1, 0), (1, 1),
         (2, 1), (2, 2), (2, 3), (1, 3), (0, 3),
     ]

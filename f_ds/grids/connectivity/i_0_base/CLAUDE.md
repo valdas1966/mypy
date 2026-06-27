@@ -19,10 +19,12 @@ Concrete subclasses are `Connectivity_4` / `Connectivity_8`.
 |--------|-----------|-------------|
 | `is_cardinal` | `(a, b) -> bool` | `True` if `a → b` is axis-aligned (`d_row == 0 or d_col == 0`), `False` if diagonal — concrete geometric helper, assumes `a, b` adjacent |
 | `cost` | `(a, b) -> int` | Edge cost between adjacent cells (override) |
-| `distance` | `(a, b) -> int` | Min obstacle-free path cost `a → b`; admissible/consistent heuristic. NOT `HasRowCol.distance` (always Manhattan) — tracks the cost model (override) |
+| `distance` | `(a, b) -> int` | Min obstacle-free path cost `a → b`; admissible/consistent heuristic. The movement-model metric — tracks the cost model, not a coord's tuple identity (override) |
 | `is_legal_move` | `(a, b, is_free) -> bool` | Move legality; default `True` (cardinals never cut a corner) |
 
-`a` / `b` are any `HasRowCol`; `is_free(row, col) -> bool` reports cell
+`a` / `b` are `Point2D` lattice coords (a bare `(row, col)` value with
+no grid behavior — so `distance` can never collide with a stored
+metric); `is_free(row, col) -> bool` reports cell
 passability (supplied by the grid at call time) — so the policy imports
 no grid type and stays below the grid in the dependency order.
 
@@ -34,7 +36,7 @@ ConnectivityBase
 ```
 
 ## Dependencies
-- `f_core.mixins.has.row_col.HasRowCol`
+- `f_ds.geometry.point2d.Point2D` — the lattice coordinate (`a`, `b`)
 - `typing.Callable` — the `is_free` predicate
 
 ## Usage

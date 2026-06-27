@@ -56,7 +56,7 @@ perpendicular to its edge:
 
 | Consumer | Relationship |
 |----------|--------------|
-| `Bounds.anchor(side)` (`f_ds.geometry.bounds`) | side -> mid-point `Point` |
+| `Bounds.anchor(side)` (`f_ds.geometry.bounds`) | side -> mid-point `PointXY` |
 | `Element.anchor(side)` (`f_gui`)               | delegates to its `Bounds` |
 | `Connector` (`f_gui.elements.i_1_connector`)   | attach sides + routing normals |
 

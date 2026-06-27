@@ -49,6 +49,7 @@ stable rc lists, so `__repr__` works detached and after pickle.
 ### Methods
 | Method | Description |
 |--------|-------------|
+| `state_at(row, col)` | The cached `StateCell` for `(row, col)`. The home for "the state for this cell" — the Problem owns the one-state-per-cell cache, so lookup lives here (not on a State factory). `KeyError` for an invalid/obstacle cell. Replaced `StateCell.Factory.at` (2026-06-27). |
 | `successors(state)` | Valid grid neighbors |
 | `distance(a, b)` | Manhattan distance between two states — the grid's admissible heuristic metric (4-connected). The move-model-aware home for state-to-state distance; delegates to the `CellMap` geometric primitive. Heuristics consume this; `StateCell` carries no distance. |
 | `attach(grid, states=None)` | Rehydrate with a grid; optional shared `dict[CellMap, StateCell]` cache |

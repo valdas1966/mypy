@@ -3,7 +3,7 @@
 ## Purpose
 
 A **directed segment** GUI element: a leaf `Element` defined by two
-endpoints `p1 -> p2` (each a `Point` in the normalized `0-100` space,
+endpoints `p1 -> p2` (each a `PointXY` in the normalized `0-100` space,
 relative to the parent). Unlike the rectangle-based `Container`/`Label`,
 a `Line` is a two-point primitive, so it renders as an inline **`<svg>`**
 overlay (not a `<div>`) — the only pure-HTML way to draw a diagonal with
@@ -35,8 +35,8 @@ Line = Stroke + (p1, p2) + arrow
 
 ```python
 def __init__(self,
-             p1: Point,
-             p2: Point,
+             p1: PointXY,
+             p2: PointXY,
              stroke: Stroke | None = None,   # None -> Stroke() default
              arrow: bool = False,
              name: str = 'Line') -> None
@@ -49,9 +49,9 @@ meaningful for future hit-testing.
 
 ```python
 @property
-def p1(self) -> Point          # start
+def p1(self) -> PointXY          # start
 @property
-def p2(self) -> Point          # end (arrowhead sits here)
+def p2(self) -> PointXY          # end (arrowhead sits here)
 @property
 def stroke(self) -> Stroke     # color / width / style
 @property
@@ -86,7 +86,7 @@ Element (HasName, HasParent)   abstract
 | `f_gui.elements.i_0_element.Element` | Base: name + parent + bounds |
 | `f_gui.style.stroke.Stroke` | Appearance (color/width/style) |
 | `f_ds.geometry.bounds.Bounds` | Bounding box for `Element.bounds` |
-| `f_ds.geometry.point.Point` | Endpoint primitive |
+| `f_ds.geometry.pointxy.PointXY` | Endpoint primitive |
 
 ## Rendering
 
@@ -109,11 +109,11 @@ content-derived id (unique per distinct line).
 ```python
 from f_gui.elements.i_1_line import Line
 from f_gui.style.stroke import Stroke, DashPattern
-from f_ds.geometry.point import Point
+from f_ds.geometry.pointxy import PointXY
 from f_color.rgb import RGB
 
-arrow = Line(p1=Point(x=10, y=50), p2=Point(x=90, y=50),
+arrow = Line(p1=PointXY(x=10, y=50), p2=PointXY(x=90, y=50),
              stroke=Stroke(color=RGB('RED'), width=3), arrow=True)
-dashed = Line(p1=Point(x=0, y=0), p2=Point(x=100, y=100),
+dashed = Line(p1=PointXY(x=0, y=0), p2=PointXY(x=100, y=100),
               stroke=Stroke(pattern=DashPattern.DASHED))
 ```

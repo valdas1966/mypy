@@ -14,6 +14,11 @@ object is non-empty.
 def __len__(self) -> int:
 ```
 Return the object's length. Must be implemented by every subclass.
+The abstract body `raise NotImplementedError` (not `pass`) — a
+belt-and-suspenders guard behind `@abstractmethod`: construction is
+blocked for any subclass that omits `__len__`, and if the abstract
+body is ever reached via `super().__len__()` it fails loudly instead
+of silently returning `None`.
 
 ### Dunder Methods
 ```python

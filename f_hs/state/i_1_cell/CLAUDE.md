@@ -1,49 +1,41 @@
 # StateCell
 
 ## Purpose
-Search state wrapping a CellMap for 2D grid-based pathfinding.
-Pure identity over the cell key, plus a `to_tuple()` convenience.
-State-to-state **distance is not here** — it lives on `ProblemGrid`
-(`ProblemGrid.distance`, the move-model-aware home), built on the
-`CellMap` geometric primitive (`cell.distance`). A `StateCell` carries
-no metric.
+`StateCell` is a **type alias** — `StateCell = StateBase[CellMap]` — for a
+search state keyed on a `CellMap` (2D grid pathfinding). It is **not** a
+subclass: it carries no behavior of its own, so by the codebase rule
+(behaviorless states use `StateBase[Key]` directly) it is a name, not a
+class.
 
-## Public API
-
-### Constructor
 ```python
-def __init__(self, key: CellMap) -> None
+StateCell = StateBase[CellMap]   # main.py
 ```
 
-### Methods
-| Method | Signature | Description |
-|--------|-----------|-------------|
-| `to_tuple` | `() -> tuple[int, int]` | (row, col) of the underlying cell |
+Collapsed from a subclass to an alias on 2026-06-27. The old subclass
+existed only for `.distance` (moved to `ProblemGrid.distance` earlier the
+same day) and a `to_tuple()` convenience (migrated to `state.key.to_tuple()`
+at every call site). With both gone it added no behavior, so it became an
+alias. `Factory.at(row, col)` moved to `ProblemGrid.state_at(row, col)` —
+the Problem owns the one-state-per-cell cache, so state lookup belongs there.
 
-State-to-state distance moved to `ProblemGrid.distance(a, b)`
-(2026-06-27) — the space owns the metric choice; `StateCell` is pure
-identity.
+## API
+`StateCell(key=cell)` constructs a `StateBase` (the alias is callable).
+`key` / `__eq__` / `__lt__` / `__hash__` / `__str__` / `__repr__` all come
+from `StateBase` via `HasKey`, delegating to the `CellMap` key.
 
-`__str__` / `__repr__` / `__eq__` / `__lt__` / `__hash__` come from
-`HasKey` (all delegate to `key`); `StateCell` adds no overrides.
+- `(row, col)` of a state: `state.key.to_tuple()` (CellMap's `to_tuple`).
+- state-to-state distance: `ProblemGrid.distance(a, b)`.
+- the state for a cell: `ProblemGrid.state_at(row, col)`.
 
-Canonical `(row, col)` identity for recording tests is now
-produced by `f_core.canonize.canonize` (descends
-`StateCell → CellMap → (row, col)` via the `HasKey` /
-`HasRowCol` chain). The old `event_key()` override was
-deleted 2026-06-20.
-
-## Factory
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `at(row, col=None)` | `StateCell` | At `(row, col)`; `col` defaults to `row` |
+Canonical `(row, col)` identity for recording tests is produced by
+`f_core.canonize.canonize`, which descends `.key → CellMap → (row, col)`
+via the `HasKey` / `HasRowCol` chain (independent of the alias).
 
 ## Inheritance
 ```
-StateBase[CellMap]
-    └── StateCell
+StateBase[CellMap]   (StateCell is this exact alias — no subclass)
 ```
 
 ## Dependencies
 - `f_hs.state.StateBase` (aggregator)
-- `f_ds.grids.CellMap` (aggregator, aliased `Cell`)
+- `f_ds.grids.CellMap` (aggregator)

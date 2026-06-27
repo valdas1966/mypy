@@ -91,7 +91,7 @@ Value objects whose identity *is* their full tuple:
 
 | Class | `to_tuple()` |
 |-------|--------------|
-| `f_ds.geometry.Point` | `(x, y)` |
+| `f_ds.geometry.PointXY` | `(x, y)` |
 | `f_ds.geometry.Bounds[T]` | `(top, left, bottom, right)` |
 
 `HasRowCol` was migrated too — it is a positional value-record

@@ -89,7 +89,7 @@ renderer-imposed default). Imported under `TYPE_CHECKING` to keep
 ### Methods
 
 ```python
-def anchor(self, side: Side) -> Point     # connection point on an edge
+def anchor(self, side: Side) -> PointXY     # connection point on an edge
 def path_from_root(self) -> list[Self]    # from HasParent
 ```
 

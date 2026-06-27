@@ -9,7 +9,7 @@ render it pulls the two connection points **live** from the elements'
 `bounds` — so the connector **follows automatically** when an element
 moves (no event system; the path is recomputed on each access).
 
-Unlike `Line` (two fixed `Point`s), a Connector's endpoints are derived,
+Unlike `Line` (two fixed `PointXY`s), a Connector's endpoints are derived,
 and it can bend: `Routing.DIRECT` is a straight segment, `Routing.
 ORTHOGONAL` is a 90-degree elbow.
 
@@ -71,7 +71,7 @@ def arrow -> bool
 @property
 def routing -> Routing
 @property
-def path -> list[Point]      # live polyline vertices (>= 2)
+def path -> list[PointXY]      # live polyline vertices (>= 2)
 @property
 def bounds -> Bounds[float]  # live bbox of the path (overrides Element)
 ```
@@ -118,7 +118,7 @@ single `Line`). The arrowhead sits on the **last** segment via a per-svg
 | `f_gui.elements.i_0_element.Element` | Base + the two endpoint refs |
 | `f_gui.style.stroke.Stroke`          | Appearance (color/width/style) |
 | `f_ds.geometry.bounds.Bounds`        | Live bounding box |
-| `f_ds.geometry.point.Point`          | Path vertices |
+| `f_ds.geometry.pointxy.PointXY`          | Path vertices |
 | `f_ds.geometry.side.Side`            | Attach sides + routing normals |
 
 ## Usage Example

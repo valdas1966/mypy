@@ -1,5 +1,5 @@
 from f_ds.grids.connectivity.i_0_base.main import ConnectivityBase
-from f_core.mixins.has.row_col import HasRowCol
+from f_ds.geometry.point2d import Point2D
 from typing import Callable
 
 
@@ -38,7 +38,7 @@ class Connectivity_8(ConnectivityBase):
         """
         return self._COST_CARDINAL
 
-    def cost(self, a: HasRowCol, b: HasRowCol) -> int:
+    def cost(self, a: Point2D, b: Point2D) -> int:
         """
         ========================================================================
          Return the Edge Cost between adjacent Cells: a diagonal move
@@ -48,13 +48,14 @@ class Connectivity_8(ConnectivityBase):
         is_cardinal = self.is_cardinal(a=a, b=b)
         return self._COST_CARDINAL if is_cardinal else self._COST_DIAGONAL
 
-    def distance(self, a: HasRowCol, b: HasRowCol) -> int:
+    def distance(self, a: Point2D, b: Point2D) -> int:
         """
         ========================================================================
          Return the scaled-integer Octile distance from a to b: the
          minimum 8-conn path cost, exact on an obstacle-free grid
          (admissible and consistent with the octile edge cost).
-         WARNING: differs from HasRowCol.distance (Manhattan), which
+         NOTE: this is the octile metric, NOT Manhattan — do not route
+         8-conn search through a cell's Manhattan distance, which
          over-estimates here and would be an inadmissible heuristic.
         ========================================================================
         """
@@ -68,8 +69,8 @@ class Connectivity_8(ConnectivityBase):
         return diagonal_cost + straight_cost
 
     def is_legal_move(self,
-                      a: HasRowCol,
-                      b: HasRowCol,
+                      a: Point2D,
+                      b: Point2D,
                       is_free: Callable[[int, int], bool]) -> bool:
         """
         ========================================================================

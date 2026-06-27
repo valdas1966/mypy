@@ -1,4 +1,4 @@
-from f_ds.geometry.point.main import Point
+from f_ds.geometry.pointxy.main import PointXY
 
 
 def test_x() -> None:
@@ -7,7 +7,7 @@ def test_x() -> None:
      Test the x property.
     ========================================================================
     """
-    p = Point(x=30, y=70)
+    p = PointXY(x=30, y=70)
     assert p.x == 30
 
 
@@ -17,7 +17,7 @@ def test_y() -> None:
      Test the y property.
     ========================================================================
     """
-    p = Point(x=30, y=70)
+    p = PointXY(x=30, y=70)
     assert p.y == 70
 
 
@@ -27,7 +27,7 @@ def test_to_tuple() -> None:
      Test the to_tuple() method.
     ========================================================================
     """
-    p = Point(x=30, y=70)
+    p = PointXY(x=30, y=70)
     assert p.to_tuple() == (30, 70)
 
 
@@ -37,8 +37,8 @@ def test_eq() -> None:
      Test equality via the (x, y) key.
     ========================================================================
     """
-    a = Point(x=10, y=20)
-    b = Point(x=10, y=20)
+    a = PointXY(x=10, y=20)
+    b = PointXY(x=10, y=20)
     assert a == b
 
 
@@ -48,8 +48,8 @@ def test_hash() -> None:
      Test that equal Points hash equally (usable as set/dict keys).
     ========================================================================
     """
-    a = Point(x=10, y=20)
-    b = Point(x=10, y=20)
+    a = PointXY(x=10, y=20)
+    b = PointXY(x=10, y=20)
     assert len({a, b}) == 1
 
 
@@ -59,13 +59,4 @@ def test_str() -> None:
      Test the string representation.
     ========================================================================
     """
-    assert str(Point(x=30, y=70)) == '(30, 70)'
-
-
-def test_factory_center() -> None:
-    """
-    ========================================================================
-     Test the Factory.center() preset.
-    ========================================================================
-    """
-    assert Point.Factory.center().to_tuple() == (50, 50)
+    assert str(PointXY(x=30, y=70)) == '(30, 70)'

@@ -5,7 +5,7 @@ from enum import Enum
 from f_gui.elements.i_0_element.main import Element
 from f_gui.style.stroke import Stroke
 from f_ds.geometry.bounds import Bounds
-from f_ds.geometry.point import Point
+from f_ds.geometry.pointxy import PointXY
 from f_ds.geometry.side import Side
 
 
@@ -140,7 +140,7 @@ class Connector(Element):
         return self._routing
 
     @property
-    def path(self) -> list[Point]:
+    def path(self) -> list[PointXY]:
         """
         ========================================================================
          The polyline vertices (>= 2), computed live from the elements' bounds.
@@ -201,10 +201,10 @@ class Connector(Element):
             else (Side.TOP, Side.BOTTOM)
 
     @staticmethod
-    def _orthogonal(p_src: Point,
+    def _orthogonal(p_src: PointXY,
                     side_src: Side,
-                    p_dst: Point,
-                    side_dst: Side) -> list[Point]:
+                    p_dst: PointXY,
+                    side_dst: Side) -> list[PointXY]:
         """
         ========================================================================
          Build an axis-aligned (90-degree) elbow path between two anchors.
@@ -218,30 +218,30 @@ class Connector(Element):
         nx_s, ny_s = side_src.normal
         nx_d, ny_d = side_dst.normal
         stub = Connector._STUB
-        a1 = Point(x=p_src.x + nx_s * stub, y=p_src.y + ny_s * stub)
-        b1 = Point(x=p_dst.x + nx_d * stub, y=p_dst.y + ny_d * stub)
+        a1 = PointXY(x=p_src.x + nx_s * stub, y=p_src.y + ny_s * stub)
+        b1 = PointXY(x=p_dst.x + nx_d * stub, y=p_dst.y + ny_d * stub)
         src_h = nx_s != 0          # source normal is horizontal (LEFT/RIGHT)
         dst_h = nx_d != 0          # destination normal is horizontal
         if src_h and dst_h:
             midx = (a1.x + b1.x) / 2
-            mids = [Point(x=midx, y=a1.y), Point(x=midx, y=b1.y)]
+            mids = [PointXY(x=midx, y=a1.y), PointXY(x=midx, y=b1.y)]
         elif not src_h and not dst_h:
             midy = (a1.y + b1.y) / 2
-            mids = [Point(x=a1.x, y=midy), Point(x=b1.x, y=midy)]
+            mids = [PointXY(x=a1.x, y=midy), PointXY(x=b1.x, y=midy)]
         elif src_h:                # horizontal out, vertical in
-            mids = [Point(x=b1.x, y=a1.y)]
+            mids = [PointXY(x=b1.x, y=a1.y)]
         else:                      # vertical out, horizontal in
-            mids = [Point(x=a1.x, y=b1.y)]
+            mids = [PointXY(x=a1.x, y=b1.y)]
         return Connector._simplify(pts=[p_src, a1, *mids, b1, p_dst])
 
     @staticmethod
-    def _simplify(pts: list[Point]) -> list[Point]:
+    def _simplify(pts: list[PointXY]) -> list[PointXY]:
         """
         ========================================================================
          Drop consecutive duplicate and collinear vertices from a path.
         ========================================================================
         """
-        out: list[Point] = [pts[0]]
+        out: list[PointXY] = [pts[0]]
         for p in pts[1:]:
             if p != out[-1]:
                 out.append(p)

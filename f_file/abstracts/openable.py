@@ -15,7 +15,7 @@ class Openable(ABC):
          Open the file.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def close(self) -> None:
@@ -24,4 +24,4 @@ class Openable(ABC):
          Close the file.
         ========================================================================
         """
-        pass
+        raise NotImplementedError

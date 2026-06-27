@@ -1,7 +1,7 @@
 from typing import Generic, TypeVar
 
 from f_core.mixins import Tupleable
-from f_ds.geometry.point import Point
+from f_ds.geometry.pointxy import PointXY
 from f_ds.geometry.side import Side
 
 T = TypeVar('T', int, float)
@@ -80,7 +80,7 @@ class Bounds(Tupleable, Generic[T]):
         """
         return self._right
 
-    def anchor(self, side: Side) -> Point:
+    def anchor(self, side: Side) -> PointXY:
         """
         ========================================================================
          The mid-point of the given Side — a connection point of the rectangle.
@@ -92,12 +92,12 @@ class Bounds(Tupleable, Generic[T]):
         cx = (self._left + self._right) / 2
         cy = (self._top + self._bottom) / 2
         if side is Side.TOP:
-            return Point(x=cx, y=self._top)
+            return PointXY(x=cx, y=self._top)
         if side is Side.BOTTOM:
-            return Point(x=cx, y=self._bottom)
+            return PointXY(x=cx, y=self._bottom)
         if side is Side.LEFT:
-            return Point(x=self._left, y=cy)
-        return Point(x=self._right, y=cy)
+            return PointXY(x=self._left, y=cy)
+        return PointXY(x=self._right, y=cy)
 
     def to_tuple(self) -> tuple[T, T, T, T]:
         """

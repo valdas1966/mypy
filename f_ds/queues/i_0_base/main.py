@@ -32,7 +32,7 @@ class QueueBase(Generic[Item],
          Convert the Queue's Items into an Iterable.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     def push(self, item: Item, priority: Comparable = None) -> None:
         """
@@ -49,7 +49,7 @@ class QueueBase(Generic[Item],
          Pop an Item from the Queue.
         ========================================================================
         """
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def peek(self) -> Item:
@@ -58,4 +58,4 @@ class QueueBase(Generic[Item],
          Return the next Item in the Queue without removing it.
         ========================================================================
         """
-        pass
+        raise NotImplementedError

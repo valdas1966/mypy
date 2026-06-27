@@ -154,7 +154,7 @@ object Border edges use) via `_stroke_color()` and `_dash()`.
 
 `element()` checks `isinstance(elem, Connector)` (after `Line`) and
 delegates to `_connector()`. A `Connector` reads its **live** `path` (a
-list of `Point`s ≥ 2, pulled from the two connected elements' bounds) and
+list of `PointXY`s ≥ 2, pulled from the two connected elements' bounds) and
 emits one `<svg>` overlay filling the parent, containing a **chain of
 `<line>` segments** — the same percent-coordinate model as a single `Line`,
 so the polyline is distortion-free and needs no `viewBox`.

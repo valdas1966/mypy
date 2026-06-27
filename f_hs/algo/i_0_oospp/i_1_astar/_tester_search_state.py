@@ -124,7 +124,7 @@ def test_recording_grid_4x4_reuse_state_from_prior_goal_2_1(
     )
     sol_first = algo_first.run()
     assert sol_first.cost == 3
-    assert algo_first.search_state.goal_reached.to_tuple() == (2, 1)
+    assert algo_first.search_state.goal_reached.key.to_tuple() == (2, 1)
 
     problem_second = ProblemGrid.Factory.grid_4x4_obstacle()
     goal_second = problem_second.goal
@@ -136,13 +136,13 @@ def test_recording_grid_4x4_reuse_state_from_prior_goal_2_1(
     )
     
     assert algo_second._frontier_dirty is True
-    assert algo_second.search_state.goal_reached.to_tuple() == (2, 1)
+    assert algo_second.search_state.goal_reached.key.to_tuple() == (2, 1)
 
     sol = algo_second.resume()
     assert sol.cost == 7
     assert algo_second._frontier_dirty is False
     assert algo_second.search_state.goal_reached is not None
-    assert algo_second.search_state.goal_reached.to_tuple() == (0, 3)
+    assert algo_second.search_state.goal_reached.key.to_tuple() == (0, 3)
 
     actual = [normalize(e) for e in algo_second.recorder.events]
     expected = [
@@ -172,6 +172,6 @@ def test_recording_grid_4x4_reuse_state_from_prior_goal_2_1(
 
     parent_21 = algo_second.search_state.parent[
         StateCell(key=CellMap(row=2, col=1))]
-    assert parent_21.to_tuple() == (2, 0)
+    assert parent_21.key.to_tuple() == (2, 0)
     assert algo_second.search_state.g[
         StateCell(key=CellMap(row=2, col=1))] == 3.0
