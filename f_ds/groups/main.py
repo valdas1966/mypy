@@ -1,6 +1,7 @@
 from __future__ import annotations
 from collections import UserList
 from f_core.mixins.has.name import HasName
+from f_core.mixins.comparable import Comparable
 from f_utils.dtypes.u_seq import USeq
 from f_ds.groups._random import Random
 from typing import TypeVar, Callable, Sequence
@@ -9,7 +10,7 @@ from math import ceil
 Item = TypeVar('Item')
 
 
-class Group(HasName, UserList[Item]):
+class Group(HasName, Comparable, UserList[Item]):
     """
     ============================================================================
      Group Data-Structure (A named list with utility functions).
@@ -111,13 +112,14 @@ class Group(HasName, UserList[Item]):
         for item in self.data:
             print(item)
 
-    def key(self) -> list:
+    @property
+    def key(self) -> tuple[str, list[Item]]:
         """
         ========================================================================
          Compare first by the name of the Group, and second by its Data.
         ========================================================================
         """
-        return [HasName.key(self), self.data]
+        return self.name, self.data
 
     def __iadd__(self, other: list[Item]) -> Group[Item]:
         """

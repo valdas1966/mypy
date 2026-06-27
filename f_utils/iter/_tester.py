@@ -1,4 +1,3 @@
-from f_ds.pair import Pair
 from f_utils.iter._factory import Factory
 from f_utils.iter import u_iter
 

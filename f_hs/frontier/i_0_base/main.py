@@ -8,18 +8,7 @@ class FrontierBase(Generic[State]):
     """
     ============================================================================
      Abstract Base for a Search Frontier.
-     Holds candidate States awaiting expansion. Narrow interface:
-     push, pop, decrease, contains, bool, len, iter, clear.
-
-     Owns an always-on `f_core.counters.Counters` with three
-     names — `cnt_push`, `cnt_pop`, `cnt_decrease` — initialized
-     here so every concrete frontier exposes the same surface
-     via the `counters` property. Subclasses are responsible for
-     incrementing inside their concrete `push` / `pop` /
-     `decrease` overrides where the operation actually occurs
-     (FIFO ignores `decrease`, so it does not increment
-     `cnt_decrease`; counts reflect what the frontier actually
-     did, not what was called).
+     Holds candidate States awaiting expansion.
     ============================================================================
     """
 

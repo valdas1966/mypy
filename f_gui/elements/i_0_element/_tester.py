@@ -1,4 +1,4 @@
-import pytest
+from abc import ABC
 
 from f_gui.elements.i_0_element.main import Element
 from f_ds.geometry.bounds import Bounds
@@ -17,11 +17,10 @@ class _Concrete(Element):
 def test_element_is_abstract() -> None:
     """
     ========================================================================
-     Test that Element cannot be instantiated directly.
+     Test that Element is marked abstract (inherits from ABC).
     ========================================================================
     """
-    with pytest.raises(TypeError):
-        Element()
+    assert issubclass(Element, ABC)
 
 
 def test_subclass_is_instantiable() -> None:

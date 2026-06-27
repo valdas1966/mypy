@@ -27,8 +27,12 @@ class Comparable(Equatable, SupportsComparison):
         """
         ========================================================================
          Return True if the current object is less than another object.
+         Foreign operands (no key) yield NotImplemented -> Python raises
+         the standard TypeError for unorderable types.
         ========================================================================
         """
+        if not isinstance(other, Equatable):
+            return NotImplemented
         return self.key < other.key
 
     def __le__(self, other: object) -> bool:
@@ -37,6 +41,8 @@ class Comparable(Equatable, SupportsComparison):
          Return True if the current object is less than or equal to another.
         ========================================================================
         """
+        if not isinstance(other, Equatable):
+            return NotImplemented
         return self.key <= other.key
 
     def __gt__(self, other: object) -> bool:
@@ -45,6 +51,8 @@ class Comparable(Equatable, SupportsComparison):
          Return True if the current object is greater than another object.
         ========================================================================
         """
+        if not isinstance(other, Equatable):
+            return NotImplemented
         return self.key > other.key
 
     def __ge__(self, other: object) -> bool:
@@ -53,4 +61,6 @@ class Comparable(Equatable, SupportsComparison):
          Return True if the current object is greater than or equal to another.
         ========================================================================
         """
+        if not isinstance(other, Equatable):
+            return NotImplemented
         return self.key >= other.key

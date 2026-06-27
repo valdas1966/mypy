@@ -28,8 +28,11 @@ class Equatable(SupportsEquality):
         """
         ========================================================================
          Return True if the current object is equal to another object.
+         Foreign operands (no key) yield NotImplemented -> '==' is False.
         ========================================================================
         """
         if other is self:
             return True
+        if not isinstance(other, Equatable):
+            return NotImplemented
         return self.key == other.key

@@ -7,8 +7,10 @@ all comparison operators to a single abstract `key` property.
 All four operators are explicitly implemented for performance — no
 `@total_ordering` overhead.
 
-No type guards — comparing incompatible types raises `AttributeError`.
-This is intentional; cross-type comparison is a bug in this framework.
+Foreign operands are guarded: if `other` is not an `Equatable`, the
+operators return `NotImplemented`, so ordering against a foreign type
+(`obj < None`) raises the standard `TypeError` for unorderable types —
+not a leaky `AttributeError`.
 
 ## Public API
 

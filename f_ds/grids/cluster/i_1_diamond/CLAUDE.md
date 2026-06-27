@@ -16,10 +16,12 @@ Inherits `ClusterGrid` (light: holds `map: str`, not the grid) and
 def __init__(self,
              grid: GridMap,
              center: CellMap,
-             steps: int) -> None
+             steps: int,
+             name: str = 'ClusterDiamond') -> None
 ```
 The `grid` is consumed by `_build` and **not** retained on `self`. The
-`name` is set by `ClusterGrid` to the class name (`'ClusterDiamond'`).
+`name` (default `'ClusterDiamond'`) is passed through to `ClusterGrid`
+and feeds `__str__` / the inherited `HasName` string forms.
 
 ### Properties
 
@@ -28,11 +30,13 @@ The `grid` is consumed by `_build` and **not** retained on `self`. The
 | `center` | `CellMap` | center of the diamond |
 | `steps` | `int` | Manhattan radius |
 | `key` | `tuple[str, tuple[int,int], int]` | `(map, center.key, steps)` — drives `__eq__` / `__hash__` |
-| `map`, `name`, `members`, `cells` | — | inherited from `ClusterGrid` |
+| `map`, `name`, `cells` | — | inherited from `ClusterGrid` |
 
 ### String forms
-- `__str__` → `ClusterDiamond(center=(r,c), steps=s, cells=n)`
-- `__repr__` → inherited from `ClusterGrid`: `<ClusterDiamond: map=X, cells=n>`
+- `__str__` → `name(center=(r,c), steps=s, cells=n)` (defined here; uses
+  the instance `name`, default `'ClusterDiamond'`)
+- `__repr__` → from `HasRepr`: `<ClusterDiamond: …>` wrapping the custom
+  `__str__` (`ClusterGrid` no longer defines `__repr__`)
 
 ### Identity (via `Hashable`)
 `__eq__` and `__hash__` come from `f_core.mixins.hashable.Hashable`,

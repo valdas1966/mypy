@@ -1,4 +1,5 @@
 import sys
+from time import perf_counter
 
 from f_core.canonize import canonize
 from f_hs.algo.i_1_omspp.i_1_kastar_agg._aggregations import resolve_agg
@@ -191,6 +192,8 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                  is_recording: bool = False,
                  is_timing: bool = True,
                  is_tracing: bool = False,
+                 is_checkpointing: bool = False,
+                 is_mem_tracking: bool = False,
                  ) -> None:
         """
         ========================================================================
@@ -209,6 +212,18 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         # `{counter, state, n}` events captured in process
         # order. Populated only when `is_tracing=True`.
         self.traces: list[dict] = []
+        # Early-stop mission-cancellation instruments (off by
+        # default => zero overhead, mirroring is_tracing /
+        # is_timing). is_checkpointing appends one dict per
+        # reached goal {r, cnt_expanded, mem_peak, elapsed};
+        # is_mem_tracking maintains the per-expansion running
+        # max of the intrinsic slot model
+        # |CLOSED| + |OPEN|*(1+|A|).
+        self._is_checkpointing: bool = is_checkpointing
+        self._is_mem_tracking: bool = is_mem_tracking
+        self.checkpoints: list[dict] = []
+        self._mem_peak: int = 0
+        self._t_start: float = 0.0
         # is_opt: responsible-goal opt requires Φ whose
         # responsible set is the singleton arg-extremum.
         if is_opt and self._agg_name not in ('MIN', 'MAX'):
@@ -302,6 +317,7 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
         ====================================================================
         """
         self._reset_search_state()
+        self._t_start = perf_counter()
 
         # Seed starts.
         for start in self.problem.starts:
@@ -368,6 +384,15 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 self._emit_on_goal(state, g=g_state,
                                    reason='expanded',
                                    goal_index=goal_index)
+                # Early-stop checkpoint: price the cost incurred
+                # at the r-th reached goal (1-based reach rank).
+                if self._is_checkpointing:
+                    self.checkpoints.append({
+                        'r':            len(self.checkpoints) + 1,
+                        'cnt_expanded': self._counters['cnt_expanded'],
+                        'mem_peak':     self._mem_peak,
+                        'elapsed':      perf_counter() - self._t_start,
+                    })
                 if not self._active_goals:
                     break
                 if self._is_lazy:
@@ -422,6 +447,16 @@ class KAStarAgg(Generic[State], AlgoOMSPP[State]):
                 continue
             self._closed.add(state)
             self._counters.inc('cnt_expanded')
+            # Early-stop peak-memory tracker: running max of the
+            # intrinsic slot model over expansions (AGG's OPEN is
+            # non-monotone + carries the |A| h-vector tax, so the
+            # peak is mid-search, not end).
+            if self._is_mem_tracking:
+                m = (len(self._closed)
+                     + len(self._frontier)
+                     * (1 + len(self._active_goals)))
+                if m > self._mem_peak:
+                    self._mem_peak = m
             # Free-on-close: the three aux entries for the
             # just-closed node are read-dead (see
             # `_aux_pop_on_close`). Releasing them keeps

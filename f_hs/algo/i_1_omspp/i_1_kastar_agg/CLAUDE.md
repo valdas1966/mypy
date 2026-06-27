@@ -28,7 +28,11 @@ def __init__(self,
              is_opt: bool = False,
              store_vector: bool = False,
              name: str = 'KAStarAgg',
-             is_recording: bool = False) -> None
+             is_recording: bool = False,
+             is_timing: bool = True,
+             is_tracing: bool = False,
+             is_checkpointing: bool = False,
+             is_mem_tracking: bool = False) -> None
 ```
 
 Three orthogonal switches × `agg` define 8 + 1 configs:
@@ -40,6 +44,22 @@ Three orthogonal switches × `agg` define 8 + 1 configs:
 | `store_vector` | True / False | Cache `[h_1(n), ..., h_k(n)]` per node (only for goals active at first encounter; closed goals get `None` sentinel and are never read) vs. recompute h's on each `_compute_F` |
 
 `ValueError` raised if `is_opt=True` with `agg` not in MIN/MAX.
+
+### Early-stop instruments (`is_checkpointing` / `is_mem_tracking`)
+
+Two opt-in, **off-by-default** flags for the mission-cancellation
+study (`f_hs/experiments/omspp/early_stop/`), in the same zero-
+overhead-when-off family as `is_tracing` / `is_timing`:
+
+| flag | effect |
+|---|---|
+| `is_checkpointing` | At each reached goal (the `on_goal` site), append one dict to `algo.checkpoints`: `{r, cnt_expanded, mem_peak, elapsed}`, where `r` is the **1-based reach rank** (not the static goal index), `cnt_expanded` is cumulative, `mem_peak` is the running-max slot count so far (0 unless `is_mem_tracking`), and `elapsed` is `perf_counter()` since `_run()` start. Light: one append per goal. |
+| `is_mem_tracking` | Per-expansion running max of the intrinsic slot model `mem_peak = max_t( |CLOSED| + |OPEN|*(1+|A|) )`, `|A|` = current active-goal count. AGG's OPEN is non-monotone and carries the per-node `|A|` h-vector tax, so the resident peak is **mid-search**, not end — hence a running max rather than the end-of-search `mem_*` snapshot. Heavier (per-expansion) → keep `is_timing=False` when measuring it, so it never lands on the clock. |
+
+Both default `False`; when off, `algo.checkpoints == []`, `_mem_peak`
+stays 0, and the loop pays only one bool check per expansion / goal.
+Reads intrinsic **slot counts** (`len` of the live containers), not
+`getsizeof` bytes — reproducible and machine-independent.
 
 ### Properties
 

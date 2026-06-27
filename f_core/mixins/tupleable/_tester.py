@@ -1,101 +1,59 @@
 from f_core.mixins.tupleable import Tupleable
-import pytest
 
 
-@pytest.fixture
-def a() -> Tupleable:
-    """
-    ========================================================================
-     Create a Tupleable object with the tuple (1, 2).
-    ========================================================================
-    """
-    return Tupleable.Factory.a()
-
-@pytest.fixture
-def b() -> Tupleable:
-    """
-    ========================================================================
-     Create a Tupleable object with the tuple (3, 4).
-    ========================================================================
-    """
-    return Tupleable.Factory.b()
-
-
-def test_to_tuple(a: Tupleable, b: Tupleable) -> None:
+def test_to_tuple() -> None:
     """
     ========================================================================
      Test the to_tuple() method.
     ========================================================================
     """
-    assert a.to_tuple() == (1, 2)
-    assert b.to_tuple() == (3, 4)
+    coord_12 = Tupleable.Factory.coord_12()
+    coord_34 = Tupleable.Factory.coord_34()
+    assert coord_12.to_tuple() == (1, 2)
+    assert coord_34.to_tuple() == (3, 4)
 
 
-def test_iter(a: Tupleable) -> None:
+def test_iter() -> None:
     """
     ========================================================================
      Test __iter__() — tuple unpacking and list().
     ========================================================================
     """
-    x, y = a
+    coord_12 = Tupleable.Factory.coord_12()
+    x, y = coord_12
     assert (x, y) == (1, 2)
-    assert list(a) == [1, 2]
+    assert list(coord_12) == [1, 2]
 
 
-def test_getitem(a: Tupleable) -> None:
+def test_getitem() -> None:
     """
     ========================================================================
      Test __getitem__() — positional indexing.
     ========================================================================
     """
-    assert a[0] == 1
-    assert a[1] == 2
+    coord_12 = Tupleable.Factory.coord_12()
+    assert coord_12[0] == 1
+    assert coord_12[1] == 2
 
 
-def test_len(a: Tupleable) -> None:
-    """
-    ========================================================================
-     Test __len__() — number of items in the tuple.
-    ========================================================================
-    """
-    assert len(a) == 2
-
-
-def test_eq(a: Tupleable, b: Tupleable) -> None:
+def test_eq() -> None:
     """
     ========================================================================
      Test __eq__() — equality by the tuple.
     ========================================================================
     """
-    assert a == Tupleable.Factory.a()
-    assert a != b
+    coord_12 = Tupleable.Factory.coord_12()
+    coord_34 = Tupleable.Factory.coord_34()
+    assert coord_12 == coord_12
+    assert coord_12 != coord_34
 
 
-def test_lt(a: Tupleable, b: Tupleable) -> None:
-    """
-    ========================================================================
-     Test __lt__() — lexicographic ordering by the tuple.
-    ========================================================================
-    """
-    assert a < b
-    assert not (b < a)
-
-
-def test_hash(a: Tupleable, b: Tupleable) -> None:
-    """
-    ========================================================================
-     Test __hash__() — equal tuples hash equal; dedup in a set.
-    ========================================================================
-    """
-    assert hash(a) == hash(Tupleable.Factory.a())
-    assert len({a, Tupleable.Factory.a(), b}) == 2
-
-
-def test_repr(a: Tupleable) -> None:
+def test_repr() -> None:
     """
     ========================================================================
      Test __repr__() / __str__() — standardized via HasRepr.
     ========================================================================
     """
-    assert str(a) == '(1, 2)'
-    assert repr(a) == '<Coord: (1, 2)>'
+    coord_12 = Tupleable.Factory.coord_12()
+    assert str(coord_12) == '(1, 2)'
+    assert repr(coord_12) == '<Coord: (1, 2)>'

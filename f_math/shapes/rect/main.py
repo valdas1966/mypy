@@ -83,18 +83,21 @@ class Rect(Shape, Generic[T]):
         """
         ========================================================================
          Return the X-Min, Y-Min, X-Max, Y-Max values as a tuple.
+         X is the vertical axis (Top + Height), Y the horizontal (Left +
+         Width); maxima are inclusive (last contained cell = start+size-1).
         ========================================================================
         """
         x_min = self.top
         y_min = self.left
-        x_max = self.left + self.width - 1
-        y_max = self.top + self.height - 1
+        x_max = self.top + self.height - 1
+        y_max = self.left + self.width - 1
         return x_min, y_min, x_max, y_max
 
+    @property
     def key(self) -> tuple[T, T, T, T]:
         """
         ========================================================================
-         Compare by the object  Top-Width-Height values.
+         Identify the Rect by its (Top, Left, Width, Height) values.
         ========================================================================
         """
         return self.to_tuple()

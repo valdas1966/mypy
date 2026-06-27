@@ -9,13 +9,13 @@ refactor.
 ## Package Exports
 
 ```python
-from f_ds.grids.cluster import ClusterGrid, ClusterDiamond
+from f_ds.grids.cluster import ClusterGrid, ClusterDiamond, PairCluster
 ```
 
 Also re-exported from `f_ds.grids` for convenience:
 
 ```python
-from f_ds.grids import ClusterGrid, ClusterDiamond
+from f_ds.grids import ClusterGrid, ClusterDiamond, PairCluster
 ```
 
 ## Module Hierarchy
@@ -23,21 +23,31 @@ from f_ds.grids import ClusterGrid, ClusterDiamond
 ```
 f_ds/grids/cluster/
 ├── __init__.py          lazy re-exports
-├── i_0_base/            abstract ClusterGrid
+├── i_0_grid/            abstract ClusterGrid
 │   ├── main.py
 │   └── __init__.py
-└── i_1_diamond/         ClusterDiamond (Manhattan ball)
+├── i_1_diamond/         ClusterDiamond (Manhattan ball)
+│   ├── main.py
+│   ├── _factory.py
+│   ├── _tester.py
+│   └── __init__.py
+└── pair/                PairCluster (ordered, hashable pair of clusters)
     ├── main.py
     ├── _factory.py
     ├── _tester.py
     └── __init__.py
 ```
 
+`pair/` is **not** part of the `ClusterGrid` inheritance hierarchy (so
+not an `i_X_` folder) — it *composes* two clusters into a single
+hashable component (`PairCluster(Hashable, Generic[Cluster])`).
+
 ## Design Notes
 
 - `ClusterGrid` is the abstract root of the hierarchy. It composes
   `Collectionable[CellMap]` (collection behaviour) and `HasName`
-  (identity), and adds the `members`/`cells` accessors. (It was once a
+  (identity), and adds the `map`/`cells` accessors. Its `__init__` takes
+  an optional `name` (default `'ClusterGrid'`). (It was once a
   specialisation of a separate
   generic `f_ds.clusters.ClusterBase`; that layer was removed and folded
   in — no non-grid consumer existed.)

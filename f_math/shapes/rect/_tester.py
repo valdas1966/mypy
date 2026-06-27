@@ -46,8 +46,12 @@ def test_to_rect_coords():
      Test the to_rect_coords() method.
     ========================================================================
     """
+    # Square at origin: 100x100 grid covers cells 0..99 (inclusive max).
     rect = Rect.Factory.full()
-    assert rect.to_rect_coords() == (0, 0, 100, 100)
+    assert rect.to_rect_coords() == (0, 0, 99, 99)
+    # Non-square offset: x (row) = Top+Height, y (col) = Left+Width.
+    rect = Rect(top=10, left=20, width=4, height=8)
+    assert rect.to_rect_coords() == (10, 20, 17, 23)
 
 
 def test_from_center():

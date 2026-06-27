@@ -15,29 +15,29 @@ package changes no existing behavior.
 ## Package Exports
 ```python
 from f_ds.grids.connectivity import (
-    ConnectivityBase, Connectivity4, Connectivity8,
+    ConnectivityBase, Connectivity_4, Connectivity_8,
 )
 ```
 
 ## Module Structure
 ```
 connectivity/
-├── __init__.py     ConnectivityBase, Connectivity4, Connectivity8 (ULazy)
+├── __init__.py     ConnectivityBase, Connectivity_4, Connectivity_8 (ULazy)
 ├── i_0_base/       ConnectivityBase — abstract policy
-├── i_1_four/       Connectivity4 — 4-conn (von Neumann), legacy behavior
-└── i_1_eight/      Connectivity8 — 8-conn (Moore), scaled-int octile
-                    (3D later: i_1_six / i_1_eighteen / i_1_twentysix)
+├── i_1_04/       Connectivity_4 — 4-conn (von Neumann), legacy behavior
+└── i_1_08/      Connectivity_8 — 8-conn (Moore), scaled-int octile
+                    (3D later: i_1_06 / i_1_18 / i_1_26)
 ```
 
 ## Inheritance
 ```
 ConnectivityBase
- ├── Connectivity4
- └── Connectivity8
+ ├── Connectivity_4
+ └── Connectivity_8
 ```
 
 ## Policy Surface
-| Member | Connectivity4 | Connectivity8 |
+| Member | Connectivity_4 | Connectivity_8 |
 |--------|---------------|---------------|
 | `offsets` | 4 cardinals (N,E,S,W) | + 4 diagonals (8 total) |
 | `cost(a,b)` | `1` | `10000` cardinal / `14142` diagonal |

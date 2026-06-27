@@ -44,7 +44,7 @@ def y(self) -> float                       # vertical (0-100)
 def to_tuple(self) -> tuple[float, float]  # (x, y) — the single Tupleable method
 ```
 `to_tuple()` is the data-tuple accessor shared across the framework's
-2-slot value objects (`Pair.to_tuple()`, `HasRowCol.to_tuple()`); under
+2-slot value objects (`HasRowCol.to_tuple()`); under
 `Tupleable` it also drives identity, ordering and iteration.
 
 ### Dunder Methods
@@ -61,7 +61,7 @@ def __iter__ / __getitem__ / __len__   # via Tupleable: x, y = point; point[0]; 
 domain choice, not a technical limitation. Geometry coordinates in this
 framework live in the normalized `0-100` `float` space, so there is no
 type to parameterize over (YAGNI). `Generic[T]` *does* compose with the
-mixins here — `Pair(Tupleable, Generic[Item])` is a live, subclassed
+mixins here — `Bounds(Tupleable, Generic[T])` is a live, subclassed
 example — so genericity was an option that was simply not needed.
 
 ## Inheritance (Hierarchy)

@@ -35,7 +35,7 @@ class Stroke:
     Factory: type = None
 
     def __init__(self,
-                 color: RGB = RGB(name='Black'),
+                 color: RGB | None = None,
                  width: float = 1,
                  pattern: DashPattern = DashPattern.SOLID) -> None:
         """

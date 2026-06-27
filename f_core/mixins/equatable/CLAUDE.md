@@ -6,8 +6,10 @@ Subclasses implement the abstract `key` property; `__eq__` delegates to
 comparing keys. `__ne__` is omitted — Python derives `!=` from `__eq__`
 by default.
 
-No type guards — comparing incompatible types raises `AttributeError`.
-This is intentional; cross-type comparison is a bug in this framework.
+Foreign operands are guarded: if `other` is not an `Equatable`, `__eq__`
+returns `NotImplemented`, so `obj == None` / `None in [obj]` / `obj == 5`
+are `False` (never raise) — per the Python data model. Two *different*
+`Equatable` subclasses still compare by `key` (equal keys → equal).
 
 ## Public API
 

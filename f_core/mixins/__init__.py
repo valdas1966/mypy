@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from f_core.mixins.validatable_mutable import ValidatableMutable
     from f_core.mixins.has import HasKey
     from f_core.mixins.has import HasName
+    from f_core.mixins.has import HasParent
     from f_core.mixins.has import HasRowCol
     from f_core.mixins.has import HasRowsCols
 
@@ -26,6 +27,7 @@ ULazy.install(globals(), {
     'ValidatableMutable': 'f_core.mixins.validatable_mutable:ValidatableMutable',
     'HasKey': 'f_core.mixins.has:HasKey',
     'HasName': 'f_core.mixins.has:HasName',
+    'HasParent': 'f_core.mixins.has:HasParent',
     'HasRowCol': 'f_core.mixins.has:HasRowCol',
     'HasRowsCols': 'f_core.mixins.has:HasRowsCols',
 })

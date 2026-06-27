@@ -1,7 +1,8 @@
 from f_core.mixins.has.name import HasName
+from f_core.mixins.equatable import Equatable
 
 
-class Shape(HasName):
+class Shape(HasName, Equatable):
     """
     =================================================================
      Abstract i_0_element class for all shapes.
@@ -16,10 +17,11 @@ class Shape(HasName):
         """
         HasName.__init__(self, name)
 
+    @property
     def key(self) -> str:
         """
         =============================================================
-         Return the name of the shape.
+         Identify the shape by its name (sub-classes may override).
         =============================================================
         """
-        return HasName.key(self)
+        return self.name

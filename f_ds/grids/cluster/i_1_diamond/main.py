@@ -18,14 +18,15 @@ class ClusterDiamond(ClusterGrid, Hashable):
                  # Center cell of the diamond
                  center: Cell,
                  # Manhattan radius (steps from center)
-                 steps: int) -> None:
+                 steps: int,
+                 name: str = 'ClusterDiamond') -> None:
         """
         ========================================================================
          Init private Attributes and build the diamond via BFS. The grid
          is consumed by `_build` and not retained on `self`.
         ========================================================================
         """
-        ClusterGrid.__init__(self, grid=grid)
+        ClusterGrid.__init__(self, grid=grid, name=name)
         self._center: Cell = center
         self._steps: int = steps
         self._cells = self._build(grid=grid)
@@ -62,7 +63,6 @@ class ClusterDiamond(ClusterGrid, Hashable):
         """
         ========================================================================
          BFS from center up to depth <= steps.
-         Skips wall (invalid) cells automatically via grid.neighbors.
         ========================================================================
         """
         # An invalid center yields an empty cluster
@@ -92,7 +92,7 @@ class ClusterDiamond(ClusterGrid, Hashable):
          Return STR-REPR: 'ClusterDiamond(center=(r,c), steps=s, cells=n)'.
         ========================================================================
         """
-        return (f'{type(self).__name__}('
+        return (f'{self.name}('
                 f'center={self._center.key}, '
                 f'steps={self._steps}, '
                 f'cells={len(self)})')

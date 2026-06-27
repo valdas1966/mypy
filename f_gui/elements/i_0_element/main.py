@@ -1,34 +1,19 @@
 from __future__ import annotations
-from f_core.mixins.has.name import HasName
-from f_core.mixins.has.parent import HasParent
+from f_core.mixins import HasName, HasParent
 from f_ds.geometry.bounds import Bounds
 from f_color.rgb import RGB
 from f_gui.style.border import Border
 from f_ds.geometry.point import Point
 from f_ds.geometry.side import Side
+from abc import ABC
 
 
-class Element(HasName, HasParent):
+class Element(HasName, HasParent, ABC):
     """
     ========================================================================
-     Abstract Base-Class for all GUI Elements (not instantiable).
+     Abstract Base-Class for all GUI Elements.
     ========================================================================
     """
-
-    def __new__(cls, *args, **kwargs) -> 'Element':
-        """
-        ========================================================================
-         Block direct instantiation — Element is abstract.
-        ========================================================================
-         Element provides bounds/name/parent for every GUI element but is
-         never a usable leaf itself; create a concrete subclass instead.
-        ========================================================================
-        """
-        if cls is Element:
-            raise TypeError(
-                'Element is abstract; instantiate a concrete subclass '
-                '(Container, Label, Window).')
-        return super().__new__(cls)
 
     def __init__(self,
                  bounds: Bounds[float] = None,

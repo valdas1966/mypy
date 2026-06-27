@@ -38,7 +38,7 @@ f_ds/geometry/
 - `Point` is **non-generic** (`float`) and inherits `Tupleable` — a
   deliberate domain choice (coordinates are `0-100` floats, nothing to
   parameterize), not a technical limit; `Generic[T]` composes fine with
-  the mixins (cf. `f_ds.pair.Pair`).
+  the mixins (cf. `Bounds[T]`).
 - Both `Point` and `Bounds` derive identity, ordering, hashing and
   unpacking from a single `to_tuple()` via `Tupleable`.
 - `Side` is a plain `Enum` (no `Factory`); its values are the CSS edge

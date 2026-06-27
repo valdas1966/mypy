@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Octile Distance — Connectivity_8</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --line:#30363d;
+    --txt:#c9d1d9; --mut:#8b949e;
+    --card:#38bdf8;   /* cardinal / straight  = cost 1     */
+    --diag:#fbbf24;   /* diagonal             = cost √2    */
+    --acc:#818cf8; --good:#3fb950; --goal:#58a6ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--txt);
+    font:15px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    padding:34px 18px 70px;
+  }
+  .wrap{max-width:840px; margin:0 auto}
+  h1{font-size:26px; margin:0 0 4px; letter-spacing:.2px}
+  h1 small{color:var(--acc); font-size:15px; font-weight:600}
+  .sub{color:var(--mut); margin:0 0 26px}
+  h2{font-size:18px; margin:30px 0 12px;
+     border-left:3px solid var(--acc); padding-left:10px}
+  .panel{background:var(--panel); border:1px solid var(--line);
+         border-radius:11px; padding:18px 20px; margin:14px 0}
+  .row{display:flex; gap:20px; flex-wrap:wrap; align-items:center}
+  .row .grow{flex:1; min-width:240px}
+  .note{border-left:3px solid var(--diag);
+        background:rgba(251,191,36,.07); border-radius:0 8px 8px 0;
+        padding:11px 14px; margin:14px 0; color:#e8d9b5; font-size:14px}
+  .k{color:var(--card); font-weight:700}
+  .d{color:var(--diag); font-weight:700}
+  code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .formula{font-family:ui-monospace,monospace; font-size:15px;
+           background:#0b0e13; border:1px solid var(--line);
+           border-radius:8px; padding:13px 15px; margin:10px 0;
+           overflow-x:auto; white-space:nowrap}
+  .formula b.k{color:var(--card)} .formula b.d{color:var(--diag)}
+  .res{color:var(--good); font-weight:700}
+  table{border-collapse:collapse; width:100%; margin-top:6px; font-size:14px}
+  th,td{border:1px solid var(--line); padding:7px 10px; text-align:left}
+  th{color:var(--mut); font-weight:600; background:#0b0e13}
+  .bar{height:18px; border-radius:4px; display:inline-block; vertical-align:middle}
+  .blab{color:var(--mut); font-size:13px; margin-left:8px}
+  .lg{display:flex; gap:18px; flex-wrap:wrap; margin:6px 0 2px; font-size:13px;
+      color:var(--mut)}
+  .sw{display:inline-block; width:12px; height:12px; border-radius:3px;
+      vertical-align:-1px; margin-right:5px}
+  .cap{color:var(--mut); font-size:13px; text-align:center; margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Octile Distance <small>&nbsp;·&nbsp; Connectivity_8</small></h1>
+  <p class="sub">The exact shortest-path distance on an obstacle-free
+     8-connected grid — and why it is an admissible A* heuristic.</p>
+
+  <!-- ===== 1. THE 8 MOVES ===================================== -->
+  <h2>1 · Eight moves, two costs</h2>
+  <div class="panel">
+    <div class="row">
+      <svg width="180" height="180" viewBox="0 0 180 180" aria-label="8 neighbours">
+        <defs>
+          <marker id="ak" markerWidth="7" markerHeight="7" refX="5.5" refY="3"
+                  orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#38bdf8"/></marker>
+          <marker id="ad" markerWidth="7" markerHeight="7" refX="5.5" refY="3"
+                  orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#fbbf24"/></marker>
+        </defs>
+        <!-- grid cells -->
+        <g fill="none" stroke="#30363d">
+          <rect x="6"   y="6"   width="56" height="56"/>
+          <rect x="62"  y="6"   width="56" height="56"/>
+          <rect x="118" y="6"   width="56" height="56"/>
+          <rect x="6"   y="62"  width="56" height="56"/>
+          <rect x="118" y="62"  width="56" height="56"/>
+          <rect x="6"   y="118" width="56" height="56"/>
+          <rect x="62"  y="118" width="56" height="56"/>
+          <rect x="118" y="118" width="56" height="56"/>
+        </g>
+        <rect x="62" y="62" width="56" height="56" fill="#1f2730" stroke="#484f58"/>
+        <!-- diagonal arrows (amber) -->
+        <g stroke="#fbbf24" stroke-width="2" marker-end="url(#ad)">
+          <line x1="90" y1="90" x2="44"  y2="44"/>
+          <line x1="90" y1="90" x2="136" y2="44"/>
+          <line x1="90" y1="90" x2="44"  y2="136"/>
+          <line x1="90" y1="90" x2="136" y2="136"/>
+        </g>
+        <!-- cardinal arrows (cyan) -->
+        <g stroke="#38bdf8" stroke-width="2.4" marker-end="url(#ak)">
+          <line x1="90" y1="90" x2="90"  y2="42"/>
+          <line x1="90" y1="90" x2="138" y2="90"/>
+          <line x1="90" y1="90" x2="90"  y2="138"/>
+          <line x1="90" y1="90" x2="42"  y2="90"/>
+        </g>
+        <g font-family="ui-monospace,monospace" font-size="12" font-weight="700">
+          <text x="90"  y="26"  fill="#38bdf8" text-anchor="middle">1</text>
+          <text x="160" y="94"  fill="#38bdf8" text-anchor="middle">1</text>
+          <text x="90"  y="170" fill="#38bdf8" text-anchor="middle">1</text>
+          <text x="20"  y="94"  fill="#38bdf8" text-anchor="middle">1</text>
+          <text x="150" y="28"  fill="#fbbf24" text-anchor="middle">√2</text>
+          <text x="30"  y="28"  fill="#fbbf24" text-anchor="middle">√2</text>
+          <text x="150" y="166" fill="#fbbf24" text-anchor="middle">√2</text>
+          <text x="30"  y="166" fill="#fbbf24" text-anchor="middle">√2</text>
+        </g>
+      </svg>
+      <div class="grow">
+        <p style="margin:0 0 10px">From any cell you can step to
+           <span class="k">4 cardinal</span> neighbours (N,&nbsp;E,&nbsp;S,&nbsp;W)
+           or <span class="d">4 diagonal</span> ones.</p>
+        <ul style="margin:0; padding-left:18px">
+          <li>A <span class="k">straight step</span> moves 1 cell → cost
+              <b class="k">1</b>.</li>
+          <li>A <span class="d">diagonal step</span> moves 1 cell in
+              <i>both</i> axes at once → cost
+              <b class="d">√2</b> = √(1²+1²).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <b>Why the big integers?</b> Costs are stored scaled <b>×10&nbsp;000</b>:
+      cardinal = <span class="k mono">10000</span>,
+      diagonal = <span class="d mono">round(√2 × 10000) = 14142</span>.
+      Integers make every path-cost <i>comparison exact</i> — vital for
+      detecting equal-cost (co-optimal) paths, which float √2 rounding would
+      corrupt. Recover the true distance with
+      <code>cost ÷ unit</code> (<code>unit = 10000</code>).
+    </div>
+  </div>
+
+  <!-- ===== 2. THE IDEA ======================================== -->
+  <h2>2 · The idea — go diagonal first, then straight</h2>
+  <div class="panel">
+    <p style="margin-top:0">To reach a goal that is
+       <span class="mono">d<sub>col</sub></span> columns and
+       <span class="mono">d<sub>row</sub></span> rows away (no obstacles),
+       step <span class="d">diagonally</span> until you line up on the
+       shorter axis, then go <span class="k">straight</span> the rest.</p>
+    <p>A <span class="d">diagonal</span> step shrinks <i>both</i> gaps by 1;
+       a <span class="k">straight</span> step shrinks only one. So spend
+       diagonals on the smaller gap, straights on what is left over:</p>
+    <div class="formula">
+      d<sub>min</sub> = min(d<sub>row</sub>, d<sub>col</sub>)
+      &nbsp;→&nbsp; <b class="d">diagonal steps</b> &nbsp;&nbsp;|&nbsp;&nbsp;
+      d<sub>max</sub> − d<sub>min</sub>
+      &nbsp;→&nbsp; <b class="k">straight steps</b>
+    </div>
+
+    <div class="row" style="justify-content:center; margin-top:14px">
+      <div>
+      <svg width="352" height="244" viewBox="0 0 352 244"
+           aria-label="worked example path">
+        <defs>
+          <marker id="end" markerWidth="8" markerHeight="8" refX="6" refY="3.2"
+                  orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" fill="#38bdf8"/></marker>
+        </defs>
+        <!-- grid 6x4, cell 54, origin 14,14 -->
+        <g fill="none" stroke="#30363d" stroke-width="1">
+          <rect x="14"  y="14"  width="324" height="216"/>
+          <line x1="68"  y1="14" x2="68"  y2="230"/>
+          <line x1="122" y1="14" x2="122" y2="230"/>
+          <line x1="176" y1="14" x2="176" y2="230"/>
+          <line x1="230" y1="14" x2="230" y2="230"/>
+          <line x1="284" y1="14" x2="284" y2="230"/>
+          <line x1="14"  y1="68"  x2="338" y2="68"/>
+          <line x1="14"  y1="122" x2="338" y2="122"/>
+          <line x1="14"  y1="176" x2="338" y2="176"/>
+        </g>
+        <!-- start / goal cells -->
+        <rect x="14"  y="14"  width="54" height="54" fill="rgba(63,185,80,.16)"/>
+        <rect x="230" y="122" width="54" height="54" fill="rgba(88,166,255,.18)"/>
+        <!-- diagonal segment -->
+        <polyline points="41,41 95,95 149,149" fill="none"
+                  stroke="#fbbf24" stroke-width="4" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+        <!-- straight segment -->
+        <polyline points="149,149 203,149 257,149" fill="none"
+                  stroke="#38bdf8" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#end)"/>
+        <!-- nodes -->
+        <g fill="#0e1116" stroke="#fbbf24" stroke-width="2.5">
+          <circle cx="95"  cy="95"  r="4.5"/>
+          <circle cx="149" cy="149" r="4.5"/>
+        </g>
+        <circle cx="41"  cy="41"  r="6" fill="#3fb950"/>
+        <circle cx="257" cy="149" r="6" fill="#58a6ff"/>
+        <g font-family="ui-monospace,monospace" font-size="13" font-weight="700">
+          <text x="41"  y="45"  fill="#0e1116" text-anchor="middle">A</text>
+          <text x="257" y="153" fill="#0e1116" text-anchor="middle">B</text>
+        </g>
+        <!-- annotations -->
+        <text x="56" y="120" fill="#fbbf24" font-size="12"
+              font-family="ui-monospace,monospace">2 diagonal</text>
+        <text x="186" y="140" fill="#38bdf8" font-size="12"
+              font-family="ui-monospace,monospace">2 straight</text>
+      </svg>
+      <div class="cap">A → B : 4 columns, 2 rows apart →
+        d<sub>min</sub>=2, d<sub>max</sub>=4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3. THE FORMULA ===================================== -->
+  <h2>3 · The formula</h2>
+  <div class="panel">
+    <div class="formula">
+      octile = <b class="d">√2</b>·d<sub>min</sub> +
+               <b class="k">1</b>·(d<sub>max</sub> − d<sub>min</sub>)
+    </div>
+    <div class="formula">
+      scaled = <b class="d">14142</b>·d<sub>min</sub> +
+               <b class="k">10000</b>·(d<sub>max</sub> − d<sub>min</sub>)
+    </div>
+    <p style="margin-bottom:6px">For A → B above
+       (d<sub>min</sub>=2, d<sub>max</sub>=4):</p>
+    <div class="formula">
+      <b class="d">14142</b>·2 + <b class="k">10000</b>·2
+      = 28284 + 20000 = <span class="res">48284</span>
+      &nbsp;→&nbsp; ÷10000 = <span class="res">4.8284</span>
+      = 2√2 + 2 ✓
+    </div>
+  </div>
+
+  <!-- ===== 4. COMPARISON ====================================== -->
+  <h2>4 · How it compares</h2>
+  <div class="panel">
+    <div class="lg">
+      <span><span class="sw" style="background:#8b949e"></span>Manhattan (4-conn)</span>
+      <span><span class="sw" style="background:#fbbf24"></span>Octile (8-conn)</span>
+      <span><span class="sw" style="background:#38bdf8"></span>Chebyshev (8-conn, diag=1)</span>
+    </div>
+    <table>
+      <tr><th>Distance</th><th>Rule</th><th>A → B value</th><th></th></tr>
+      <tr>
+        <td>Manhattan</td><td class="mono">d<sub>row</sub> + d<sub>col</sub></td>
+        <td class="mono">6.0000</td>
+        <td><span class="bar" style="width:300px;background:#8b949e"></span></td>
+      </tr>
+      <tr>
+        <td><b>Octile</b></td>
+        <td class="mono">√2·d<sub>min</sub> + (d<sub>max</sub>−d<sub>min</sub>)</td>
+        <td class="mono">4.8284</td>
+        <td><span class="bar" style="width:241px;background:#fbbf24"></span></td>
+      </tr>
+      <tr>
+        <td>Chebyshev</td><td class="mono">max(d<sub>row</sub>, d<sub>col</sub>)</td>
+        <td class="mono">4.0000</td>
+        <td><span class="bar" style="width:200px;background:#38bdf8"></span></td>
+      </tr>
+    </table>
+    <div class="note" style="border-left-color:var(--acc);
+         background:rgba(129,140,248,.08); color:#cdd3f5">
+      <b>Octile sits between the two.</b> Manhattan <i>overcounts</i> —
+      it forbids diagonals. Chebyshev <i>undercounts</i> — it pretends a
+      diagonal is free (cost 1). Octile is the <b>true</b> obstacle-free
+      shortest path, so it never overestimates → an <b>admissible</b> and
+      <b>consistent</b> A* heuristic, exact when the grid is open.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

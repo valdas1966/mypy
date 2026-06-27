@@ -13,6 +13,8 @@ def test_center_full() -> None:
     center = grid[1][1]
     cluster = Cluster(grid=grid, center=center, steps=1)
     assert len(cluster) == 5
+    assert str(cluster) == 'ClusterDiamond(center=(1, 1), steps=1, cells=5)'
+    assert repr(cluster) == '<ClusterDiamond: ClusterDiamond(center=(1, 1), steps=1, cells=5)>'
 
 
 def test_center_part() -> None:

@@ -69,8 +69,8 @@ cr = CounterRates(positive=Counter(good=4, ok=3, bad=1),
   mixins, `class X(Generic[T], Equatable/Comparable)` raises
   an MRO `TypeError` (Generic is already in the MRO via
   `Protocol`). The classes are therefore not subscriptable
-  (`ItemRate[str]` fails); annotate plainly. `f_ds/pair/Pair`
-  has this latent bug and must not be copied as precedent.
+  (`ItemRate[str]` fails); annotate plainly — do not put
+  `Generic[T]` first in the bases of a mixin-based class.
 - **Import convention.** Consumers use direct-module imports
   (`from f_core.protocols.comparison.main import ...`), not
   the lazy aggregator. The aggregator stays — it's the

@@ -1,5 +1,6 @@
-from f_ds.grids import GridMap as Grid, CellMap as Cell, \
-    ClusterDiamond as Cluster
+from f_ds.grids import (GridMap as Grid,
+                        CellMap as Cell,
+                        ClusterDiamond as Cluster)
 
 
 class Factory:

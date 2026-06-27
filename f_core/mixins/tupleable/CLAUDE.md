@@ -14,8 +14,9 @@ concrete `key` (= `to_tuple()`) that those bases need. So one method —
 `Tupleable` must not mutate after construction — a changing tuple means a
 changing hash, which corrupts any `set` / `dict` holding it.
 
-No type guards on comparison — comparing incompatible types raises
-`AttributeError`, consistent with `Equatable` / `Comparable`.
+Foreign operands are guarded via `Equatable` / `Comparable`: `obj == None`
+is `False` and `obj < None` raises `TypeError` (never a leaky
+`AttributeError`).
 
 ## Public API
 
@@ -91,7 +92,6 @@ Value objects whose identity *is* their full tuple:
 | Class | `to_tuple()` |
 |-------|--------------|
 | `f_ds.geometry.Point` | `(x, y)` |
-| `f_ds.pair.Pair[First, Second]` | `(first, second)` |
 | `f_ds.geometry.Bounds[T]` | `(top, left, bottom, right)` |
 
 `HasRowCol` was migrated too — it is a positional value-record

@@ -7,29 +7,33 @@
 has rectangular `Bounds` (relative to its parent) in a 0-100 coordinate
 space.
 
-`Element` is **not instantiable directly** — `Element()` raises
-`TypeError`. Create a concrete subclass instead (`Container`, `Label`,
-`Window`).
+`Element` is **abstract by convention** — it inherits from `abc.ABC` as
+an explicit marker, but is meant to be subclassed (`Container`, `Label`,
+`Window`), not used directly.
 
 ## Why Abstract (and how)
 
 There is no natural abstract method: `bounds` / `name` / `parent` are
 fully implemented here, and the only candidate hook (rendering) is
 deliberately kept **out** of this pure data model (`f_gui` stores
-structure; `RenderHtml` renders). Since `abc.ABC` without an
-`@abstractmethod` does **not** block instantiation, abstractness is
-enforced with a `__new__` guard:
+structure; `RenderHtml` renders).
+
+Abstractness is therefore declared with an `ABC` marker:
 
 ```python
-def __new__(cls, *args, **kwargs) -> 'Element':
-    if cls is Element:
-        raise TypeError('Element is abstract; instantiate a concrete '
-                        'subclass (Container, Label, Window).')
-    return super().__new__(cls)
+class Element(HasName, HasParent, ABC):
+    ...
 ```
 
-The guard blocks `Element()` while allowing every subclass — no
-metaclass, no fake abstract method.
+This matches the framework's convention-only abstract bases (e.g.
+`StateBase`): the class is **marked** abstract, not runtime-enforced.
+Note that `abc.ABC` **without** an `@abstractmethod` does *not* block
+instantiation — `Element()` does not raise. Enforcement was previously
+done with a `__new__` guard; that was removed for consistency with the
+rest of the framework (we do not invent a fake abstract method, and
+runtime blocking was the lone outlier among the `i_0_*` bases). No
+metaclass conflict arises — `HasName`/`HasParent` use the plain `type`
+metaclass, so `ABCMeta` composes cleanly.
 
 ## Public API
 
@@ -129,6 +133,7 @@ HasParent
 
 | Import | Purpose |
 |--------|---------|
+| `abc.ABC` | Abstract-base marker (declares Element abstract) |
 | `f_core.mixins.has.name.HasName` | Name mixin |
 | `f_core.mixins.has.parent.HasParent` | Parent-chain mixin |
 | `f_ds.geometry.bounds.Bounds` | Rectangular bounds for positioning |
@@ -140,7 +145,7 @@ from f_gui.elements.i_0_element.main import Element
 from f_gui.elements.i_1_label.main     import Label
 from f_ds.geometry.bounds              import Bounds
 
-Element()                       # TypeError — abstract
+issubclass(Element, ABC)        # True — marked abstract
 
 label = Label(bounds=Bounds(top=10, left=10, bottom=40, right=40),
               text='Hi')        # OK — concrete subclass
@@ -156,6 +161,6 @@ print(_Concrete().bounds.to_tuple())   # (0, 0, 100, 100)
 ## Testing Note
 
 `_tester.py` tests inherited behavior through a local `_Concrete(Element)`
-subclass and asserts that `Element()` raises `TypeError`. The
-`i_1_container` tests use `Label` as their neutral leaf child (previously
-a bare `Element`).
+subclass and asserts that `Element` is marked abstract
+(`issubclass(Element, ABC)`). The `i_1_container` tests use `Label` as
+their neutral leaf child (previously a bare `Element`).

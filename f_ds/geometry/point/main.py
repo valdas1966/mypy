@@ -6,10 +6,6 @@ class Point(Tupleable):
     ============================================================================
      2-D Point (x, y) in a normalized 0-100 coordinate space.
     ============================================================================
-     x is the horizontal axis (maps to CSS left / SVG x), y is the vertical
-     axis (maps to CSS top / SVG y). Equality, ordering, hashing and
-     unpacking come from Tupleable via the (x, y) to_tuple().
-    ============================================================================
     """
 
     # Factory
@@ -51,11 +47,3 @@ class Point(Tupleable):
         ========================================================================
         """
         return self._x, self._y
-
-    def __str__(self) -> str:
-        """
-        ========================================================================
-         Return STR representation of the Point.
-        ========================================================================
-        """
-        return f'({self._x}, {self._y})'
