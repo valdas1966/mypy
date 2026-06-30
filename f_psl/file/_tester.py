@@ -1,4 +1,4 @@
-from f_psl.file.u_txt import UTxt
+from f_psl.file import u_txt
 import pytest
 
 
@@ -28,6 +28,6 @@ def test_to_list(path: str, lines: list[str]) -> None:
      Test the to_list() method.
     ========================================================================
     """
-    UTxt.from_list(lines=lines, path=path)
-    lines_test = UTxt.to_list(path=path)
+    u_txt.from_list(lines=lines, path=path)
+    lines_test = u_txt.to_list(path=path)
     assert lines == lines_test

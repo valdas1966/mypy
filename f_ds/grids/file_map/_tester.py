@@ -1,5 +1,5 @@
 from f_ds.grids.file_map import UFileMap
-from f_psl.file import UTxt
+from f_psl.file import u_txt
 import numpy as np
 import pytest
 
@@ -18,11 +18,11 @@ def path() -> str:
     lines.append('')
     lines.append('')
     lines.append('@@@@@')
-    lines.append('@___@')
-    lines.append('@_@_@')
-    lines.append('@___@')
+    lines.append('@...@')
+    lines.append('@.@.@')
+    lines.append('@...@')
     lines.append('@@@@@')
-    UTxt.from_list(path=path, lines=lines)
+    u_txt.from_list(path=path, lines=lines)
     return path
 
 
