@@ -15,13 +15,14 @@
      averaged over min_dist; ratio vs min_dist averaged over max_steps) --
      the two main effects, with eager and lazy overlaid.
 
- Ratios are PAIRED: computed per (domain, map, min_dist, max_steps)
- instance (AGG metric / INC metric), then averaged over maps per cell --
- the variance-cancelling unit for the within-map design.
+ Ratios are PAIRED: computed per (domain, map, min_dist, max_steps, rep)
+ instance (AGG metric / INC metric), then averaged over maps + reps per
+ cell -- the variance-cancelling unit for the within-map design.
 
  The INC and AGG CSVs are inner-joined on (domain, map, min_dist,
- max_steps) first, so any instance missing from one side is dropped from
- both -- the comparison stays apples-to-apples.
+ max_steps, rep) first, so any instance missing from one side is dropped
+ from both -- the comparison stays apples-to-apples (and each replicate
+ pairs to its own counterpart, not a cross-join).
 -------------------------------------------------------------------------------
  Memory accounting
    mem_total = mem_open + mem_closed for BOTH algos (AGG's aux peak is
@@ -59,8 +60,11 @@ _log = get_log(__name__)
 _MIN_DISTS = [100, 200, 300, 400, 500]   # heatmap rows (top -> bottom)
 _MAX_STEPS = [20, 30, 40, 50, 60]        # heatmap cols (left -> right)
 
-# Join keys identifying one phase-diagram instance.
-_KEYS = ['domain', 'map', 'min_dist', 'max_steps']
+# Join keys identifying one phase-diagram instance. `rep` is included so
+# the INC<->AGG inner-join pairs each replicate to its own counterpart --
+# without it, the R reps per (map, cell) would cross-join (R x R) and
+# inflate / mis-pair the ratios.
+_KEYS = ['domain', 'map', 'min_dist', 'max_steps', 'rep']
 
 # AGG modes compared against INC: (config label, display name, colour).
 _AGG_MODES: list[tuple[str, str, str]] = [

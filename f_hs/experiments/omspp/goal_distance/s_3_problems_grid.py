@@ -57,6 +57,7 @@ _CSV_COLUMNS = [
     'domain',
     'map',
     'min_dist',
+    'rep',
     'max_steps',
     'k',
     'dist_start',
@@ -74,6 +75,7 @@ class _SkeletonRow(NamedTuple):
     goal_center_row: int
     goal_center_col: int
     min_dist: int
+    rep: int
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────
@@ -100,6 +102,7 @@ def _read_skeleton_grouped(drive: Drive,
             goal_center_row=int(row['goal_center_row']),
             goal_center_col=int(row['goal_center_col']),
             min_dist=int(row['min_dist']),
+            rep=int(row['rep']),
         )
         groups[(rec.domain, rec.map)].append(rec)
     total = sum(len(rs) for rs in groups.values())
@@ -186,7 +189,8 @@ def _build_instance(grid: GridMap,
     pair = PairCluster(cluster_a=start_diamond, cluster_b=goal_diamond)
     dist_start = pair.distance()
     goals = rng.sample(list(goal_diamond), k=_K)
-    name = f'{grid.name}_d{rec.min_dist:03d}_s{max_steps:02d}'
+    name = (f'{grid.name}_d{rec.min_dist:03d}'
+            f'_r{rec.rep:02d}_s{max_steps:02d}')
     problem = ProblemGrid(grid=grid,
                           starts=[start_cell],
                           goals=goals,
@@ -196,6 +200,7 @@ def _build_instance(grid: GridMap,
         'domain':       rec.domain,
         'map':          grid.name,
         'min_dist':     rec.min_dist,
+        'rep':          rec.rep,
         'max_steps':    max_steps,
         'k':            _K,
         'dist_start':   dist_start,

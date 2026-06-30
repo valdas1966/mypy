@@ -56,6 +56,7 @@ _CSV_COLUMNS = [
     'domain',
     'map',
     'min_dist',
+    'rep',
     'max_steps',
     'k',
     'cnt_h_search',
@@ -86,17 +87,18 @@ def _h(s, g) -> float:
     return float(s.key.distance(g.key))
 
 
-def _parse_coords(name: str) -> tuple[int, int]:
+def _parse_coords(name: str) -> tuple[int, int, int]:
     """
     ============================================================================
-     Recover (min_dist, max_steps) from a problem name shaped
-     '{map}_d{min_dist:03d}_s{max_steps:02d}' (set in s_3). rsplit from the
-     right is robust to underscores inside the map name.
+     Recover (min_dist, max_steps, rep) from a problem name shaped
+     '{map}_d{min_dist:03d}_r{rep:02d}_s{max_steps:02d}' (set in s_3).
+     rsplit from the right is robust to underscores inside the map name.
     ============================================================================
     """
     base, s_part = name.rsplit('_s', 1)
+    base, r_part = base.rsplit('_r', 1)
     _, d_part = base.rsplit('_d', 1)
-    return int(d_part), int(s_part)
+    return int(d_part), int(s_part), int(r_part)
 
 
 # ── Worker experiment (module-level => picklable for ProcessPoolExecutor) ──
@@ -113,11 +115,12 @@ def _experiment_kastar_inc_grid(problem: ProblemGrid) -> list[dict]:
     """
     domain = problem.grid.domain
     map_name = problem.grid_name
-    min_dist, max_steps = _parse_coords(name=problem.name)
+    min_dist, max_steps, rep = _parse_coords(name=problem.name)
     k = len(problem.goals_rc)
 
     _log.info(f'start  ({domain}, {map_name}, '
-              f'min_dist={min_dist}, max_steps={max_steps}, k={k})')
+              f'min_dist={min_dist}, max_steps={max_steps}, '
+              f'rep={rep}, k={k})')
 
     algo = KAStarInc(problem=problem, h=_h)
     algo.run()
@@ -126,6 +129,7 @@ def _experiment_kastar_inc_grid(problem: ProblemGrid) -> list[dict]:
         'domain':         domain,
         'map':            map_name,
         'min_dist':       min_dist,
+        'rep':            rep,
         'max_steps':      max_steps,
         'k':              k,
         'cnt_h_search':   c['cnt_h_search'],

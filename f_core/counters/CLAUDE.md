@@ -37,6 +37,7 @@ Duplicate names raise `ValueError` at construction.
 |---|---|---|
 | `inc(name, n=1)` | `(str, int) -> None` | Increment counter `name`. `KeyError` on undeclared name (typo guard). |
 | `assign(name, value)` | `(str, int) -> None` | Overwrite counter `name` with absolute `value`. Use for ownership-handoff (another component owns the count; this Counters mirrors the final tally). `KeyError` on undeclared name. |
+| `absorb(source, names=None, default=0)` | `(Mapping, tuple[str,...] \| None, int) -> None` | Mirror counters from a `source` Mapping by absolute `assign`. For each name in `names` (default: full schema), copy `source[name]` if present else write `default`. Centralizes the structural-default policy for cross-component handoff — synthesizes `cnt_decrease=0` for a FIFO frontier, replacing a per-call-site `'cnt_decrease' in fc` guard. Undeclared target name → `KeyError`. |
 | `reset()` | `() -> None` | Zero all counters in place. |
 | `as_dict()` | `() -> dict[str, int]` | Plain-dict copy in declaration order. |
 
@@ -143,3 +144,23 @@ class MyAlgo:
         self._counters.inc('cnt_push')
         ...
 ```
+
+### Absorbing a sub-component's tally
+At end-of-run an algorithm mirrors its frontier's heap-op
+counts into its own wider scaffold. `absorb` copies the named
+subset and synthesizes the structural default for names the
+frontier does not track (a FIFO frontier has no
+`cnt_decrease`), so there is no `'cnt_decrease' in fc` guard
+at the call site:
+```python
+fc = self._search.frontier.counters          # source Mapping
+self._counters.absorb(
+    fc, names=('cnt_push', 'cnt_pop', 'cnt_decrease'))
+# FIFO frontier → cnt_decrease defaults to 0; priority
+# frontier → its real count is mirrored.
+```
+
+Runnable toy examples (priority vs FIFO mirror, default
+fill): `_study.py` (`python -m f_core.counters._study`),
+built on the `Factory.frontier_priority/frontier_fifo/algo`
+fixtures.

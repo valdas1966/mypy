@@ -108,6 +108,35 @@ class Counters(Mapping):
                 f'declared: {self._names}')
         self._values[name] = value
 
+    def absorb(self,
+               source: Mapping,
+               names: tuple[str, ...] | None = None,
+               default: int = 0) -> None:
+        """
+        ====================================================================
+         Mirror counters from `source` into this Counters by
+         absolute assignment. For each name in `names`
+         (default: this Counters' full schema), copy
+         `source[name]` when present, else write `default`.
+
+         Centralizes the structural-default policy for
+         cross-component handoff: an algorithm mirroring a
+         frontier's push/pop/decrease tally synthesizes
+         `cnt_decrease = 0` for a FIFO frontier that does not
+         track it — replacing a per-call-site
+         `'cnt_decrease' in fc` guard.
+
+         `source` may be any Mapping (a Counters or a plain
+         dict). Each target name must be declared here
+         (`KeyError` via `assign`); source-only names are
+         ignored.
+        ====================================================================
+        """
+        targets = self._names if names is None else names
+        for name in targets:
+            value = source[name] if name in source else default
+            self.assign(name, value)
+
     # ──────────────────────────────────────────────────
     #  Snapshot
     # ──────────────────────────────────────────────────

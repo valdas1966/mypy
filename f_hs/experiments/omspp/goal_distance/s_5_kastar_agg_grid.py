@@ -74,6 +74,7 @@ _CSV_COLUMNS = [
     'domain',
     'map',
     'min_dist',
+    'rep',
     'max_steps',
     'k',
     'is_lazy',
@@ -132,17 +133,18 @@ def _config_name(is_lazy: bool,
     return f'{lazy}_{opt}_{sv}'
 
 
-def _parse_coords(name: str) -> tuple[int, int]:
+def _parse_coords(name: str) -> tuple[int, int, int]:
     """
     ============================================================================
-     Recover (min_dist, max_steps) from a problem name shaped
-     '{map}_d{min_dist:03d}_s{max_steps:02d}' (set in s_3). rsplit from the
-     right is robust to underscores inside the map name.
+     Recover (min_dist, max_steps, rep) from a problem name shaped
+     '{map}_d{min_dist:03d}_r{rep:02d}_s{max_steps:02d}' (set in s_3).
+     rsplit from the right is robust to underscores inside the map name.
     ============================================================================
     """
     base, s_part = name.rsplit('_s', 1)
+    base, r_part = base.rsplit('_r', 1)
     _, d_part = base.rsplit('_d', 1)
-    return int(d_part), int(s_part)
+    return int(d_part), int(s_part), int(r_part)
 
 
 # ── Worker experiment (module-level => picklable for ProcessPoolExecutor) ──
@@ -161,11 +163,11 @@ def _experiment_kastar_agg_grid(problem: ProblemGrid) -> list[dict]:
     """
     domain = problem.grid.domain
     map_name = problem.grid_name
-    min_dist, max_steps = _parse_coords(name=problem.name)
+    min_dist, max_steps, rep = _parse_coords(name=problem.name)
     k = len(problem.goals_rc)
 
     _log.info(f'start  ({domain}, {map_name}, '
-              f'd={min_dist}, s={max_steps}, k={k}) '
+              f'd={min_dist}, s={max_steps}, r={rep}, k={k}) '
               f'{len(_CONFIGS)} configs')
 
     rows: list[dict] = []
@@ -185,6 +187,7 @@ def _experiment_kastar_agg_grid(problem: ProblemGrid) -> list[dict]:
             'domain':         domain,
             'map':            map_name,
             'min_dist':       min_dist,
+            'rep':            rep,
             'max_steps':      max_steps,
             'k':              k,
             'is_lazy':        is_lazy,
