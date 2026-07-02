@@ -1,3 +1,6 @@
+import random
+
+from f_ds.grids import GridMap as Grid
 from f_ds.grids.cluster.i_2_pair import PairCluster
 
 
@@ -34,3 +37,47 @@ def test_getitem() -> None:
     pair = PairCluster.Factory.diamonds()
     assert pair[0] is pair.cluster_a
     assert pair[1] is pair.cluster_b
+
+
+def test_random_many_cross_product() -> None:
+    """
+    ========================================================================
+     random_many returns the full A x B cross product of two distinct
+     pools -- up to many*many PairClusters, all distinct.
+    ========================================================================
+    """
+    random.seed(0)
+    grid = Grid(rows=10)
+    pairs = PairCluster.Factory.random_many(grid=grid, many=4, steps_a=0,
+                                            steps_b=1)
+    assert 0 < len(pairs) <= 16
+    assert len(set(pairs)) == len(pairs)
+    assert all(isinstance(p, PairCluster) for p in pairs)
+
+
+def test_random_many_min_dist() -> None:
+    """
+    ========================================================================
+     min_dist filters the cross product to pairs whose center-to-center
+     distance() is at least min_dist.
+    ========================================================================
+    """
+    random.seed(0)
+    grid = Grid(rows=10)
+    pairs = PairCluster.Factory.random_many(grid=grid, many=6, steps_a=0,
+                                            steps_b=0, min_dist=5)
+    assert all(p.distance() >= 5 for p in pairs)
+
+
+def test_random_many_best_effort() -> None:
+    """
+    ========================================================================
+     On a grid too small to supply `many` distinct diamonds, random_many
+     degrades gracefully (fewer pairs, no raise).
+    ========================================================================
+    """
+    random.seed(0)
+    grid = Grid(rows=2)        # 4 valid cells -> at most 4 distinct centers
+    pairs = PairCluster.Factory.random_many(grid=grid, many=99, steps_a=0,
+                                            steps_b=0)
+    assert 0 < len(pairs) <= 16    # <= 4 A x 4 B

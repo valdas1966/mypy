@@ -78,6 +78,33 @@ PairCluster.Factory.diamonds() -> PairCluster
 Two deterministic `ClusterDiamond`s on a 10x10 `GridMap` (centers
 `(2,2)` / `(7,7)`, `steps=2`).
 
+```python
+PairCluster.Factory.random_many(
+    grid, many,
+    steps_a=0, min_cells_a=1,
+    steps_b=1, min_cells_b=1,
+    min_dist=0, max_tries=100) -> list[PairCluster]
+```
+Sample two **distinct** pools of `ClusterDiamond`s on `grid` — up to
+`many` "A" diamonds (`steps_a` / `min_cells_a`) and up to `many` "B"
+diamonds (`steps_b` / `min_cells_b`) — and return every
+`PairCluster(a, b)` whose `distance() >= min_dist` (the full **A × B
+cross product**, so up to `many * many` pairs; `min_dist=0` keeps all).
+
+- **Best-effort:** a grid that cannot supply `many` distinct diamonds of
+  a side yields fewer — coverage degrades gracefully, no raise (unlike
+  `ClusterDiamond.Factory.random_many`, which raises). Each side is
+  drawn by the private `_sample_pool` helper (a lenient
+  `ClusterDiamond.Factory.random` loop, de-duped by identity).
+- **Randomness** is the **process-global** `random` module (each draw →
+  `ClusterDiamond.Factory.random` → `grid.random.cells`); seed it before
+  calling for a reproducible pool. `max_tries` bounds per-diamond center
+  resampling on both sides.
+- **Use case:** the OMSPP `goal_distance` s_2 samples a START pool
+  (`steps_a=0`) × a GOAL pool (`steps_b=20, min_cells_b=200`) and bins
+  the pairs by `distance()` into phase-diagram bands — this factory
+  replaces the former two-stage `s_0`/`s_1` pool-CSV pipeline.
+
 ## Inheritance
 
 ```

@@ -5,19 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd589c68-d1fc-432f-96f7-be3af19d1b1d" name="Changes" comment="h">
-      <change afterPath="$PROJECT_DIR$/f_core/counters/_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_0_clusters_start.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_1_clusters_goals.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/counters/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/counters/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/counters/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/counters/_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/counters/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/counters/_tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_core/counters/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_core/counters/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_ds/grids/cluster/i_2_pair/_tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_0_clusters_start.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_1_clusters_goals.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_2_pairs_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_2_pairs_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_3_problems_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_3_problems_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_4_kastar_inc_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_4_kastar_inc_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_5_kastar_agg_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_5_kastar_agg_grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_6_plot_heatmaps.py" beforeDir="false" afterPath="$PROJECT_DIR$/f_hs/experiments/omspp/goal_distance/s_6_plot_heatmaps.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +35,12 @@
     &quot;assignee&quot;: &quot;valdas1966&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/valdas1966/mypy.git",
-    "accountId": "a1e5e179-580e-4572-8eba-3d60343860e3"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/valdas1966/mypy.git&quot;,
+    &quot;accountId&quot;: &quot;a1e5e179-580e-4572-8eba-3d60343860e3&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/subprocess.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../miniconda3/envs/mypy/lib/python3.13/typing.py" root0="SKIP_INSPECTION" />
@@ -1380,14 +1374,6 @@
       <workItem from="1770703006670" duration="7888000" />
       <workItem from="1770804142876" duration="9603000" />
     </task>
-    <task id="LOCAL-00340" summary="h">
-      <option name="closed" value="true" />
-      <created>1775661451133</created>
-      <option name="number" value="00340" />
-      <option name="presentableId" value="LOCAL-00340" />
-      <option name="project" value="LOCAL" />
-      <updated>1775661451133</updated>
-    </task>
     <task id="LOCAL-00341" summary="h">
       <option name="closed" value="true" />
       <created>1775661993805</created>
@@ -1772,7 +1758,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782817751769</updated>
     </task>
-    <option name="localTasksCounter" value="389" />
+    <task id="LOCAL-00389" summary="h">
+      <option name="closed" value="true" />
+      <created>1782830506197</created>
+      <option name="number" value="00389" />
+      <option name="presentableId" value="LOCAL-00389" />
+      <option name="project" value="LOCAL" />
+      <updated>1782830506197</updated>
+    </task>
+    <option name="localTasksCounter" value="390" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
